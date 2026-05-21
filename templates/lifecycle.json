@@ -1,0 +1,50 @@
+{
+  "slug": "{{slug}}",
+  "title": "{{title}}",
+  "lang": "zh",
+  "created": "{{YYYY-MM-DD}}",
+  "last_updated": "{{YYYY-MM-DD}}",
+  "state": "inspiration",
+  "locked": {
+    "premise": false,
+    "genre": false,
+    "controlling_idea": false,
+    "setting": false,
+    "cast": false,
+    "spine": false,
+    "act_design": false,
+    "scene_cards": false,
+    "beat_sheets": false,
+    "prose": false,
+    "critic_passed": false,
+    "polished": false
+  },
+  "artifacts": {
+    "premise_card": "drafts/{{slug}}/premise-card.md",
+    "controlling_idea": "drafts/{{slug}}/controlling-idea.md",
+    "genre_contract": "drafts/{{slug}}/genre-contract.md",
+    "spine": "drafts/{{slug}}/spine.md",
+    "act_design": "drafts/{{slug}}/act-design.md",
+    "cast_roster": "drafts/{{slug}}/cast-roster.md",
+    "world_bible": "drafts/{{slug}}/world-bible.md",
+    "voice_anchors": "drafts/{{slug}}/voice-anchors.md",
+    "image_system": "drafts/{{slug}}/image-system.md",
+    "scene_cards_dir": "drafts/{{slug}}/scenes/",
+    "beat_sheets_dir": "drafts/{{slug}}/scenes/",
+    "prose_dir": "drafts/{{slug}}/prose/",
+    "state_db": "drafts/{{slug}}/state.json",
+    "audit_report": "drafts/{{slug}}/audit-report.md",
+    "manuscript": "drafts/{{slug}}/manuscript.md"
+  },
+  "compute_budget": {
+    "currency": "agent_calls",
+    "premise_tournament": 0,
+    "spine": 0,
+    "scene_cards": 0,
+    "prose_drafts": 0,
+    "critic_passes": 0,
+    "revision_passes": 0,
+    "total": 0
+  },
+  "notes": ""
+}
