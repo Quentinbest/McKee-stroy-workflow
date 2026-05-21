@@ -45,6 +45,7 @@ Read in this order:
 4. `drafts/{slug}/voice-anchors.md` (if exists — voice style rules)
 5. The preceding prose file (if drafting sequentially) to maintain continuity
 6. `wiki/en/concepts/subtext.md` (if the scene is dialogue-heavy)
+7. `drafts/{slug}/persona.md` → run `/story-persona LOAD` to compress into 5-bullet working reference (if file exists). If missing, proceed without it and note degraded mode.
 
 ## Step 3 — Walk the 5-Layer Subtext Model
 
@@ -79,13 +80,14 @@ For each beat:
 - Write the beat
 - Apply sensory specificity (at least one non-visual sense)
 - Apply subtext (no character says what they mean)
+- Run the persona Decision Protocol silently (Belief / Beauty / Refusal / Truth filters). If the beat passes all four: show it. If any filter fails: flag the failure and offer two alternatives.
 - Show to user — ask if it lands
 - If user says yes, move to the next beat
 - If user says no, revise in place before moving on
 
 POV consistency: maintain the scene's POV throughout. Never slip into another character's interiority.
 
-Rhythm: vary sentence length. Use fragments for shock; long sentences for dread.
+Rhythm: defer to the Formal Habits in the persona (sentence length axis, verb orientation axis). If no persona: vary sentence length — fragments for shock; long sentences for dread.
 
 ## Step 6 — Turning Point Check
 
@@ -121,6 +123,42 @@ Apply revision findings:
 
 If more than 2 critics flag the same beat → drop into a focused revision loop on that beat. Cap at 3 rounds.
 
+If the same predicate fails 3 consecutive rounds → do not run a 4th. Apply the **Backtracking Protocol** below before escalating to the user.
+
+## Backtracking Protocol (V2)
+
+When a scene repeatedly fails a predicate despite revisions, the cause is usually upstream — the Scene Card, a character's want/wound, or a spine event has locked the scene into a corner.
+
+**Step B1 — Diagnose upstream cause**
+
+Ask: if this beat cannot be fixed at the prose level, what upstream constraint is forcing the problem?
+
+| Failing predicate | Most likely upstream cause |
+|---|---|
+| Scene doesn't turn (no value shift) | Scene Card objective or conflict framing |
+| Subtext collapses (text ≈ want) | Character want or wound mismatch for this scene |
+| Continuity violation (location/knowledge wrong) | State DB inconsistency from prior scene |
+| Cliché is structural (not a word choice) | Scene Card turning point design |
+| Scene feels unmotivated | Spine event preceding this scene |
+
+**Step B2 — Propose backtrack target**
+
+Name the specific upstream artifact and the specific field to mutate. Examples:
+- "Scene Card conflict is stated as `protagonist wants approval from master` — but the scene can't turn because master has already been established as unable to give approval. Recommend: reframe conflict as `protagonist wants to prove master wrong`, which can turn."
+- "Character file states want as `to be recognized` — but this scene's beat requires the character to *deny* wanting recognition. Recommend: add contradiction: `conscious want: acceptance / unconscious refusal: recognition when offered`."
+
+**Step B3 — Get confirmation, then mutate**
+
+Show the proposed upstream edit to the user. On confirmation:
+1. Edit the upstream artifact.
+2. Note the **invalidation cascade**: which other scenes depend on the mutated field?
+   - Scene Card mutation → current prose draft is invalidated (restart from Step 3)
+   - Character want/wound mutation → flag all scenes featuring this character for re-check
+   - Spine event mutation → flag all scenes in the affected sequence
+3. Restart the current scene from Step 3 with the mutated upstream constraint. Reset round counter.
+
+**Depth limit**: 3 levels of backtracking maximum. If the failure is still unresolved after backtracking 3 levels: escalate to user with a full diagnosis — "This scene may be unsolvable within the current spine design. Here is what upstream needs to change fundamentally."
+
 ## Step 9 — Commit
 
 Write the final prose to `drafts/{slug}/prose/{act}-{scene}.md`.
@@ -128,9 +166,46 @@ Write the final prose to `drafts/{slug}/prose/{act}-{scene}.md`.
 Update `drafts/{slug}/state.json` if it exists:
 - Mark scene as complete
 - Update character locations and knowledge states
-- Log any new image-system motifs introduced
-- Log any setups added to the setup-payoff ledger
+- Log any new image-system motifs introduced (see Step 10)
+- Log any setups added to the setup-payoff ledger (see Step 10)
 
 Update Scene Card with `status: complete` and `prose_file` path.
+
+**Persona Voice Anchor update**: if `persona.md` exists and Voice Anchors section contains stubs, and 3 or more scenes are now committed — run `/story-persona LOAD` (B2 only) to populate Voice Anchors from the committed prose. This keeps the persona grounded in actual work rather than intention.
+
+## Step 10 — Post-Commit Coherence Check (V2)
+
+Run these two automated scans immediately after committing the prose. No agent spawn needed — done in-context.
+
+### 10A — Image-System Cadence Check
+
+If `state.json` has an `image_system` block:
+
+1. **Motif appearance scan**: read the committed prose; for each motif in `image_system`, check if this scene contains a meaningful appearance (not just a word match — must be used as image or symbol). Update the `recurrences` array if yes.
+
+2. **Cadence alert**: after updating, check gap since last appearance for each motif:
+   - If a motif's last appearance was ≥4 scenes ago and no payoff is recorded: flag it. Example: *"'broken-clocks' motif last appeared in Scene 1.3 — now Scene 2.4. Consider a brief touch in a nearby scene or accelerate the payoff."*
+   - If the Key Image (`key_image: true`) hasn't appeared at all by the end of Act 1: flag it. *"Key Image not yet introduced. Per image-threading rules, it should appear (subtly) in Act 1."*
+
+3. **New motif detection**: scan the prose for recurring concrete objects or images that appear but aren't in `image_system`. If a significant new physical object recurs or carries weight, prompt: *"'{object}' appears {N} times with apparent significance. Add to image system? [Y/N]"*
+
+### 10B — Setup-Payoff Ledger Check
+
+If `state.json` has a `setup_payoff_ledger` array:
+
+1. **Dangling setup alert**: for each ledger entry with `status: planned` and `payoff_scene` defined, check if the current scene number has passed the planned payoff scene. If so: *"Setup '{element}' (planted in Scene {setup_scene}) was planned to pay off by Scene {payoff_scene}, which has passed. Either pay it off now or update the planned payoff scene."*
+
+2. **New setup detection**: scan the committed prose for:
+   - New physical objects given specific attention (named, described in detail, placed deliberately)
+   - New facts about characters revealed for the first time
+   - Explicit or implicit promises to the audience ("She'd remember this later" / an object prominently placed but not used)
+   
+   For each detected potential setup: *"Possible setup detected: '{element}' in Scene {scene}. Add to ledger with planned payoff? [Y/N]"*
+
+3. **Groundless payoff check**: if the scene resolves something (a character acts on information, uses an object, fulfills a promise), verify there's a corresponding setup entry. If none: *"Payoff without registered setup: '{element}'. Either plant the setup in an earlier scene or register retroactively."*
+
+If no `state.json` exists: skip Step 10. Prompt: *"No state.json found. Run `/story-new` to scaffold, or create `state.json` from the template to enable image-system and setup-payoff tracking."*
+
+---
 
 Suggest next: `/story-scene {next scene}` or `/story-audit` if the act is complete.

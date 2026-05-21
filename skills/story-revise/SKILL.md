@@ -35,6 +35,8 @@ Read the spine: `drafts/{slug}/spine.md`
 
 Ask user: *"Which passes would you like to run? (all / specific pass / audit-driven)"*
 
+**Stop-Loss**: If a pass must re-run on the same issue (same scene, same predicate) apply the `/story-stop-loss` protocol — 5 rounds max for repair, 3 for elevation, same-predicate 3× triggers immediate escalation. Never run a failing scene indefinitely.
+
 ## The Seven Passes
 
 ### Pass 1 — Structure
@@ -72,11 +74,9 @@ Do not fix voice or specificity in this pass.
 **Fix**: Motifs that drop out; Key Image not landing at Climax; setup-payoff imbalances.
 
 Process:
-1. Read the image system inventory from `state.json` (or re-derive it from prose)
-2. Map each motif's appearances against the planned cadence
-3. For dropped motifs: add a brief motif touch in a scene where it would fit naturally
-4. For Key Image: verify it appears in the opening (subtle) and the Climax (resonant); revise if not
-5. For dangling setups: either pay them off or plant a retroactive cut
+1. Invoke `/mck-image-thread` — builds full motif inventory, maps cadence, audits Key Image, prescribes additions
+2. Invoke `/mck-setup-payoff` — builds setup-payoff ledger, detects dangling and groundless
+3. Execute the prescribed additions and plants from both skill outputs
 
 Do not fix prose rhythm in this pass.
 
@@ -84,9 +84,10 @@ Do not fix prose rhythm in this pass.
 **Fix**: Voice drift, register inconsistency, wrong-era vocabulary.
 
 Process:
-1. Spawn `voice-drift-detector` on the full prose + voice anchors
-2. For each flagged passage: rewrite to match the established voice (vocabulary range, rhythm, register)
-3. Read aloud (or imagine it): passages that stumble when read aloud need rhythm revision
+1. If `voice-anchors.md` doesn't exist: run `/mck-voice-first` to produce it
+2. Spawn `voice-drift-detector` on the full prose + `voice-anchors.md`
+3. For each flagged passage: rewrite to match the anchors (vocabulary, rhythm, register)
+4. Read aloud (or imagine it): passages that stumble when read aloud need rhythm revision
 
 Do not fix content in this pass — only surface execution.
 
@@ -94,19 +95,20 @@ Do not fix content in this pass — only surface execution.
 **Fix**: Generic nouns and verbs that should be particular.
 
 Process:
-1. Do a Grep pass for common generic markers: "a man", "a woman", "the room", "walked", "said", "looked"
-2. For each: apply the Specificity Forge — query world-bible, invent if necessary, replace
+1. Spawn `specificity-auditor` on the full prose + world-bible — returns a ranked ledger
+2. For CRITICAL and MAJOR findings: invoke `/mck-specificity-forge` to execute replacements
 3. Each substitution must be consistent with the world and the character's POV
 
 Do not rewrite whole paragraphs — only the generic element.
 
-### Pass 7 — Reader Simulation (optional, V2)
+### Pass 7 — Reader Simulation
 **Fix**: Pacing issues, engagement drops, confusion points.
 
 Process:
-1. Spawn `reader-simulator` with the full prose (no context from author perspective)
-2. Agent reports: where it lost interest, where it was confused, where it was moved
-3. Use findings to target pacing fixes: cut slow passages, clarify confusing transitions
+1. Spawn `reader-simulator` with the prose files ONLY (no spine, no character files — blind read)
+2. In parallel, spawn `pacing-analyst` with prose + spine for a rhythm/escalation audit
+3. Merge findings: engagement drops + pacing problems in the same scene = high priority
+4. Execute targeted fixes: cut slack, clarify confusing transitions, insert breathing beats
 
 ## Pass Tracking
 

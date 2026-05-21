@@ -24,6 +24,8 @@ templates/            Project scaffolding (lifecycle.json, state.json)
 ### Methodology Skills (`/mck-*`)
 Drop into `~/.claude/skills/` to make available globally in Claude Code.
 
+**V1 — Core**
+
 | Skill | Purpose |
 |---|---|
 | `mck-subtext-5layer` | Author dialogue in 5 layers (Wound → Want → Fear → Tactic → Text). The most important single skill. |
@@ -32,6 +34,25 @@ Drop into `~/.claude/skills/` to make available globally in Claude Code.
 | `mck-crisis-dilemma` | Sharpen a hard choice into a true dilemma |
 | `mck-arc-walk` | Map a character's arc across the spine |
 | `mck-gap-find` | Find the Gap (expectation vs. result) in any beat or scene |
+
+**V2 — Long-Form & Polish**
+
+| Skill | Purpose |
+|---|---|
+| `mck-image-thread` | Inventory motifs, audit cadence, verify Key Image placement, plant additions |
+| `mck-setup-payoff` | Build the setup-payoff ledger; detect dangling setups and groundless payoffs |
+| `mck-specificity-forge` | Scan for generic language; forge concrete particulars from world bible |
+| `mck-voice-first` | Lock voice anchors before drafting; produce voice-anchors.md |
+| `mck-exposition-ammo` | Convert info dumps into "exposition as ammunition" — every fact fired in combat |
+| `mck-negation-of-negation` | Drive the central value to Corner 4 (corruption of the positive); test Crisis depth |
+
+**V3 — Greatness Pursuit**
+
+| Skill | Purpose |
+|---|---|
+| `mck-honesty` | Honesty Engine — TEST / STRESS / REPAIR the CI against the author's Truth Library; separates grounded ideas from bumper stickers |
+| `mck-surprise-plant` | Surprise architecture — DESIGN (misdirection plan), PLANT (dual-reading item placements), AUDIT (spawn `surprise-auditor`) |
+| `story-tournament` | Tournament generation — CONTROLLING-IDEA / INCITING-INCIDENT / PROTAGONIST / CRISIS / CLIMAX; enforces diversity, judges blind |
 
 ### Workflow Skills (`/story-*`)
 Full lifecycle from seed to manuscript.
@@ -57,6 +78,15 @@ Full lifecycle from seed to manuscript.
 | `exposition-smuggler` | Convert info dumps into "exposition as ammunition" |
 | `key-image-curator` | Identify and thread the Key Image across the story |
 | `composition-conductor` | Cross-scene craft audit (pacing, setups, image threading) |
+| `controlling-idea-architect` | Forge or audit the CI — FORGE / STRESS-TEST / TRACE / REPAIR modes |
+| `wiki-librarian` | McKee wiki INGEST / LINT / MIGRATE / REGEN (runs in main context; bilingual) |
+
+### Infrastructure Skills
+| Skill | Purpose |
+|---|---|
+| `story-stop-loss` | Stop-loss convergence protocol — iteration caps, three-strikes escalation, backtrack depth limit |
+| `story-persona` | Author Persona — FORGE / LOAD / APPLY modes; decision filter for all aesthetic choices |
+| `story-tournament` | Tournament generation for high-stakes creative decisions (also listed under V3 methodology) |
 
 ---
 
@@ -79,6 +109,11 @@ Drop into `.claude/agents/` in your project directory.
 - `subtext-whisperer` — Text ≠ subtext ≠ desire audit
 - `continuity-supervisor` — World rules, character knowledge, physics *(new)*
 - `tournament-judge` — Blind ranking of N candidates *(new)*
+- `voice-drift-detector` — Line-level voice consistency vs. anchors *(V2)*
+- `specificity-auditor` — Flags generic nouns/verbs; world-bible-aware *(V2)*
+- `reader-simulator` — Blind read; engagement curve and confusion points *(V2)*
+- `pacing-analyst` — Scene length, rhythm distribution, Law of Diminishing Returns *(V2)*
+- `surprise-auditor` — Naive read + misdirection plan cross-reference; verifies dual-reading plants and re-read moment at Climax *(V3)*
 
 ### Specialist Agents
 - `cast-balancer` — Cast pressure matrix

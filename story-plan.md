@@ -695,49 +695,47 @@ Periodically attempt genre-hybrid generation. Successful hybrids become new genr
 
 ## 13. V1 / V2 / V3 Roadmap
 
-### V1 — Reliable Competence (4–6 months)
+### V1 — Reliable Competence (4–6 months) ✅ COMPLETE
 
 **Goal**: produce structurally sound novellas reliably.
 
-**Build**:
-- Workflow skills: `/story-new`, `/story-status`, `/story-premise`, `/story-spine`, `/story-cast`, `/story-scene`, `/story-audit`, `/story-revise`
-- Methodology skills: `/mck-controlling-idea`, `/mck-subtext-5layer`, `/mck-beat-to-prose`, `/mck-crisis-dilemma`, `/mck-arc-walk`, `/mck-gap-find`
-- Refactor 7 agents → skills (arc-tracer, act-designer, controlling-idea-architect, exposition-smuggler, key-image-curator, composition-conductor, wiki-librarian)
-- New agents: `prose-drafter`, `continuity-supervisor`, `tournament-judge`
-- Project State DB schema + persistence
-- Lifecycle state machine
-- Stop-loss convergence
+**Built**:
+- Workflow skills: `/story-new` ✅ `/story-status` ✅ `/story-premise` ✅ `/story-spine` ✅ `/story-cast` ✅ `/story-scene` ✅ `/story-act` ✅ `/story-audit` ✅ `/story-revise` ✅ `/story-publish` ✅
+- Methodology skills: `/mck-controlling-idea` ✅ `/mck-subtext-5layer` ✅ `/mck-beat-to-prose` ✅ `/mck-crisis-dilemma` ✅ `/mck-arc-walk` ✅ `/mck-gap-find` ✅
+- Agent → Skill refactors (7/7): `arc-tracer` ✅ `act-designer` ✅ `exposition-smuggler` ✅ `key-image-curator` ✅ `composition-conductor` ✅ `controlling-idea-architect` ✅ `wiki-librarian` ✅
+- New agents: `prose-drafter` ✅ `continuity-supervisor` ✅ `tournament-judge` ✅
+- Project State DB schema + lifecycle template ✅
+- Stop-loss convergence (`/story-stop-loss`) ✅
 
 **Outcome**: novellas of 7K–40K words with sound McKee structure, honored genre conventions, no glaring continuity errors. Mid-tier prose. Validates the architecture.
 
-### V2 — Long-Form & Voice (next 6–9 months)
+### V2 — Long-Form & Voice (next 6–9 months) ✅ COMPLETE
 
 **Goal**: novel-length output with coherent voice and threaded image system.
 
-**Build**:
-- Methodology skills: `/mck-specificity-forge`, `/mck-image-thread`, `/mck-setup-payoff`, `/mck-voice-first`, `/mck-exposition-ammo`, `/mck-negation-of-negation`
-- New agents: `reader-simulator`, `voice-drift-detector`, `specificity-auditor`, `pacing-analyst`
-- Voice anchors system + voice agents per project
-- Setup-payoff ledger with auto-detection
-- Image-system distributor
-- Bounded backtracking with invalidation cascade
-- Subtext 5-layer enforcement throughout
+**Built**:
+- Methodology skills: `/mck-specificity-forge` ✅ `/mck-image-thread` ✅ `/mck-setup-payoff` ✅ `/mck-voice-first` ✅ `/mck-exposition-ammo` ✅ `/mck-negation-of-negation` ✅
+- New agents: `reader-simulator` ✅ `voice-drift-detector` ✅ `specificity-auditor` ✅ `pacing-analyst` ✅
+- Bounded backtracking with invalidation cascade ✅ — Backtracking Protocol added to `story-scene` (Step B1–B3: diagnose upstream cause → propose mutation → invalidation cascade with depth limit 3)
+- Image-system cadence tracking ✅ — `story-scene` Step 10A: motif scan, gap ≥4 alert, Key Image alert, new motif detection (in-context, no agent spawn)
+- Setup-payoff auto-detection ✅ — `story-scene` Step 10B: dangling setup alert (past planned payoff scene), new setup detection (objects/facts/promises), groundless payoff check (in-context)
 
 **Outcome**: novels of 40K–150K words with coherent voice, threaded image systems, dialogue with non-trivial subtext. Approaches "good."
 
-### V3 — Greatness Pursuit (next 12+ months)
+### V3 — Greatness Pursuit (next 12+ months) 🟡 CORE COMPLETE; INFRASTRUCTURE PENDING
 
 **Goal**: occasional literary distinction.
 
-**Build**:
-- Author Persona system per project
-- Honesty Engine + Truth Library
-- Surprise Engineering layer + post-hoc misdirection audit
-- Tournament generation for premise + climax (parallel agent infrastructure)
-- Mutation-selection for refinement
-- Reader-feedback predictor (trained on real human reads)
-- Canonical corpus calibration (genre-specific embedding indices)
-- Cultural calibration layer (non-Western frameworks)
+**Built**:
+- Author Persona system ✅ — `/story-persona` (FORGE / LOAD / APPLY); `templates/persona.md`; wired into `story-new` (Step 3.5), `story-scene` (Step 2 load, Step 5 decision filter, Step 9 Voice Anchor auto-populate)
+- Honesty Engine ✅ — `/mck-honesty` (TEST / STRESS / REPAIR); grounded-vs-asserted CI check; theme-via-structure test (3 sub-checks); Counter-Idea full-fight audit; wired into `controlling-idea-architect` FORGE handoff and `story-audit` Step 2
+- Surprise Engineering ✅ — `/mck-surprise-plant` (DESIGN / PLANT / AUDIT); misdirection-plan.md template; `surprise-auditor` agent (naive read → misdirection integrity → dual-reading audit → reveal choreography); wired into `story-spine` Step 5.5 offer and `story-audit` Step 2
+- Tournament generation ✅ — `/story-tournament` (CONTROLLING-IDEA / INCITING-INCIDENT / PROTAGONIST / CRISIS / CLIMAX); diversity enforcement (idealist/pessimist/ironic/interiority/behavioral slots); cross-tournament coherence check; tournament archive; wired into `story-audit` structural predicates
+
+**Remaining (infrastructure-dependent — beyond skill files)**:
+- Mutation-selection for refinement — generation-over-generation evolution; requires fitness function scoring and crossover operator; `/story-tournament` documents the framework but cannot execute it without embedding infrastructure
+- Canonical corpus calibration — genre-specific embedding indices; critic calibrated against exemplars rather than internal standards; requires corpus directory + embedding tooling
+- Cultural calibration layer (xianxia-specific structures, non-Western frameworks)
 - Internal canon-building across projects
 
 **Outcome**: not every project, but a meaningful fraction reach literary distinction. The unsolved frontier.
@@ -1008,6 +1006,584 @@ their eyes? If yes, cliché. If no, convention.
 
 ---
 
+## 16. V3 Detailed Design — Greatness Pursuit
+
+V1 solves structure. V2 solves voice and coherence. V3 attacks the five residual problems from §1: taste, specificity at the literary level, genuine subtext, inevitable-surprise, and honesty. These are the problems McKee *assumes* the writer brings. V3 supplies them.
+
+### What V3 is not
+
+V3 is not "more passes" or "more critics." It is a qualitative shift in the source of creative decisions. In V1–V2, the system executes a specified methodology. In V3, the system has:
+
+- A **point of view** (Author Persona) that inflects every decision
+- A **truth-test** (Honesty Engine) that audits whether what it's saying is true
+- A **surprise architecture** (Surprise Engineering) that plants two readings simultaneously
+- A **taste calibration** (Corpus Engine) anchored to canonical work, not average output
+- A **mutation-selection loop** that searches the solution space rather than committing to the first adequate option
+
+The structural predicate suite from V1 becomes a *floor*, not a ceiling.
+
+---
+
+## 17. Author Persona System
+
+### 17.1 The problem it solves
+
+Without an author persona, every creative decision resolves to "what McKee recommends plus what the training corpus considers average." That produces structurally sound, voiceless work. An author persona is a stable philosophical stance that makes decisions *differently* than the average — and consistently so.
+
+A persona is not a style. Style is surface (vocabulary, rhythm, sentence length). A persona is a worldview: what the author believes about power, love, time, loss, complicity, change. Every scene decision follows from it.
+
+### 17.2 Persona Card format
+
+```yaml
+---
+name: persona-{slug}
+type: author-persona
+---
+
+# Author Persona — {name}
+
+## Core Belief
+One sentence: what this author believes about how the world works.
+Must be contestable (not "love conquers all" but something that admits a counter-argument).
+Example: "Power doesn't corrupt; it reveals what was already there."
+
+## What this author sees that others miss
+The specific perceptual habit — what they notice in a room, a conversation, a landscape — that shapes their rendering of reality.
+
+## Refusals
+What this author will NOT do, even when structurally convenient:
+- (e.g., redemption arcs that cost nothing)
+- (e.g., irony used as a shield against commitment)
+- (e.g., violence as spectacle without consequence)
+
+## Controlling-Idea bias
+Which pole of the value square this author is drawn to, and why.
+Does the story tend toward positive resolution, ironic, tragic, or satiric?
+
+## Truth claims this author is willing to make
+Specific propositions they will build a story around. Derived from the Truth Library.
+
+## Voice signature
+Not style rules — the *perceptual* signature: what the camera lingers on, what it cuts away from.
+
+## Exemplar texts
+2–3 external works this persona would recognize as kin.
+```
+
+### 17.3 How the persona filters decisions
+
+The persona is loaded at project initialization and consulted at every branching creative decision:
+
+| Decision point | How persona applies |
+|---|---|
+| Which of 5 premises to develop | Which premise most directly tests the Core Belief |
+| Controlling Idea direction | Positive, ironic, tragic, satiric — based on Bias field |
+| Protagonist's True Character | Must embody or oppose the Core Belief under pressure |
+| Crisis design | Both dilemma horns must be believable to an author with this worldview |
+| Scene framing | Camera lingers on what the Voice Signature says to linger on |
+| What to cut | Anything that violates the Refusals |
+
+### 17.4 Persona conflicts
+
+When a structurally correct choice violates the persona's Core Belief or Refusals:
+
+1. Flag the conflict.
+2. Offer a persona-consistent alternative.
+3. If the alternative is structurally weaker: escalate to user with explicit trade-off statement.
+
+The system must not silently override the persona for structural convenience. The persona is upstream of structure.
+
+### 17.5 Project-level vs session-level persona
+
+- **Project-level**: locked at project creation; stable across all scenes.
+- **Session-level**: a temporary lens for one scene (e.g., "write this scene as if the author distrusts the protagonist"). Must not contaminate the project-level persona.
+
+---
+
+## 18. Honesty Engine
+
+### 18.1 The problem it solves
+
+Stories assert things. "Love conquers all" is an assertion. "Power corrupts" is an assertion. The system can generate a story that *says* "love conquers all" by having a protagonist overcome obstacles via love — but this is mere structural compliance. The Honesty Engine asks: is this true? Not "is it dramatizable" but "does the author actually believe this, and if so, what's the hardest case against it?"
+
+Without the Honesty Engine, every Controlling Idea is a moral bumper sticker. With it, every Controlling Idea is tested against lived reality.
+
+### 18.2 Truth Library
+
+A curated repository of claims about human nature, organized by theme-domain:
+
+```
+truth-library/
+  power.md       — claims about power, authority, corruption, legitimacy
+  love.md        — claims about attachment, sacrifice, possession, distance
+  time.md        — claims about memory, regret, irreversibility, repetition
+  violence.md    — claims about harm, intention, consequence, necessity
+  identity.md    — claims about selfhood, change, continuity, performance
+  knowledge.md   — claims about certainty, blindness, revelation, cost
+  complicity.md  — claims about participation in wrong, silence, benefit
+  ...
+```
+
+Each entry:
+```yaml
+claim: "Power doesn't corrupt; it reveals."
+source: "Observation / [author] / [text]"
+hardest_counter: "Power creates incentives that even honest people can't resist."
+stories_that_test_it: ["All the President's Men", "Breaking Bad"]
+stories_that_contradict_it: ["Lord of the Rings (Tolkien's view: it corrupts anyone)"]
+verdict: contested  # | supported | refuted | domain-specific
+```
+
+The library is not a truth oracle. It is a *resistance catalog*: for any claim the system is about to build a story around, here is the hardest case against it.
+
+### 18.3 Theme-via-structure test
+
+A story *proves* its Controlling Idea only if the proof is structural — emergent from events — not asserted via dialogue, narration, or authorial statement.
+
+Test:
+1. Strip all dialogue from the story. Does the Controlling Idea still emerge from events alone?
+2. Replace the protagonist's stated beliefs with their opposite. Does the story still arrive at the same Controlling Idea? If yes: the structure doesn't support the idea — only the dialogue does.
+3. Does the antagonist represent the Counter-Idea in action (not just in speech)?
+
+Failure on any of these: the story asserts rather than proves.
+
+### 18.4 Controlling Idea verification
+
+Before committing to a Controlling Idea:
+
+1. Look it up in the Truth Library.
+2. Find the hardest counter.
+3. Design the story so that the counter is *represented* — the antagonist or a subplot embodies the counter fully and compellingly.
+4. Verify the story earns its verdict: the Counter-Idea should lose because it is *shown to fail* in specific circumstances, not because it is weak.
+
+A Controlling Idea that never faces its hardest counter is a wish, not a truth.
+
+---
+
+## 19. Surprise Engineering Layer
+
+### 19.1 The problem it solves
+
+McKee's Inevitable-Surprise is the hardest structural achievement: at the Climax, the audience feels "of course — it was always going to be this, and I never saw it coming." This requires planting data that admits two readings simultaneously from the opening. It cannot be added in revision; it must be designed from the first scene.
+
+### 19.2 The dual-reading architecture
+
+Every piece of planted data must support:
+
+- **Surface reading** (available on first read): leads audience toward the misdirected conclusion
+- **True reading** (visible on re-read): signals the actual outcome, but unnoticed under the misdirection
+
+The Climax recontextualizes the planted data. After the Climax, re-reading reveals that every planted item *always pointed here*.
+
+### 19.3 Misdirection Engine
+
+```
+misdirection-plan/
+  {slug}-misdirection.md
+```
+
+Format:
+```
+## Misdirection Target
+What the audience is led to expect: [outcome A]
+
+## True Resolution
+What actually happens: [outcome B]
+
+## Planted Data Table
+| Scene | Item planted | Surface reading | True reading |
+|---|---|---|---|
+| 1.2 | [item] | [what it appears to mean] | [what it actually signals] |
+| 2.1 | [item] | ... | ... |
+
+## Misdirection reinforcement points
+Scenes where the false reading is reinforced (and why it doesn't feel cheap after reveal)
+
+## True-reading reinforcement points
+Scenes where the true reading is available but submerged (and why it won't be noticed on first pass)
+```
+
+### 19.4 Foreshadowing layer
+
+A separate pass over all Act 1–2 scenes after Climax is designed:
+
+For each planted item in the Misdirection Plan:
+1. Verify it appears in a scene the audience has already seen.
+2. Verify it reads plausibly as surface reading in context.
+3. Verify it reads as true reading in retrospect.
+4. Verify it isn't a cheat: the true reading must be *available*, not just retroactively asserted.
+
+### 19.5 Reveal choreography
+
+The Climax must:
+1. Deliver the event that resolves the true reading.
+2. Within the same sequence (not afterward), present at least one planted item that the audience can *now* re-read correctly.
+3. Create the "of course" experience before the audience has time to leave the story.
+
+The re-read marker — the moment where the audience sees the true reading in a prior planted item — must be embedded in the Climax scene itself, not in an epilogue.
+
+### 19.6 Post-hoc audit (Agent: `surprise-auditor`)
+
+After full prose draft, spawn `surprise-auditor` with:
+- Full prose
+- Misdirection plan
+- List of planted items
+
+Agent reads the story *as a naive reader* and reports:
+- Does the surface reading hold across Act 1–2? (If no: misdirection is leaking — patch)
+- Is the true reading available but suppressed? (If no: the Climax will feel arbitrary)
+- Does the Climax produce the re-read experience? (If no: choreography needs the anchor moment)
+
+---
+
+## 20. Tournament Generation at Scale
+
+V1 introduces tournament generation for climax design (§5 Flow C). V3 extends tournaments to every high-stakes creative decision.
+
+### 20.1 Tournament-eligible decisions
+
+| Decision | Tournament size | Judge |
+|---|---|---|
+| Premise selection | 5 candidates | `tournament-judge` + author persona filter |
+| Controlling Idea | 3 candidates | `tournament-judge` + Honesty Engine test |
+| Protagonist's True Character | 3 variants | `antagonism-stress-tester` + `cast-balancer` |
+| Inciting Incident | 3 variants | `crisis-climax-auditor` (forward-projection) |
+| Crisis design | 5 candidates | `crisis-climax-auditor` + persona filter |
+| Climax design | 5 candidates | `crisis-climax-auditor` + `tournament-judge` |
+
+### 20.2 Candidate diversity enforcement
+
+Tournament candidates must differ in kind, not just in surface detail. The system enforces:
+
+- At least one candidate that takes the *positive* Controlling Idea direction
+- At least one that takes the *ironic* direction
+- At least one that maximizes the protagonist's interiority at the deciding moment
+- At least one that minimizes interiority (behavioral climax only)
+
+Generating N similar candidates is not a tournament. The judge is briefed to penalize candidates that are paraphrases of each other.
+
+### 20.3 Calibrated judge
+
+The `tournament-judge` agent in V3 is calibrated against the canonical corpus (§22). It does not compare candidates against each other in isolation — it compares them against exemplar Climax scenes from the genre corpus. A candidate that is "best of the five" but still below corpus quality should be flagged, not declared winner.
+
+### 20.4 Cross-tournament coherence
+
+When multiple components have been tournament-selected independently, a coherence pass is required:
+
+- Does the selected Controlling Idea support the selected Protagonist True Character?
+- Does the selected Inciting Incident create pressure that the selected Crisis forces to a decision point?
+- Does the selected Climax flow from the selected Crisis?
+
+If not: one of the selected items must be re-run with the others as constraints.
+
+---
+
+## 21. Mutation-Selection Framework
+
+### 21.1 The problem it solves
+
+Tournament generation produces the best of N random candidates. Mutation-selection produces the best of N evolved candidates — each generation is informed by the failures of the last.
+
+### 21.2 Mutation operators
+
+| Operator | What it changes | When to use |
+|---|---|---|
+| **Polarity flip** | Invert the Controlling Idea direction | When tone feels wrong |
+| **Character swap** | Swap protagonist and antagonist roles | When conflict feels external |
+| **Genre hybridize** | Cross primary genre with a secondary | When story feels narrow |
+| **Time compress** | Collapse story duration by half | When Act 2 reads slow |
+| **Subtext invert** | Reverse what characters want vs. what they say | When dialogue reads on-the-nose |
+| **Setting transplant** | Move story to a different location/period | When world feels generic |
+| **Crisis sharpening** | Reduce Crisis to one irreconcilable pair | When dilemma reads false |
+| **Key Image replace** | Swap the Key Image with a different object | When motif system feels arbitrary |
+
+### 21.3 Fitness function
+
+A story candidate's fitness is a composite of:
+
+1. **Structural predicates** (pass/fail): every scene turns; Crisis is a dilemma; Climax flows from decision; MDQ answered; obligatory scene delivered.
+2. **Corpus distance** (score): embedding distance from low-quality vs. high-quality genre exemplars.
+3. **Persona alignment** (score): degree to which creative decisions follow from the Author Persona.
+4. **Honesty Engine score**: Controlling Idea is dramatized structurally, not just asserted.
+5. **Surprise score**: Misdirection plan is coherent; planted data admits dual reading.
+
+Weights are genre-dependent. Structural predicates are always pass/fail gates; the rest are gradient scores.
+
+### 21.4 Selection and reproduction
+
+- **Tournament selection**: among candidates that pass structural gates, select top 2 by composite score.
+- **Crossover**: extract high-scoring components from each parent and combine into a new candidate (e.g., Crisis design from Parent A, Protagonist True Character from Parent B).
+- **Mutation**: apply one mutation operator to the crossover result.
+- **Generation limit**: 5 generations maximum. If structural predicates not passing after 3 generations: escalate to user.
+
+---
+
+## 22. Canonical Corpus Calibration
+
+### 22.1 The problem it solves
+
+Without a reference corpus, "good" is defined relative to the system's own output. That is tautological. Canonical corpus calibration grounds the system's quality judgment in exemplary external work.
+
+### 22.2 Corpus structure
+
+```
+corpus/
+  {genre}/
+    exemplars.md       — titles + authors + why selected
+    passages/          — 50–200 word passages per exemplar (key scenes)
+    anti-exemplars.md  — titles + why they fail (not just "bad" but specifically how)
+    quality-markers.md — extracted stylistic/structural properties from exemplars
+```
+
+Selection criteria for exemplars:
+- Recognized as genre-best by multiple critics (not just popular)
+- Demonstrates specific McKee predicates passing
+- Demonstrates non-trivial subtext
+- Has a Key Image that lands
+
+Anti-exemplars are as important as exemplars. The system needs to know *how* stories fail, not just what good looks like.
+
+### 22.3 Embedding index
+
+Corpus passages are embedded and stored. At generation time:
+
+- Generated prose is embedded and compared to the exemplar/anti-exemplar distributions.
+- Distance from exemplar distribution: higher is worse.
+- Distance from anti-exemplar distribution: lower is worse.
+- A combined corpus score is reported per scene and per pass.
+
+### 22.4 Style-transfer apprenticeship
+
+For each new project:
+
+1. System reads 3 exemplar passages from the relevant genre.
+2. Extracts stylistic markers: sentence-length distribution, verb-to-noun ratio, abstraction level, sensory modality distribution, subordinate clause frequency.
+3. Generates a "style fingerprint" for the corpus subset.
+4. Voice anchors for the project are seeded from the fingerprint, then customized via author persona.
+
+The system learns *from* the corpus but is not confined to imitation — the Author Persona provides the deviation point.
+
+### 22.5 Genre-innovation detector
+
+Periodically (every 5 projects in the same genre): the system compares its output corpus to the external exemplar corpus. Where the system is consistently generating in *the same structural position* as all exemplars, it attempts a genre-boundary move:
+
+- Hybridize with adjacent genre
+- Invert the obligatory scene (deliver it in unexpected form)
+- Displace the typical POV (who is telling this story and why)
+
+Successful hybrid outputs are added to the internal exemplar corpus for future use.
+
+---
+
+## 23. Cultural Calibration Layer
+
+### 23.1 Non-Western structural frameworks
+
+McKee's framework is Western, screenplay-biased, and three-act-dominant. The platform extends:
+
+| Framework | Origin | Structure | Best for |
+|---|---|---|---|
+| Kishōtenketsu (起承転結) | East Asian | 4-part: introduce → develop → twist → reconcile | Short fiction without conflict as driver |
+| 起承转合 (Qǐ-chéng-zhuǎn-hé) | Chinese classical | 4-part parallel; 转 is tonal, not structural | Poetry, lyric prose, tone-shift narrative |
+| Rasa-based | Indian classical | 8 permanent emotions + 33 transient; dramatic arc is emotional state sequence | High emotional register narrative |
+| Oral tradition cyclic | Various | Recursive episodic; protagonist returns changed but world recurs | Long-form mythic, generational narrative |
+| In-medias-res compression | Classical Western | Begin at crisis; backstory as ammunition | Short story, noir, thriller opening |
+
+The system selects a structural framework based on:
+1. Genre contract (primary determinant)
+2. Cultural calibration setting (project-level flag)
+3. Author Persona bias (some personas reject three-act as a Western imposition)
+
+### 23.2 Xianxia augmentation
+
+Xianxia is the test genre for non-Western framework integration (given the active `reverse-dao` project). Additional obligatory scene types beyond McKee:
+
+| Scene type | Function | McKee analog |
+|---|---|---|
+| Breakthrough (突破) | Protagonist's cultivation tier advance under pressure | Revelation + value shift |
+| Dao-realization (悟道) | Single-sentence insight that restructures the protagonist's understanding | Revelation of True Character |
+| Qi-reckoning | Cost accounting: what has the protagonist's power path cost in human terms? | Antagonism escalation |
+| Karma ledger | Explicit or implied accounting of moral debts | Setup-payoff for ethical choices |
+| Sect confrontation | Protagonist's standing against a collective hierarchy | Personal antagonism played at social level |
+
+These augment the McKee obligatory scenes — they do not replace them. A xianxia story still requires a Crisis dilemma, a Climax that flows from decision, and a Controlling Idea that is dramatized structurally.
+
+### 23.3 Value-system mappings
+
+McKee's value charges (positive/negative) are culturally encoded. The platform must map:
+
+| Universal value | Western default charge | Cultural variation |
+|---|---|---|
+| Individual autonomy | Positive | In Confucian-inflected settings: ambivalent (vs. relational duty) |
+| Sacrifice | Positive (heroic) | In some traditions: contaminating (survivor's guilt as permanent debt) |
+| Winning vs. losing face | Secondary | In xianxia: primary — maps directly to positive/negative value pole |
+| Filial obligation | Neutral-positive | In xianxia: can be the Crisis horn that opposes individual desire |
+
+The `controlling-idea` methodology skill checks value charges against the cultural calibration setting before locking.
+
+---
+
+## 24. V3 Success Criteria and Evaluation
+
+### 24.1 The structural floor (inherited from V1/V2)
+
+Before V3 quality can be measured, V1/V2 predicates must be passing:
+- Every scene turns (value charges verified)
+- Crisis is a true dilemma (both horns are desirable/necessary)
+- Climax flows from decision (no coincidence)
+- MDQ answered
+- Controlling Idea dramatized structurally
+- Genre obligatory scenes delivered
+- Voice consistent across full draft
+- Image system threaded at cadence
+- Setup-payoff ledger clean
+
+### 24.2 V3-specific quality predicates
+
+| Predicate | Test |
+|---|---|
+| **Author Persona coherent** | All creative decisions trace back to Persona Core Belief or Refusals |
+| **Controlling Idea earns verdict** | Antagonist embodies Counter-Idea fully; Counter-Idea loses for structural reasons, not weakness |
+| **Dual-reading architecture intact** | On first read: surface reading holds. On re-read: true reading visible in all planted items |
+| **Climax has re-read marker** | Within Climax scene: at least one prior planted item is explicitly re-contextualized |
+| **Corpus distance** | Generated prose embedding within 1σ of exemplar distribution, >1σ from anti-exemplar |
+| **Surprise score** | `surprise-auditor` reports: misdirection holds; true reading available but suppressed |
+| **Honesty Engine** | Controlling Idea survives hardest counter from Truth Library |
+
+### 24.3 The honest upper bound
+
+Even a fully built V3 cannot guarantee literary distinction. The upper bound is constrained by:
+
+1. **No lived experience** — the Honesty Engine tests claims against a library, not a body. Coetzee or Le Guin draw on perceptual habits formed over decades of specific, unrepeatable experience.
+2. **Surprise is teachable, not original** — the system can execute Inevitable-Surprise as a technique; it cannot *invent* a new form of surprise that no author has attempted.
+3. **Persona is configured, not inhabited** — the Author Persona is a filter on decisions; it is not a consciousness with stakes. The difference shows in the long game (across 40K+ words) when persona-consistent decisions accumulate into something the author would *recognize*, vs. something they might choose.
+
+The platform's honest value proposition: **reliably reaching the ceiling of structural competence, with a meaningful fraction of outputs ascending above it through deliberate investment in the meta-layers.** Not every project; but enough to justify the architecture.
+
+---
+
+## Appendix F — Author Persona Card (Sample)
+
+`drafts/{slug}/persona.md`:
+
+```markdown
+---
+name: persona-reverse-dao
+type: author-persona
+lang: zh
+project: reverse-dao
+---
+
+# Author Persona — 《废徒倒丹》
+
+## Core Belief
+Recognition cannot be given. It can only be withheld — or not withheld. The moment it is given, it has already changed into something else.
+
+## What this author sees that others miss
+The gesture that costs nothing but is never made. The word that would settle everything, said by no one, to no one.
+
+## Refusals
+- No redemption arc that costs the redeemer nothing.
+- No reconciliation scene. The separation stands. Its standing is the statement.
+- No earned catharsis for the audience at the cost of the story's logic.
+- No final word from the master that clarifies his intention.
+
+## Controlling-Idea bias
+Ironic. The value the protagonist pursues is unverifiable by the story's end — not because he failed, but because verification requires a witness who is no longer present.
+
+## Truth claims this author is willing to make
+- "The act of recognition performed in private, without witness, does not confer what recognition requires."
+- "A person can make the correct decision and remain unrecognized by their own action."
+- "Inheritance requires a ceremony. Without ceremony, the inheritor inherits nothing they can show."
+
+## Voice signature
+The camera holds on the physical object after the person has moved. It cuts before the expected emotional resolution. It never explains what the silence meant.
+
+## Exemplar texts
+- Cormac McCarthy, *The Road* (ironic value; action-is-love without naming)
+- 残雪, 《黄泥街》 (camera on detail that defies interpretation)
+- 鲁迅, 《孤独者》 (ironic Controlling Idea; recognition withheld to the end)
+```
+
+---
+
+## Appendix G — Truth Library Entry (Sample)
+
+`corpus/truth-library/recognition.md`:
+
+```markdown
+# Truth Library — Recognition (承认)
+
+## Claim 1
+**"Recognition given by authority only counts as recognition while the authority's legitimacy holds."**
+
+Source: Observed structural pattern across *Hamlet*, *Crime and Punishment*, xianxia sect-hierarchy fiction.
+
+Hardest counter: "Recognition from illegitimate authority is still recognition — it changes the recognized person's social reality even if the source is corrupt."
+
+Stories that test it: *A Doll's House* (Nora's rejection of Helmer's recognition); *Hamlet* (Claudius's court recognizes Hamlet as prince; Hamlet refuses the recognition).
+
+Stories that contradict it: *Breaking Bad* (Walter accepts Gus's recognition of his craft even though Gus is criminal; the recognition operates independently of moral legitimacy).
+
+Verdict: **domain-specific** — in settings where authority *is* the legitimacy (xianxia sect hierarchies), the claim holds strongly. In settings where authority and legitimacy are severed, the claim weakens.
+
+## Claim 2
+**"Self-recognition without external witness is indistinguishable from self-delusion."**
+
+Source: Observed in *Notes from Underground*, 阿Q正传, *The Remains of the Day*.
+
+Hardest counter: "The only recognition that matters is the one you can live inside of — external recognition is performance, not substance."
+
+Stories that test it: *The Remains of the Day* (Stevens recognizes his own compromise too late and in private; the reader cannot determine if this is genuine recognition or another form of self-management).
+
+Verdict: **contested** — the hardest cases are the ones that refuse to resolve this.
+
+## Application to 《废徒倒丹》
+The protagonist's entire arc is built on Claim 2's hardest case. He performs a recognition ritual (the ruler, raised but never fallen) that has no witness capable of verifying it. The story refuses to adjudicate. The Controlling Idea is:
+
+> 承认以行动为证，但行动无法自证。
+> (Recognition is proven by action, but action cannot prove itself.)
+
+This survives the Honesty Engine test: the hardest counter (witness not required) is represented by the master's self-sufficient stance throughout the story, and loses at the Climax not because it is wrong, but because the master's death forecloses the possibility of adjudication.
+```
+
+---
+
+## Appendix H — Mutation-Selection Run (Sample)
+
+`drafts/{slug}/mutation-log.md`:
+
+```markdown
+# Mutation Log — {slug}
+
+## Generation 0 — Seed
+
+**Candidates**: 3 (tournament-generated Crisis designs)
+**Selected**: Candidate 2
+**Fitness**: Structural 3/5 predicates pass; Persona alignment 0.71; Corpus distance 1.2σ from exemplar
+**Problem**: Crisis dilemma horn 2 ("refuse and become permanent slave to debt") fails the true-dilemma test — it is clearly worse. Not irreconcilable.
+
+## Generation 1 — Mutation: Crisis Sharpening
+
+**Operator applied**: Crisis sharpening (reduce to one irreconcilable pair)
+**Mutation**: Horn 2 rewritten — "refuse and allow sister to enter the furnace as core" — making refusal cost the thing the protagonist least wants to cost.
+**New fitness**: Structural 5/5 pass; Persona alignment 0.84; Corpus distance 0.6σ
+**Selected**: Yes
+
+## Generation 2 — Crossover: Character × Crisis
+
+**Parents**: Gen 1 Crisis design + Tournament Protagonist True Character (alt candidate)
+**Crossover**: Combined Gen 1's dilemma structure with alt character's "承认仪式 as incomplete gesture" True Character
+**Mutation applied**: Polarity flip on resolution — from tragic (death) to ironic (survival without verification)
+**New fitness**: All structural predicates pass; Persona alignment 0.92; Corpus distance 0.4σ; Surprise score: dual reading confirmed
+**Selected**: Yes — locked
+
+## Note
+Generation 2 result is the design locked in current draft. The ironic resolution (举着未落) emerged from the polarity flip in Gen 2, not the seed. The mutation-selection loop produced the Climax's central image.
+```
+
+---
+
 ## End
 
 This plan is the design substrate for a McKee-native autonomous story-generation platform. It is deliberately ambitious — V3 is research-grade — but each phase is implementable on existing foundations, and V1 alone produces a real, useful, reliable tool.
@@ -1017,6 +1593,8 @@ The single most important architectural commitment: **Skills are the spine; Agen
 The single most important methodological commitment: **the 5-Layer Subtext Authoring Model.** It is the cheapest, most architecturally enforced intervention with the largest quality lift.
 
 The single most important meta-commitment: **invest engineering effort in the meta-layers (author persona, honesty, surprise) — not in the structural layer.** McKee structure is largely solved; what makes stories great lives above it.
+
+The single most important V3 commitment: **the Author Persona is upstream of everything.** A story without a persona produces competent work. A story with a persona that has a genuine Core Belief, specific Refusals, and a Truth Library entry it is willing to build toward — that story has a chance at something more.
 
 ---
 *End of document.*

@@ -122,6 +122,19 @@ Write the stub world-bible:
 [What do you need to know to write this story faithfully?]
 ```
 
+## Step 3.5 — Offer Persona Forge
+
+After the project directory is initialized, offer:
+
+> "Want to forge an Author Persona before the premise slate? The persona defines the specific author-consciousness who'll write this story — their animating belief, aesthetic bright lines, Truth Library. Running it now shapes voice from the start; you can always revise it later. Type `yes` to forge now, or skip and do it before the first prose draft."
+
+If user says yes: run `/story-persona FORGE` inline. The persona file writes to `drafts/{slug}/persona.md` and its path is registered in `lifecycle.json` artifacts.
+
+If user skips: note in `lifecycle.json` artifacts that persona is pending:
+```json
+"persona": null
+```
+
 ## Step 4 — Spawn premise-prospector
 
 Hand the agent:

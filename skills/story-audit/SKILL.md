@@ -67,6 +67,16 @@ Question: Where does text ≈ want (on-the-nose)? Where do characters say what t
 Brief: all scene cards + all prose
 Question: Are setups paid off? Are there dangling setups? Is the image system threaded? Is pacing varied?
 
+### Surprise Critic — `surprise-auditor` (if `misdirection-plan.md` exists)
+Brief: all prose + `drafts/{slug}/misdirection-plan.md`
+Question: Does the surface misdirection hold through Acts 1–2? Is each planted item dual-reading capable? Does the Climax deliver the re-read moment?
+*Skip if no misdirection plan exists — note its absence as a V3 gap if the genre warrants it.*
+
+### Honesty Critic — run `/mck-honesty TEST` in-context (not an agent spawn)
+Input: `controlling-idea.md` + `persona.md` Truth Library
+Question: Is the CI grounded in the author's truth, not asserted? Does the antagonist embody the Counter-Idea as a full fight?
+*This is the only in-context critic — it needs the persona's Truth Library which is session-state.*
+
 Wait for all critics to return.
 
 ## Step 3 — Aggregate Findings
@@ -101,6 +111,11 @@ Date: {today}
 | Genre obligatory scene delivered | ✅ / ❌ | |
 | No clichés unearned | ✅ / ❌ | |
 | Subtext holds throughout | ✅ / ❌ | |
+| CI grounded (not asserted) | ✅ / ❌ / N/A (no persona) | |
+| Counter-Idea gets full fight | ✅ / ❌ | |
+| Surface misdirection holds | ✅ / ❌ / N/A (no plan) | |
+| Dual-reading plants functional | ✅ / ❌ / N/A (no plan) | |
+| Re-read moment at Climax | ✅ / ❌ / N/A (no plan) | |
 
 ## Setup-Payoff Ledger
 Dangling setups: [list]

@@ -111,6 +111,19 @@ Update `lifecycle.json`:
 "locked": { "spine": true }
 ```
 
+## Step 5.5 — Offer Surprise Architecture (V3)
+
+After spine is locked, offer:
+
+> "Want to design the Inevitable-Surprise architecture before writing Act 1? `/mck-surprise-plant DESIGN` builds the misdirection plan from the Climax backward — it specifies what the audience will expect vs. what actually happens, and plants dual-reading items in the act/scene outline. This cannot be retrofitted onto a finished draft without it showing. Takes ~15 minutes now; saves an unresolvable revision problem later."
+
+If user accepts: run `/mck-surprise-plant DESIGN` inline. The misdirection plan writes to `drafts/{slug}/misdirection-plan.md` and registers in `lifecycle.json` artifacts.
+
+If user declines: note in `lifecycle.json`:
+```json
+"misdirection_plan": null
+```
+
 ## Step 6 — Suggest Next
 
 > "Spine is locked. Next: `/story-act` to plan each act's scene sequence, or `/story-cast` if you haven't designed the full cast yet."
