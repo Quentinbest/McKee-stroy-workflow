@@ -99,13 +99,13 @@ If voice anchors exist (`voice-anchors.md`), check the draft against them.
 
 Write directly into the prose file: `drafts/{slug}/prose/{act}-{scene}.md`
 
-Add a beat-progress comment as you go:
+You may add a beat-progress comment as you go, to resume mid-scene without re-reading everything:
 ```
 <!-- Beat 1 complete -->
 <!-- Beat 2 complete -->
 ```
 
-This lets you resume mid-scene without re-reading everything.
+**These comments are scaffolding, not prose — strip them before the scene is committed.** Likewise, keep *all* authoring annotation (beat refs, belief-tracking, `Seq` cross-refs, magnitude tags, age/disambiguation tags) out of the prose body: put it in frontmatter or under a trailing `<!-- AUTHORING (stripped at publish) -->` fence (see `/story-scene` Step 9A). Inline authoring tokens written into paragraphs become reader-facing pollution that has to be excavated at publish — and some force last-minute worldbuilding decisions. Decide the reader-facing form as you draft.
 
 ## Common Beat-Level Failures
 
@@ -116,3 +116,7 @@ This lets you resume mid-scene without re-reading everything.
 | Rhythm monotony | All sentences same length | Vary; place a fragment after a long observation |
 | Generic action | "He walked to the door" | Specify: *how* he walks says everything |
 | Skipped gap | Beat moves to next without registering the discrepancy | Add 1-3 lines on the texture of the unexpected result |
+| Narrated realization | `他知道…` / `不是X，是Y` / `他听懂了…底下的意思` — naming the insight the prose just dramatized | Delete the naming. Trust the behavior to carry it. |
+| Dash-gloss | A strong behavioral beat, then `——` and a clause explaining what it meant | Cut the gloss; let the beat stand. The fix is subtraction. |
+
+> The last two are insidious because they read as "deep." They are the drafter explaining its own subtext — the single most common note from the cliché and subtext critics, and they cluster in *freshly written* prose. If the persona's Refusals include narrated interiority, these violate it directly. Catch them as you write, not at audit.

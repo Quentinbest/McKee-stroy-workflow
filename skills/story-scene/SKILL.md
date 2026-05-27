@@ -3,9 +3,10 @@ name: story-scene
 description: |
   Draft or revise a single scene — the most-used skill in the platform. Loads
   the Scene Card, walks through the 5-layer subtext authoring model in-context,
-  generates prose iteratively with user able to interject, then runs parallel
-  critic audits (cliche-hunter, subtext-whisperer, continuity-supervisor) before
-  committing the scene to the project. The primary scene-writing workflow.
+  generates prose iteratively with user able to interject, then runs critic
+  audits (cliche-hunter, subtext-whisperer, continuity-supervisor — as agents
+  where supported, else in-context) before committing the scene to the project.
+  The primary scene-writing workflow.
   Trigger: /story-scene, "write scene", "draft scene", "scene 2.3",
   "work on scene", "write the next scene".
 allowed-tools:
@@ -27,6 +28,16 @@ triggers:
 # Scene Drafting Workflow
 
 This is the primary scene-writing skill. It runs in main context — the methodology is visible, the user can interject at any step. Agents are spawned only for isolated audits at the end.
+
+## Drafting Mode — single scene vs. sequence batch
+
+By default this skill drafts **one scene** and pauses. But drafting an act one scene per user nudge ("Continue." × 40) is high-friction. If the user asks to draft a whole sequence or act (e.g. "draft sequence 3.1–3.3", "draft all of Act III"), use **batch mode**:
+
+- Draft each scene in the run through the full workflow below (subtext table → gap → beat-by-beat → turning point → audit → commit), but **only pause for user input at sequence turning points** — the scenes the act design marks as load-bearing — rather than after every scene.
+- At each pause, show what landed and the next sequence's plan, and let the user redirect.
+- Always pause (regardless of mode) when: a critic flags a Critical issue, the Backtracking Protocol triggers, or a continuity/geography contradiction surfaces.
+
+Batch mode keeps the guardrails (cards, subtext model, per-scene audit) while removing the per-scene nudge. Single-scene mode remains the default when the user names one scene.
 
 ## Step 1 — Identify the Scene
 
@@ -96,23 +107,25 @@ At the scene's midpoint or climax, confirm:
 - The turning point is in the **scene's action**, not in a speech
 - After the turning point, the scene moves toward its close at the new value charge
 
-## Step 7 — Run Critic Audits (Agents, in parallel)
+## Step 7 — Run Critic Audits (capability ladder)
 
-When the draft is complete, invoke three agents in parallel:
+When the draft is complete, run three critics on the new scene. Use the highest rung the host supports (same ladder as `/story-audit` Step 0):
 
-**Agent 1: `cliche-hunter`**
-Input: The draft prose + genre contract
-Returns: Any stock phrases, images, or moves that need replacement
+1. **Parallel agents** (Claude Code with `Agent`): spawn all three as isolated agents — true fresh eyes.
+2. **Native critic tools** (e.g. Pi `cliche_hunt`, `subtext_check`): call them.
+3. **In-context sequential** (no agents/tools): run each yourself, one at a time, with a fresh-eyes reset between them ("Reading only for {dimension} now").
 
-**Agent 2: `subtext-whisperer`**
-Input: The draft prose + the subtext table from Step 3 + character files
-Returns: Any beats where text ≈ want (on-the-nose), with rewrite directions
+> **Self-audit bias warning.** When you fall to the in-context rung, you are auditing prose you just wrote — the most common failure mode is passing your own moves. In particular, watch for the drafter re-introducing the persona's *forbidden* moves (e.g. narrated realization — `他知道…` / `不是X…是Y` / a behavioral beat followed by a dash-gloss that explains it). Judge your own prose **harder** than you would an imported draft.
 
-**Agent 3: `continuity-supervisor`** (if state DB exists)
-Input: The draft prose + `drafts/{slug}/state.json`
-Returns: Any continuity violations (wrong location, anachronistic knowledge, physics breach)
+**The three critics:**
 
-Wait for all three. Merge findings into a revision list.
+**`cliche-hunter`** — Input: draft prose + genre contract. Returns: stock phrases/images/moves that need replacement (distinguish from honored genre conventions).
+
+**`subtext-whisperer`** — Input: draft prose + the subtext table from Step 3 + character files. Returns: beats where text ≈ want (on-the-nose), with rewrite directions. Flag the `行为—破折号—解释` gloss pattern specifically — the fix is usually subtraction (delete the gloss, let the behavior stand).
+
+**`continuity-supervisor`** (if `state.json` exists) — Input: draft prose + `drafts/{slug}/state.json` + world-bible. Returns: continuity violations (wrong location, anachronistic knowledge, physics breach, proper-noun/geography drift).
+
+Each critic writes `drafts/{slug}/audit/scenes/{act}-{scene}-{critic}.md` before returning, so a mid-run interruption is recoverable. Wait for all three (or finish all passes), then merge findings into a revision list.
 
 ## Step 8 — Revise
 
@@ -163,6 +176,33 @@ Show the proposed upstream edit to the user. On confirmation:
 
 Write the final prose to `drafts/{slug}/prose/{act}-{scene}.md`.
 
+### 9A — Authoring-annotation convention (prevents metadata bleed)
+
+The prose file may carry authoring notes, but they must be **structurally separable from the prose body** so they can never leak into the assembled manuscript. The rule:
+
+- Authoring metadata lives in **frontmatter** (between the two `---` fences) or in a single fenced block at the **end** of the file:
+  ```
+  <!-- AUTHORING (stripped at publish) -->
+  - beat-tracking, belief-litany (✗ … 已证伪), Seq cross-refs, magnitude tags, etc.
+  ```
+- The **prose body** (everything after the closing frontmatter `---` and before the AUTHORING fence) contains *only narrative prose the reader will see*. No inline authoring tokens.
+
+This is the lesson from real drafts where `Seq 1.2` cross-refs, `本拍`/magnitude tags, `✗ 已证伪` belief litanies, and latin disambiguators (`七十二岁 calendar`) were written *inside* paragraphs and had to be excavated scene-by-scene at publish — one of them (`calendar`/`physical` ages) even forced a worldbuilding decision at the last minute. Decide the reader-facing form **now**, not at publish.
+
+### 9B — Bleed scan (run before finalizing)
+
+Scan the prose body (after the closing `---`, excluding any AUTHORING fence) for authoring tokens. Flag and fix each — either delete it, smooth it into natural prose, or move it under the AUTHORING fence. Patterns to catch:
+
+- Beat-progress comments: `<!-- Beat N -->`, `<!-- ... -->` of any kind
+- Cross-references: `Seq \d`, `(Seq`, `本拍`, `magnitude`, `拍 \d`
+- Belief/tracking shorthand: `✗`, `已证伪`, parenthetical `（…级）`/`（reason）` litanies used as annotation
+- Inline latin disambiguators adjacent to CJK numbers: `calendar`, `physical` (decide the in-world term instead)
+- Frontmatter field names appearing in body (`title:`, `value_open:`, beat-annotation lists)
+
+If a token encodes information the reader genuinely needs (e.g. an age-system distinction), resolve it into a reader-facing form **before** committing — do not defer to publish.
+
+### 9C — State update
+
 Update `drafts/{slug}/state.json` if it exists:
 - Mark scene as complete
 - Update character locations and knowledge states
@@ -204,7 +244,7 @@ If `state.json` has a `setup_payoff_ledger` array:
 
 3. **Groundless payoff check**: if the scene resolves something (a character acts on information, uses an object, fulfills a promise), verify there's a corresponding setup entry. If none: *"Payoff without registered setup: '{element}'. Either plant the setup in an earlier scene or register retroactively."*
 
-If no `state.json` exists: skip Step 10. Prompt: *"No state.json found. Run `/story-new` to scaffold, or create `state.json` from the template to enable image-system and setup-payoff tracking."*
+If no `state.json` exists: this is degraded mode (continuity tracking, image-system, and setup-payoff checks are all disabled). It should have been scaffolded at `/story-act` Step 7. Prompt: *"No state.json found — running in degraded mode. Scaffold it from `templates/state.json` (or re-run `/story-act` Step 7) to enable continuity, image-system, and setup-payoff tracking."* Skip the rest of Step 10.
 
 ---
 

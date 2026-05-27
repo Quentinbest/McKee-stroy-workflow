@@ -77,6 +77,8 @@ For each scene needed in the act, either:
 
 Each Scene Card goes in `drafts/{slug}/scenes/{act}-{scene}.md`.
 
+Before generating cards, read the act's **Budget** from `act-design.md` and divide it across the act's scenes. Heavier on the load-bearing scenes (the act's turning point, its deepest confrontation), lighter on bridges/ignition scenes — not an even split.
+
 Scene Card format:
 ```markdown
 ---
@@ -87,6 +89,8 @@ location: {where}
 characters: [{list}]
 value_open: {+/-}
 value_close: {+/-}
+length_budget: {target words/CJK for this scene}
+length_note: {optional — e.g. "deliberate short blade; under budget by design"}
 ---
 
 ## Objective
@@ -124,8 +128,30 @@ Verify:
 - Conflict level escalates across the act (not uniform)
 - At least one scene provides a "breath" (brief positive charge before the next descent)
 - The act-ending scene's value flip is the act's strongest
+- **Budget reconciles**: the sum of scene `length_budget`s equals the act's budget from `act-design.md`, and the heaviest budgets sit on the load-bearing scenes (turning point, deepest confrontation) — not on the setup/bridge scenes.
 
-## Step 7 — Update Lifecycle
+## Step 6.5 — Density Check (after prose exists)
+
+This runs when you return to an act whose scenes already have prose (e.g. before `/story-audit`, or when checking progress). For each scene, compare realized length (count words / CJK chars in the prose body) against its `length_budget`:
+
+| Scene | Budget | Realized | Δ | Flag |
+|---|---|---|---|---|
+
+Flag:
+- **Undershoot**: realized < 60% of budget and no `length_note` explaining it → likely under-built; candidate for `/story-scene` expansion.
+- **Inversion**: a load-bearing scene (turning point / deepest confrontation) is realized *thinner* than the setup/bridge scenes around it → the wrong scenes are carrying the weight; rebalance.
+- **Act total**: sum realized vs act budget. If the whole act is well under budget, surface it now — do not let it reach publish unnoticed.
+
+## Step 7 — Scaffold State DB & Geography Lock
+
+Before prose drafting begins, ensure `drafts/{slug}/state.json` exists (copy from `templates/state.json` and fill from the cast + world-bible). This is **not optional** — without it, `/story-scene` runs in degraded mode: continuity tracking (Step 9C/10) and the `continuity-supervisor` critic are skipped silently, and continuity bugs surface late (wrong locations, proper-name drift, geography contradictions baked into scene cards).
+
+Populate at minimum:
+- `characters`: each character's opening location, knowledge, possessions.
+- `world_state`: every named location, with a **geography lock** — for any setting where physical layout matters (building floor counts, distances, which building is which), pin the facts here so scene cards and prose can't contradict them. (A real draft shipped a climax set on the "8–9th floor" of a building established elsewhere as 6 floors; the scene cards themselves disagreed. Lock it once, here.)
+- `timeline`: story start date; scene timestamps get filled as prose is written.
+
+## Step 8 — Update Lifecycle
 
 When all scenes for this act have scene cards:
 

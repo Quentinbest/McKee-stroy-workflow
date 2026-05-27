@@ -47,6 +47,8 @@ Based on the story's length and spine density, propose an act structure:
 
 Discuss with user — their genre, tone, and complexity override the defaults.
 
+**Capture the target total length now** (words, or CJK characters for Chinese). This is the number the whole pipeline budgets against. Record it in the act-design doc as `target_total`. Without it, nothing downstream can detect an under-built draft — the single most common silent failure (a draft that lands at a fraction of its intended size, unnoticed until publish).
+
 ## Step 2 — Place the Act-Ending Turning Points
 
 For each act, identify the spine event that makes a good act-ending turning point. Act-ending events must be:
@@ -69,18 +71,22 @@ Some genres (thriller, horror, romance, certain tragedies) have a **False Ending
 
 Ask: does the genre contract require a False Ending? If yes, which spine event serves as the false resolution, and what re-complicates it?
 
-## Step 4 — Rhythm Chart
+## Step 4 — Rhythm Chart & Length Budget
 
-Verify the act rhythm escalates:
+Verify the act rhythm escalates, and assign each act a **length budget** as a share of `target_total`:
 
-| Act | Opening Value | Closing Value | Intensity Level | Pace |
-|---|---|---|---|---|
-| 1 | + | - | Medium | Medium |
-| 2a | - | -- | High | Accelerating |
-| 2b | -- | --- | Very High | Fast |
-| 3 | --- | Crisis | Maximum | Very Fast / Tight |
+| Act | Opening Value | Closing Value | Intensity Level | Pace | Length % | Budget (words/CJK) |
+|---|---|---|---|---|---|---|
+| 1 | + | - | Medium | Medium | ~22–28% | |
+| 2a | - | -- | High | Accelerating | ~30–38% | |
+| 2b | -- | --- | Very High | Fast | ~30–38% | |
+| 3 | --- | Crisis | Maximum | Very Fast / Tight | ~22–28% | |
 
 Each act should feel more urgent than the last. If two acts have the same intensity, redesign one.
+
+**Where the words go (load-bearing rule).** Length is not uniform. The deepest act (where the negation-of-the-negation goes onstage) and the payoff zone (Crisis/Climax/Resolution) are the *least compressible* — they should carry the most weight per scene, not the least. A common failure is the inverse: the setup act is fattest and the climax is thinnest. Mark which act is the deepest and protect its budget. The percentages above are a starting point; adjust to the spine, but keep `target_total` as the sum.
+
+> These budgets flow down: `/story-act` divides each act's budget across its scenes (`length_budget` on each Scene Card), and `/story-audit` checks the realized prose against them. A scene that is a deliberate short blade (the withdrawn-hand beat, an ignition scene) can be under budget *by design* — note it on the card so the density check doesn't false-alarm.
 
 ## Step 5 — Sequences Within Acts
 
@@ -96,13 +102,17 @@ Write `drafts/{slug}/act-design.md`:
 ```markdown
 # Act Design — {title}
 
+**Target total**: {N words / CJK chars}
+
 ## Act Structure: {N}-Act
 
-| Act | Opens | Closes | Spine Events Covered | Act-Ending TP |
-|---|---|---|---|---|
-| Act 1 | | | | |
-| Act 2 | | | | |
-| ... | | | | |
+| Act | Opens | Closes | Spine Events Covered | Act-Ending TP | Length % | Budget |
+|---|---|---|---|---|---|---|
+| Act 1 | | | | | | |
+| Act 2 | | | | | | |
+| ... | | | | | | |
+
+Deepest act (protect its budget): {which act}
 
 ## Sequences
 ### Act 1

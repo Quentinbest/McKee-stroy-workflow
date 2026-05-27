@@ -17,8 +17,11 @@
     "beat_sheets": false,
     "prose": false,
     "critic_passed": false,
-    "polished": false
+    "polished": false,
+    "published": false
   },
+  "manuscript_built_at": null,
+  "target_total": null,
   "artifacts": {
     "premise_card": "drafts/{{slug}}/premise-card.md",
     "controlling_idea": "drafts/{{slug}}/controlling-idea.md",

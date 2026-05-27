@@ -45,6 +45,8 @@ For each artifact path in `artifacts`, check if the file exists and is non-stub.
 - Prose files in `prose/`
 - Character files in `characters/`
 
+**Stale-manuscript check**: if `manuscript.md` exists, compare its modified time against the newest file in `prose/`. If any prose file is newer than the manuscript, the manuscript is **stale** — prose was edited after the last assembly (a common situation after a post-publish expansion). Flag it as a blocking issue and recommend re-running `/story-publish` to regenerate. Do the same for `colophon.md` word counts if present.
+
 ## Step 4 — Display Status Report
 
 Output a clean status dashboard:
@@ -96,5 +98,8 @@ Based on `state`, suggest the next natural action:
 | `prose_drafted` | `/story-audit` to run the full critic suite |
 | `critic_passed` | `/story-revise` for multi-pass polish |
 | `polished` | `/story-publish` to assemble the final manuscript |
+| `done` | Project complete. To extend it (e.g. expand under-built acts), say so — this re-opens to `polished` and the manuscript will need regenerating. |
 
 If a gate is locked but its artifact file is missing or stubbed, flag it as a potential issue.
+
+**Note on `done`:** `done` is not a dead-end. Post-publish edits are legitimate (the most common is expanding an act that came in under budget). When prose changes after `done`, treat the project as re-opened to `polished`: the manuscript, colophon word-count, and lifecycle notes are now stale and must be regenerated via `/story-publish`. The stale-manuscript check above will catch this automatically.

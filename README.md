@@ -4,6 +4,12 @@ A McKee-native, hybrid Skill + Agent architecture for consistently and reliably 
 
 Built on Robert McKee's *Story* methodology. See `story-plan.md` for the full implementation design.
 
+> **Note:** the repository slug is misspelled `McKee-stroy-workflow` (`stroy` → `story`). The remote URL still uses the typo; consider renaming the GitHub repo (and updating clones' remotes) when convenient. The skills themselves are unaffected — they install by their own names into `~/.claude/skills/`.
+
+## Cross-platform note
+
+The skills are authored for Claude Code (where critics run as parallel isolated agents). They also run on hosts without an agent-spawning tool — OpenCode, Pi, etc. — by degrading gracefully: the critic suite falls to native critic tools (where the host provides them, e.g. Pi's `cliche_hunt`/`subtext_check`) or to in-context sequential passes with a fresh-eyes reset between dimensions. See `/story-audit` Step 0 (capability ladder) and its Cross-Platform Critic Map. On non-Claude-Code hosts the skill body is typically pasted/loaded as a prompt; the capability ladder is what makes that portable.
+
 ---
 
 ## What This Is

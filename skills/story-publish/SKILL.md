@@ -35,6 +35,22 @@ Check `lifecycle.json`:
 Read all files in `drafts/{slug}/prose/` in scene order (1-1, 1-2, ..., N-M).
 Check for missing scenes (gaps in the sequence). If gaps exist, flag them.
 
+### Step 2.5 — Bleed scan (before assembling, not during line-polish)
+
+Before concatenating anything, scan every prose body for authoring-annotation bleed (convention defined in `/story-scene` Step 9A). Resolve each hit at its **source scene file**, then re-inventory — do not patch the assembled manuscript (that desyncs it from its prose). Patterns:
+
+- `<!--` … `-->` comments (incl. `<!-- Beat N -->`, `<!-- AUTHORING -->` blocks)
+- `Seq \d`, `(Seq`, `本拍`, `magnitude`, beat/sequence cross-refs
+- `✗`, `已证伪`, parenthetical `（…级）`/`（reason）` belief-litany shorthand
+- Inline latin disambiguators next to CJK numbers (`calendar`, `physical`)
+- Frontmatter field names leaking into body (`title:`, `value_open:`, etc.)
+
+If a scan hit encodes reader-needed information (e.g. an age-system tag), it requires a content decision, not a silent delete — surface it to the user. AUTHORING fences are dropped wholesale; the prose body above them is what assembles.
+
+### Step 2.6 — Length reconciliation
+
+Read `target_total` and per-act budgets from `act-design.md`. Count the realized total and per-act lengths. If the realized draft is well under budget (or density is inverted — setup act fattest, payoff zone thinnest), **flag it before assembling**: a draft that lands at a fraction of its intended size is the most common silent failure, and publish is the last place to catch it. Offer `/story-act {act}` Step 6.5 + `/story-scene` expansion rather than shipping under-built.
+
 ## Step 3 — Assemble the Manuscript
 
 Create the output file `drafts/{slug}/manuscript.md`:
@@ -72,7 +88,7 @@ Create the output file `drafts/{slug}/manuscript.md`:
 Ensure:
 - Scene breaks are marked consistently
 - No duplicate headers
-- No metadata/frontmatter bleeds into prose
+- No metadata/frontmatter or authoring-annotation bleeds into prose (the Step 2.5 scan should already be clean — verify the assembled output once more)
 - Character names are spelled consistently throughout
 
 ## Step 4 — Final Line-Level Polish
@@ -104,7 +120,12 @@ Optionally write a `drafts/{slug}/colophon.md` with:
 - Controlling Idea (for the writer's reference)
 - Notes on what was hard, what worked, what surprised
 
-Update `lifecycle.json`: `state: "done"`, `locked: { all: true }`
+Update `lifecycle.json`:
+- `state: "done"`, `locked.published: true`
+- `manuscript_built_at`: today's date (timestamp of this assembly). `/story-status` compares this against prose mtimes to detect a stale manuscript after later edits.
+- Record the realized length (words/CJK) and, if `act-design.md` has a `target_total`, the realized-vs-target ratio in `notes`.
+
+**Re-opening after `done`:** if the user later edits prose (e.g. expands an under-built act), the project is effectively back at `polished` — the manuscript, colophon counts, and notes are stale. Re-running `/story-publish` regenerates them and bumps `manuscript_built_at`. Do not treat `done` as immutable.
 
 Output a completion summary to the user:
 ```
