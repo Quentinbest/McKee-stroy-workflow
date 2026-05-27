@@ -384,6 +384,9 @@ That's it. From seed to prose in 7 steps.
 1. Spawns `act-designer` to determine act structure and sequence rhythm
 2. Spawns `scene-architect` to produce a Scene Card per scene
 3. Audits each card: does the scene turn? Is the turning point caused by decision, not coincidence?
+4. Assigns each Scene Card a `length_budget` derived from the act's share of `target_total` (heavier on load-bearing scenes, lighter on bridges) — the basis for the later density check
+5. **Density check** (when prose already exists): compares realized length per scene against budget — flags undershoot (<60% with no `length_note`), inversion (load-bearing scenes thinner than their bridges), and under-budget act totals
+6. **Scaffolds `state.json`** (geography/proper-noun lock, character locations/knowledge) before prose drafting — no longer optional; without it `/story-scene` runs in degraded mode
 
 **When to use**: act by act, after the spine is locked. Do not plan all acts at once — Act 2 design should incorporate what Act 1 drafting reveals.
 
@@ -404,10 +407,12 @@ That's it. From seed to prose in 7 steps.
 4. **Gap Identification** — what does the POV character expect? What does the scene actually deliver?
 5. **Draft Beat by Beat** — one beat at a time; each beat filtered through the persona Decision Protocol (Belief / Beauty / Refusal / Truth); shown to user beat by beat
 6. **Turning Point Check** — value charge has begun to shift; turning point is in action, not speech
-7. **Critic Audits** — 3 agents in parallel: `cliche-hunter` + `subtext-whisperer` + `continuity-supervisor`
+7. **Critic Audits** — `cliche-hunter` + `subtext-whisperer` + `continuity-supervisor`, run by the capability ladder (parallel agents → native critic tools → in-context sequential with a fresh-eyes reset). A self-audit-bias warning flags the drafter re-introducing the persona's forbidden moves (narrated realization, the `行为—破折号—解释` gloss). Each critic writes its report to disk before returning.
 8. **Revise** — apply findings; stop-loss enforces 3-round cap per beat
-9. **Commit** — write prose file; update state.json; update Scene Card
+9. **Commit** — bleed scan (strip authoring tokens / beat comments per the prose-body vs `<!-- AUTHORING -->` fence convention) → write prose file → update state.json → update Scene Card
 10. **Post-Commit Coherence** — image-system cadence check (motif gaps, Key Image status, new motifs detected) + setup-payoff ledger check (dangling setups, new setup detection, groundless payoffs)
+
+**Drafting mode**: single-scene by default. When asked to draft a whole sequence or act, **batch mode** runs the full workflow per scene but only pauses at sequence turning points (or on a Critical critic finding, a backtrack trigger, or a geography contradiction) — removing the per-scene "Continue." nudge while keeping the guardrails.
 
 **Backtracking Protocol**: if a scene repeatedly fails a predicate, the skill diagnoses the upstream cause (Scene Card / character want-wound / spine event) and proposes a specific mutation. Maximum 3 backtrack levels.
 
@@ -422,14 +427,20 @@ That's it. From seed to prose in 7 steps.
 **Input**: all prose files + spine + CI + genre contract + character files
 **Output**: `drafts/{slug}/audit-report.md` with ranked findings + structural predicates table
 
-**Critics spawned in parallel**:
+**Critics** (run by the capability ladder — Step 0):
 - `antagonism-stress-tester` — antagonism force balance
 - `crisis-climax-auditor` — dilemma authenticity, Climax causality
 - `cliche-hunter` — stock phrases, images, moves
 - `subtext-whisperer` — on-the-nose dialogue and exposition
 - `composition-conductor` — setups/payoffs, image system, pacing
 - `surprise-auditor` — if misdirection-plan.md exists
-- `/mck-honesty TEST` — in-context (needs persona Truth Library)
+- `/mck-honesty TEST` — always in-context (needs persona Truth Library)
+
+**Capability ladder (Step 0)**: pick the highest rung the host supports — (1) parallel isolated agents on Claude Code; (2) native critic tools where provided (e.g. Pi's `cliche_hunt`/`subtext_check`/`antagonism_test`); (3) in-context sequential passes with a fresh-eyes reset between dimensions. The chosen rung is recorded in the report header. A **Cross-Platform Critic Map** in the skill links each dimension across rungs.
+
+**Resilience**: every critic writes `drafts/{slug}/audit/{critic}.md` *before* returning a summary, so a mid-run session/rate-limit failure is recoverable — on resume, read the reports that already landed and re-run only the missing critics.
+
+**Added predicates**: the report now includes *Length on-budget* and *Density not inverted* (load-bearing acts heaviest), plus a Length & Proportion section comparing realized total/per-act against `act-design.md` budgets.
 
 **When to use**: after prose drafting is complete for an act or the full story. Gating: `critic_passed` lifecycle state requires all structural predicates to pass.
 
@@ -466,9 +477,15 @@ Each pass writes to `revision-log.md`. Stop-loss applies: same scene, same predi
 **Input**: all prose files in `drafts/{slug}/prose/`
 **Output**: `drafts/{slug}/manuscript.md` (or split files for book-length work)
 
-**What it does**: assembles prose files in scene order, applies consistent formatting, strips author notes and scene-card headers, and writes a clean manuscript file.
+**What it does**:
+1. **Bleed scan** (before assembling): scans every prose body for authoring-annotation bleed (`<!-- ... -->`, `Seq N.N`, `本拍`, `✗ 已证伪`, `calendar`/`physical` age tags, frontmatter leakage) and resolves each at its source scene file. Tokens encoding reader-needed info (e.g. an age-system tag) are surfaced for a content decision, not silently deleted.
+2. **Length reconciliation**: compares realized total/per-act against `act-design.md` budgets; flags an under-built draft (or inverted density) *before* assembling — publish is the last place to catch it.
+3. Assembles prose files in scene order, consistent formatting, clean manuscript file.
+4. Records `manuscript_built_at` so `/story-status` can later detect a **stale manuscript** when prose is edited after publish.
 
 **When to use**: after `polished` lifecycle state is set.
+
+**Re-opening after `done`**: post-publish edits (e.g. expanding an under-built act) are legitimate — they re-open the project to `polished`. The manuscript, colophon counts, and notes go stale and must be regenerated by re-running `/story-publish` (which bumps `manuscript_built_at`). `done` is not immutable.
 
 ---
 
@@ -523,6 +540,8 @@ Examples:
 **Output**: a prose draft of the scene
 
 **When to use**: standalone alternative to `/story-scene` when you already have a beat sheet. Or for very short scenes where the full `/story-scene` workflow is over-specified.
+
+**Bleed & forbidden moves**: `<!-- Beat N -->` progress comments are scaffolding — stripped at commit. Keep all authoring annotation (Seq refs, belief-tracking, magnitude/age tags) out of the prose body (frontmatter or a trailing `<!-- AUTHORING -->` fence only). The failure table flags **narrated realization** (`他知道…` / `不是X，是Y`) and the **dash-gloss** (a behavioral beat then `——` explaining it) — the moves a drafter most often self-injects; the fix is subtraction.
 
 ---
 
@@ -801,6 +820,8 @@ These agents produce artifacts.
 
 These agents read the draft blind and return findings. Their cold-start is a feature — they have no author bias.
 
+> **Cross-platform:** the critic agents are the top rung of the capability ladder used by `/story-audit` and `/story-scene`. On hosts without agent-spawning (OpenCode, Pi, etc.), each critic dimension falls to a native critic tool where available (e.g. Pi's `cliche_hunt`, `subtext_check`, `antagonism_test`, `pacing_analyze`, `reader_simulate`, `setup_payoff`) or to an in-context sequential pass with a fresh-eyes reset. The dimension and its question are identical across rungs; see the Cross-Platform Critic Map in `/story-audit`. In-context mode is weaker (one perspective, self-audit bias) and the chosen rung is recorded in the audit report.
+
 | Agent | What it audits | Spawned by |
 |---|---|---|
 | `antagonism-stress-tester` | Force balance: is the antagonism at inner / personal / extra-personal levels adequate to make victory expensive? | `/story-audit` |
@@ -841,7 +862,9 @@ Tracks project state. Updated by workflow skills after each lifecycle gate.
 Key fields:
 - `slug` — project identifier, used in all file paths
 - `state` — current lifecycle stage (see §5)
-- `locked` — boolean map of completed gates
+- `locked` — boolean map of completed gates (now includes `published`)
+- `target_total` — the planned total length (words/CJK), set at act design; the number the length-budget gate checks against
+- `manuscript_built_at` — timestamp of the last `/story-publish` assembly; `/story-status` compares it against prose mtimes to detect a stale manuscript
 - `artifacts` — paths to key files (CI, spine, persona, misdirection plan, etc.)
 
 ### `state.json`
@@ -852,9 +875,11 @@ Key blocks:
 - `characters` — per character: location, knowledge facts, possessions, relationships, wound status, current desire, value charge, arc progress
 - `image_system` — per motif: introduction scene, recurrences, payoff planned/delivered, key_image flag
 - `setup_payoff_ledger` — per element: setup scene, planned payoff scene, delivered status
-- `world_state` — per location: physical state, last modified scene
+- `world_state` — per location: physical state, last modified scene; this is also where the **geography/proper-noun lock** lives (floor counts, distances, which building is which) so scene cards and prose can't contradict it
 - `exposition_ledger` — per fact: delivery mode (concealment / extraction / weaponization / forced revelation), planned scene, delivered status
 - `timeline` — story start date, scene timestamps
+
+Scaffolded at `/story-act` Step 7 (no longer optional). Without it, `/story-scene` runs in degraded mode — continuity tracking, image-system cadence, and setup-payoff checks are all skipped.
 
 ### `persona.md`
 
@@ -1065,6 +1090,26 @@ Run `/story-persona FORGE` again. Answer the Belief question more specifically. 
 The `surprise-auditor` agent distinguishes between *retroactive cheat* and *dual-reading available*. A retroactive cheat is an item that only works as foreshadowing after the Climax names it as significant. Dual-reading is an item the audience can see the true meaning of on re-read, without the narrative pointing at it.
 
 Audit your planted items: does each one support the surface reading *actively* on first pass? If an item requires the reader to be incurious or careless to miss the true reading: it's a cheat. Either make the surface reading more convincing, or replace the item with one that genuinely admits two readings.
+
+### "I'm on a host without the Agent tool — how do I run the audit?"
+
+The critic suite degrades gracefully. `/story-audit` Step 0 (the capability ladder) picks the highest rung your host supports: native critic tools where provided (e.g. Pi's `cliche_hunt`/`subtext_check`), else in-context sequential passes with a fresh-eyes reset between dimensions. The audit still runs and still writes its reports; it's just weaker in pure in-context mode (one perspective, self-audit bias). Record the rung in the report header, and judge your own prose harder than imported prose. See the Cross-Platform Critic Map in `/story-audit`.
+
+### "The audit died partway (session/rate limit) — do I lose the whole run?"
+
+No. Each critic writes `drafts/{slug}/audit/{critic}.md` *before* returning its summary. On resume, read the reports that already landed and re-run only the missing critics — never silently drop one. (This is why a 5-critic run that hits a limit after 4 reports is recoverable.)
+
+### "The finished draft is far shorter than planned"
+
+This is the most common silent failure, and it should now be caught early. `act-design.md` records `target_total` and per-act budgets; each Scene Card has a `length_budget`; `/story-act` Step 6.5 and `/story-audit` run a **density check**. If a draft still comes in under-built, expand the load-bearing acts (the deepest act and the Crisis/Climax/Resolution zone — *not* the setup act) via `/story-scene`, then regenerate the manuscript. Watch for **inverted density** (setup act fattest, climax thinnest) — rebalance toward the load-bearing scenes.
+
+### "Authoring notes leaked into the manuscript"
+
+`Seq N.N` cross-refs, `本拍`/magnitude tags, `✗ 已证伪` belief litanies, and latin age disambiguators (`七十二岁 calendar`) belong in frontmatter or under a trailing `<!-- AUTHORING -->` fence — never inline in the prose body (convention: `/story-scene` Step 9A). The bleed scan runs at scene-commit and again before publish-assembly. If a leaked token encodes reader-needed info (e.g. an age-system distinction), decide its reader-facing form *as you draft* — don't defer it to publish, where it becomes a last-minute worldbuilding decision.
+
+### "I edited prose after publishing and the manuscript is out of date"
+
+Expected. Post-publish edits re-open the project to `polished`. `/story-status` detects the stale manuscript (prose newer than `manuscript_built_at`) and flags it; re-run `/story-publish` to regenerate the manuscript, colophon counts, and notes. `done` is not a dead-end.
 
 ---
 
