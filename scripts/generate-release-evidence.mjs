@@ -14,6 +14,9 @@ const conformance = JSON.parse(readFileSync(join(root, "reports/conformance-pilo
 const nativeConformance = JSON.parse(
   readFileSync(join(root, "reports/native-conformance-pilots.json"), "utf8"),
 );
+const humanReview = JSON.parse(
+  readFileSync(join(root, "reports/human-release-review.json"), "utf8"),
+);
 const evidence = {
   schemaVersion: 1,
   release: packageJson.version,
@@ -26,7 +29,8 @@ const evidence = {
     generatedDrift: "passed",
     security: "passed",
     cleanCheckout: "passed",
-    humanLiteraryReview: conformance.humanEvaluation.status,
+    humanLiteraryReview: humanReview.literaryReview.status,
+    humanOperationalReview: humanReview.operationalReview.status,
   },
   artifacts: {
     generatedManifest: {
@@ -48,7 +52,7 @@ const evidence = {
   },
   releaseDecision: nativeConformance.status !== "passed"
     ? "blocked-native-and-human-gates"
-    : conformance.humanEvaluation.status === "complete"
+    : humanReview.status === "approved"
       ? "stable-eligible"
       : "release-candidate-only",
 };

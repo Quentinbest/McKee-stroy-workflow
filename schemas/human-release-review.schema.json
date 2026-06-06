@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "human-release-review.schema.json",
+  "title": "Human Release Review",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "release",
+    "status",
+    "story",
+    "literaryReview",
+    "operationalReview",
+    "releaseApproval"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "release": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["pending", "changes-requested", "approved"] },
+    "reviewer": {
+      "type": ["object", "null"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "reviewedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "role", "reviewedAt"],
+      "additionalProperties": false
+    },
+    "story": {
+      "type": "object",
+      "required": ["synthetic", "artifactPath", "lifecycleComplete"],
+      "properties": {
+        "synthetic": { "const": false },
+        "artifactPath": { "type": ["string", "null"] },
+        "lifecycleComplete": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "literaryReview": { "$ref": "#/$defs/reviewSection" },
+    "operationalReview": { "$ref": "#/$defs/reviewSection" },
+    "releaseApproval": {
+      "type": "object",
+      "required": ["stableRelease", "externalPublication"],
+      "properties": {
+        "stableRelease": { "type": "boolean" },
+        "externalPublication": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "reviewSection": {
+      "type": "object",
+      "required": ["status", "criteria"],
+      "properties": {
+        "status": { "enum": ["pending", "changes-requested", "approved"] },
+        "criteria": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "score", "evidence"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "score": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+              "evidence": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

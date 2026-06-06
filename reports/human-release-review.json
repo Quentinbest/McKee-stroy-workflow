@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "release": "1.0.0-rc.1",
+  "status": "pending",
+  "reviewer": null,
+  "story": {
+    "synthetic": false,
+    "artifactPath": null,
+    "lifecycleComplete": false
+  },
+  "literaryReview": {
+    "status": "pending",
+    "criteria": [
+      { "id": "causal-structure", "score": null, "evidence": null },
+      { "id": "controlling-idea", "score": null, "evidence": null },
+      { "id": "character-pressure", "score": null, "evidence": null },
+      { "id": "scene-turns-and-gaps", "score": null, "evidence": null },
+      { "id": "voice-subtext-specificity", "score": null, "evidence": null },
+      { "id": "climax-and-resolution", "score": null, "evidence": null }
+    ]
+  },
+  "operationalReview": {
+    "status": "pending",
+    "criteria": [
+      { "id": "instruction-clarity", "score": null, "evidence": null },
+      { "id": "checkpoint-usability", "score": null, "evidence": null },
+      { "id": "failure-recovery", "score": null, "evidence": null },
+      { "id": "artifact-traceability", "score": null, "evidence": null },
+      { "id": "cross-harness-consistency", "score": null, "evidence": null },
+      { "id": "time-and-correction-cost", "score": null, "evidence": null }
+    ]
+  },
+  "releaseApproval": {
+    "stableRelease": false,
+    "externalPublication": false
+  },
+  "notes": [
+    "An authorized human reviewer must evaluate a non-synthetic, complete lifecycle.",
+    "External publication approval is separate from stable-release approval."
+  ]
+}

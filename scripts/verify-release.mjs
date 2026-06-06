@@ -16,6 +16,7 @@ const required = [
   "reports/release-evidence.json",
   "reports/acceptance-audit.json",
   "reports/native-conformance-pilots.json",
+  "reports/human-release-review.json",
 ];
 for (const path of required) if (!existsSync(join(root, path))) failures.push(`missing ${path}`);
 
@@ -40,6 +41,9 @@ if (evidence.verification.nativeConformance !== "partial") {
 }
 if (evidence.verification.humanLiteraryReview !== "pending") {
   failures.push("release candidate must preserve the pending human review state");
+}
+if (evidence.verification.humanOperationalReview !== "pending") {
+  failures.push("release candidate must preserve the pending operational review state");
 }
 if (evidence.releaseDecision !== "blocked-native-and-human-gates") {
   failures.push("release must remain blocked before native and human gates pass");

@@ -21,6 +21,9 @@
 - [ ] Explicit stable-release approval.
 - [ ] Explicit publication approval for any external target.
 
+Execution protocol: `docs/agent/human-release-review.md`. Machine-readable
+record: `reports/human-release-review.json`.
+
 ## Release Decision
 
 `1.0.0-rc.1` is implemented but not release-eligible. Stable `1.0.0` remains

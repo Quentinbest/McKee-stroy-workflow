@@ -1,0 +1,83 @@
+---
+id: TASK-2026-003
+title: Complete human literary and operational release review
+status: ready
+priority: critical
+owner: authorized-human-reviewer
+created: 2026-06-06
+updated: 2026-06-06
+risk: high
+approval_required:
+  - stable-release
+scope:
+  allowed:
+    - reports/human-release-review.json
+    - reviewer-authorized non-synthetic story artifacts
+  forbidden:
+    - stories/private/** without explicit story-scoped authorization
+    - external publication
+depends_on:
+  - TASK-2026-002
+---
+
+# Goal
+
+Complete the plan's human literary quality and operational usability release
+gate using a reviewer-authorized, non-synthetic story lifecycle.
+
+# Context
+
+- `mckee-story-workflow-cross-harness-agent-implementation-plan.md`
+- `docs/agent/human-release-review.md`
+- `reports/human-release-review.json`
+
+# Inputs
+
+- A non-synthetic story seed and artifacts the reviewer is authorized to use.
+- Complete lifecycle evidence through `revision-passes`.
+- Native and deterministic conformance reports.
+
+# Constraints
+
+- The agent cannot act as the authorized human reviewer.
+- Do not expose private story material in framework reports.
+- Stable-release approval does not authorize external publication.
+- Preserve artifact provenance and checkpoint decisions.
+
+# Deliverables
+
+- Completed `reports/human-release-review.json`.
+- Reviewer evidence for every literary and operational criterion.
+- Explicit stable-release decision.
+
+# Acceptance Criteria
+
+- [ ] A non-synthetic lifecycle reaches `revision-passes`.
+- [ ] Every literary criterion has a score and concrete evidence.
+- [ ] Every operational criterion has a score and concrete evidence.
+- [ ] No unresolved P0/P1 finding remains.
+- [ ] Reviewer name, role, and timestamp are recorded.
+- [ ] Stable-release approval is explicit.
+- [ ] `npm run agents:test:human-review` passes.
+
+# Verification
+
+```bash
+npm run agents:test:human-review
+npm run agents:verify
+```
+
+# Evidence
+
+- `reports/human-release-review.json`
+- Reviewer-authorized lifecycle artifact root.
+
+# Rollback
+
+Set the review status back to `changes-requested` or `pending`, clear release
+approval, and preserve the review evidence for the next revision.
+
+# Handoff
+
+Regenerate release evidence and acceptance audit. External publication remains
+separately approval-gated.

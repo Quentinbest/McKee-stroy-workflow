@@ -10,7 +10,8 @@
     "generatedDrift": "passed",
     "security": "passed",
     "cleanCheckout": "passed",
-    "humanLiteraryReview": "pending"
+    "humanLiteraryReview": "pending",
+    "humanOperationalReview": "pending"
   },
   "artifacts": {
     "generatedManifest": {
@@ -19,7 +20,7 @@
     },
     "completionReport": {
       "path": "reports/completion-report.json",
-      "sha256": "09d17deebae61b4d327df024d2b421bed26094c33603dd358ac9c3873ce93faf"
+      "sha256": "e384ed92d099a60b258e07218a0787b17e507b63eb250b09221d3cf5702d5c0a"
     },
     "conformanceReport": {
       "path": "reports/conformance-pilots.json",

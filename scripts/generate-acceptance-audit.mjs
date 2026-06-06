@@ -12,6 +12,9 @@ const completion = JSON.parse(
 const nativeConformance = JSON.parse(
   readFileSync(join(root, "reports/native-conformance-pilots.json"), "utf8"),
 );
+const humanReview = JSON.parse(
+  readFileSync(join(root, "reports/human-release-review.json"), "utf8"),
+);
 const phases = [
   ["0", ["docs/agent/inventory.md", "docs/agent/migration-risk-register.md"]],
   ["1", ["src/source-provenance.json", "src/skills", "src/roles"]],
@@ -59,12 +62,12 @@ const audit = {
     securityApprovalFlow: "passed-native-three-harnesses",
     generatedDrift: "passed",
     frameworkTests: completion.status,
-    humanStoryQualityAndOperationalReview: conformance.humanEvaluation.status,
+    humanStoryQualityAndOperationalReview: humanReview.status,
   },
   conclusion: (
     nativeConformance.status !== "passed"
       ? "native-conformance-and-human-gates-pending"
-      : conformance.humanEvaluation.status === "complete"
+      : humanReview.status === "approved"
       ? "stable-release-eligible"
       : "technical-plan-implemented-stable-release-awaits-human-gate"
   ),

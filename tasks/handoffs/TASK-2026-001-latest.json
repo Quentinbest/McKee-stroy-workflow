@@ -9,22 +9,30 @@
     "desktop and mobile HTML verification passed",
     "repository-state resume and delegation tests passed",
     "25 repository-level cross-harness pilot combinations passed",
-    "release governance and requirement-by-requirement audit completed"
+    "Pi, OpenCode, and Codex native pilots externally verified",
+    "human release-review protocol and evidence schema prepared"
   ],
-  "currentState": "1.0.0-rc.1 is technically complete and awaiting human release gates",
-  "nextAction": "Run a non-synthetic story lifecycle and record human literary quality and usability review",
+  "currentState": "1.0.0-rc.1 is blocked by Claude authentication and authorized human release gates",
+  "nextAction": "Repair or approve the Claude exception, then execute TASK-2026-003 with a reviewer-authorized non-synthetic story",
   "files": [
     "docs/agent/current-state.md",
     "tasks/TASK-2026-001.state.json",
-    "reports/completion-report.json"
+    "reports/completion-report.json",
+    "reports/native-conformance-pilots.json",
+    "reports/human-release-review.json",
+    "docs/agent/human-release-review.md"
   ],
   "evidence": [
     "npm run agents:verify",
     "clean detached worktree verification"
   ],
   "risks": [
-    "Native Cursor CLI is unavailable; deterministic smoke is the current fallback",
+    "Claude Code reports a valid Pro login but model requests fail with HTTP 401",
+    "Native Cursor CLI is unavailable; deterministic smoke is the approved fallback",
     "Stable release is blocked on subjective story quality and operational usability review"
   ],
-  "blockers": []
+  "blockers": [
+    "Claude authentication requires external account repair or explicit exception approval",
+    "Human review requires an authorized reviewer and a non-synthetic story they are authorized to use"
+  ]
 }
