@@ -1,0 +1,582 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-06",
+  "entries": [
+    {
+      "id": "act-designer",
+      "kind": "skill",
+      "legacyPath": "skills/act-designer/SKILL.md",
+      "canonicalPath": "src/skills/act-designer/SKILL.md",
+      "legacySha256": "563cf24f641f913c9c823b7166a88ab44f1d3d045caca4e1fc3fe5735f13292f",
+      "canonicalSha256": "4cb1180f972966184927e34fab11f096d2d2aaca6c9d6fb17860da144e2e93f9",
+      "classification": "public"
+    },
+    {
+      "id": "arc-tracer",
+      "kind": "skill",
+      "legacyPath": "skills/arc-tracer/SKILL.md",
+      "canonicalPath": "src/skills/arc-tracer/SKILL.md",
+      "legacySha256": "059d7b3b98fb009ef0c3ffe48f1df555e16ef23aca5d640844ce9ea9962c6cf4",
+      "canonicalSha256": "0b263887e31e05dc61efe0622c467d47636c7bc637d3e42376044cf0698e2110",
+      "classification": "public"
+    },
+    {
+      "id": "composition-conductor",
+      "kind": "skill",
+      "legacyPath": "skills/composition-conductor/SKILL.md",
+      "canonicalPath": "src/skills/composition-conductor/SKILL.md",
+      "legacySha256": "8f3d1295a9d6b2a1b1617212243aa8d67bd61dc018152a61cdc94b198140b350",
+      "canonicalSha256": "9833d58394a5afff30b76c256b0568d6827eb522f1b627cc55467882947f9561",
+      "classification": "public"
+    },
+    {
+      "id": "controlling-idea-architect",
+      "kind": "skill",
+      "legacyPath": "skills/controlling-idea-architect/SKILL.md",
+      "canonicalPath": "src/skills/controlling-idea-architect/SKILL.md",
+      "legacySha256": "d0c9bcc2aa51249080f2b0fa492361d377707bf495e79048d110fc401656ea34",
+      "canonicalSha256": "314191b9944824fff3e197d306ec42e8221b3d35ef26d5dd68f91b86e4100f3e",
+      "classification": "public"
+    },
+    {
+      "id": "exposition-smuggler",
+      "kind": "skill",
+      "legacyPath": "skills/exposition-smuggler/SKILL.md",
+      "canonicalPath": "src/skills/exposition-smuggler/SKILL.md",
+      "legacySha256": "b0dd7e597aa1bedb19d197d404d8801bb38e5fc87620dca7ea142e54eecaab5d",
+      "canonicalSha256": "2a0507f776a9ad1f749e742ea26c9205e837755f3a97643474e8184edd0f8092",
+      "classification": "public"
+    },
+    {
+      "id": "key-image-curator",
+      "kind": "skill",
+      "legacyPath": "skills/key-image-curator/SKILL.md",
+      "canonicalPath": "src/skills/key-image-curator/SKILL.md",
+      "legacySha256": "acca70a689a8ee003ab46559590d5f89e00b55e6d8b0e6b27b3f94a799579ca3",
+      "canonicalSha256": "7785faa95c133874a57cff80c8bc2353aa796c6734cf9fb38eaa4ea123ff20d0",
+      "classification": "public"
+    },
+    {
+      "id": "mck-arc-walk",
+      "kind": "skill",
+      "legacyPath": "skills/mck-arc-walk/SKILL.md",
+      "canonicalPath": "src/skills/mck-arc-walk/SKILL.md",
+      "legacySha256": "58b24bbdafa0828bc4767f867ba4c65f056458ecf29765b93262b3d06a27c85e",
+      "canonicalSha256": "cf3d733935cc545b81cd8f0c349a558c8b74e51e00c00277bf99773c1e454e84",
+      "classification": "public"
+    },
+    {
+      "id": "mck-beat-to-prose",
+      "kind": "skill",
+      "legacyPath": "skills/mck-beat-to-prose/SKILL.md",
+      "canonicalPath": "src/skills/mck-beat-to-prose/SKILL.md",
+      "legacySha256": "482e364de96492136816464f2d3a1576e57103a9843309cd8e00ee056d870373",
+      "canonicalSha256": "0d632ba0858d7be9bbbaada1ebb6cd8cc1544326f2e9a1c8d710013c3115fa73",
+      "classification": "public"
+    },
+    {
+      "id": "mck-controlling-idea",
+      "kind": "skill",
+      "legacyPath": "skills/mck-controlling-idea/SKILL.md",
+      "canonicalPath": "src/skills/mck-controlling-idea/SKILL.md",
+      "legacySha256": "5c6cad271be0306a367170686ad32349e374288c913ef61e2c7c53328d2f605d",
+      "canonicalSha256": "13ca1159d5392e277a3a12dc0e22a77561fa6770738c53fdb677a4c072c15428",
+      "classification": "public"
+    },
+    {
+      "id": "mck-crisis-dilemma",
+      "kind": "skill",
+      "legacyPath": "skills/mck-crisis-dilemma/SKILL.md",
+      "canonicalPath": "src/skills/mck-crisis-dilemma/SKILL.md",
+      "legacySha256": "1fd2854c96ab3c5f3867a47bb86970de11c5a054ca23b76c68131d66d1323220",
+      "canonicalSha256": "bcc569812177cc4cbfdb635711491262d02186e9932ffa4c47ba8d6619ef6619",
+      "classification": "public"
+    },
+    {
+      "id": "mck-exposition-ammo",
+      "kind": "skill",
+      "legacyPath": "skills/mck-exposition-ammo/SKILL.md",
+      "canonicalPath": "src/skills/mck-exposition-ammo/SKILL.md",
+      "legacySha256": "29fcd9b0d4a5b5ed1fbbda60867698e5e4056bc3d37764a12416b6822385a2be",
+      "canonicalSha256": "c68ef0bee62a5402eb2a0775156686fb95c5a10972dbf683c46e072a650df2e7",
+      "classification": "public"
+    },
+    {
+      "id": "mck-gap-find",
+      "kind": "skill",
+      "legacyPath": "skills/mck-gap-find/SKILL.md",
+      "canonicalPath": "src/skills/mck-gap-find/SKILL.md",
+      "legacySha256": "685b53e77659ac85813abc66e0aea5fb28a96d7a5403a69746036e42a180dfdc",
+      "canonicalSha256": "0e6474d809dd8a0c9d5eaf755f84b4432f7aa9dd213b13f8b719eae45e50683f",
+      "classification": "public"
+    },
+    {
+      "id": "mck-honesty",
+      "kind": "skill",
+      "legacyPath": "skills/mck-honesty/SKILL.md",
+      "canonicalPath": "src/skills/mck-honesty/SKILL.md",
+      "legacySha256": "95fed2069a76171e9e9c166d47f41ff9203e12b03ecc78e9e9c52c9361b54c30",
+      "canonicalSha256": "44b5f0ea099a28549ff7b4386ecb88aa2d4a03d97373c7c66cb2becd39395b05",
+      "classification": "public"
+    },
+    {
+      "id": "mck-image-thread",
+      "kind": "skill",
+      "legacyPath": "skills/mck-image-thread/SKILL.md",
+      "canonicalPath": "src/skills/mck-image-thread/SKILL.md",
+      "legacySha256": "55b90640ca295159b65358309429207f0b4b3f52e50f4e59047ab5c60bca8738",
+      "canonicalSha256": "48892fc3ef3d834f1fac25ce83ff34d39e13b11a72b16a3f950b666909d4849d",
+      "classification": "public"
+    },
+    {
+      "id": "mck-negation-of-negation",
+      "kind": "skill",
+      "legacyPath": "skills/mck-negation-of-negation/SKILL.md",
+      "canonicalPath": "src/skills/mck-negation-of-negation/SKILL.md",
+      "legacySha256": "7b91be02221313fd24d496a859deb911a99f6d303fb078a8001c321ab2bbde16",
+      "canonicalSha256": "83dc5af5931674254733bf58fa217a63cb64fa161b533afe20b83f5784288fe1",
+      "classification": "public"
+    },
+    {
+      "id": "mck-setup-payoff",
+      "kind": "skill",
+      "legacyPath": "skills/mck-setup-payoff/SKILL.md",
+      "canonicalPath": "src/skills/mck-setup-payoff/SKILL.md",
+      "legacySha256": "93bd1f256cbd197bfc2a8b491d55139e28caae090c67183028c0a5281cd22a6a",
+      "canonicalSha256": "8041c0467d280321bff1d8c272c9487d472793ed191a5453ef2c2408ab92df30",
+      "classification": "public"
+    },
+    {
+      "id": "mck-specificity-forge",
+      "kind": "skill",
+      "legacyPath": "skills/mck-specificity-forge/SKILL.md",
+      "canonicalPath": "src/skills/mck-specificity-forge/SKILL.md",
+      "legacySha256": "dff5e07f5ab8b81a01377259d9d8ef7faa82cb2f6742ddf075d4bd5818e099ae",
+      "canonicalSha256": "039bb090b29ddcd7bd54b2a4f99ad7e44e8ff17bef57f691707e1e1c52f7c707",
+      "classification": "public"
+    },
+    {
+      "id": "mck-subtext-5layer",
+      "kind": "skill",
+      "legacyPath": "skills/mck-subtext-5layer/SKILL.md",
+      "canonicalPath": "src/skills/mck-subtext-5layer/SKILL.md",
+      "legacySha256": "e1ad7496f00a1686bed5f05cc9315b3156e8c92be0b6a8632251fc4557bcb6c3",
+      "canonicalSha256": "df076a112d4f67ac9eb3600d10aeeb54c1e14ec1aa0a567375a7bb6626f96a1d",
+      "classification": "public"
+    },
+    {
+      "id": "mck-surprise-plant",
+      "kind": "skill",
+      "legacyPath": "skills/mck-surprise-plant/SKILL.md",
+      "canonicalPath": "src/skills/mck-surprise-plant/SKILL.md",
+      "legacySha256": "0f7f16b35566c8e5526a6e0d5ec0e3ada8995253b074e690b89554bc614ff190",
+      "canonicalSha256": "ba65fee346654dd758a47b853a7a029f263e368994516266b413ac7e09d43f8f",
+      "classification": "public"
+    },
+    {
+      "id": "mck-voice-first",
+      "kind": "skill",
+      "legacyPath": "skills/mck-voice-first/SKILL.md",
+      "canonicalPath": "src/skills/mck-voice-first/SKILL.md",
+      "legacySha256": "32997b3e7863fd457963f4559d87443252013a355839510d5f9c4800c459b94a",
+      "canonicalSha256": "c232403741cf9d5fb1225bc37dc0c0d3d0d25dcfbafc90f18041009aae5fc7e3",
+      "classification": "public"
+    },
+    {
+      "id": "story-act",
+      "kind": "skill",
+      "legacyPath": "skills/story-act/SKILL.md",
+      "canonicalPath": "src/skills/story-act/SKILL.md",
+      "legacySha256": "150aba893f0f1d5340ee1d35517b0f59c0087f04f4da85ced4b148e5c2dd804d",
+      "canonicalSha256": "440bde9f0e93530f22cd34ffee51077626d9756f7c860713ca0f5202d50958cd",
+      "classification": "public"
+    },
+    {
+      "id": "story-audit",
+      "kind": "skill",
+      "legacyPath": "skills/story-audit/SKILL.md",
+      "canonicalPath": "src/skills/story-audit/SKILL.md",
+      "legacySha256": "fc132c77a31366ca183b8d6b93f5ce8fabec8ac8d1066de13e18499cdcec54f6",
+      "canonicalSha256": "890efa64f9ba2446253dbcac49f7fd2edd5f237c7cb2dcb82996cf9f23de4c10",
+      "classification": "public"
+    },
+    {
+      "id": "story-cast",
+      "kind": "skill",
+      "legacyPath": "skills/story-cast/SKILL.md",
+      "canonicalPath": "src/skills/story-cast/SKILL.md",
+      "legacySha256": "3ac32b544056a3c2b4755059d487f53fac2a9ea7c6e050e8721b1770ac7d82c4",
+      "canonicalSha256": "681612a121f087a50214276f1c44fe43984d1bd1dd0b7af133daa96d9526376e",
+      "classification": "public"
+    },
+    {
+      "id": "story-new",
+      "kind": "skill",
+      "legacyPath": "skills/story-new/SKILL.md",
+      "canonicalPath": "src/skills/story-new/SKILL.md",
+      "legacySha256": "81f998a9fd19bdeec45a6858ec02c9a2a68ed16bca6ce66e7b0612a83ff8c09f",
+      "canonicalSha256": "fa3884aa6448b98ecfb5fa90c26a48fa04d03e9c53d8383f4627f23d67f6470a",
+      "classification": "public"
+    },
+    {
+      "id": "story-persona",
+      "kind": "skill",
+      "legacyPath": "skills/story-persona/SKILL.md",
+      "canonicalPath": "src/skills/story-persona/SKILL.md",
+      "legacySha256": "b7b3269c42245b44bf0de59f817d4933cd62272c4d7e78e91322ed061ebed901",
+      "canonicalSha256": "e0852b02654897c74ac207f7f269817dd6739ae53a29533650300bfe2bf910a8",
+      "classification": "public"
+    },
+    {
+      "id": "story-premise",
+      "kind": "skill",
+      "legacyPath": "skills/story-premise/SKILL.md",
+      "canonicalPath": "src/skills/story-premise/SKILL.md",
+      "legacySha256": "2b5132904982e2d4aaf8ae54966d28de4e68bc6a288ef96147d21ea82fc82949",
+      "canonicalSha256": "c0ffcaf6902fce66d33ace25fe0d2992984b1c219117aae8186cfac28f46e644",
+      "classification": "public"
+    },
+    {
+      "id": "story-publish",
+      "kind": "skill",
+      "legacyPath": "skills/story-publish/SKILL.md",
+      "canonicalPath": "src/skills/story-publish/SKILL.md",
+      "legacySha256": "2bb76811bc77a086f51b360b86a1cb11e8fe008d3a0f3bef0f0f1e6c41ae0637",
+      "canonicalSha256": "d6862c4ceb6f8a3f1532734e2f2ceed180de47a2a7ed878dd85a9a4eaf523d91",
+      "classification": "public"
+    },
+    {
+      "id": "story-revise",
+      "kind": "skill",
+      "legacyPath": "skills/story-revise/SKILL.md",
+      "canonicalPath": "src/skills/story-revise/SKILL.md",
+      "legacySha256": "5608a30507ad456f765e2f433bb77f4b71f8c4b1a433115307c00c3c18685005",
+      "canonicalSha256": "011b52c5c1f064745281fd4227a965099d38c87b7f8dbfe5745c613ea2b0dea4",
+      "classification": "public"
+    },
+    {
+      "id": "story-scene",
+      "kind": "skill",
+      "legacyPath": "skills/story-scene/SKILL.md",
+      "canonicalPath": "src/skills/story-scene/SKILL.md",
+      "legacySha256": "fafbb6df627669ccd603520f1cc4b634c5b468d6ecd365ec55614bef9c3adf23",
+      "canonicalSha256": "dfed82ac7fe2de42e4e16a6882c604defa7dbf5ed7b9995393880923b8bb29a4",
+      "classification": "public"
+    },
+    {
+      "id": "story-spine",
+      "kind": "skill",
+      "legacyPath": "skills/story-spine/SKILL.md",
+      "canonicalPath": "src/skills/story-spine/SKILL.md",
+      "legacySha256": "230d61e6264ae00471d77ffdfbfa7ca7bbeca5229f258a53b00cf43653e16170",
+      "canonicalSha256": "38cba37d06b65fdcb7f643c5363a376a9a619f7ca8170e505608abfd1ab6f399",
+      "classification": "public"
+    },
+    {
+      "id": "story-status",
+      "kind": "skill",
+      "legacyPath": "skills/story-status/SKILL.md",
+      "canonicalPath": "src/skills/story-status/SKILL.md",
+      "legacySha256": "6a8882abf60337d6bb9af0c8ad69677f976c78a13913794281353e1ef6ab89f0",
+      "canonicalSha256": "978fcd817f434cfee528976e27095fd4e221920fa50d80a97b84226bac1a743d",
+      "classification": "public"
+    },
+    {
+      "id": "story-stop-loss",
+      "kind": "skill",
+      "legacyPath": "skills/story-stop-loss/SKILL.md",
+      "canonicalPath": "src/skills/story-stop-loss/SKILL.md",
+      "legacySha256": "22fd2396adc40e0834a50a65808cf6735297debd8db43f19c27056368cdec55c",
+      "canonicalSha256": "b146f8bfcdf96520ca7b3634898a73b62b867904c6d5d2cf0445ce95ada73bbc",
+      "classification": "public"
+    },
+    {
+      "id": "story-tournament",
+      "kind": "skill",
+      "legacyPath": "skills/story-tournament/SKILL.md",
+      "canonicalPath": "src/skills/story-tournament/SKILL.md",
+      "legacySha256": "a01b65a5178d2ba76bd6debbb1fdcaa15a5afa667ff4eda0c08742508016e595",
+      "canonicalSha256": "471b053d894c0ed3dba36b1e205f1b8e572a394466d2bcc5a7bb3e146ebf6a46",
+      "classification": "public"
+    },
+    {
+      "id": "wiki-librarian",
+      "kind": "skill",
+      "legacyPath": "skills/wiki-librarian/SKILL.md",
+      "canonicalPath": "src/skills/wiki-librarian/SKILL.md",
+      "legacySha256": "f92a761fe3c52f2a894d9ca2b6bd654de5db991128ecb8b442ad792edecacf55",
+      "canonicalSha256": "6360576e49a2e95ab74ec1eb6c559bacb34ebd33163be432b957d73b72b4934b",
+      "classification": "public"
+    },
+    {
+      "id": "act-designer",
+      "kind": "role",
+      "legacyPath": "agents/act-designer.md",
+      "canonicalPath": "src/roles/act-designer.md",
+      "legacySha256": "3a0ae3c22dc5a99ac063110bc62504c5840232bb5a676de02961895ea25d0b0d",
+      "canonicalSha256": "5ff21d1d45fcda8bc2ad25de5e5220b3f38a5d66dc51d509a766b89de1c5c8a5",
+      "classification": "public"
+    },
+    {
+      "id": "antagonism-stress-tester",
+      "kind": "role",
+      "legacyPath": "agents/antagonism-stress-tester.md",
+      "canonicalPath": "src/roles/antagonism-stress-tester.md",
+      "legacySha256": "585d8fd76c4753d970fec073a7b3af11ebc8826d73e10c21042a7ec71191e4ae",
+      "canonicalSha256": "c15bbf3a9777a6e9382ad78023207b2f7b59e66f5a356991bdb019df93ceb65d",
+      "classification": "public"
+    },
+    {
+      "id": "arc-tracer",
+      "kind": "role",
+      "legacyPath": "agents/arc-tracer.md",
+      "canonicalPath": "src/roles/arc-tracer.md",
+      "legacySha256": "c22b340a64c9c94ad08b169f2503b6ca87f9f318f3ba1e3ded1fe8ca5af332e8",
+      "canonicalSha256": "1d2dffb156d504ade5ecf2526e376a602c9925526c9dd6ca8b542de397ee0364",
+      "classification": "public"
+    },
+    {
+      "id": "beat-miner",
+      "kind": "role",
+      "legacyPath": "agents/beat-miner.md",
+      "canonicalPath": "src/roles/beat-miner.md",
+      "legacySha256": "9a20dba4740c038c934e6238d1568be6c28122975a0c5493fca861458a7ee965",
+      "canonicalSha256": "656d87ac913f745a34699e7cf07ddb86e5b222fbbf894baa0c8b3b02493a1edb",
+      "classification": "public"
+    },
+    {
+      "id": "cast-balancer",
+      "kind": "role",
+      "legacyPath": "agents/cast-balancer.md",
+      "canonicalPath": "src/roles/cast-balancer.md",
+      "legacySha256": "1257cb56438b688d5029ed7e281b7ef491c4469a24fb489ec2d4d0a79bcd8a9b",
+      "canonicalSha256": "ed9afb95eb1d8d4dbec460cc70fed23eb45a9ce32ffeefa268e6104f080455b5",
+      "classification": "public"
+    },
+    {
+      "id": "character-forger",
+      "kind": "role",
+      "legacyPath": "agents/character-forger.md",
+      "canonicalPath": "src/roles/character-forger.md",
+      "legacySha256": "c58c23614b0e0badefd5944e361e5f99e504fb32287b3401c730c30fa7b07d57",
+      "canonicalSha256": "b3411f65541c6f472135d3884e6e278eeaa283e339591d0e785c801fe887ae33",
+      "classification": "public"
+    },
+    {
+      "id": "cliche-hunter",
+      "kind": "role",
+      "legacyPath": "agents/cliche-hunter.md",
+      "canonicalPath": "src/roles/cliche-hunter.md",
+      "legacySha256": "68070206b96b37120213ff909af481d6822466cd2cadc3297abc5b3da121ffb7",
+      "canonicalSha256": "0bb430d961c529eeff0fe9fa3aeb7f939fe841f7b935395499c589da524755a4",
+      "classification": "public"
+    },
+    {
+      "id": "composition-conductor",
+      "kind": "role",
+      "legacyPath": "agents/composition-conductor.md",
+      "canonicalPath": "src/roles/composition-conductor.md",
+      "legacySha256": "01af13f526a0a1ce9f6d14e5d318021f76bcd2b90dcdc467d66de0e92751224a",
+      "canonicalSha256": "033376452f7f6becfeb8bc52b008c76ea557facc70dd0b6f2e0d1fdae4b5822f",
+      "classification": "public"
+    },
+    {
+      "id": "continuity-supervisor",
+      "kind": "role",
+      "legacyPath": "agents/continuity-supervisor.md",
+      "canonicalPath": "src/roles/continuity-supervisor.md",
+      "legacySha256": "5e98b559f74d1c41308ea83b11e568ee2dc0cf116aea51123d85ebe7a2c60c51",
+      "canonicalSha256": "dbc106595e070e3bb407775215e794e1295d1fafe38dfb439b459380661c60a6",
+      "classification": "public"
+    },
+    {
+      "id": "controlling-idea-architect",
+      "kind": "role",
+      "legacyPath": "agents/controlling-idea-architect.md",
+      "canonicalPath": "src/roles/controlling-idea-architect.md",
+      "legacySha256": "f37ac515be36df609ca6e58f0ff42d72bac3b36109c25ca93716f93a15ea6750",
+      "canonicalSha256": "a80ac8477823ed4635e67d494ecc6df742cd81aa2da4c5a972d1e9e3ebfcd410",
+      "classification": "public"
+    },
+    {
+      "id": "crisis-climax-auditor",
+      "kind": "role",
+      "legacyPath": "agents/crisis-climax-auditor.md",
+      "canonicalPath": "src/roles/crisis-climax-auditor.md",
+      "legacySha256": "672a8c0ec618f6358136f2ebd177f1b1ada2cf7f90b55b722ffca63821ef1739",
+      "canonicalSha256": "2e54550ed1acc46ed8a21438fc18eede0b611810aeaafd64758de5339f472572",
+      "classification": "public"
+    },
+    {
+      "id": "exposition-smuggler",
+      "kind": "role",
+      "legacyPath": "agents/exposition-smuggler.md",
+      "canonicalPath": "src/roles/exposition-smuggler.md",
+      "legacySha256": "c19cf9ef80a161180ab3ad701364682e4c184d08072f2f35bd4586599b6663e4",
+      "canonicalSha256": "f7f992db43ccd316586b92749b2a7446a0d98259af54d097914bb76aa102f65a",
+      "classification": "public"
+    },
+    {
+      "id": "genre-cartographer",
+      "kind": "role",
+      "legacyPath": "agents/genre-cartographer.md",
+      "canonicalPath": "src/roles/genre-cartographer.md",
+      "legacySha256": "dbf35894cc6cd3e601a1ca22f63dcc4fb02c7aab023769a644371cd43d6a45aa",
+      "canonicalSha256": "f924d3593709e8c4df9762635c4dc602082f2683807ad599ebd0c1c0860e14b4",
+      "classification": "public"
+    },
+    {
+      "id": "key-image-curator",
+      "kind": "role",
+      "legacyPath": "agents/key-image-curator.md",
+      "canonicalPath": "src/roles/key-image-curator.md",
+      "legacySha256": "12805a506389fd13e793160f421a15836d8e61a336e643311a9ad4a1031a41e8",
+      "canonicalSha256": "8121dfd611dd6274a1ce1c1d4b9b7f096495de9076add4f0619c9cbcd59b4b85",
+      "classification": "public"
+    },
+    {
+      "id": "pacing-analyst",
+      "kind": "role",
+      "legacyPath": "agents/pacing-analyst.md",
+      "canonicalPath": "src/roles/pacing-analyst.md",
+      "legacySha256": "a496f9898ef5e3b4d599767d601f1e22065f235f9b985078e4e91125c7a86fd0",
+      "canonicalSha256": "ae3f744e5968dd7914141d94706849030f268d3fd0ea7d8460c97ceb68c06d98",
+      "classification": "public"
+    },
+    {
+      "id": "premise-prospector",
+      "kind": "role",
+      "legacyPath": "agents/premise-prospector.md",
+      "canonicalPath": "src/roles/premise-prospector.md",
+      "legacySha256": "b3b06b047eab47a6eaf751e1aee3c24adcb6e25674bf99f31da894064763e4fa",
+      "canonicalSha256": "f6564de29038f0721485ac65deb3f4cae044295a6673f75b28352ea227957c75",
+      "classification": "public"
+    },
+    {
+      "id": "prose-drafter",
+      "kind": "role",
+      "legacyPath": "agents/prose-drafter.md",
+      "canonicalPath": "src/roles/prose-drafter.md",
+      "legacySha256": "413f297bd40a67b09bf7002c86054a1a0dfdf80c8a5a24140958987bfecbdd19",
+      "canonicalSha256": "248a0f709fb8a2c873dd7c0d2499a1819ec81dee735c0a5b4053d49ad29d2ee1",
+      "classification": "public"
+    },
+    {
+      "id": "reader-simulator",
+      "kind": "role",
+      "legacyPath": "agents/reader-simulator.md",
+      "canonicalPath": "src/roles/reader-simulator.md",
+      "legacySha256": "d390986405f792df8ac5e569a58eb931a8c72ace328c46673a9209d2803e1e5d",
+      "canonicalSha256": "59ffba8f95264acfff14b3317f718458763119c2a728dbd894a414b82c9f651b",
+      "classification": "public"
+    },
+    {
+      "id": "scene-architect",
+      "kind": "role",
+      "legacyPath": "agents/scene-architect.md",
+      "canonicalPath": "src/roles/scene-architect.md",
+      "legacySha256": "da2f5afd18b47406c2b58a810d5a4a9321815b06dc930f51f267015dacbd15b9",
+      "canonicalSha256": "abb0727542b9f8669d71717a950bf46bf75a88e43732208af21ab1e36da0d804",
+      "classification": "public"
+    },
+    {
+      "id": "setting-surveyor",
+      "kind": "role",
+      "legacyPath": "agents/setting-surveyor.md",
+      "canonicalPath": "src/roles/setting-surveyor.md",
+      "legacySha256": "24c7b63412e234020437c5fa04c38a555383027ccce941fcb92279ba0c67c32b",
+      "canonicalSha256": "8b14ff55cdb0033f2b243a5cb77f6da1d91343975bf904f60340fd2d1b218045",
+      "classification": "public"
+    },
+    {
+      "id": "specificity-auditor",
+      "kind": "role",
+      "legacyPath": "agents/specificity-auditor.md",
+      "canonicalPath": "src/roles/specificity-auditor.md",
+      "legacySha256": "c4ac5f69ab5e2629f13faa4a3a4930b6d4d1e6ddb857c1ded637e47eb0c54e42",
+      "canonicalSha256": "8171c8ddcf0b8d735dd3d495b7144c502ccf6d748b6245a0b741f6ba60ce966a",
+      "classification": "public"
+    },
+    {
+      "id": "structure-skeleton",
+      "kind": "role",
+      "legacyPath": "agents/structure-skeleton.md",
+      "canonicalPath": "src/roles/structure-skeleton.md",
+      "legacySha256": "092e8bc2f5e8918064670c73a6e3c36ed7fbd0da5c04027eaef02fd871bb3892",
+      "canonicalSha256": "bac6d5d62649fc5c76da8d84c02c5cbdddbdc89520a63d8e973317f45bcce0f0",
+      "classification": "public"
+    },
+    {
+      "id": "subtext-whisperer",
+      "kind": "role",
+      "legacyPath": "agents/subtext-whisperer.md",
+      "canonicalPath": "src/roles/subtext-whisperer.md",
+      "legacySha256": "830cbdc7aa4778292b9de589941821c046ea06eb5fbd92f4bcd3495fa65355ae",
+      "canonicalSha256": "ad453291d840532f7a07e40ffe19e63994b927b850fa9e9cfda772d197cb4a1f",
+      "classification": "public"
+    },
+    {
+      "id": "surprise-auditor",
+      "kind": "role",
+      "legacyPath": "agents/surprise-auditor.md",
+      "canonicalPath": "src/roles/surprise-auditor.md",
+      "legacySha256": "d33b154d8dad66a428c96dfdee739d26be960bd7257912079f4623d3ac05d91e",
+      "canonicalSha256": "0eb586bbc65eb6141347bd048f0ef89e0c6916fde33c6329de3ecb0138362c4a",
+      "classification": "public"
+    },
+    {
+      "id": "tournament-judge",
+      "kind": "role",
+      "legacyPath": "agents/tournament-judge.md",
+      "canonicalPath": "src/roles/tournament-judge.md",
+      "legacySha256": "57f05c6d919e20c85e0a773d18fbcdc431fefbd3e0dea1b5f3111901cd82afba",
+      "canonicalSha256": "79cf501be2713d76df025615b21d9a2f623f3f3e0cdcbefa701c2217c3f596c1",
+      "classification": "public"
+    },
+    {
+      "id": "voice-drift-detector",
+      "kind": "role",
+      "legacyPath": "agents/voice-drift-detector.md",
+      "canonicalPath": "src/roles/voice-drift-detector.md",
+      "legacySha256": "8c8f1f987a15d6aededb6d3383549e3a368b461aacf67971b9844e047a0159c5",
+      "canonicalSha256": "6d97a4357b3cc6ba8272257aca2930c303306c525ad6ecf77f6a80af6b8f2aae",
+      "classification": "public"
+    },
+    {
+      "id": "wiki-librarian",
+      "kind": "role",
+      "legacyPath": "agents/wiki-librarian.md",
+      "canonicalPath": "src/roles/wiki-librarian.md",
+      "legacySha256": "8563c6b1bc693238a0e9643a24a3857a6a609e43da7a0e9008a3a4d1aa244994",
+      "canonicalSha256": "e39e5d60e8e16bf472c6a5d4619b93457dd187fdd65f693076db83462b1c28d9",
+      "classification": "public"
+    },
+    {
+      "id": "lifecycle.json",
+      "kind": "template",
+      "legacyPath": "templates/lifecycle.json",
+      "canonicalPath": "src/templates/lifecycle.json",
+      "legacySha256": "87beff2c27a577f94841fb38a9650c010a25914722262980a94e091ad8cc1e64",
+      "canonicalSha256": "87beff2c27a577f94841fb38a9650c010a25914722262980a94e091ad8cc1e64",
+      "classification": "public"
+    },
+    {
+      "id": "persona.md",
+      "kind": "template",
+      "legacyPath": "templates/persona.md",
+      "canonicalPath": "src/templates/persona.md",
+      "legacySha256": "8730a337e707b7646be967b9b9bf364b8a174526b40cf079b3eb70bca82c839b",
+      "canonicalSha256": "8730a337e707b7646be967b9b9bf364b8a174526b40cf079b3eb70bca82c839b",
+      "classification": "public-template"
+    },
+    {
+      "id": "state.json",
+      "kind": "template",
+      "legacyPath": "templates/state.json",
+      "canonicalPath": "src/templates/state.json",
+      "legacySha256": "25aa0dc9df11d85400eca402719b41dfe7980356abf462ffb8ab232be51f8011",
+      "canonicalSha256": "25aa0dc9df11d85400eca402719b41dfe7980356abf462ffb8ab232be51f8011",
+      "classification": "public"
+    }
+  ]
+}

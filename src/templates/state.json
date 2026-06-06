@@ -1,0 +1,71 @@
+{
+  "_comment": "Project state DB — updated after every scene; queried before every scene by continuity-supervisor",
+  "slug": "{{slug}}",
+  "last_scene_completed": null,
+  "characters": {
+    "{{character_id}}": {
+      "display_name": "{{Character Name}}",
+      "current_scene": null,
+      "location": "{{initial location}}",
+      "knowledge": [
+        "{{facts this character knows at story opening}}"
+      ],
+      "possessions": [
+        "{{objects this character has at story opening}}"
+      ],
+      "relationships": {
+        "{{other_character_id}}": "{{relationship status: hostile/neutral/warm/intimate/complex}}"
+      },
+      "wound_active": true,
+      "current_desire": "{{active want at story opening — active verb phrase}}",
+      "current_value_charge": "+",
+      "scene_appearances": [],
+      "arc_progress": [
+        {
+          "scene": "{{act.scene}}",
+          "value": "{{+love (hidden) or -justice (denied) etc.}}",
+          "revelation": null
+        }
+      ]
+    }
+  },
+  "image_system": {
+    "{{motif_slug}}": {
+      "label": "{{Human-readable motif name}}",
+      "introduced": null,
+      "recurrences": [],
+      "payoff_planned": null,
+      "payoff_delivered": null,
+      "key_image": false
+    }
+  },
+  "setup_payoff_ledger": [
+    {
+      "element": "{{what was set up (object, reference, hint)}}",
+      "setup_scene": null,
+      "payoff_scene_planned": null,
+      "payoff_delivered": false,
+      "status": "planned"
+    }
+  ],
+  "world_state": {
+    "{{location_slug}}": {
+      "label": "{{Location Name}}",
+      "physical_state": "{{description of current state}}",
+      "last_modified_scene": null
+    }
+  },
+  "exposition_ledger": [
+    {
+      "fact": "{{information the audience needs}}",
+      "combat_mode": "{{concealment|extraction|weaponization|forced_revelation}}",
+      "scene_planned": null,
+      "scene_delivered": null,
+      "delivered": false
+    }
+  ],
+  "timeline": {
+    "story_start_date": "{{real or relative date}}",
+    "scene_timestamps": {}
+  }
+}

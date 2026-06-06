@@ -2,7 +2,7 @@
 
 Status date: 2026-06-06
 Plan version: 1.0
-Migration state: Phase 0 complete; Phase 1 next
+Migration state: Phase 1 complete; Phase 2 next
 
 ## Authority
 
@@ -44,7 +44,7 @@ The migration rollback point is the Git tag
 | Phase | State | Exit evidence |
 |---:|---|---|
 | 0 | complete | Inventory, mappings, compatibility baseline, ADR |
-| 1 | pending | Canonical source and provenance |
+| 1 | complete | Canonical source and provenance |
 | 2 | pending | Complete `docs/agent/` context |
 | 3 | pending | Instructions and task contracts |
 | 4 | pending | Skill, role, and artifact contracts |
