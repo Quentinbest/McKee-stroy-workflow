@@ -28,8 +28,10 @@ triggers:
 contract: {"purpose":"Convert backstory and information dumps into \"exposition as ammunition\" — every piece of information fired in a scene where someone is fighting to reveal it, conceal it, weaponize it, or extract it. Runs in main context for scene-by-scene exposition redesign. Use when a scene reads as \"talking heads\" or info-dump, or before committing any exposition-heavy scene to prose. Trigger: /exposition-smuggler, \"fix the exposition\", \"info dump\", \"talking heads\", \"exposition as ammunition\", \"smuggle the backstory\", \"hide the information\".","trigger":["/exposition-smuggler","exposition smuggler"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["structured response or task-scoped story artifact"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"exposition-smuggler:positive","negative":"exposition-smuggler:missing-trigger"}}
 generated: true
 source: src/skills/exposition-smuggler/SKILL.md
+source-version: 1.0.0
 source-sha256: 5f4c58daad5b6710b888e27002491923137498ee30acf71620d093d4cdb693c3
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Exposition Smuggler

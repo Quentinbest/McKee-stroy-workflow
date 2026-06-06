@@ -3,8 +3,10 @@ description: McKee Story Workflow canonical entry point
 alwaysApply: true
 generated: true
 source: AGENTS.md
+source-version: policy-1.0.0
 source-sha256: 2a2b2071774de2834bac44c4bb088c99d1018d869f0f488e06eb6628021628ed
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Canonical Workflow

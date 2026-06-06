@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Plan a single act's scene sequence — choosing how many scenes the act needs, where each sequence ends with a turning point, and how the act's rhythm escalates from its opening to its ending value flip. Use after the spine is locked, one act at a time. Produces scene cards for each scene in the act. Trigger: /story-act, \"plan act 1\", \"plan act 2\", \"design act {N}\", \"break act {N} into scenes\", \"scene sequence for act {N}\".","trigger":["/story-act","story act"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/spine.md","drafts/{slug}/scenes/{act}-{scene}.md","drafts/{slug}/state.json"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["continuity-supervisor","scene-architect","story-audit","story-scene"],"fixtures":{"positive":"story-act:positive","negative":"story-act:missing-trigger"}}
 generated: true
 source: src/skills/story-act/SKILL.md
+source-version: 1.0.0
 source-sha256: cd7488df7a0f34732210abf4cd29248fefb04fbacc3f10c1568455ba42f4d5d9
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Act Scene Planning

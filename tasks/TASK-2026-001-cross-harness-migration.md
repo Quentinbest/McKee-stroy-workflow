@@ -1,7 +1,7 @@
 ---
 id: TASK-2026-001
 title: Implement the cross-harness agent framework
-status: in_progress
+status: review
 priority: critical
 owner: codex
 created: 2026-06-06
@@ -66,10 +66,10 @@ Implement every phase and acceptance gate in the canonical cross-harness plan.
 # Acceptance Criteria
 
 - [ ] All Phase 0-10 deliverables and acceptance criteria pass.
-- [ ] Canonical and generated source is synchronized.
-- [ ] Full offline verification passes from a clean checkout.
-- [ ] Cross-harness exceptions and human evaluations are documented.
-- [ ] Final requirement-by-requirement evidence is recorded.
+- [x] Canonical and generated source is synchronized.
+- [x] Full offline verification passes from a clean checkout.
+- [x] Cross-harness exceptions and pending human evaluations are documented.
+- [x] Final requirement-by-requirement evidence is recorded.
 
 # Verification
 
@@ -79,7 +79,8 @@ npm run agents:verify
 
 # Evidence
 
-- Phase commits and `reports/completion-report.json`.
+- Phase commits, `reports/completion-report.json`,
+  `reports/conformance-pilots.json`, and `reports/acceptance-audit.json`.
 
 # Rollback
 

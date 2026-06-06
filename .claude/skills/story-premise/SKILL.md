@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Generate or lock a premise — the story's nucleus: who wants what against what opposition. Produces a slate of 3–5 candidates via the premise-prospector agent, walks the user through selection, and locks the Premise Card. Can also be used to iterate on an existing premise that isn't working. Trigger: /story-premise, \"generate a premise\", \"fix the premise\", \"what's the premise\", \"lock the premise\", \"premise slate\".","trigger":["/story-premise","story premise"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/lifecycle.json","drafts/{slug}/premise-card.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["genre-cartographer","mck-controlling-idea","premise-prospector","story-spine"],"fixtures":{"positive":"story-premise:positive","negative":"story-premise:missing-trigger"}}
 generated: true
 source: src/skills/story-premise/SKILL.md
+source-version: 1.0.0
 source-sha256: a6b2b2498246363ef741bf67c6d7f78a888c6b4f4bf8f57d1f43f16dcc310f65
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Premise Generation and Locking

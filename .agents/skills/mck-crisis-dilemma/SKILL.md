@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Sharpen a draft Crisis into a true dilemma — a choice between irreconcilable goods or the lesser of two evils, where no right answer exists without cost. McKee's Crisis is the story's \"Obligatory Scene\" where the protagonist faces their worst fear and must choose who they truly are. Use when the Crisis feels like a \"hard choice\" (obvious right answer) rather than a true dilemma. Trigger: /mck-crisis-dilemma, \"crisis design\", \"sharpen the dilemma\", \"climax choice\", \"the story's worst moment\", \"obligatory scene\".","trigger":["/mck-crisis-dilemma","mck crisis dilemma"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["structured response or task-scoped story artifact"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-crisis-dilemma:positive","negative":"mck-crisis-dilemma:missing-trigger"}}
 generated: true
 source: src/skills/mck-crisis-dilemma/SKILL.md
+source-version: 1.0.0
 source-sha256: 7a350eead13cf142245c68c22c4d86792c4e31a04804a6d4b0827e4a28159ab2
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Crisis-Dilemma Sharpening

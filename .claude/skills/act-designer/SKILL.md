@@ -28,8 +28,10 @@ triggers:
 contract: {"purpose":"Slice the spine into acts and sequences — choosing how many acts the story needs, where each act ends with an irreversible turning point, where any False Ending sits, and how the act rhythm escalates. Runs in main context for collaborative design. Use after structure-skeleton has locked the spine, before scene-architect begins building scenes. Trigger: /act-designer, \"design the acts\", \"how many acts\", \"act structure\", \"act rhythm\", \"where does act 1 end\", \"False Ending\", \"act design\".","trigger":["/act-designer","act designer"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/spine.md","drafts/{slug}/genre-contract.md","drafts/{slug}/controlling-idea.md","drafts/{slug}/act-design.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["story-act","story-audit"],"fixtures":{"positive":"act-designer:positive","negative":"act-designer:missing-trigger"}}
 generated: true
 source: src/skills/act-designer/SKILL.md
+source-version: 1.0.0
 source-sha256: 2a730347e9ccb041a8b15b00d31a05276bee5943d24dd0247f1f44948a96de42
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Act Designer — Act/Sequence Planning Skill

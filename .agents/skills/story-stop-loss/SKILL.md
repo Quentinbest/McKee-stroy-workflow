@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Stop-loss convergence protocol for any workflow skill that iterates on an artifact. Prevents infinite-revision spirals by enforcing: an iteration cap per artifact (default 5 rounds), a quality floor (structural predicates must pass), an escalation path when the cap is reached without convergence, and an abandon-and-restart option when escalation fails. Invoked by workflow skills (story-spine, story-scene, story-revise) whenever an iteration loop begins. Not typically user-facing — workflow skills apply this protocol internally. Trigger: /story-stop-loss, \"how many times should I retry\", \"iteration cap\", \"stop revising\", \"when to stop\", \"convergence\".","trigger":["/story-stop-loss","story stop loss"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["structured response or task-scoped story artifact"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["cliche-hunter","story-audit"],"fixtures":{"positive":"story-stop-loss:positive","negative":"story-stop-loss:missing-trigger"}}
 generated: true
 source: src/skills/story-stop-loss/SKILL.md
+source-version: 1.0.0
 source-sha256: 6d73efd5c59cee894635b19f829ced2c8e0da7d1ff380e9fdb21ea5879c0f718
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Stop-Loss Convergence Protocol

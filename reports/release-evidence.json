@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "release": "1.0.0-rc.1",
+  "channel": "release-candidate",
+  "generatorVersion": "1.0.0",
+  "verification": {
+    "framework": "passed",
+    "conformance": "passed",
+    "generatedDrift": "passed",
+    "security": "passed",
+    "cleanCheckout": "passed",
+    "humanLiteraryReview": "pending"
+  },
+  "artifacts": {
+    "generatedManifest": {
+      "path": "generated-manifest.json",
+      "sha256": "01d15679a6433f759cac0a5a4b5ad5b9404aba6899626cc7a76336777599716f"
+    },
+    "completionReport": {
+      "path": "reports/completion-report.json",
+      "sha256": "09d17deebae61b4d327df024d2b421bed26094c33603dd358ac9c3873ce93faf"
+    },
+    "conformanceReport": {
+      "path": "reports/conformance-pilots.json",
+      "sha256": "8fb00b7a530640ed9e38860ef8b310319f8e66dc4fa5a1434a2e11e4b5615882"
+    }
+  },
+  "releaseDecision": "release-candidate-only"
+}

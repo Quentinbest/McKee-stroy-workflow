@@ -1,4 +1,4 @@
-<!-- GENERATED FILE. DO NOT EDIT. source=AGENTS.md sha256=da1652db900a51fc9128a31cc10a71875e217fbc6d653f64569edd76f2a36ab2 generator=1.0.0 -->
+<!-- GENERATED FILE. DO NOT EDIT. source=AGENTS.md source-version=policy-1.0.0 sha256=2a2b2071774de2834bac44c4bb088c99d1018d869f0f488e06eb6628021628ed generator=1.0.0 verification=npm-run-agents-check-drift -->
 # Canonical Workflow
 
 `AGENTS.md` and the active task contract remain authoritative.

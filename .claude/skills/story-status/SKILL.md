@@ -23,8 +23,10 @@ triggers:
 contract: {"purpose":"Show the current lifecycle state of a story project — what's locked, what's next, what artifacts exist, and what blocking issues exist. The dashboard for a story project in progress. Trigger: /story-status, \"where are we\", \"project status\", \"what's locked\", \"what's next in the story\", \"show me the project state\".","trigger":["/story-status","story status"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/*/lifecycle.json","drafts/{slug}/lifecycle.json"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["read-only analysis","no network or publication by default"],"handoff":["mck-controlling-idea","story-act","story-audit","story-cast","story-new","story-publish","story-revise","story-scene"],"fixtures":{"positive":"story-status:positive","negative":"story-status:missing-trigger"}}
 generated: true
 source: src/skills/story-status/SKILL.md
+source-version: 1.0.0
 source-sha256: edea033139e2aa076d9e6aedba041fdf12c3719345a0f11bf7900b7c2a96110e
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Story Project Status

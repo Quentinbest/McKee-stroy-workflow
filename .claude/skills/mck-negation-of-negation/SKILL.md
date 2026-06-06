@@ -29,8 +29,10 @@ triggers:
 contract: {"purpose":"Drive a story's controlling value to its absolute depth — from the positive pole through its simple contradiction to the negation of the negation (the deepest opposite, which often wears the positive pole's mask). McKee's tool for designing Crisis and Climax at the level that separates tragedy from melodrama. Use when designing Crisis, testing whether a Controlling Idea is truly negative or merely sad, or checking whether the story's ultimate value charge is as deep as it can go. Trigger: /mck-negation-of-negation, \"negation of the negation\", \"deepest negative\", \"value square\", \"drive to the depths\", \"crisis design depth\", \"ultimate negative\".","trigger":["/mck-negation-of-negation","mck negation of negation"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/controlling-idea.md","drafts/{slug}/spine.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-negation-of-negation:positive","negative":"mck-negation-of-negation:missing-trigger"}}
 generated: true
 source: src/skills/mck-negation-of-negation/SKILL.md
+source-version: 1.0.0
 source-sha256: d91396c0757b27cf18272b0c73e6941425f86433e84e897de2d0beb13a28eb57
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Negation of the Negation

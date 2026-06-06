@@ -28,8 +28,10 @@ triggers:
 contract: {"purpose":"Convert backstory and information dumps into \"exposition as ammunition\" — every piece of information the audience needs is delivered inside a scene where someone is fighting to reveal it, conceal it, extract it, or weaponize it. Exposition is not furniture. It is a weapon, and weapons must be fired in combat. Use before drafting info-heavy scenes, or to fix scenes that read as \"talking heads.\" Trigger: /mck-exposition-ammo, \"exposition\", \"info dump\", \"backstory\", \"show don't tell\", \"talking heads\", \"exposition as ammunition\", \"smuggle the information\".","trigger":["/mck-exposition-ammo","mck exposition ammo"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/spine.md","drafts/{slug}/world-bible.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-exposition-ammo:positive","negative":"mck-exposition-ammo:missing-trigger"}}
 generated: true
 source: src/skills/mck-exposition-ammo/SKILL.md
+source-version: 1.0.0
 source-sha256: 858f1bd5779a4d3c211ded49f87e974e95db5259e190678681edb1fdc87eff00
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Exposition as Ammunition

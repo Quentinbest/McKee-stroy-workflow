@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Start a new story project from any seed — image, dream, news clipping, overheard line, mood, or abstract concept. Initializes the project lifecycle, generates a premise slate via the premise-prospector agent, and guides the writer from raw inspiration to a locked Premise Card. The entry point for all new story projects. Trigger: /story-new, \"start a new story\", \"new project\", \"I have an idea\", \"let's start a story\", \"I had a dream about\", \"what if\".","trigger":["/story-new","story new"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/persona.md","drafts/{slug}/premise-slate.md","drafts/{slug}/premise-card.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["genre-cartographer","mck-controlling-idea","premise-prospector","story-persona","story-spine"],"fixtures":{"positive":"story-new:positive","negative":"story-new:missing-trigger"}}
 generated: true
 source: src/skills/story-new/SKILL.md
+source-version: 1.0.0
 source-sha256: d4051ed8619c69d1efdc66f6d59fefe20be24ce2e7c91b0afd7e396ac3fc66a9
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Starting a New Story Project

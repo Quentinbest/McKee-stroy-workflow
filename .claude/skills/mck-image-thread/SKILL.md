@@ -28,8 +28,10 @@ triggers:
 contract: {"purpose":"Thread the story's image system — inventory every motif and symbolic object in the prose, map cadence against the planned rhythm, identify and verify the Key Image (the one image that by Climax has gathered the Controlling Idea inside it), flag dropped motifs and motif deserts, and prescribe or execute targeted additions. Use after any full draft or act completion, and before final polish. Trigger: /mck-image-thread, \"image system\", \"thread the motifs\", \"key image\", \"check the motifs\", \"motif cadence\", \"image audit\".","trigger":["/mck-image-thread","mck image thread"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/controlling-idea.md","drafts/{slug}/spine.md","drafts/{slug}/key-image.md","drafts/{slug}/state.json","drafts/{slug}/prose/**/*.md","drafts/{slug}/revision-log.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-image-thread:positive","negative":"mck-image-thread:missing-trigger"}}
 generated: true
 source: src/skills/mck-image-thread/SKILL.md
+source-version: 1.0.0
 source-sha256: b332002f62276c197a80262fa76e05d53cb903ca59a3229f3cf5e99808c0f38f
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Image System Threading

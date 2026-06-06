@@ -28,8 +28,10 @@ triggers:
 contract: {"purpose":"Build and audit the story's setup-payoff ledger — every element planted for future use is logged with its intended payoff scene; every payoff is traced to its setup; dangling setups and groundless payoffs are detected and remedied. Use after a full draft, before final polish, or whenever a payoff \"comes from nowhere\" or a planted element never returns. Trigger: /mck-setup-payoff, \"setup payoff\", \"ledger\", \"check the setups\", \"planted elements\", \"dangling setup\", \"groundless payoff\", \"Chekhov's gun\".","trigger":["/mck-setup-payoff","mck setup payoff"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/spine.md","drafts/{slug}/state.json","drafts/{slug}/prose/**/*.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-setup-payoff:positive","negative":"mck-setup-payoff:missing-trigger"}}
 generated: true
 source: src/skills/mck-setup-payoff/SKILL.md
+source-version: 1.0.0
 source-sha256: 6a623408c91172f5a978086f05b58bfe33f395bd2354e4da1693cec5b84d741a
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Setup-Payoff Ledger

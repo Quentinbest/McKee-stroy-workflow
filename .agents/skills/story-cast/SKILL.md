@@ -28,8 +28,10 @@ triggers:
 contract: {"purpose":"Design and audit the full cast as a system of pressures — every character justified by a unique force they apply to the protagonist, no role redundant, every dimension of the protagonist illuminated by at least one foil. Delegates analysis to cast-balancer agent; guides character creation through character-forger agent. Use after spine is locked and before scene-level work. Trigger: /story-cast, \"design the cast\", \"character system\", \"who are the characters\", \"audit the cast\", \"is this character necessary\".","trigger":["/story-cast","story cast"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/characters/","drafts/{slug}/cast-design.md","drafts/{slug}/cast-roster.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["cast-balancer","character-forger","story-act"],"fixtures":{"positive":"story-cast:positive","negative":"story-cast:missing-trigger"}}
 generated: true
 source: src/skills/story-cast/SKILL.md
+source-version: 1.0.0
 source-sha256: 5b64a1577270a3e1c5b3509eed8575b7900dca14fc55b030f49a0b300eca3e60
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Cast Design

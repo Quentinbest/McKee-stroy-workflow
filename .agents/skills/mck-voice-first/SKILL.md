@@ -28,8 +28,10 @@ triggers:
 contract: {"purpose":"Lock a story's voice before drafting prose — select exemplar passages, extract style rules (vocabulary range, sentence rhythm, register, tense, POV, taboo words), and write a voice-anchors.md file that all subsequent drafting must honor. Also use mid-draft to recalibrate voice drift. Voice is what makes a story by *someone*, not just by *anyone*. Trigger: /mck-voice-first, \"voice anchors\", \"lock the voice\", \"voice rules\", \"voice drift\", \"establish the voice\", \"what's the voice of this story\".","trigger":["/mck-voice-first","mck voice first"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/voice-anchors.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["voice-drift-detector"],"fixtures":{"positive":"mck-voice-first:positive","negative":"mck-voice-first:missing-trigger"}}
 generated: true
 source: src/skills/mck-voice-first/SKILL.md
+source-version: 1.0.0
 source-sha256: 4ac9de06c55da5ae1ac9b8098db2fc85698f897ed15abb8181a5ae37b6139e5c
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Voice-First Drafting

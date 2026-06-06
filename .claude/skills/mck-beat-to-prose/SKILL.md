@@ -26,8 +26,10 @@ triggers:
 contract: {"purpose":"Translate a beat sheet into polished prose. Each beat (action/reaction unit) is performed through scene description, action, and dialogue — not explained. Applies voice anchors, subtext discipline, and specificity to every line. Invoke after beat-miner has produced a beat sheet, or when the writer has a beat sheet and wants to draft the prose. Trigger: /mck-beat-to-prose, \"draft the prose\", \"write this beat\", \"turn beats into prose\", \"perform this scene\".","trigger":["/mck-beat-to-prose","mck beat to prose"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/voice-anchors.md","drafts/{slug}/characters/{names}.md","drafts/{slug}/scenes/{act}-{scene}.md","drafts/{slug}/prose/{act}-{scene}.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["mck-subtext-5layer","story-scene"],"fixtures":{"positive":"mck-beat-to-prose:positive","negative":"mck-beat-to-prose:missing-trigger"}}
 generated: true
 source: src/skills/mck-beat-to-prose/SKILL.md
+source-version: 1.0.0
 source-sha256: 6f9d0b87ae761c37d53fa0068a1f9f381fbb0141d40729411b9580ff152900a0
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Beat-to-Prose Translation

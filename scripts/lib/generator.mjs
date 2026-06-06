@@ -21,11 +21,16 @@ function markdownFiles(path) {
     .sort();
 }
 
+function sourceVersion(source) {
+  return source.match(/^version:\s*(.+)$/m)?.[1]?.trim() ?? "policy-1.0.0";
+}
+
 function generatedMarkdown(source, sourcePath) {
   const hash = sha256(source);
+  const version = sourceVersion(source);
   if (!source.startsWith("---\n")) {
     return [
-      `<!-- GENERATED FILE. DO NOT EDIT. source=${sourcePath} sha256=${hash} generator=${GENERATOR_VERSION} -->`,
+      `<!-- GENERATED FILE. DO NOT EDIT. source=${sourcePath} source-version=${version} sha256=${hash} generator=${GENERATOR_VERSION} verification=npm-run-agents-check-drift -->`,
       source,
     ].join("\n");
   }
@@ -34,16 +39,19 @@ function generatedMarkdown(source, sourcePath) {
   const metadata = [
     "generated: true",
     `source: ${sourcePath}`,
+    `source-version: ${version}`,
     `source-sha256: ${hash}`,
     `generator-version: ${GENERATOR_VERSION}`,
+    "verification-command: npm run agents:check-drift",
   ].join("\n");
   return `${source.slice(0, end)}\n${metadata}${source.slice(end)}`;
 }
 
-function addFile(files, path, content, sourcePath = null) {
+function addFile(files, path, content, sourcePath = null, sourceVersionValue = null) {
   files.set(path, {
     content: content.endsWith("\n") ? content : `${content}\n`,
     sourcePath,
+    sourceVersion: sourceVersionValue,
   });
 }
 
@@ -56,8 +64,9 @@ export function buildGeneratedFiles(root) {
     const sourcePath = `src/skills/${id}/SKILL.md`;
     const source = readFileSync(join(root, sourcePath), "utf8");
     const generated = generatedMarkdown(source, sourcePath);
-    addFile(files, `.agents/skills/${id}/SKILL.md`, generated, sourcePath);
-    addFile(files, `.claude/skills/${id}/SKILL.md`, generated, sourcePath);
+    const version = sourceVersion(source);
+    addFile(files, `.agents/skills/${id}/SKILL.md`, generated, sourcePath, version);
+    addFile(files, `.claude/skills/${id}/SKILL.md`, generated, sourcePath, version);
   }
 
   for (const filename of markdownFiles(rolesRoot)) {
@@ -65,8 +74,9 @@ export function buildGeneratedFiles(root) {
     const sourcePath = `src/roles/${filename}`;
     const source = readFileSync(join(root, sourcePath), "utf8");
     const generated = generatedMarkdown(source, sourcePath);
-    addFile(files, `.claude/agents/${id}.md`, generated, sourcePath);
-    addFile(files, `.opencode/agents/${id}.md`, generated, sourcePath);
+    const version = sourceVersion(source);
+    addFile(files, `.claude/agents/${id}.md`, generated, sourcePath, version);
+    addFile(files, `.opencode/agents/${id}.md`, generated, sourcePath, version);
   }
 
   const agentsSource = readFileSync(join(root, "AGENTS.md"), "utf8");
@@ -78,7 +88,8 @@ export function buildGeneratedFiles(root) {
       "@AGENTS.md",
       "",
       "<!-- GENERATED FILE. DO NOT EDIT.",
-      `source=AGENTS.md sha256=${agentsHash} generator=${GENERATOR_VERSION}`,
+      `source=AGENTS.md source-version=policy-1.0.0 sha256=${agentsHash} generator=${GENERATOR_VERSION}`,
+      "verification=npm-run-agents-check-drift",
       "-->",
       "",
       "# Claude Code Adapter",
@@ -88,15 +99,19 @@ export function buildGeneratedFiles(root) {
       "- Follow `.claude/settings.json` permission boundaries.",
     ].join("\n"),
     "AGENTS.md",
+    "policy-1.0.0",
   );
   addFile(
     files,
     ".claude/rules/canonical-workflow.md",
-    generatedMarkdown(
-      "# Canonical Workflow\n\n`AGENTS.md` and the active task contract remain authoritative.\n",
-      "AGENTS.md",
-    ),
+    [
+      `<!-- GENERATED FILE. DO NOT EDIT. source=AGENTS.md source-version=policy-1.0.0 sha256=${agentsHash} generator=${GENERATOR_VERSION} verification=npm-run-agents-check-drift -->`,
+      "# Canonical Workflow",
+      "",
+      "`AGENTS.md` and the active task contract remain authoritative.",
+    ].join("\n"),
     "AGENTS.md",
+    "policy-1.0.0",
   );
   addFile(
     files,
@@ -107,8 +122,10 @@ export function buildGeneratedFiles(root) {
       "alwaysApply: true",
       "generated: true",
       "source: AGENTS.md",
+      "source-version: policy-1.0.0",
       `source-sha256: ${agentsHash}`,
       `generator-version: ${GENERATOR_VERSION}`,
+      "verification-command: npm run agents:check-drift",
       "---",
       "",
       "# Canonical Workflow",
@@ -117,12 +134,19 @@ export function buildGeneratedFiles(root) {
       "Run the same repository verification for local, background, and cloud agents.",
     ].join("\n"),
     "AGENTS.md",
+    "policy-1.0.0",
   );
 
   const outputEntries = [...files.entries()]
     .map(([path, value]) => ({
       path,
       source: value.sourcePath,
+      sourceVersion: value.sourceVersion,
+      generatorVersion: GENERATOR_VERSION,
+      verification: {
+        command: "npm run agents:check-drift",
+        result: "see reports/release-evidence.json"
+      },
       sha256: sha256(value.content),
     }))
     .sort((a, b) => a.path.localeCompare(b.path));

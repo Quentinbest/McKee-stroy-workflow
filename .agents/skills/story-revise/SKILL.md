@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Multi-pass revision orchestrator — runs the full draft through dedicated revision passes, one dimension at a time: structure → cliché → subtext → image system → voice → specificity → reader simulation. Each pass touches the whole draft but fixes only one dimension. Mirrors how human writers actually revise. Trigger: /story-revise, \"revise the draft\", \"revision pass\", \"fix the draft\", \"improve the writing\", \"polish the prose\".","trigger":["/story-revise","story revise"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/audit-report.md","drafts/{slug}/prose/*.md","drafts/{slug}/spine.md","drafts/{slug}/revision-log.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["antagonism-stress-tester","cliche-hunter","crisis-climax-auditor","mck-image-thread","mck-setup-payoff","mck-specificity-forge","mck-voice-first","pacing-analyst"],"fixtures":{"positive":"story-revise:positive","negative":"story-revise:missing-trigger"}}
 generated: true
 source: src/skills/story-revise/SKILL.md
+source-version: 1.0.0
 source-sha256: fba4d5166921cdc5427ea07b9c6765423778d8a524f19f3be9632cbc843a3ca9
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Multi-Pass Revision

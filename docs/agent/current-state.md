@@ -2,7 +2,7 @@
 
 Status date: 2026-06-06
 Plan version: 1.0
-Migration state: Phase 9 complete; Phase 10 next
+Migration state: Phase 10 complete; release candidate awaiting human review
 
 ## Authority
 
@@ -53,9 +53,10 @@ The migration rollback point is the Git tag
 | 7 | complete | Full local and CI verification |
 | 8 | complete | Resumable control plane |
 | 9 | complete | Cross-harness conformance evidence |
-| 10 | pending | Versioned governance baseline |
+| 10 | complete | Versioned governance baseline |
 
 ## Next Milestone
 
-Complete Phase 0, then import legacy source without changing its creative
-semantics.
+Review `reports/acceptance-audit.json`, run an approved non-synthetic story
+lifecycle, complete human literary and operational usability review, and decide
+whether to promote `1.0.0-rc.1` to stable `1.0.0`.

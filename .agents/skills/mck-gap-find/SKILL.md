@@ -26,8 +26,10 @@ triggers:
 contract: {"purpose":"Find the Gap in any beat or scene — the discrepancy between what a character expects to happen and what actually happens. The Gap is where story lives. A beat without a Gap is not a story beat; it's inert description. Use to audit beats that feel flat, or as a pre-draft check on any scene. Trigger: /mck-gap-find, \"find the gap\", \"where is the gap\", \"this beat feels flat\", \"nothing happens in this scene\", \"gap analysis\".","trigger":["/mck-gap-find","mck gap find"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["structured response or task-scoped story artifact"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-gap-find:positive","negative":"mck-gap-find:missing-trigger"}}
 generated: true
 source: src/skills/mck-gap-find/SKILL.md
+source-version: 1.0.0
 source-sha256: e65cded71ec0ad902a8b57076419fecccc216dab7f9206a7c14eebbd71385098
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # The Gap — Finding Where Story Lives

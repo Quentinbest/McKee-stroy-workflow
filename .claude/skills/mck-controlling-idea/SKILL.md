@@ -26,8 +26,10 @@ triggers:
 contract: {"purpose":"Forge or audit a story's Controlling Idea — the single sentence of \"value + cause\" that every scene must ultimately serve (McKee Ch.4). Walks the writer through value identification, negation, cause, and the four-corner value test. Invoke when starting a new project, when the theme feels vague, or when scenes keep drifting without apparent purpose. Trigger: /mck-controlling-idea, \"what is this story about\", \"controlling idea\", \"theme\", \"what does this story say\", \"主控思想\".","trigger":["/mck-controlling-idea","mck controlling idea"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/controlling-idea.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-controlling-idea:positive","negative":"mck-controlling-idea:missing-trigger"}}
 generated: true
 source: src/skills/mck-controlling-idea/SKILL.md
+source-version: 1.0.0
 source-sha256: b2df5390c685bb5a7facbea3c59310456b57ac5221d163580039b1fd8ae97591
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # The Controlling Idea Workflow

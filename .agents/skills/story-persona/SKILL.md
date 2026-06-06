@@ -29,8 +29,10 @@ triggers:
 contract: {"purpose":"Forge, load, or apply an Author Persona — the fictional author consciousness who \"wrote\" this story, distinct from the human writer and from the AI. The persona defines animating belief, aesthetic bright lines, formal habits, and a Truth Library of non-cliché human observations. It acts as the decision filter for every aesthetic choice: voice, tone, what to show, what to cut. Three modes: FORGE (create from scratch), LOAD (prime working memory), APPLY (filter a specific decision). Trigger: /story-persona, \"who wrote this\", \"what's the author's voice\", \"forge a persona\", \"load the persona\", \"author persona\".","trigger":["/story-persona","story persona"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/persona.md","drafts/{slug}/prose/"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["story-new","story-scene"],"fixtures":{"positive":"story-persona:positive","negative":"story-persona:missing-trigger"}}
 generated: true
 source: src/skills/story-persona/SKILL.md
+source-version: 1.0.0
 source-sha256: 9fff50a6f4093603c40c9e3ec0d925109d2e255a7a967fc87e9773e1e0ec7b0f
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Author Persona Skill

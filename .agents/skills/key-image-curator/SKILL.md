@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Identify or design the story's Key Image — the single recurring image that, by the Climax, has gathered the Controlling Idea inside it. Curates the full image system (motif vocabulary) and ensures the Key Image lands as the carrier of the final value flip. Runs in main context for collaborative curation. Trigger: /key-image-curator, \"key image\", \"find the image\", \"image system\", \"what's the recurring image\", \"motif\", \"image curation\".","trigger":["/key-image-curator","key image curator"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/controlling-idea.md","drafts/{slug}/spine.md","drafts/{slug}/world-bible.md","drafts/{slug}/prose/","drafts/{slug}/image-system.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"key-image-curator:positive","negative":"key-image-curator:missing-trigger"}}
 generated: true
 source: src/skills/key-image-curator/SKILL.md
+source-version: 1.0.0
 source-sha256: e06409cc6a4168fb894a513ee460b2c2942e2c15b56a65a295dede12048e16e0
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Key Image Curator

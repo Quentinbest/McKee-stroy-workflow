@@ -26,8 +26,10 @@ triggers:
 contract: {"purpose":"Walk a character's arc across the spine — mapping revelation moments, naming the want-to-need transition, identifying the obligatory revelation scene, and producing a value-progression chart. Use after character files and spine are in place, or to diagnose a character who feels static or unmotivated. Trigger: /mck-arc-walk, \"character arc\", \"trace the arc\", \"character progression\", \"where does the character change\", \"map the arc\".","trigger":["/mck-arc-walk","mck arc walk"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/characters/{name}.md","drafts/{slug}/spine.md","drafts/{slug}/characters/{name}-arc.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["scene-architect"],"fixtures":{"positive":"mck-arc-walk:positive","negative":"mck-arc-walk:missing-trigger"}}
 generated: true
 source: src/skills/mck-arc-walk/SKILL.md
+source-version: 1.0.0
 source-sha256: 3b6b184af69be344fb4aea713bb9cd3fa3b8b4b0c914b372250d8443278787d4
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Arc Walk — Character Trajectory Mapping

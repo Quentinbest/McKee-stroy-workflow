@@ -29,8 +29,10 @@ triggers:
 contract: {"purpose":"Audit and tune the cross-scene craft of a story — Unity & Variety, Pacing, Setup-Payoff chains, Transitions, and Image System threading. Reads above the scene level and below the spine level, looking for repetition that flattens, monotony of rhythm, broken setup-payoff chains, and missing image patterns. Runs in main context. Use after enough scenes exist to see the texture. Trigger: /composition-conductor, \"cross-scene audit\", \"pacing\", \"is the rhythm right\", \"setup-payoff\", \"composition\", \"transitions\", \"image threading\".","trigger":["/composition-conductor","composition conductor"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/state.json","drafts/{slug}/image-system.md","drafts/{slug}/composition-audit.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["story-revise"],"fixtures":{"positive":"composition-conductor:positive","negative":"composition-conductor:missing-trigger"}}
 generated: true
 source: src/skills/composition-conductor/SKILL.md
+source-version: 1.0.0
 source-sha256: 5c7a346864cc8b7429662776ff0b5d23bfb747f31c0bd3178b50d9aa575a8ccd
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Composition Conductor — Cross-Scene Craft Audit

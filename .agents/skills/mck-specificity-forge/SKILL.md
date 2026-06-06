@@ -29,8 +29,10 @@ triggers:
 contract: {"purpose":"Convert generic language to particular language — scan prose for generic nouns, verbs, and descriptions; query the world bible and invent plausible specifics; replace each generic element with a concrete particular consistent with the world and the character's POV. The enemy of specificity is the first noun or verb that comes to mind. Use during Pass 6 revision or any time prose feels \"writerly but vague.\" Trigger: /mck-specificity-forge, \"specificity\", \"too generic\", \"forge specifics\", \"make it particular\", \"vague writing\", \"generic prose\", \"more specific\".","trigger":["/mck-specificity-forge","mck specificity forge"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/world-bible.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-specificity-forge:positive","negative":"mck-specificity-forge:missing-trigger"}}
 generated: true
 source: src/skills/mck-specificity-forge/SKILL.md
+source-version: 1.0.0
 source-sha256: 103c6db25246ba4d7cff268306548a4ccebf6df34156d0674bf1313b602a91bc
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # The Specificity Forge

@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "verification-runtime",
+  "status": "release-candidate",
+  "phases": {
+    "0": {
+      "status": "passed",
+      "evidence": [
+        "docs/agent/inventory.md",
+        "docs/agent/migration-risk-register.md"
+      ]
+    },
+    "1": {
+      "status": "passed",
+      "evidence": [
+        "src/source-provenance.json",
+        "src/skills",
+        "src/roles"
+      ]
+    },
+    "2": {
+      "status": "passed",
+      "evidence": [
+        "docs/agent/README.md",
+        "docs/agent/architecture.md"
+      ]
+    },
+    "3": {
+      "status": "passed",
+      "evidence": [
+        "AGENTS.md",
+        "schemas/task.schema.json",
+        "tasks/README.md"
+      ]
+    },
+    "4": {
+      "status": "passed",
+      "evidence": [
+        "schemas/skill-contract.schema.json",
+        "src/artifacts/story-artifacts.json"
+      ]
+    },
+    "5": {
+      "status": "passed",
+      "evidence": [
+        "generated-manifest.json",
+        "scripts/sync-harness-adapters.mjs"
+      ]
+    },
+    "6": {
+      "status": "passed",
+      "evidence": [
+        "config/security-policy.json",
+        "scripts/verify-security.mjs"
+      ]
+    },
+    "7": {
+      "status": "passed",
+      "evidence": [
+        "package.json",
+        ".github/workflows/agent-framework.yml",
+        "reports/completion-report.json"
+      ]
+    },
+    "8": {
+      "status": "passed",
+      "evidence": [
+        "tasks/TASK-2026-001.state.json",
+        "src/control-plane/story-lifecycle.json"
+      ]
+    },
+    "9": {
+      "status": "passed",
+      "evidence": [
+        "reports/conformance-pilots.json",
+        "docs/agent/conformance-pilots.md"
+      ]
+    },
+    "10": {
+      "status": "passed",
+      "evidence": [
+        "VERSION",
+        "docs/agent/release-checklist.md",
+        "reports/release-evidence.json"
+      ]
+    }
+  },
+  "frameworkAcceptance": {
+    "rootGuidanceAllHarnesses": "passed",
+    "singleTaskContractAllHarnesses": "passed",
+    "canonicalAdapterGeneration": "passed",
+    "generatorIdempotenceAndDrift": "passed",
+    "noCriticalHarnessOnlyPolicy": "passed",
+    "noP0PrivacyDestructiveOrFalseCompletionDefect": "passed",
+    "cleanCheckoutVerification": "passed",
+    "repositoryStateResume": "passed"
+  },
+  "releaseGate": {
+    "fiveHarnessDocumentationPilot": "passed",
+    "fiveHarnessSkillChangePilot": "passed",
+    "threeHarnessStoryLifecyclePilot": "passed-synthetic",
+    "securityApprovalFlow": "passed",
+    "generatedDrift": "passed",
+    "frameworkTests": "passed",
+    "humanStoryQualityAndOperationalReview": "pending"
+  },
+  "conclusion": "technical-plan-implemented-stable-release-awaits-human-gate"
+}

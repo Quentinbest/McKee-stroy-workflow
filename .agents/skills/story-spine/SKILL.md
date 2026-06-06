@@ -27,8 +27,10 @@ triggers:
 contract: {"purpose":"Build or revise a story's load-bearing skeleton — the spine of major events from Inciting Incident through Progressive Complications, Crisis, Climax, and Resolution. Delegates heavy generation to the structure-skeleton agent; audits the result against McKee predicates; and locks the spine when validated. Trigger: /story-spine, \"build the spine\", \"story structure\", \"map the plot\", \"inciting incident\", \"what happens in the story\", \"story skeleton\".","trigger":["/story-spine","story spine"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/premise-card.md","drafts/{slug}/controlling-idea.md","drafts/{slug}/genre-contract.md","drafts/{slug}/characters/","drafts/{slug}/spine.md","drafts/{slug}/misdirection-plan.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["mck-crisis-dilemma","mck-surprise-plant","story-act","story-cast","story-new","structure-skeleton"],"fixtures":{"positive":"story-spine:positive","negative":"story-spine:missing-trigger"}}
 generated: true
 source: src/skills/story-spine/SKILL.md
+source-version: 1.0.0
 source-sha256: 4b3c6784a36c5e5547e0f872952d8c7f914f8cc0dcf468bce469f90463e5b7f7
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Building the Story Spine

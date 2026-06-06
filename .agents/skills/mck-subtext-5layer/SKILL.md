@@ -25,8 +25,10 @@ triggers:
 contract: {"purpose":"McKee's 5-layer subtext authoring model. Author dialogue by computing Wound → Want → Fear → Tactic first; surface Text is generated last, in service of the Tactic. Architecturally prevents on-the-nose writing. Use BEFORE drafting any dialogue-heavy scene, or to fix dialogue that already feels on-the-nose. Trigger: /mck-subtext-5layer, \"subtext layers\", \"fix on the nose\", \"stop characters saying what they mean\", \"dialogue feels too direct\", \"subtext model\".","trigger":["/mck-subtext-5layer","mck subtext 5layer"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/characters/{name}.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"mck-subtext-5layer:positive","negative":"mck-subtext-5layer:missing-trigger"}}
 generated: true
 source: src/skills/mck-subtext-5layer/SKILL.md
+source-version: 1.0.0
 source-sha256: fbb1556101e081327d44db5ca9a2b1b9fead9f18a76aa04a181f05936c719e31
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # The 5-Layer Subtext Authoring Model

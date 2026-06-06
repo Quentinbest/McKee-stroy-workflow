@@ -81,6 +81,14 @@
       "producer": "Phase 9",
       "status": "verified",
       "evidence": "5 harnesses x 5 deterministic pilots"
+    },
+    {
+      "id": "release-governance",
+      "version": "1.0.0-rc.1",
+      "path": "reports/acceptance-audit.json",
+      "producer": "Phase 10",
+      "status": "review",
+      "evidence": "technical gates pass; human stable-release gate pending"
     }
   ]
 }

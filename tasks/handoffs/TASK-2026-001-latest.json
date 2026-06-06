@@ -1,17 +1,18 @@
 {
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
-  "from": "codex-phase-9",
-  "to": "any-supported-harness",
+  "from": "codex-phase-10",
+  "to": "authorized-human-reviewer",
   "completed": [
-    "Phases 0-9 implemented",
+    "Phases 0-10 implemented",
     "clean-checkout verification passed",
     "desktop and mobile HTML verification passed",
     "repository-state resume and delegation tests passed",
-    "25 repository-level cross-harness pilot combinations passed"
+    "25 repository-level cross-harness pilot combinations passed",
+    "release governance and requirement-by-requirement audit completed"
   ],
-  "currentState": "Phase 10 release governance and final audit are next",
-  "nextAction": "Version the framework, add governance artifacts, and run the final requirement audit",
+  "currentState": "1.0.0-rc.1 is technically complete and awaiting human release gates",
+  "nextAction": "Run a non-synthetic story lifecycle and record human literary quality and usability review",
   "files": [
     "docs/agent/current-state.md",
     "tasks/TASK-2026-001.state.json",
@@ -23,7 +24,7 @@
   ],
   "risks": [
     "Native Cursor CLI is unavailable; deterministic smoke is the current fallback",
-    "Subjective story quality remains a human evaluation"
+    "Stable release is blocked on subjective story quality and operational usability review"
   ],
   "blockers": []
 }

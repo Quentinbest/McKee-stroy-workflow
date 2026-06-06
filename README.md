@@ -1,14 +1,21 @@
 # McKee Story Workflow
 
-A McKee-native, hybrid Skill + Agent architecture for consistently and reliably producing great stories using Claude Code.
+A McKee-native, cross-harness Skill + Role architecture for planning, drafting,
+auditing, revising, and exporting stories through Claude Code, Cursor, Pi,
+OpenCode, or Codex.
 
 Built on Robert McKee's *Story* methodology. See `story-plan.md` for the full implementation design.
 
 > **Note:** the repository slug is misspelled `McKee-stroy-workflow` (`stroy` → `story`). The remote URL still uses the typo; consider renaming the GitHub repo (and updating clones' remotes) when convenient. The skills themselves are unaffected — they install by their own names into `~/.claude/skills/`.
 
-## Cross-platform note
+## Cross-Harness Framework
 
-The skills are authored for Claude Code (where critics run as parallel isolated agents). They also run on hosts without an agent-spawning tool — OpenCode, Pi, etc. — by degrading gracefully: the critic suite falls to native critic tools (where the host provides them, e.g. Pi's `cliche_hunt`/`subtext_check`) or to in-context sequential passes with a fresh-eyes reset between dimensions. See `/story-audit` Step 0 (capability ladder) and its Cross-Platform Critic Map. On non-Claude-Code hosts the skill body is typically pasted/loaded as a prompt; the capability ladder is what makes that portable.
+Canonical skills and roles live under `src/`. Harness discovery files are
+generated into `.agents/`, `.claude/`, `.cursor/`, and `.opencode/`; do not edit
+those outputs manually. The baseline is single-agent and offline. Native
+subagents, critics, hooks, extensions, and plugins are optional accelerators.
+
+Read `AGENTS.md` and `docs/agent/README.md` before changing the framework.
 
 ---
 
@@ -17,10 +24,11 @@ The skills are authored for Claude Code (where critics run as parallel isolated 
 A complete AI-agent workflow for story generation, organized into four layers:
 
 ```
-skills/mck-*          McKee methodology skills (the how-tos)
-skills/story-*        Workflow skills (the lifecycle entry points)
-agents/               Generator + critic agents (bounded, isolated work)
-templates/            Project scaffolding (lifecycle.json, state.json)
+src/skills/mck-*      Canonical McKee methodology skills
+src/skills/story-*    Canonical lifecycle entry points
+src/roles/            Canonical bounded specialist roles
+src/templates/        Canonical project scaffolding
+.agents/.claude/...   Generated harness adapters
 ```
 
 ---
@@ -28,7 +36,7 @@ templates/            Project scaffolding (lifecycle.json, state.json)
 ## Skills
 
 ### Methodology Skills (`/mck-*`)
-Drop into `~/.claude/skills/` to make available globally in Claude Code.
+Generated adapters make these discoverable in each supported harness.
 
 **V1 — Core**
 
@@ -96,9 +104,10 @@ Full lifecycle from seed to manuscript.
 
 ---
 
-## Agents
+## Roles
 
-Drop into `.claude/agents/` in your project directory.
+Canonical role contracts generate Claude and OpenCode native role adapters.
+All roles also work through the single-agent fallback.
 
 ### Generator Agents (produce artifacts)
 - `premise-prospector` — 5-candidate premise slate
@@ -135,16 +144,14 @@ Drop into `.claude/agents/` in your project directory.
 # Clone this repo
 git clone https://github.com/Quentinbest/McKee-stroy-workflow.git
 
-# Install skills globally
-cp -r McKee-stroy-workflow/skills/* ~/.claude/skills/
-
-# Install agents into your story project
-cp -r McKee-stroy-workflow/agents/* your-story-project/.claude/agents/
+# Verify and regenerate committed harness adapters
+cd McKee-stroy-workflow
+npm run agents:verify
 
 # Scaffold a new project
 mkdir -p drafts/my-story/{characters,scenes,prose}
-cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
-cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
+cp src/templates/lifecycle.json drafts/my-story/lifecycle.json
+cp src/templates/state.json drafts/my-story/state.json
 ```
 
 ---

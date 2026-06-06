@@ -33,8 +33,10 @@ triggers:
 contract: {"purpose":"Ingest, mirror, link, and lint the bilingual McKee wiki at wiki/{en,zh}/. The sole skill with write authority over wiki/. Supports four operations: INGEST (source → wiki pages in both languages), LINT (diagnose + auto-fix), MIGRATE (promote drafts/ artifacts into wiki/), REGEN (rebuild MAP.md and derived artifacts). Refactored from agent to skill — runs in main context for cost efficiency; the cold-start overhead of re-reading CLAUDE.md, CANONICAL.md, and both indexes every spawn is eliminated. Trigger: /wiki-librarian, \"ingest chapter\", \"lint the wiki\", \"migrate to wiki\", \"regenerate MAP\", \"sync zh/\", \"update indexes\", \"land it in the wiki\".","trigger":["/wiki-librarian","wiki librarian"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/controlling-idea.md","drafts/{slug}/spine.md","characters/{name}.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["return control to the primary agent"],"fixtures":{"positive":"wiki-librarian:positive","negative":"wiki-librarian:missing-trigger"}}
 generated: true
 source: src/skills/wiki-librarian/SKILL.md
+source-version: 1.0.0
 source-sha256: cc5e0f9a9ddaa5205168657d6a2e72be2c2b438c3f56050fd298417e23c65c65
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Wiki Librarian

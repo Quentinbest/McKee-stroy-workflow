@@ -26,8 +26,10 @@ triggers:
 contract: {"purpose":"Final assembly and export of a polished manuscript. Assembles all prose files in sequence, applies final line-level polish pass, verifies completeness, and exports to a clean manuscript file. Use after story-revise has completed all revision passes and the draft is marked \"polished\". Trigger: /story-publish, \"publish the story\", \"export the manuscript\", \"final assembly\", \"compile the story\", \"finish the manuscript\".","trigger":["/story-publish","story publish"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/prose/","drafts/{slug}/manuscript.md","drafts/{slug}/colophon.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["story-act","story-revise","story-scene","story-status"],"fixtures":{"positive":"story-publish:positive","negative":"story-publish:missing-trigger"}}
 generated: true
 source: src/skills/story-publish/SKILL.md
+source-version: 1.0.0
 source-sha256: 984934a8f9a999b7d9caacac97aa540e5a3725f55df2fe0028f0ed7517203a15
 generator-version: 1.0.0
+verification-command: npm run agents:check-drift
 ---
 
 # Final Assembly and Export
