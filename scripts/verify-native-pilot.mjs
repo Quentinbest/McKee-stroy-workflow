@@ -102,7 +102,7 @@ if (!failures.length) {
   const changed = spawnSync("git", ["status", "--short"], {
     cwd: worktree,
     encoding: "utf8",
-  }).stdout.trim().split("\n").filter(Boolean);
+  }).stdout.split("\n").filter(Boolean);
   const allowedPrefixes = [
     " M src/skills/mck-gap-find/SKILL.md",
     " M .agents/skills/mck-gap-find/SKILL.md",
