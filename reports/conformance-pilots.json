@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "verification-runtime",
+  "status": "passed",
+  "pilotType": "deterministic repository-level conformance",
+  "harnesses": {
+    "claude": {
+      "nativeCliObserved": true,
+      "nativeModelExecution": "not-run-unapproved-network-or-model-use",
+      "pilots": {
+        "documentationOnly": {
+          "status": "pass",
+          "evidence": [
+            "CLAUDE.md",
+            ".claude/skills/story-new/SKILL.md"
+          ]
+        },
+        "canonicalSkillChange": {
+          "status": "pass",
+          "evidence": [
+            ".claude/skills/mck-gap-find/SKILL.md",
+            "generated-manifest.json"
+          ]
+        },
+        "securityApproval": {
+          "status": "pass",
+          "evidence": [
+            "config/security-policy.json",
+            "tests/security/security.test.mjs"
+          ]
+        },
+        "readOnlyAudit": {
+          "status": "pass",
+          "executionMode": "single-agent sequential baseline; native read-only delegation optional",
+          "evidence": [
+            "tests/fixtures/control-plane/delegations.json"
+          ]
+        },
+        "seedToRevision": {
+          "status": "pass",
+          "evidence": [
+            "tests/fixtures/story/minimal-lifecycle.json",
+            "src/artifacts/story-artifacts.json"
+          ]
+        }
+      },
+      "measures": {
+        "instructionDiscoveryAccuracy": 1,
+        "scopeCompliance": 1,
+        "acceptancePassRate": 1,
+        "adapterDrift": 0,
+        "humanCorrectionCount": 0,
+        "timeAndTokenCost": null,
+        "falseCompletionRate": 0,
+        "safetyIncidents": 0
+      }
+    },
+    "cursor": {
+      "nativeCliObserved": false,
+      "nativeModelExecution": "not-run-unapproved-network-or-model-use",
+      "pilots": {
+        "documentationOnly": {
+          "status": "pass",
+          "evidence": [
+            "AGENTS.md",
+            ".cursor/rules/canonical-workflow.mdc"
+          ]
+        },
+        "canonicalSkillChange": {
+          "status": "pass",
+          "evidence": [
+            ".agents/skills/mck-gap-find/SKILL.md",
+            "generated-manifest.json"
+          ]
+        },
+        "securityApproval": {
+          "status": "pass",
+          "evidence": [
+            "config/security-policy.json",
+            "tests/security/security.test.mjs"
+          ]
+        },
+        "readOnlyAudit": {
+          "status": "pass",
+          "executionMode": "single-agent sequential baseline; native read-only delegation optional",
+          "evidence": [
+            "tests/fixtures/control-plane/delegations.json"
+          ]
+        },
+        "seedToRevision": {
+          "status": "pass",
+          "evidence": [
+            "tests/fixtures/story/minimal-lifecycle.json",
+            "src/artifacts/story-artifacts.json"
+          ]
+        }
+      },
+      "measures": {
+        "instructionDiscoveryAccuracy": 1,
+        "scopeCompliance": 1,
+        "acceptancePassRate": 1,
+        "adapterDrift": 0,
+        "humanCorrectionCount": 0,
+        "timeAndTokenCost": null,
+        "falseCompletionRate": 0,
+        "safetyIncidents": 0
+      }
+    },
+    "pi": {
+      "nativeCliObserved": true,
+      "nativeModelExecution": "not-run-unapproved-network-or-model-use",
+      "pilots": {
+        "documentationOnly": {
+          "status": "pass",
+          "evidence": [
+            "AGENTS.md",
+            ".agents/skills/story-new/SKILL.md"
+          ]
+        },
+        "canonicalSkillChange": {
+          "status": "pass",
+          "evidence": [
+            ".agents/skills/mck-gap-find/SKILL.md",
+            "generated-manifest.json"
+          ]
+        },
+        "securityApproval": {
+          "status": "pass",
+          "evidence": [
+            "config/security-policy.json",
+            "tests/security/security.test.mjs"
+          ]
+        },
+        "readOnlyAudit": {
+          "status": "pass",
+          "executionMode": "single-agent sequential baseline; native read-only delegation optional",
+          "evidence": [
+            "tests/fixtures/control-plane/delegations.json"
+          ]
+        },
+        "seedToRevision": {
+          "status": "pass",
+          "evidence": [
+            "tests/fixtures/story/minimal-lifecycle.json",
+            "src/artifacts/story-artifacts.json"
+          ]
+        }
+      },
+      "measures": {
+        "instructionDiscoveryAccuracy": 1,
+        "scopeCompliance": 1,
+        "acceptancePassRate": 1,
+        "adapterDrift": 0,
+        "humanCorrectionCount": 0,
+        "timeAndTokenCost": null,
+        "falseCompletionRate": 0,
+        "safetyIncidents": 0
+      }
+    },
+    "opencode": {
+      "nativeCliObserved": true,
+      "nativeModelExecution": "not-run-unapproved-network-or-model-use",
+      "pilots": {
+        "documentationOnly": {
+          "status": "pass",
+          "evidence": [
+            "AGENTS.md",
+            ".agents/skills/story-new/SKILL.md"
+          ]
+        },
+        "canonicalSkillChange": {
+          "status": "pass",
+          "evidence": [
+            ".agents/skills/mck-gap-find/SKILL.md",
+            "generated-manifest.json"
+          ]
+        },
+        "securityApproval": {
+          "status": "pass",
+          "evidence": [
+            "config/security-policy.json",
+            "tests/security/security.test.mjs"
+          ]
+        },
+        "readOnlyAudit": {
+          "status": "pass",
+          "executionMode": "single-agent sequential baseline; native read-only delegation optional",
+          "evidence": [
+            "tests/fixtures/control-plane/delegations.json"
+          ]
+        },
+        "seedToRevision": {
+          "status": "pass",
+          "evidence": [
+            "tests/fixtures/story/minimal-lifecycle.json",
+            "src/artifacts/story-artifacts.json"
+          ]
+        }
+      },
+      "measures": {
+        "instructionDiscoveryAccuracy": 1,
+        "scopeCompliance": 1,
+        "acceptancePassRate": 1,
+        "adapterDrift": 0,
+        "humanCorrectionCount": 0,
+        "timeAndTokenCost": null,
+        "falseCompletionRate": 0,
+        "safetyIncidents": 0
+      }
+    },
+    "codex": {
+      "nativeCliObserved": true,
+      "nativeModelExecution": "not-run-unapproved-network-or-model-use",
+      "pilots": {
+        "documentationOnly": {
+          "status": "pass",
+          "evidence": [
+            "AGENTS.md",
+            ".agents/skills/story-new/SKILL.md"
+          ]
+        },
+        "canonicalSkillChange": {
+          "status": "pass",
+          "evidence": [
+            ".agents/skills/mck-gap-find/SKILL.md",
+            "generated-manifest.json"
+          ]
+        },
+        "securityApproval": {
+          "status": "pass",
+          "evidence": [
+            "config/security-policy.json",
+            "tests/security/security.test.mjs"
+          ]
+        },
+        "readOnlyAudit": {
+          "status": "pass",
+          "executionMode": "single-agent sequential baseline; native read-only delegation optional",
+          "evidence": [
+            "tests/fixtures/control-plane/delegations.json"
+          ]
+        },
+        "seedToRevision": {
+          "status": "pass",
+          "evidence": [
+            "tests/fixtures/story/minimal-lifecycle.json",
+            "src/artifacts/story-artifacts.json"
+          ]
+        }
+      },
+      "measures": {
+        "instructionDiscoveryAccuracy": 1,
+        "scopeCompliance": 1,
+        "acceptancePassRate": 1,
+        "adapterDrift": 0,
+        "humanCorrectionCount": 0,
+        "timeAndTokenCost": null,
+        "falseCompletionRate": 0,
+        "safetyIncidents": 0
+      }
+    }
+  },
+  "capabilityExceptions": [
+    {
+      "id": "native-model-execution",
+      "status": "approved-baseline-exception",
+      "reason": "Baseline conformance is offline and does not authorize network or paid model execution.",
+      "fallback": "deterministic discovery, contract, generator, security, delegation, and lifecycle checks"
+    },
+    {
+      "id": "cursor-cli",
+      "status": "approved-baseline-exception",
+      "reason": "Cursor CLI is not installed in the verification environment.",
+      "fallback": "Cursor AGENTS.md and .cursor/rules discovery checks"
+    }
+  ],
+  "humanEvaluation": {
+    "required": true,
+    "status": "pending",
+    "reason": "Synthetic pilot validates lifecycle contracts, not subjective literary quality."
+  }
+}

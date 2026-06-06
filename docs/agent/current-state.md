@@ -2,7 +2,7 @@
 
 Status date: 2026-06-06
 Plan version: 1.0
-Migration state: Phase 8 complete; Phase 9 next
+Migration state: Phase 9 complete; Phase 10 next
 
 ## Authority
 
@@ -52,7 +52,7 @@ The migration rollback point is the Git tag
 | 6 | complete | Enforced safety policy |
 | 7 | complete | Full local and CI verification |
 | 8 | complete | Resumable control plane |
-| 9 | pending | Cross-harness conformance evidence |
+| 9 | complete | Cross-harness conformance evidence |
 | 10 | pending | Versioned governance baseline |
 
 ## Next Milestone

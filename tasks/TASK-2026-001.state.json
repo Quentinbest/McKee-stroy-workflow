@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
-  "revision": 9,
+  "revision": 10,
   "status": "in_progress",
-  "currentPhase": "Phase 9",
-  "lastCheckpoint": "Phase 8 control-plane acceptance passed",
-  "nextAction": "Run and record the cross-harness conformance pilot set",
+  "currentPhase": "Phase 10",
+  "lastCheckpoint": "Phase 9 repository-level conformance pilots passed",
+  "nextAction": "Complete release governance, maintenance, and final acceptance audit",
   "retryCounters": {
     "verification_repair": {
       "used": 2,

@@ -6,7 +6,7 @@
   "checks": [
     {
       "id": "unit-integration-security",
-      "command": "node --test tests/contracts/dependency-graph.test.mjs tests/contracts/generated-manifest.test.mjs tests/e2e/resume-task.test.mjs tests/integration/generator.test.mjs tests/security/security.test.mjs",
+      "command": "node --test tests/contracts/dependency-graph.test.mjs tests/contracts/generated-manifest.test.mjs tests/e2e/conformance-pilots.test.mjs tests/e2e/resume-task.test.mjs tests/integration/generator.test.mjs tests/security/security.test.mjs",
       "status": "pass"
     },
     {

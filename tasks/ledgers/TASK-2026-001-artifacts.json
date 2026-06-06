@@ -73,6 +73,14 @@
       "producer": "Phase 8",
       "status": "verified",
       "evidence": "control-plane and resume E2E tests"
+    },
+    {
+      "id": "conformance-pilots",
+      "version": "1.0.0",
+      "path": "reports/conformance-pilots.json",
+      "producer": "Phase 9",
+      "status": "verified",
+      "evidence": "5 harnesses x 5 deterministic pilots"
     }
   ]
 }

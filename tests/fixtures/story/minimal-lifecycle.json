@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "title": "The Returned Letter",
+  "synthetic": true,
+  "artifacts": [
+    { "id": "seed", "version": "1.0.0", "summary": "A courier receives a letter she delivered twenty years ago." },
+    { "id": "premise-candidates", "version": "1.0.0", "summary": "Five bounded premise variants." },
+    { "id": "premise-and-genre", "version": "1.0.0", "summary": "A redemption mystery with explicit obligations." },
+    { "id": "controlling-idea", "version": "1.0.0", "summary": "Responsibility restores dignity when truth is acted upon before recognition is guaranteed." },
+    { "id": "cast-system", "version": "1.0.0", "summary": "Courier, recipient's daughter, employer, and private guilt create three levels of conflict." },
+    { "id": "story-spine", "version": "1.0.0", "summary": "The returned letter forces delivery, concealment escalates, crisis chooses confession over reputation, climax completes the delivery." },
+    { "id": "act-sequence-design", "version": "1.0.0", "summary": "Three escalating movements with irreversible turns." },
+    { "id": "scene-contracts", "version": "1.0.0", "summary": "Every scene declares objective, gap, turn, value change, and consequence." },
+    { "id": "beat-sheets", "version": "1.0.0", "summary": "Causal action/reaction units for each scene." },
+    { "id": "prose-scenes", "version": "1.0.0", "summary": "Synthetic prose placeholders with voice and continuity metadata." },
+    { "id": "chapters", "version": "1.0.0", "summary": "Scenes grouped into three reading movements." },
+    { "id": "draft-audit", "version": "1.0.0", "summary": "Evidence-based structure, continuity, pacing, and subtext findings." },
+    { "id": "revision-passes", "version": "1.0.0", "summary": "Separate structural, continuity, voice, and line passes with traceable changes." }
+  ],
+  "humanEvaluation": {
+    "required": true,
+    "status": "pending",
+    "reason": "Synthetic pilot validates lifecycle contracts, not subjective literary quality."
+  }
+}
