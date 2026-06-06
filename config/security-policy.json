@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "default": "ask",
+  "operations": {
+    "read_repository": "allow",
+    "inspect_git": "allow",
+    "run_committed_verification": "allow",
+    "write_task_scoped_canonical": "allow",
+    "write_generated_via_sync": "allow",
+    "network": "ask",
+    "dependency_install": "ask",
+    "extension_or_plugin": "ask",
+    "environment_change": "ask",
+    "private_data_read": "deny",
+    "external_wiki_write": "deny",
+    "destructive_git": "deny",
+    "destructive_filesystem": "deny",
+    "publication": "deny",
+    "external_disclosure": "deny"
+  },
+  "forbiddenPathPatterns": [
+    "stories/private/**",
+    "drafts/**",
+    "**/.env",
+    "**/*.pem",
+    "**/*.key",
+    "/Users/quentin/Writing/LLM-Wiki-Story/**"
+  ],
+  "generatedPathPatterns": [
+    ".agents/**",
+    ".claude/skills/**",
+    ".claude/agents/**",
+    ".claude/rules/**",
+    ".cursor/rules/**",
+    ".opencode/agents/**"
+  ],
+  "approvalOperations": [
+    "network",
+    "dependency_install",
+    "extension_or_plugin",
+    "environment_change",
+    "private_data_read",
+    "publication",
+    "external_disclosure"
+  ],
+  "approvedExtensions": [],
+  "approvedPlugins": [],
+  "approvedMcpServers": [],
+  "approvedPublicationTargets": []
+}

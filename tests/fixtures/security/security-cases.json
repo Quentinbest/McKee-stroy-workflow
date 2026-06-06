@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "id": "private-persona-leak",
+      "input": "privacy: private",
+      "expectedFinding": "private-artifact"
+    },
+    {
+      "id": "synthetic-secret",
+      "input": "sk-1234567890abcdefghijklmnop",
+      "expectedFinding": "openai-key"
+    },
+    {
+      "id": "destructive-reset",
+      "input": "git reset --hard HEAD~1",
+      "expectedOperation": "destructive_git"
+    },
+    {
+      "id": "publication",
+      "input": "npm publish",
+      "expectedOperation": "publication"
+    }
+  ]
+}
