@@ -1,0 +1,3395 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-06",
+  "wiki": {
+    "environmentVariable": "MCKEE_WIKI_ROOT",
+    "verifiedRoot": "/Users/quentin/Writing/LLM-Wiki-Story",
+    "readOnly": true,
+    "aliases": {
+      "wiki/en/concepts/convention-vs-cliche.md": "wiki/en/comparisons/convention-vs-cliche.md",
+      "wiki/en/concepts/subtext.md": "wiki/en/concepts/text-and-subtext.md"
+    }
+  },
+  "nodes": [
+    {
+      "id": "skill:act-designer",
+      "kind": "skill",
+      "path": "src/skills/act-designer/SKILL.md"
+    },
+    {
+      "id": "skill:arc-tracer",
+      "kind": "skill",
+      "path": "src/skills/arc-tracer/SKILL.md"
+    },
+    {
+      "id": "skill:composition-conductor",
+      "kind": "skill",
+      "path": "src/skills/composition-conductor/SKILL.md"
+    },
+    {
+      "id": "skill:controlling-idea-architect",
+      "kind": "skill",
+      "path": "src/skills/controlling-idea-architect/SKILL.md"
+    },
+    {
+      "id": "skill:exposition-smuggler",
+      "kind": "skill",
+      "path": "src/skills/exposition-smuggler/SKILL.md"
+    },
+    {
+      "id": "skill:key-image-curator",
+      "kind": "skill",
+      "path": "src/skills/key-image-curator/SKILL.md"
+    },
+    {
+      "id": "skill:mck-arc-walk",
+      "kind": "skill",
+      "path": "src/skills/mck-arc-walk/SKILL.md"
+    },
+    {
+      "id": "skill:mck-beat-to-prose",
+      "kind": "skill",
+      "path": "src/skills/mck-beat-to-prose/SKILL.md"
+    },
+    {
+      "id": "skill:mck-controlling-idea",
+      "kind": "skill",
+      "path": "src/skills/mck-controlling-idea/SKILL.md"
+    },
+    {
+      "id": "skill:mck-crisis-dilemma",
+      "kind": "skill",
+      "path": "src/skills/mck-crisis-dilemma/SKILL.md"
+    },
+    {
+      "id": "skill:mck-exposition-ammo",
+      "kind": "skill",
+      "path": "src/skills/mck-exposition-ammo/SKILL.md"
+    },
+    {
+      "id": "skill:mck-gap-find",
+      "kind": "skill",
+      "path": "src/skills/mck-gap-find/SKILL.md"
+    },
+    {
+      "id": "skill:mck-honesty",
+      "kind": "skill",
+      "path": "src/skills/mck-honesty/SKILL.md"
+    },
+    {
+      "id": "skill:mck-image-thread",
+      "kind": "skill",
+      "path": "src/skills/mck-image-thread/SKILL.md"
+    },
+    {
+      "id": "skill:mck-negation-of-negation",
+      "kind": "skill",
+      "path": "src/skills/mck-negation-of-negation/SKILL.md"
+    },
+    {
+      "id": "skill:mck-setup-payoff",
+      "kind": "skill",
+      "path": "src/skills/mck-setup-payoff/SKILL.md"
+    },
+    {
+      "id": "skill:mck-specificity-forge",
+      "kind": "skill",
+      "path": "src/skills/mck-specificity-forge/SKILL.md"
+    },
+    {
+      "id": "skill:mck-subtext-5layer",
+      "kind": "skill",
+      "path": "src/skills/mck-subtext-5layer/SKILL.md"
+    },
+    {
+      "id": "skill:mck-surprise-plant",
+      "kind": "skill",
+      "path": "src/skills/mck-surprise-plant/SKILL.md"
+    },
+    {
+      "id": "skill:mck-voice-first",
+      "kind": "skill",
+      "path": "src/skills/mck-voice-first/SKILL.md"
+    },
+    {
+      "id": "skill:story-act",
+      "kind": "skill",
+      "path": "src/skills/story-act/SKILL.md"
+    },
+    {
+      "id": "skill:story-audit",
+      "kind": "skill",
+      "path": "src/skills/story-audit/SKILL.md"
+    },
+    {
+      "id": "skill:story-cast",
+      "kind": "skill",
+      "path": "src/skills/story-cast/SKILL.md"
+    },
+    {
+      "id": "skill:story-new",
+      "kind": "skill",
+      "path": "src/skills/story-new/SKILL.md"
+    },
+    {
+      "id": "skill:story-persona",
+      "kind": "skill",
+      "path": "src/skills/story-persona/SKILL.md"
+    },
+    {
+      "id": "skill:story-premise",
+      "kind": "skill",
+      "path": "src/skills/story-premise/SKILL.md"
+    },
+    {
+      "id": "skill:story-publish",
+      "kind": "skill",
+      "path": "src/skills/story-publish/SKILL.md"
+    },
+    {
+      "id": "skill:story-revise",
+      "kind": "skill",
+      "path": "src/skills/story-revise/SKILL.md"
+    },
+    {
+      "id": "skill:story-scene",
+      "kind": "skill",
+      "path": "src/skills/story-scene/SKILL.md"
+    },
+    {
+      "id": "skill:story-spine",
+      "kind": "skill",
+      "path": "src/skills/story-spine/SKILL.md"
+    },
+    {
+      "id": "skill:story-status",
+      "kind": "skill",
+      "path": "src/skills/story-status/SKILL.md"
+    },
+    {
+      "id": "skill:story-stop-loss",
+      "kind": "skill",
+      "path": "src/skills/story-stop-loss/SKILL.md"
+    },
+    {
+      "id": "skill:story-tournament",
+      "kind": "skill",
+      "path": "src/skills/story-tournament/SKILL.md"
+    },
+    {
+      "id": "skill:wiki-librarian",
+      "kind": "skill",
+      "path": "src/skills/wiki-librarian/SKILL.md"
+    },
+    {
+      "id": "role:act-designer",
+      "kind": "role",
+      "path": "src/roles/act-designer.md"
+    },
+    {
+      "id": "role:antagonism-stress-tester",
+      "kind": "role",
+      "path": "src/roles/antagonism-stress-tester.md"
+    },
+    {
+      "id": "role:arc-tracer",
+      "kind": "role",
+      "path": "src/roles/arc-tracer.md"
+    },
+    {
+      "id": "role:beat-miner",
+      "kind": "role",
+      "path": "src/roles/beat-miner.md"
+    },
+    {
+      "id": "role:cast-balancer",
+      "kind": "role",
+      "path": "src/roles/cast-balancer.md"
+    },
+    {
+      "id": "role:character-forger",
+      "kind": "role",
+      "path": "src/roles/character-forger.md"
+    },
+    {
+      "id": "role:cliche-hunter",
+      "kind": "role",
+      "path": "src/roles/cliche-hunter.md"
+    },
+    {
+      "id": "role:composition-conductor",
+      "kind": "role",
+      "path": "src/roles/composition-conductor.md"
+    },
+    {
+      "id": "role:continuity-supervisor",
+      "kind": "role",
+      "path": "src/roles/continuity-supervisor.md"
+    },
+    {
+      "id": "role:controlling-idea-architect",
+      "kind": "role",
+      "path": "src/roles/controlling-idea-architect.md"
+    },
+    {
+      "id": "role:crisis-climax-auditor",
+      "kind": "role",
+      "path": "src/roles/crisis-climax-auditor.md"
+    },
+    {
+      "id": "role:exposition-smuggler",
+      "kind": "role",
+      "path": "src/roles/exposition-smuggler.md"
+    },
+    {
+      "id": "role:genre-cartographer",
+      "kind": "role",
+      "path": "src/roles/genre-cartographer.md"
+    },
+    {
+      "id": "role:key-image-curator",
+      "kind": "role",
+      "path": "src/roles/key-image-curator.md"
+    },
+    {
+      "id": "role:pacing-analyst",
+      "kind": "role",
+      "path": "src/roles/pacing-analyst.md"
+    },
+    {
+      "id": "role:premise-prospector",
+      "kind": "role",
+      "path": "src/roles/premise-prospector.md"
+    },
+    {
+      "id": "role:prose-drafter",
+      "kind": "role",
+      "path": "src/roles/prose-drafter.md"
+    },
+    {
+      "id": "role:reader-simulator",
+      "kind": "role",
+      "path": "src/roles/reader-simulator.md"
+    },
+    {
+      "id": "role:scene-architect",
+      "kind": "role",
+      "path": "src/roles/scene-architect.md"
+    },
+    {
+      "id": "role:setting-surveyor",
+      "kind": "role",
+      "path": "src/roles/setting-surveyor.md"
+    },
+    {
+      "id": "role:specificity-auditor",
+      "kind": "role",
+      "path": "src/roles/specificity-auditor.md"
+    },
+    {
+      "id": "role:structure-skeleton",
+      "kind": "role",
+      "path": "src/roles/structure-skeleton.md"
+    },
+    {
+      "id": "role:subtext-whisperer",
+      "kind": "role",
+      "path": "src/roles/subtext-whisperer.md"
+    },
+    {
+      "id": "role:surprise-auditor",
+      "kind": "role",
+      "path": "src/roles/surprise-auditor.md"
+    },
+    {
+      "id": "role:tournament-judge",
+      "kind": "role",
+      "path": "src/roles/tournament-judge.md"
+    },
+    {
+      "id": "role:voice-drift-detector",
+      "kind": "role",
+      "path": "src/roles/voice-drift-detector.md"
+    },
+    {
+      "id": "role:wiki-librarian",
+      "kind": "role",
+      "path": "src/roles/wiki-librarian.md"
+    }
+  ],
+  "edges": [
+    {
+      "from": "skill:act-designer",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:act-designer",
+      "to": "capability:story-act",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:act-designer",
+      "to": "capability:story-audit",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:act-designer",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:act-designer",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:act-designer",
+      "to": "artifact-path:drafts/{slug}/genre-contract.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:act-designer",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:act-designer",
+      "to": "artifact-path:drafts/{slug}/act-design.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:arc-tracer",
+      "to": "capability:mck-arc-walk",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:arc-tracer",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:arc-tracer",
+      "to": "artifact-path:drafts/{slug}/characters/{name}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:arc-tracer",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:arc-tracer",
+      "to": "artifact-path:drafts/{slug}/characters/{name}-arc.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:composition-conductor",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:composition-conductor",
+      "to": "artifact-path:drafts/{slug}/state.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:composition-conductor",
+      "to": "artifact-path:drafts/{slug}/image-system.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:composition-conductor",
+      "to": "artifact-path:drafts/{slug}/composition-audit.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "capability:mck-honesty",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "capability:story-spine",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "artifact-path:drafts/{slug}/genre-contract.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "artifact-path:drafts/{slug}/premise-card.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "artifact-path:drafts/{slug}/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "wiki:wiki/en/concepts/controlling-idea.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/controlling-idea.md",
+      "exists": true
+    },
+    {
+      "from": "skill:controlling-idea-architect",
+      "to": "wiki:wiki/zh/concepts/controlling-idea.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/concepts/controlling-idea.md",
+      "exists": true
+    },
+    {
+      "from": "skill:exposition-smuggler",
+      "to": "artifact-path:structured response or task-scoped story artifact",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:key-image-curator",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:key-image-curator",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:key-image-curator",
+      "to": "artifact-path:drafts/{slug}/world-bible.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:key-image-curator",
+      "to": "artifact-path:drafts/{slug}/prose/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:key-image-curator",
+      "to": "artifact-path:drafts/{slug}/image-system.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-arc-walk",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-arc-walk",
+      "to": "artifact-path:drafts/{slug}/characters/{name}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-arc-walk",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-arc-walk",
+      "to": "artifact-path:drafts/{slug}/characters/{name}-arc.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "capability:beat-miner",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "capability:mck-subtext-5layer",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "artifact-path:drafts/{slug}/voice-anchors.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "artifact-path:drafts/{slug}/characters/{names}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "artifact-path:drafts/{slug}/scenes/{act}-{scene}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "artifact-path:drafts/{slug}/prose/{act}-{scene}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-beat-to-prose",
+      "to": "wiki:wiki/en/concepts/text-and-subtext.md",
+      "kind": "wiki-alias",
+      "sourceReference": "wiki/en/concepts/subtext.md",
+      "exists": true
+    },
+    {
+      "from": "skill:mck-controlling-idea",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-crisis-dilemma",
+      "to": "artifact-path:structured response or task-scoped story artifact",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-exposition-ammo",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-exposition-ammo",
+      "to": "artifact-path:drafts/{slug}/world-bible.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-gap-find",
+      "to": "artifact-path:structured response or task-scoped story artifact",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "capability:crisis-climax-auditor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "capability:story-audit",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "capability:story-spine",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "artifact-path:drafts/{slug}/persona.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-honesty",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-image-thread",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-image-thread",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-image-thread",
+      "to": "artifact-path:drafts/{slug}/key-image.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-image-thread",
+      "to": "artifact-path:drafts/{slug}/state.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-image-thread",
+      "to": "artifact-path:drafts/{slug}/prose/**/*.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-image-thread",
+      "to": "artifact-path:drafts/{slug}/revision-log.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-negation-of-negation",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-negation-of-negation",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-setup-payoff",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-setup-payoff",
+      "to": "artifact-path:drafts/{slug}/state.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-setup-payoff",
+      "to": "artifact-path:drafts/{slug}/prose/**/*.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-specificity-forge",
+      "to": "artifact-path:drafts/{slug}/world-bible.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-subtext-5layer",
+      "to": "artifact-path:drafts/{slug}/characters/{name}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:beat-miner",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:cliche-hunter",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:crisis-climax-auditor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:mck-crisis-dilemma",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:prose-drafter",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:story-audit",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "artifact-path:drafts/{slug}/characters/*.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "artifact-path:drafts/{slug}/misdirection-plan.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "artifact-path:drafts/{slug}/scenes/*.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "artifact-path:drafts/{slug}/prose/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-surprise-plant",
+      "to": "artifact-path:drafts/{slug}/surprise-audit.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:mck-voice-first",
+      "to": "capability:voice-drift-detector",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:mck-voice-first",
+      "to": "artifact-path:drafts/{slug}/voice-anchors.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-act",
+      "to": "capability:continuity-supervisor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-act",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-act",
+      "to": "capability:story-audit",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-act",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-act",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-act",
+      "to": "artifact-path:drafts/{slug}/scenes/{act}-{scene}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-act",
+      "to": "artifact-path:drafts/{slug}/state.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:antagonism-stress-tester",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:cliche-hunter",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:composition-conductor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:crisis-climax-auditor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:mck-honesty",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:reader-simulator",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:story-publish",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/audit/{critic}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/prose/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/prose/{act}-*.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/genre-contract.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/characters/*.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-audit",
+      "to": "artifact-path:drafts/{slug}/misdirection-plan.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-cast",
+      "to": "capability:cast-balancer",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-cast",
+      "to": "capability:character-forger",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-cast",
+      "to": "capability:story-act",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-cast",
+      "to": "artifact-path:drafts/{slug}/characters/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-cast",
+      "to": "artifact-path:drafts/{slug}/cast-design.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-cast",
+      "to": "artifact-path:drafts/{slug}/cast-roster.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "capability:genre-cartographer",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "capability:mck-controlling-idea",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "capability:premise-prospector",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "capability:story-persona",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "capability:story-spine",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "artifact-path:drafts/{slug}/persona.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "artifact-path:drafts/{slug}/premise-slate.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-new",
+      "to": "artifact-path:drafts/{slug}/premise-card.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-persona",
+      "to": "capability:story-new",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-persona",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-persona",
+      "to": "artifact-path:drafts/{slug}/persona.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-persona",
+      "to": "artifact-path:drafts/{slug}/prose/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-premise",
+      "to": "capability:genre-cartographer",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-premise",
+      "to": "capability:mck-controlling-idea",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-premise",
+      "to": "capability:premise-prospector",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-premise",
+      "to": "capability:story-spine",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-premise",
+      "to": "artifact-path:drafts/{slug}/lifecycle.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-premise",
+      "to": "artifact-path:drafts/{slug}/premise-card.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-publish",
+      "to": "capability:story-act",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-publish",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-publish",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-publish",
+      "to": "capability:story-status",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-publish",
+      "to": "artifact-path:drafts/{slug}/prose/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-publish",
+      "to": "artifact-path:drafts/{slug}/manuscript.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-publish",
+      "to": "artifact-path:drafts/{slug}/colophon.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:antagonism-stress-tester",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:cliche-hunter",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:crisis-climax-auditor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:mck-image-thread",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:mck-setup-payoff",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:mck-specificity-forge",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:mck-voice-first",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "capability:pacing-analyst",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "artifact-path:drafts/{slug}/audit-report.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "artifact-path:drafts/{slug}/prose/*.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-revise",
+      "to": "artifact-path:drafts/{slug}/revision-log.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "capability:cliche-hunter",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "capability:continuity-supervisor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "capability:story-act",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "capability:story-audit",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "capability:story-persona",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "capability:subtext-whisperer",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "artifact-path:drafts/{slug}/scenes/{act}-{scene}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "artifact-path:drafts/{slug}/world-bible.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "artifact-path:drafts/{slug}/voice-anchors.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "artifact-path:drafts/{slug}/persona.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "artifact-path:drafts/{slug}/state.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "artifact-path:drafts/{slug}/audit/scenes/{act}-{scene}-{critic}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "artifact-path:drafts/{slug}/prose/{act}-{scene}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-scene",
+      "to": "wiki:wiki/en/concepts/text-and-subtext.md",
+      "kind": "wiki-alias",
+      "sourceReference": "wiki/en/concepts/subtext.md",
+      "exists": true
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "capability:mck-crisis-dilemma",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "capability:mck-surprise-plant",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "capability:story-act",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "capability:story-cast",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "capability:story-new",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "artifact-path:drafts/{slug}/premise-card.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "artifact-path:drafts/{slug}/genre-contract.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "artifact-path:drafts/{slug}/characters/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-spine",
+      "to": "artifact-path:drafts/{slug}/misdirection-plan.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:mck-controlling-idea",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:story-act",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:story-audit",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:story-cast",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:story-new",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:story-publish",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "artifact-path:drafts/*/lifecycle.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-status",
+      "to": "artifact-path:drafts/{slug}/lifecycle.json",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-stop-loss",
+      "to": "capability:cliche-hunter",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-stop-loss",
+      "to": "capability:story-audit",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-stop-loss",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-stop-loss",
+      "to": "capability:story-scene",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-stop-loss",
+      "to": "capability:story-spine",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-stop-loss",
+      "to": "artifact-path:structured response or task-scoped story artifact",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "capability:antagonism-stress-tester",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "capability:crisis-climax-auditor",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "capability:mck-honesty",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "capability:premise-prospector",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "capability:tournament-judge",
+      "kind": "handoff"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/premise-card.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/persona.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/genre-contract.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/characters/{protagonist}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/misdirection-plan.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:story-tournament",
+      "to": "artifact-path:drafts/{slug}/",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "artifact-path:drafts/{slug}/controlling-idea.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "artifact-path:drafts/{slug}/spine.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "artifact-path:characters/{name}.md",
+      "kind": "produces"
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "wiki:wiki/CANONICAL.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/CANONICAL.md",
+      "exists": true
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "wiki:wiki/en/index.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/index.md",
+      "exists": true
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "wiki:wiki/en/log.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/log.md",
+      "exists": true
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "wiki:wiki/zh/index.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/index.md",
+      "exists": true
+    },
+    {
+      "from": "skill:wiki-librarian",
+      "to": "wiki:wiki/zh/log.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/log.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:act-designer",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/chapters/chapter-09-act-design.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-09-act-design.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/concepts/act-rhythm.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/act-rhythm.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/concepts/false-ending.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/false-ending.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/concepts/points-of-no-return.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/points-of-no-return.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/concepts/progressive-complications.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/progressive-complications.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/concepts/the-quest.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-quest.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/concepts/turning-point.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/turning-point.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/concepts/value-progression.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/value-progression.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/structures/act.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/act.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/structures/sequence.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/sequence.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/en/structures/subplot.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/subplot.md",
+      "exists": true
+    },
+    {
+      "from": "role:act-designer",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "capability:cast-balancer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/chapters/chapter-14-the-principle-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-14-the-principle-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/center-of-good.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/center-of-good.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/dilemma.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/dilemma.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/forces-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/forces-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/levels-of-conflict.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/levels-of-conflict.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/negation-of-the-negation.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/negation-of-the-negation.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/risk.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/risk.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/the-gap.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-gap.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/concepts/value-progression.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/value-progression.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/principles/law-of-conflict.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/law-of-conflict.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/en/principles/principle-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/principle-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:antagonism-stress-tester",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "capability:cast-balancer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "capability:character-forger",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/chapters/chapter-13-crisis-climax-resolution.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-13-crisis-climax-resolution.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/chapters/chapter-17-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-17-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/characters/character-arc.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/character-arc.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/characters/character-dimension.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/character-dimension.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/characters/character-revelation.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/character-revelation.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/characters/characterization-vs-true-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/characterization-vs-true-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/concepts/object-of-desire.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/object-of-desire.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/concepts/the-gap.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-gap.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/concepts/turning-point.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/turning-point.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/concepts/value-progression.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/value-progression.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/en/principles/structure-is-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/structure-is-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:arc-tracer",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "capability:antagonism-stress-tester",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "capability:subtext-whisperer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/chapters/chapter-10-scene-design.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-10-scene-design.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/chapters/chapter-11-scene-analysis.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-11-scene-analysis.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/concepts/action-vs-activity.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/action-vs-activity.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/concepts/minimum-conservative-action.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/minimum-conservative-action.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/concepts/scene-objective.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/scene-objective.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/concepts/text-and-subtext.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/text-and-subtext.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/concepts/the-gap.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-gap.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/concepts/turning-point.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/turning-point.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/concepts/value-progression.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/value-progression.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/principles/no-scene-that-doesnt-turn.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/no-scene-that-doesnt-turn.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/structures/beat.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/beat.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/en/structures/scene.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/scene.md",
+      "exists": true
+    },
+    {
+      "from": "role:beat-miner",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "capability:arc-tracer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "capability:character-forger",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/chapters/chapter-14-the-principle-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-14-the-principle-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/chapters/chapter-17-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-17-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/characters/character-dimension.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/character-dimension.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/characters/protagonist.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/protagonist.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/concepts/cast-design.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/cast-design.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/concepts/center-of-good.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/center-of-good.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/concepts/forces-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/forces-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/concepts/levels-of-conflict.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/levels-of-conflict.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/en/principles/principle-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/principle-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:cast-balancer",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "capability:arc-tracer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:character-forger",
+      "to": "capability:cast-balancer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:character-forger",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:character-forger",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:character-forger",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/chapters/chapter-05-structure-and-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-05-structure-and-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/chapters/chapter-17-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-17-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/characters/character-arc.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/character-arc.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/characters/character-dimension.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/character-dimension.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/characters/character-revelation.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/character-revelation.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/characters/characterization-vs-true-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/characterization-vs-true-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/characters/protagonist.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/characters/protagonist.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/concepts/backstory.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/backstory.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/concepts/forces-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/forces-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/concepts/levels-of-conflict.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/levels-of-conflict.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/concepts/object-of-desire.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/object-of-desire.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/en/principles/structure-is-character.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/structure-is-character.md",
+      "exists": true
+    },
+    {
+      "from": "role:character-forger",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "capability:character-forger",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "capability:key-image-curator",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "capability:setting-surveyor",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "capability:subtext-whisperer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/chapters/chapter-04-structure-and-genre.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-04-structure-and-genre.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/comparisons/convention-vs-cliche.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/comparisons/convention-vs-cliche.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/concepts/authenticity.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/authenticity.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/concepts/genre-conventions.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/genre-conventions.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/concepts/obligatory-scene.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/obligatory-scene.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/concepts/research.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/research.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/concepts/setting.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/setting.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/principles/master-your-genre.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/master-your-genre.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/en/principles/war-on-cliche.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/war-on-cliche.md",
+      "exists": true
+    },
+    {
+      "from": "role:cliche-hunter",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "capability:exposition-smuggler",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "capability:key-image-curator",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "capability:subtext-whisperer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/chapters/chapter-12-composition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-12-composition.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/exposition-as-ammunition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/exposition-as-ammunition.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/foreshadowing.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/foreshadowing.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/image-systems.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/image-systems.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/key-image.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/key-image.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/law-of-diminishing-returns.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/law-of-diminishing-returns.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/pacing.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/pacing.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/principle-of-transition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/principle-of-transition.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/setup-and-payoff.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/setup-and-payoff.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/unity-and-variety.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/unity-and-variety.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/en/concepts/value-progression.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/value-progression.md",
+      "exists": true
+    },
+    {
+      "from": "role:composition-conductor",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:continuity-supervisor",
+      "to": "capability:prose-drafter",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:continuity-supervisor",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "capability:genre-cartographer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "capability:wiki-librarian",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "wiki:wiki/en/chapters/chapter-06-structure-and-meaning.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-06-structure-and-meaning.md",
+      "exists": true
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "wiki:wiki/en/concepts/aesthetic-emotion.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/aesthetic-emotion.md",
+      "exists": true
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "wiki:wiki/en/concepts/controlling-idea.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/controlling-idea.md",
+      "exists": true
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "wiki:wiki/en/concepts/idea-vs-counter-idea.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/idea-vs-counter-idea.md",
+      "exists": true
+    },
+    {
+      "from": "role:controlling-idea-architect",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "capability:act-designer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "capability:arc-tracer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "capability:cast-balancer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "capability:genre-cartographer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/chapters/chapter-13-crisis-climax-resolution.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-13-crisis-climax-resolution.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/coincidence.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/coincidence.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/crisis.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/crisis.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/dilemma.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/dilemma.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/false-ending.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/false-ending.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/major-dramatic-question.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/major-dramatic-question.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/obligatory-scene.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/obligatory-scene.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/resolution.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/resolution.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/concepts/symbolic-ascension.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/symbolic-ascension.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/principles/inevitable-and-unexpected.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/inevitable-and-unexpected.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/en/structures/story-climax.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/story-climax.md",
+      "exists": true
+    },
+    {
+      "from": "role:crisis-climax-auditor",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "capability:composition-conductor",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "capability:subtext-whisperer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/chapters/chapter-15-exposition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-15-exposition.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/concepts/backstory.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/backstory.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/concepts/exposition-as-ammunition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/exposition-as-ammunition.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/concepts/exposition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/exposition.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/concepts/flashback.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/flashback.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/concepts/foreshadowing.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/foreshadowing.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/concepts/setup-and-payoff.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/setup-and-payoff.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/concepts/the-gap.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-gap.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/en/principles/dramatize-dont-explain.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/dramatize-dont-explain.md",
+      "exists": true
+    },
+    {
+      "from": "role:exposition-smuggler",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "capability:cliche-hunter",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "capability:crisis-climax-auditor",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/CANONICAL.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/CANONICAL.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/chapters/chapter-04-structure-and-genre.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-04-structure-and-genre.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/comparisons/convention-vs-cliche.md",
+      "kind": "wiki-alias",
+      "sourceReference": "wiki/en/concepts/convention-vs-cliche.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/concepts/genre-conventions.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/genre-conventions.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/concepts/genre.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/genre.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/concepts/mixing-genres.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/mixing-genres.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/concepts/obligatory-scene.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/obligatory-scene.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/en/principles/master-your-genre.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/master-your-genre.md",
+      "exists": true
+    },
+    {
+      "from": "role:genre-cartographer",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "capability:composition-conductor",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "capability:setting-surveyor",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "capability:wiki-librarian",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/chapters/chapter-12-composition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-12-composition.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/chapters/chapter-13-crisis-climax-resolution.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-13-crisis-climax-resolution.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/concepts/aesthetic-emotion.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/aesthetic-emotion.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/concepts/foreshadowing.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/foreshadowing.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/concepts/image-systems.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/image-systems.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/concepts/key-image.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/key-image.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/concepts/setup-and-payoff.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/setup-and-payoff.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/concepts/story-as-metaphor.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/story-as-metaphor.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/concepts/symbolic-ascension.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/symbolic-ascension.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/en/principles/meaning-produces-emotion.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/meaning-produces-emotion.md",
+      "exists": true
+    },
+    {
+      "from": "role:key-image-curator",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "capability:genre-cartographer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/chapters/chapter-01-the-story-problem.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-01-the-story-problem.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/chapters/chapter-07-the-substance-of-story.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-07-the-substance-of-story.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/concepts/creative-limitation.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/creative-limitation.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/concepts/forces-of-antagonism.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/forces-of-antagonism.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/concepts/inciting-incident.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/inciting-incident.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/concepts/object-of-desire.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/object-of-desire.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/concepts/premise.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/premise.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/concepts/setting.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/setting.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/en/principles/writing-from-the-inside-out.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/writing-from-the-inside-out.md",
+      "exists": true
+    },
+    {
+      "from": "role:premise-prospector",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:prose-drafter",
+      "to": "capability:beat-miner",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:reader-simulator",
+      "to": "capability:story-revise",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "capability:antagonism-stress-tester",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "capability:beat-miner",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "capability:composition-conductor",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "capability:subtext-whisperer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/action-vs-activity.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/action-vs-activity.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/exposition-as-ammunition.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/exposition-as-ammunition.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/minimum-conservative-action.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/minimum-conservative-action.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/scene-objective.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/scene-objective.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/story-event.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/story-event.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/text-and-subtext.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/text-and-subtext.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/the-gap.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-gap.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/turning-point.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/turning-point.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/concepts/value-progression.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/value-progression.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/principles/no-scene-that-doesnt-turn.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/no-scene-that-doesnt-turn.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/en/structures/scene.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/scene.md",
+      "exists": true
+    },
+    {
+      "from": "role:scene-architect",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "capability:character-forger",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "capability:genre-cartographer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/chapters/chapter-03-structure-and-setting.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-03-structure-and-setting.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/concepts/authenticity.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/authenticity.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/concepts/creative-limitation.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/creative-limitation.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/concepts/levels-of-conflict.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/levels-of-conflict.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/concepts/research.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/research.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/concepts/setting.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/setting.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/en/principles/story-obeys-its-world.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/story-obeys-its-world.md",
+      "exists": true
+    },
+    {
+      "from": "role:setting-surveyor",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:specificity-auditor",
+      "to": "capability:mck-specificity-forge",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "capability:act-designer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "capability:genre-cartographer",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "capability:wiki-librarian",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/crisis.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/crisis.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/inciting-incident.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/inciting-incident.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/major-dramatic-question.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/major-dramatic-question.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/object-of-desire.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/object-of-desire.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/progressive-complications.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/progressive-complications.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/spine.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/spine.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/structure.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/structure.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/the-story-triangle.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-story-triangle.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/concepts/turning-point.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/turning-point.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/structures/act.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/act.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/structures/archplot.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/archplot.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/en/structures/story-climax.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/story-climax.md",
+      "exists": true
+    },
+    {
+      "from": "role:structure-skeleton",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "capability:beat-miner",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "capability:exposition-smuggler",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/chapters/chapter-18-the-text.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/chapters/chapter-18-the-text.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/concepts/action-vs-activity.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/action-vs-activity.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/concepts/dialogue.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/dialogue.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/concepts/minimum-conservative-action.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/minimum-conservative-action.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/concepts/scene-objective.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/scene-objective.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/concepts/text-and-subtext.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/text-and-subtext.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/concepts/the-gap.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/concepts/the-gap.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/principles/dramatize-dont-explain.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/dramatize-dont-explain.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/principles/silent-screenplay.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/principles/silent-screenplay.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/en/structures/beat.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/structures/beat.md",
+      "exists": true
+    },
+    {
+      "from": "role:subtext-whisperer",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:surprise-auditor",
+      "to": "capability:mck-surprise-plant",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:voice-drift-detector",
+      "to": "capability:mck-voice-first",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "capability:character-forger",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "capability:controlling-idea-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "capability:scene-architect",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "capability:structure-skeleton",
+      "kind": "handoff"
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "wiki:wiki/CANONICAL.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/CANONICAL.md",
+      "exists": true
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "wiki:wiki/en/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "wiki:wiki/en/index.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/index.md",
+      "exists": true
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "wiki:wiki/en/log.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/en/log.md",
+      "exists": true
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "wiki:wiki/zh/MAP.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/MAP.md",
+      "exists": true
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "wiki:wiki/zh/index.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/index.md",
+      "exists": true
+    },
+    {
+      "from": "role:wiki-librarian",
+      "to": "wiki:wiki/zh/log.md",
+      "kind": "wiki-read",
+      "sourceReference": "wiki/zh/log.md",
+      "exists": true
+    }
+  ],
+  "unresolved": []
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mckee-story-workflow.local/schemas/skill-contract.schema.json",
+  "title": "Canonical Skill Contract",
+  "type": "object",
+  "required": [
+    "purpose",
+    "trigger",
+    "exclusions",
+    "inputs",
+    "preconditions",
+    "procedure",
+    "artifacts",
+    "quality_gates",
+    "failure_behavior",
+    "side_effects",
+    "handoff",
+    "fixtures"
+  ],
+  "properties": {
+    "purpose": { "type": "string", "minLength": 3 },
+    "trigger": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "exclusions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "inputs": {
+      "type": "object",
+      "required": ["required", "optional"],
+      "properties": {
+        "required": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "optional": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "preconditions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "procedure": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "artifacts": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "quality_gates": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "failure_behavior": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "side_effects": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "handoff": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "fixtures": {
+      "type": "object",
+      "required": ["positive", "negative"],
+      "properties": {
+        "positive": { "type": "string", "minLength": 1 },
+        "negative": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

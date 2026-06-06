@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "artifacts": [
+    {
+      "id": "seed",
+      "version": "1.0.0",
+      "required_input_version": null,
+      "producers": ["human", "story-new"],
+      "consumers": ["story-premise"],
+      "validation": ["non-empty creative seed", "haunt identified"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": [],
+      "stop_loss": "request one clarification when the seed has no discernible dramatic element"
+    },
+    {
+      "id": "premise-candidates",
+      "version": "1.0.0",
+      "required_input_version": "seed@1.0.0",
+      "producers": ["premise-prospector", "story-tournament"],
+      "consumers": ["story-premise"],
+      "validation": ["candidate has protagonist, desire, opposition, stakes, and change"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["seed"],
+      "stop_loss": "stop after two candidate regeneration rounds without new constraints"
+    },
+    {
+      "id": "premise-and-genre",
+      "version": "1.0.0",
+      "required_input_version": "premise-candidates@1.0.0",
+      "producers": ["story-premise", "genre-cartographer"],
+      "consumers": ["mck-controlling-idea", "story-cast", "story-spine"],
+      "validation": ["selected premise is locked", "genre conventions and obligations are explicit"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["premise-candidates"],
+      "stop_loss": "return to candidates when premise and genre obligations materially conflict"
+    },
+    {
+      "id": "controlling-idea",
+      "version": "1.0.0",
+      "required_input_version": "premise-and-genre@1.0.0",
+      "producers": ["mck-controlling-idea", "controlling-idea-architect"],
+      "consumers": ["story-cast", "story-spine", "mck-honesty"],
+      "validation": ["value and cause are explicit", "counter-idea is testable"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["premise-and-genre"],
+      "stop_loss": "escalate after three failed honesty repairs"
+    },
+    {
+      "id": "cast-system",
+      "version": "1.0.0",
+      "required_input_version": "controlling-idea@1.0.0",
+      "producers": ["story-cast", "character-forger", "cast-balancer"],
+      "consumers": ["story-spine", "story-act", "story-scene"],
+      "validation": ["inner, personal, and extra-personal pressures exist", "character dimensions are distinct"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["controlling-idea"],
+      "stop_loss": "merge or defer characters after two unresolved overlap audits"
+    },
+    {
+      "id": "story-spine",
+      "version": "1.0.0",
+      "required_input_version": "cast-system@1.0.0",
+      "producers": ["story-spine", "structure-skeleton"],
+      "consumers": ["story-act", "arc-tracer"],
+      "validation": ["causal turning points, crisis, climax, and resolution cohere"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["controlling-idea", "cast-system"],
+      "stop_loss": "return to premise when two spine repairs cannot produce a causal climax"
+    },
+    {
+      "id": "act-sequence-design",
+      "version": "1.0.0",
+      "required_input_version": "story-spine@1.0.0",
+      "producers": ["story-act", "act-designer"],
+      "consumers": ["scene-architect"],
+      "validation": ["sequences escalate and end in meaningful turns"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["story-spine"],
+      "stop_loss": "return to spine after two act designs preserve the same structural gap"
+    },
+    {
+      "id": "scene-contracts",
+      "version": "1.0.0",
+      "required_input_version": "act-sequence-design@1.0.0",
+      "producers": ["scene-architect"],
+      "consumers": ["beat-miner", "story-scene"],
+      "validation": ["each scene has objective, conflict, gap, turn, value change, and consequence"],
+      "human_checkpoint": false,
+      "allowed_backward_transitions": ["act-sequence-design"],
+      "stop_loss": "return gapless scenes to act design after one focused repair"
+    },
+    {
+      "id": "beat-sheets",
+      "version": "1.0.0",
+      "required_input_version": "scene-contracts@1.0.0",
+      "producers": ["beat-miner", "mck-subtext-5layer"],
+      "consumers": ["story-scene", "mck-beat-to-prose"],
+      "validation": ["beats form a causal dramatic unit and open consequential gaps"],
+      "human_checkpoint": false,
+      "allowed_backward_transitions": ["scene-contracts"],
+      "stop_loss": "return to scene contract when beat repair cannot create a value turn"
+    },
+    {
+      "id": "prose-scenes",
+      "version": "1.0.0",
+      "required_input_version": "beat-sheets@1.0.0",
+      "producers": ["story-scene", "prose-drafter", "mck-beat-to-prose"],
+      "consumers": ["story-audit", "story-revise"],
+      "validation": ["voice, POV, specificity, subtext, exposition, and continuity checks pass"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["beat-sheets", "scene-contracts"],
+      "stop_loss": "apply story-stop-loss after the configured scene revision cap"
+    },
+    {
+      "id": "chapters",
+      "version": "1.0.0",
+      "required_input_version": "prose-scenes@1.0.0",
+      "producers": ["story-publish"],
+      "consumers": ["story-audit", "story-revise"],
+      "validation": ["chapter boundaries preserve escalation, viewpoint, promise, and rhythm"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["prose-scenes"],
+      "stop_loss": "revert chapter regrouping when two passes reduce structural clarity"
+    },
+    {
+      "id": "draft-audit",
+      "version": "1.0.0",
+      "required_input_version": "chapters@1.0.0",
+      "producers": ["story-audit", "composition-conductor"],
+      "consumers": ["story-revise"],
+      "validation": ["critic dimensions cite evidence and separate blocking from advisory findings"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["prose-scenes", "chapters"],
+      "stop_loss": "stop when critics repeat findings without new evidence"
+    },
+    {
+      "id": "revision-passes",
+      "version": "1.0.0",
+      "required_input_version": "draft-audit@1.0.0",
+      "producers": ["story-revise"],
+      "consumers": ["continuity-supervisor", "story-publish"],
+      "validation": ["passes are separated by purpose and changes are traceable"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["draft-audit", "prose-scenes"],
+      "stop_loss": "stop after three unsuccessful repairs of the same root finding"
+    },
+    {
+      "id": "publication-checks",
+      "version": "1.0.0",
+      "required_input_version": "revision-passes@1.0.0",
+      "producers": ["continuity-supervisor", "story-publish"],
+      "consumers": ["story-publish", "human"],
+      "validation": ["continuity, privacy, attribution, and formatting checks pass"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["revision-passes", "prose-scenes"],
+      "stop_loss": "publication remains blocked while any privacy or continuity P0/P1 issue exists"
+    },
+    {
+      "id": "export-package",
+      "version": "1.0.0",
+      "required_input_version": "publication-checks@1.0.0",
+      "producers": ["story-publish"],
+      "consumers": ["human"],
+      "validation": ["manifest, source versions, checksums, and approval record are present"],
+      "human_checkpoint": true,
+      "allowed_backward_transitions": ["publication-checks"],
+      "stop_loss": "never publish or disclose without explicit human approval"
+    }
+  ]
+}

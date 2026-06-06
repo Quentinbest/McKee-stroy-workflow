@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "mappings": {
+    "act-designer": { "canonicalRole": "act-designer", "preferredSkill": "act-designer" },
+    "arc-tracer": { "canonicalRole": "arc-tracer", "preferredSkill": "arc-tracer" },
+    "composition-conductor": { "canonicalRole": "composition-conductor", "preferredSkill": "composition-conductor" },
+    "controlling-idea-architect": { "canonicalRole": "controlling-idea-architect", "preferredSkill": "controlling-idea-architect" },
+    "exposition-smuggler": { "canonicalRole": "exposition-smuggler", "preferredSkill": "exposition-smuggler" },
+    "key-image-curator": { "canonicalRole": "key-image-curator", "preferredSkill": "key-image-curator" },
+    "wiki-librarian": { "canonicalRole": "wiki-librarian", "preferredSkill": "wiki-librarian" }
+  }
+}

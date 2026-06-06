@@ -1,0 +1,2090 @@
+{
+  "schemaVersion": 1,
+  "skills": {
+    "act-designer": {
+      "positive": {
+        "contract": {
+          "purpose": "Slice the spine into acts and sequences — choosing how many acts the story needs, where each act ends with an irreversible turning point, where any False Ending sits, and how the act rhythm escalates. Runs in main context for collaborative design. Use after structure-skeleton has locked the spine, before scene-architect begins building scenes. Trigger: /act-designer, \"design the acts\", \"how many acts\", \"act structure\", \"act rhythm\", \"where does act 1 end\", \"False Ending\", \"act design\".",
+          "trigger": [
+            "/act-designer",
+            "act designer"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/genre-contract.md",
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/act-design.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "story-act",
+            "story-audit"
+          ],
+          "fixtures": {
+            "positive": "act-designer:positive",
+            "negative": "act-designer:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "arc-tracer": {
+      "positive": {
+        "contract": {
+          "purpose": "Plot a character's arc — the trajectory of inner change or refusal to change — across the story's spine. Maps revelation moments, names the want-to-need transition, produces a beat-by-beat value-progression chart, and identifies the obligatory revelation scene. Runs in main context (iterative, user can redirect). Prefer this over the arc-tracer agent for collaborative, visible arc work. Trigger: /arc-tracer, \"trace the arc\", \"character arc for {name}\", \"map {name}'s arc\", \"where does {name} change\", \"plot the arc\".",
+          "trigger": [
+            "/arc-tracer",
+            "arc tracer"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/characters/{name}.md",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/characters/{name}-arc.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "mck-arc-walk",
+            "story-scene"
+          ],
+          "fixtures": {
+            "positive": "arc-tracer:positive",
+            "negative": "arc-tracer:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "composition-conductor": {
+      "positive": {
+        "contract": {
+          "purpose": "Audit and tune the cross-scene craft of a story — Unity & Variety, Pacing, Setup-Payoff chains, Transitions, and Image System threading. Reads above the scene level and below the spine level, looking for repetition that flattens, monotony of rhythm, broken setup-payoff chains, and missing image patterns. Runs in main context. Use after enough scenes exist to see the texture. Trigger: /composition-conductor, \"cross-scene audit\", \"pacing\", \"is the rhythm right\", \"setup-payoff\", \"composition\", \"transitions\", \"image threading\".",
+          "trigger": [
+            "/composition-conductor",
+            "composition conductor"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/state.json",
+            "drafts/{slug}/image-system.md",
+            "drafts/{slug}/composition-audit.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "story-revise"
+          ],
+          "fixtures": {
+            "positive": "composition-conductor:positive",
+            "negative": "composition-conductor:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "controlling-idea-architect": {
+      "positive": {
+        "contract": {
+          "purpose": "Forge or audit a story's Controlling Idea — the single \"value + cause\" sentence every scene must serve (McKee Ch.6). Supports four modes: FORGE (premise → 3 candidate ideas), STRESS-TEST (audit one idea), TRACE (draft → does it serve the idea?), REPAIR (broken idea → minimum-edit prescription). Produces the Controlling-Idea Card at drafts/{slug}/controlling-idea.md. Refactored from agent to skill — runs in main context for iterative refinement. Trigger: /controlling-idea-architect, \"forge controlling idea\", \"stress test CI\", \"trace controlling idea\", \"repair controlling idea\", \"audit the theme\", \"CI audit\", \"is my controlling idea right\".",
+          "trigger": [
+            "/controlling-idea-architect",
+            "controlling idea architect"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/genre-contract.md",
+            "drafts/{slug}/premise-card.md",
+            "drafts/{slug}/"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "mck-honesty",
+            "story-spine",
+            "structure-skeleton"
+          ],
+          "fixtures": {
+            "positive": "controlling-idea-architect:positive",
+            "negative": "controlling-idea-architect:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "exposition-smuggler": {
+      "positive": {
+        "contract": {
+          "purpose": "Convert backstory and information dumps into \"exposition as ammunition\" — every piece of information fired in a scene where someone is fighting to reveal it, conceal it, weaponize it, or extract it. Runs in main context for scene-by-scene exposition redesign. Use when a scene reads as \"talking heads\" or info-dump, or before committing any exposition-heavy scene to prose. Trigger: /exposition-smuggler, \"fix the exposition\", \"info dump\", \"talking heads\", \"exposition as ammunition\", \"smuggle the backstory\", \"hide the information\".",
+          "trigger": [
+            "/exposition-smuggler",
+            "exposition smuggler"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "structured response or task-scoped story artifact"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "exposition-smuggler:positive",
+            "negative": "exposition-smuggler:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "key-image-curator": {
+      "positive": {
+        "contract": {
+          "purpose": "Identify or design the story's Key Image — the single recurring image that, by the Climax, has gathered the Controlling Idea inside it. Curates the full image system (motif vocabulary) and ensures the Key Image lands as the carrier of the final value flip. Runs in main context for collaborative curation. Trigger: /key-image-curator, \"key image\", \"find the image\", \"image system\", \"what's the recurring image\", \"motif\", \"image curation\".",
+          "trigger": [
+            "/key-image-curator",
+            "key image curator"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/world-bible.md",
+            "drafts/{slug}/prose/",
+            "drafts/{slug}/image-system.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "key-image-curator:positive",
+            "negative": "key-image-curator:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-arc-walk": {
+      "positive": {
+        "contract": {
+          "purpose": "Walk a character's arc across the spine — mapping revelation moments, naming the want-to-need transition, identifying the obligatory revelation scene, and producing a value-progression chart. Use after character files and spine are in place, or to diagnose a character who feels static or unmotivated. Trigger: /mck-arc-walk, \"character arc\", \"trace the arc\", \"character progression\", \"where does the character change\", \"map the arc\".",
+          "trigger": [
+            "/mck-arc-walk",
+            "mck arc walk"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/characters/{name}.md",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/characters/{name}-arc.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "scene-architect"
+          ],
+          "fixtures": {
+            "positive": "mck-arc-walk:positive",
+            "negative": "mck-arc-walk:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-beat-to-prose": {
+      "positive": {
+        "contract": {
+          "purpose": "Translate a beat sheet into polished prose. Each beat (action/reaction unit) is performed through scene description, action, and dialogue — not explained. Applies voice anchors, subtext discipline, and specificity to every line. Invoke after beat-miner has produced a beat sheet, or when the writer has a beat sheet and wants to draft the prose. Trigger: /mck-beat-to-prose, \"draft the prose\", \"write this beat\", \"turn beats into prose\", \"perform this scene\".",
+          "trigger": [
+            "/mck-beat-to-prose",
+            "mck beat to prose"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/voice-anchors.md",
+            "drafts/{slug}/characters/{names}.md",
+            "drafts/{slug}/scenes/{act}-{scene}.md",
+            "drafts/{slug}/prose/{act}-{scene}.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "mck-subtext-5layer",
+            "story-scene"
+          ],
+          "fixtures": {
+            "positive": "mck-beat-to-prose:positive",
+            "negative": "mck-beat-to-prose:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-controlling-idea": {
+      "positive": {
+        "contract": {
+          "purpose": "Forge or audit a story's Controlling Idea — the single sentence of \"value + cause\" that every scene must ultimately serve (McKee Ch.4). Walks the writer through value identification, negation, cause, and the four-corner value test. Invoke when starting a new project, when the theme feels vague, or when scenes keep drifting without apparent purpose. Trigger: /mck-controlling-idea, \"what is this story about\", \"controlling idea\", \"theme\", \"what does this story say\", \"主控思想\".",
+          "trigger": [
+            "/mck-controlling-idea",
+            "mck controlling idea"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/controlling-idea.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-controlling-idea:positive",
+            "negative": "mck-controlling-idea:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-crisis-dilemma": {
+      "positive": {
+        "contract": {
+          "purpose": "Sharpen a draft Crisis into a true dilemma — a choice between irreconcilable goods or the lesser of two evils, where no right answer exists without cost. McKee's Crisis is the story's \"Obligatory Scene\" where the protagonist faces their worst fear and must choose who they truly are. Use when the Crisis feels like a \"hard choice\" (obvious right answer) rather than a true dilemma. Trigger: /mck-crisis-dilemma, \"crisis design\", \"sharpen the dilemma\", \"climax choice\", \"the story's worst moment\", \"obligatory scene\".",
+          "trigger": [
+            "/mck-crisis-dilemma",
+            "mck crisis dilemma"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "structured response or task-scoped story artifact"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-crisis-dilemma:positive",
+            "negative": "mck-crisis-dilemma:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-exposition-ammo": {
+      "positive": {
+        "contract": {
+          "purpose": "Convert backstory and information dumps into \"exposition as ammunition\" — every piece of information the audience needs is delivered inside a scene where someone is fighting to reveal it, conceal it, extract it, or weaponize it. Exposition is not furniture. It is a weapon, and weapons must be fired in combat. Use before drafting info-heavy scenes, or to fix scenes that read as \"talking heads.\" Trigger: /mck-exposition-ammo, \"exposition\", \"info dump\", \"backstory\", \"show don't tell\", \"talking heads\", \"exposition as ammunition\", \"smuggle the information\".",
+          "trigger": [
+            "/mck-exposition-ammo",
+            "mck exposition ammo"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/world-bible.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-exposition-ammo:positive",
+            "negative": "mck-exposition-ammo:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-gap-find": {
+      "positive": {
+        "contract": {
+          "purpose": "Find the Gap in any beat or scene — the discrepancy between what a character expects to happen and what actually happens. The Gap is where story lives. A beat without a Gap is not a story beat; it's inert description. Use to audit beats that feel flat, or as a pre-draft check on any scene. Trigger: /mck-gap-find, \"find the gap\", \"where is the gap\", \"this beat feels flat\", \"nothing happens in this scene\", \"gap analysis\".",
+          "trigger": [
+            "/mck-gap-find",
+            "mck gap find"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "structured response or task-scoped story artifact"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-gap-find:positive",
+            "negative": "mck-gap-find:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-honesty": {
+      "positive": {
+        "contract": {
+          "purpose": "Tests, stresses, and repairs a Controlling Idea against the Honesty Engine — the three-check suite that separates a story worth telling from a bumper sticker. Answers: does the author actually believe this? Is it dramatized by structure or only asserted by dialogue? Does the Counter-Idea get a fair fight? Three modes: TEST (run the gauntlet), STRESS (generate the hardest counter-case), REPAIR (find the grounded version when the CI fails). Invoke before locking a CI, after controlling-idea-architect FORGE, and once the draft is complete to verify the structure proved the idea. Trigger: /mck-honesty, \"test the controlling idea\", \"is this theme true\", \"honesty check\", \"does the story earn this\", \"what's the counter-idea\".",
+          "trigger": [
+            "/mck-honesty",
+            "mck honesty"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/persona.md",
+            "drafts/{slug}/spine.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "controlling-idea-architect",
+            "crisis-climax-auditor",
+            "story-audit",
+            "story-revise",
+            "story-spine"
+          ],
+          "fixtures": {
+            "positive": "mck-honesty:positive",
+            "negative": "mck-honesty:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-image-thread": {
+      "positive": {
+        "contract": {
+          "purpose": "Thread the story's image system — inventory every motif and symbolic object in the prose, map cadence against the planned rhythm, identify and verify the Key Image (the one image that by Climax has gathered the Controlling Idea inside it), flag dropped motifs and motif deserts, and prescribe or execute targeted additions. Use after any full draft or act completion, and before final polish. Trigger: /mck-image-thread, \"image system\", \"thread the motifs\", \"key image\", \"check the motifs\", \"motif cadence\", \"image audit\".",
+          "trigger": [
+            "/mck-image-thread",
+            "mck image thread"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/key-image.md",
+            "drafts/{slug}/state.json",
+            "drafts/{slug}/prose/**/*.md",
+            "drafts/{slug}/revision-log.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-image-thread:positive",
+            "negative": "mck-image-thread:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-negation-of-negation": {
+      "positive": {
+        "contract": {
+          "purpose": "Drive a story's controlling value to its absolute depth — from the positive pole through its simple contradiction to the negation of the negation (the deepest opposite, which often wears the positive pole's mask). McKee's tool for designing Crisis and Climax at the level that separates tragedy from melodrama. Use when designing Crisis, testing whether a Controlling Idea is truly negative or merely sad, or checking whether the story's ultimate value charge is as deep as it can go. Trigger: /mck-negation-of-negation, \"negation of the negation\", \"deepest negative\", \"value square\", \"drive to the depths\", \"crisis design depth\", \"ultimate negative\".",
+          "trigger": [
+            "/mck-negation-of-negation",
+            "mck negation of negation"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/spine.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-negation-of-negation:positive",
+            "negative": "mck-negation-of-negation:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-setup-payoff": {
+      "positive": {
+        "contract": {
+          "purpose": "Build and audit the story's setup-payoff ledger — every element planted for future use is logged with its intended payoff scene; every payoff is traced to its setup; dangling setups and groundless payoffs are detected and remedied. Use after a full draft, before final polish, or whenever a payoff \"comes from nowhere\" or a planted element never returns. Trigger: /mck-setup-payoff, \"setup payoff\", \"ledger\", \"check the setups\", \"planted elements\", \"dangling setup\", \"groundless payoff\", \"Chekhov's gun\".",
+          "trigger": [
+            "/mck-setup-payoff",
+            "mck setup payoff"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/state.json",
+            "drafts/{slug}/prose/**/*.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-setup-payoff:positive",
+            "negative": "mck-setup-payoff:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-specificity-forge": {
+      "positive": {
+        "contract": {
+          "purpose": "Convert generic language to particular language — scan prose for generic nouns, verbs, and descriptions; query the world bible and invent plausible specifics; replace each generic element with a concrete particular consistent with the world and the character's POV. The enemy of specificity is the first noun or verb that comes to mind. Use during Pass 6 revision or any time prose feels \"writerly but vague.\" Trigger: /mck-specificity-forge, \"specificity\", \"too generic\", \"forge specifics\", \"make it particular\", \"vague writing\", \"generic prose\", \"more specific\".",
+          "trigger": [
+            "/mck-specificity-forge",
+            "mck specificity forge"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/world-bible.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-specificity-forge:positive",
+            "negative": "mck-specificity-forge:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-subtext-5layer": {
+      "positive": {
+        "contract": {
+          "purpose": "McKee's 5-layer subtext authoring model. Author dialogue by computing Wound → Want → Fear → Tactic first; surface Text is generated last, in service of the Tactic. Architecturally prevents on-the-nose writing. Use BEFORE drafting any dialogue-heavy scene, or to fix dialogue that already feels on-the-nose. Trigger: /mck-subtext-5layer, \"subtext layers\", \"fix on the nose\", \"stop characters saying what they mean\", \"dialogue feels too direct\", \"subtext model\".",
+          "trigger": [
+            "/mck-subtext-5layer",
+            "mck subtext 5layer"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/characters/{name}.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "mck-subtext-5layer:positive",
+            "negative": "mck-subtext-5layer:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-surprise-plant": {
+      "positive": {
+        "contract": {
+          "purpose": "Designs and audits the Inevitable-Surprise architecture — the dual-reading system where planted data supports two simultaneous readings (surface misdirection + submerged truth), so the Climax produces the \"of course — it was always going to be this\" experience. Cannot be added in revision; must be designed before Act 1 is written. Three modes: DESIGN (build the misdirection plan from the Climax backward), PLANT (specify exact scene placements for each dual-reading item), AUDIT (post-draft verification that the planted data actually works). Spawn surprise-auditor agent for the AUDIT mode's blind read. Trigger: /mck-surprise-plant, \"inevitable surprise\", \"plant the foreshadowing\", \"misdirection plan\", \"dual reading\", \"make the climax feel inevitable\", \"foreshadowing\".",
+          "trigger": [
+            "/mck-surprise-plant",
+            "mck surprise plant"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/characters/*.md",
+            "drafts/{slug}/misdirection-plan.md",
+            "drafts/{slug}/scenes/*.md",
+            "drafts/{slug}/prose/",
+            "drafts/{slug}/surprise-audit.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "beat-miner",
+            "cliche-hunter",
+            "crisis-climax-auditor",
+            "mck-crisis-dilemma",
+            "prose-drafter",
+            "story-audit",
+            "story-revise",
+            "story-scene"
+          ],
+          "fixtures": {
+            "positive": "mck-surprise-plant:positive",
+            "negative": "mck-surprise-plant:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "mck-voice-first": {
+      "positive": {
+        "contract": {
+          "purpose": "Lock a story's voice before drafting prose — select exemplar passages, extract style rules (vocabulary range, sentence rhythm, register, tense, POV, taboo words), and write a voice-anchors.md file that all subsequent drafting must honor. Also use mid-draft to recalibrate voice drift. Voice is what makes a story by *someone*, not just by *anyone*. Trigger: /mck-voice-first, \"voice anchors\", \"lock the voice\", \"voice rules\", \"voice drift\", \"establish the voice\", \"what's the voice of this story\".",
+          "trigger": [
+            "/mck-voice-first",
+            "mck voice first"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/voice-anchors.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "voice-drift-detector"
+          ],
+          "fixtures": {
+            "positive": "mck-voice-first:positive",
+            "negative": "mck-voice-first:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-act": {
+      "positive": {
+        "contract": {
+          "purpose": "Plan a single act's scene sequence — choosing how many scenes the act needs, where each sequence ends with a turning point, and how the act's rhythm escalates from its opening to its ending value flip. Use after the spine is locked, one act at a time. Produces scene cards for each scene in the act. Trigger: /story-act, \"plan act 1\", \"plan act 2\", \"design act {N}\", \"break act {N} into scenes\", \"scene sequence for act {N}\".",
+          "trigger": [
+            "/story-act",
+            "story act"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/scenes/{act}-{scene}.md",
+            "drafts/{slug}/state.json"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "continuity-supervisor",
+            "scene-architect",
+            "story-audit",
+            "story-scene"
+          ],
+          "fixtures": {
+            "positive": "story-act:positive",
+            "negative": "story-act:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-audit": {
+      "positive": {
+        "contract": {
+          "purpose": "Run the full McKee critic suite over the current draft — structural compliance, antagonism balance, cliché hunt, crisis/climax validity, subtext check — as parallel agents where supported (else native critic tools, else in-context sequential passes), then aggregate findings into a prioritized revision list. Use after prose drafting is complete for an act or the whole story. Trigger: /story-audit, \"audit the story\", \"run the critics\", \"check the draft\", \"what's wrong with this draft\", \"full audit\".",
+          "trigger": [
+            "/story-audit",
+            "story audit"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/audit/{critic}.md",
+            "drafts/{slug}/prose/",
+            "drafts/{slug}/prose/{act}-*.md",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/genre-contract.md",
+            "drafts/{slug}/characters/*.md",
+            "drafts/{slug}/misdirection-plan.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "antagonism-stress-tester",
+            "cliche-hunter",
+            "composition-conductor",
+            "crisis-climax-auditor",
+            "mck-honesty",
+            "reader-simulator",
+            "story-publish",
+            "story-revise"
+          ],
+          "fixtures": {
+            "positive": "story-audit:positive",
+            "negative": "story-audit:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-cast": {
+      "positive": {
+        "contract": {
+          "purpose": "Design and audit the full cast as a system of pressures — every character justified by a unique force they apply to the protagonist, no role redundant, every dimension of the protagonist illuminated by at least one foil. Delegates analysis to cast-balancer agent; guides character creation through character-forger agent. Use after spine is locked and before scene-level work. Trigger: /story-cast, \"design the cast\", \"character system\", \"who are the characters\", \"audit the cast\", \"is this character necessary\".",
+          "trigger": [
+            "/story-cast",
+            "story cast"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/characters/",
+            "drafts/{slug}/cast-design.md",
+            "drafts/{slug}/cast-roster.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "cast-balancer",
+            "character-forger",
+            "story-act"
+          ],
+          "fixtures": {
+            "positive": "story-cast:positive",
+            "negative": "story-cast:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-new": {
+      "positive": {
+        "contract": {
+          "purpose": "Start a new story project from any seed — image, dream, news clipping, overheard line, mood, or abstract concept. Initializes the project lifecycle, generates a premise slate via the premise-prospector agent, and guides the writer from raw inspiration to a locked Premise Card. The entry point for all new story projects. Trigger: /story-new, \"start a new story\", \"new project\", \"I have an idea\", \"let's start a story\", \"I had a dream about\", \"what if\".",
+          "trigger": [
+            "/story-new",
+            "story new"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/persona.md",
+            "drafts/{slug}/premise-slate.md",
+            "drafts/{slug}/premise-card.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "genre-cartographer",
+            "mck-controlling-idea",
+            "premise-prospector",
+            "story-persona",
+            "story-spine"
+          ],
+          "fixtures": {
+            "positive": "story-new:positive",
+            "negative": "story-new:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-persona": {
+      "positive": {
+        "contract": {
+          "purpose": "Forge, load, or apply an Author Persona — the fictional author consciousness who \"wrote\" this story, distinct from the human writer and from the AI. The persona defines animating belief, aesthetic bright lines, formal habits, and a Truth Library of non-cliché human observations. It acts as the decision filter for every aesthetic choice: voice, tone, what to show, what to cut. Three modes: FORGE (create from scratch), LOAD (prime working memory), APPLY (filter a specific decision). Trigger: /story-persona, \"who wrote this\", \"what's the author's voice\", \"forge a persona\", \"load the persona\", \"author persona\".",
+          "trigger": [
+            "/story-persona",
+            "story persona"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/persona.md",
+            "drafts/{slug}/prose/"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "story-new",
+            "story-scene"
+          ],
+          "fixtures": {
+            "positive": "story-persona:positive",
+            "negative": "story-persona:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-premise": {
+      "positive": {
+        "contract": {
+          "purpose": "Generate or lock a premise — the story's nucleus: who wants what against what opposition. Produces a slate of 3–5 candidates via the premise-prospector agent, walks the user through selection, and locks the Premise Card. Can also be used to iterate on an existing premise that isn't working. Trigger: /story-premise, \"generate a premise\", \"fix the premise\", \"what's the premise\", \"lock the premise\", \"premise slate\".",
+          "trigger": [
+            "/story-premise",
+            "story premise"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/lifecycle.json",
+            "drafts/{slug}/premise-card.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "genre-cartographer",
+            "mck-controlling-idea",
+            "premise-prospector",
+            "story-spine"
+          ],
+          "fixtures": {
+            "positive": "story-premise:positive",
+            "negative": "story-premise:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-publish": {
+      "positive": {
+        "contract": {
+          "purpose": "Final assembly and export of a polished manuscript. Assembles all prose files in sequence, applies final line-level polish pass, verifies completeness, and exports to a clean manuscript file. Use after story-revise has completed all revision passes and the draft is marked \"polished\". Trigger: /story-publish, \"publish the story\", \"export the manuscript\", \"final assembly\", \"compile the story\", \"finish the manuscript\".",
+          "trigger": [
+            "/story-publish",
+            "story publish"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/prose/",
+            "drafts/{slug}/manuscript.md",
+            "drafts/{slug}/colophon.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "story-act",
+            "story-revise",
+            "story-scene",
+            "story-status"
+          ],
+          "fixtures": {
+            "positive": "story-publish:positive",
+            "negative": "story-publish:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-revise": {
+      "positive": {
+        "contract": {
+          "purpose": "Multi-pass revision orchestrator — runs the full draft through dedicated revision passes, one dimension at a time: structure → cliché → subtext → image system → voice → specificity → reader simulation. Each pass touches the whole draft but fixes only one dimension. Mirrors how human writers actually revise. Trigger: /story-revise, \"revise the draft\", \"revision pass\", \"fix the draft\", \"improve the writing\", \"polish the prose\".",
+          "trigger": [
+            "/story-revise",
+            "story revise"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/audit-report.md",
+            "drafts/{slug}/prose/*.md",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/revision-log.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "antagonism-stress-tester",
+            "cliche-hunter",
+            "crisis-climax-auditor",
+            "mck-image-thread",
+            "mck-setup-payoff",
+            "mck-specificity-forge",
+            "mck-voice-first",
+            "pacing-analyst"
+          ],
+          "fixtures": {
+            "positive": "story-revise:positive",
+            "negative": "story-revise:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-scene": {
+      "positive": {
+        "contract": {
+          "purpose": "Draft or revise a single scene — the most-used skill in the platform. Loads the Scene Card, walks through the 5-layer subtext authoring model in-context, generates prose iteratively with user able to interject, then runs critic audits (cliche-hunter, subtext-whisperer, continuity-supervisor — as agents where supported, else in-context) before committing the scene to the project. The primary scene-writing workflow. Trigger: /story-scene, \"write scene\", \"draft scene\", \"scene 2.3\", \"work on scene\", \"write the next scene\".",
+          "trigger": [
+            "/story-scene",
+            "story scene"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/scenes/{act}-{scene}.md",
+            "drafts/{slug}/world-bible.md",
+            "drafts/{slug}/voice-anchors.md",
+            "drafts/{slug}/persona.md",
+            "drafts/{slug}/state.json",
+            "drafts/{slug}/audit/scenes/{act}-{scene}-{critic}.md",
+            "drafts/{slug}/prose/{act}-{scene}.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "cliche-hunter",
+            "continuity-supervisor",
+            "scene-architect",
+            "story-act",
+            "story-audit",
+            "story-persona",
+            "subtext-whisperer"
+          ],
+          "fixtures": {
+            "positive": "story-scene:positive",
+            "negative": "story-scene:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-spine": {
+      "positive": {
+        "contract": {
+          "purpose": "Build or revise a story's load-bearing skeleton — the spine of major events from Inciting Incident through Progressive Complications, Crisis, Climax, and Resolution. Delegates heavy generation to the structure-skeleton agent; audits the result against McKee predicates; and locks the spine when validated. Trigger: /story-spine, \"build the spine\", \"story structure\", \"map the plot\", \"inciting incident\", \"what happens in the story\", \"story skeleton\".",
+          "trigger": [
+            "/story-spine",
+            "story spine"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/premise-card.md",
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/genre-contract.md",
+            "drafts/{slug}/characters/",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/misdirection-plan.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "mck-crisis-dilemma",
+            "mck-surprise-plant",
+            "story-act",
+            "story-cast",
+            "story-new",
+            "structure-skeleton"
+          ],
+          "fixtures": {
+            "positive": "story-spine:positive",
+            "negative": "story-spine:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-status": {
+      "positive": {
+        "contract": {
+          "purpose": "Show the current lifecycle state of a story project — what's locked, what's next, what artifacts exist, and what blocking issues exist. The dashboard for a story project in progress. Trigger: /story-status, \"where are we\", \"project status\", \"what's locked\", \"what's next in the story\", \"show me the project state\".",
+          "trigger": [
+            "/story-status",
+            "story status"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/*/lifecycle.json",
+            "drafts/{slug}/lifecycle.json"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "read-only analysis",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "mck-controlling-idea",
+            "story-act",
+            "story-audit",
+            "story-cast",
+            "story-new",
+            "story-publish",
+            "story-revise",
+            "story-scene"
+          ],
+          "fixtures": {
+            "positive": "story-status:positive",
+            "negative": "story-status:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-stop-loss": {
+      "positive": {
+        "contract": {
+          "purpose": "Stop-loss convergence protocol for any workflow skill that iterates on an artifact. Prevents infinite-revision spirals by enforcing: an iteration cap per artifact (default 5 rounds), a quality floor (structural predicates must pass), an escalation path when the cap is reached without convergence, and an abandon-and-restart option when escalation fails. Invoked by workflow skills (story-spine, story-scene, story-revise) whenever an iteration loop begins. Not typically user-facing — workflow skills apply this protocol internally. Trigger: /story-stop-loss, \"how many times should I retry\", \"iteration cap\", \"stop revising\", \"when to stop\", \"convergence\".",
+          "trigger": [
+            "/story-stop-loss",
+            "story stop loss"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "structured response or task-scoped story artifact"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "cliche-hunter",
+            "story-audit"
+          ],
+          "fixtures": {
+            "positive": "story-stop-loss:positive",
+            "negative": "story-stop-loss:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "story-tournament": {
+      "positive": {
+        "contract": {
+          "purpose": "Tournament generation for high-stakes creative decisions — spawns N diverse candidates in parallel, then judges them blind against the project's CI, genre contract, and Author Persona. Extends beyond premises (where premise-prospector already runs a slate) to Controlling Ideas, Crisis designs, and Climax designs — the decisions where a single default answer produces competent-but-forgettable work. Six tournaments available: PREMISE (5), CONTROLLING-IDEA (3), INCITING-INCIDENT (3), PROTAGONIST (3), CRISIS (5), CLIMAX (5). Each enforces candidate diversity (polarity, interiority, genre hybridization). Runs tournament-judge blind against all candidates. Trigger: /story-tournament, \"tournament\", \"generate alternatives\", \"give me options\", \"run a tournament\", \"what are my climax options\", \"competing premises\".",
+          "trigger": [
+            "/story-tournament",
+            "story tournament"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/premise-card.md",
+            "drafts/{slug}/persona.md",
+            "drafts/{slug}/genre-contract.md",
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/characters/{protagonist}.md",
+            "drafts/{slug}/spine.md",
+            "drafts/{slug}/misdirection-plan.md",
+            "drafts/{slug}/"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "antagonism-stress-tester",
+            "controlling-idea-architect",
+            "crisis-climax-auditor",
+            "mck-honesty",
+            "premise-prospector",
+            "tournament-judge"
+          ],
+          "fixtures": {
+            "positive": "story-tournament:positive",
+            "negative": "story-tournament:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    },
+    "wiki-librarian": {
+      "positive": {
+        "contract": {
+          "purpose": "Ingest, mirror, link, and lint the bilingual McKee wiki at wiki/{en,zh}/. The sole skill with write authority over wiki/. Supports four operations: INGEST (source → wiki pages in both languages), LINT (diagnose + auto-fix), MIGRATE (promote drafts/ artifacts into wiki/), REGEN (rebuild MAP.md and derived artifacts). Refactored from agent to skill — runs in main context for cost efficiency; the cold-start overhead of re-reading CLAUDE.md, CANONICAL.md, and both indexes every spawn is eliminated. Trigger: /wiki-librarian, \"ingest chapter\", \"lint the wiki\", \"migrate to wiki\", \"regenerate MAP\", \"sync zh/\", \"update indexes\", \"land it in the wiki\".",
+          "trigger": [
+            "/wiki-librarian",
+            "wiki librarian"
+          ],
+          "exclusions": [
+            "unrelated requests",
+            "operations outside the active task scope"
+          ],
+          "inputs": {
+            "required": [
+              "active task or explicit user goal"
+            ],
+            "optional": [
+              "story project artifacts",
+              "McKee wiki references"
+            ]
+          },
+          "preconditions": [
+            "applicable instructions and task scope are loaded",
+            "required private-data access is explicitly authorized"
+          ],
+          "procedure": [
+            "follow the ordered workflow in the SKILL.md body",
+            "validate produced artifacts against the stated quality gates"
+          ],
+          "artifacts": [
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/spine.md",
+            "characters/{name}.md"
+          ],
+          "quality_gates": [
+            "required workflow steps are completed",
+            "outputs remain consistent with canonical terminology and task acceptance"
+          ],
+          "failure_behavior": [
+            "report missing inputs or authorization as blocked",
+            "apply story-stop-loss when bounded revision limits are reached"
+          ],
+          "side_effects": [
+            "task-scoped story artifact writes",
+            "no network or publication by default"
+          ],
+          "handoff": [
+            "return control to the primary agent"
+          ],
+          "fixtures": {
+            "positive": "wiki-librarian:positive",
+            "negative": "wiki-librarian:missing-trigger"
+          }
+        }
+      },
+      "negativeMutation": {
+        "remove": "trigger"
+      }
+    }
+  }
+}
