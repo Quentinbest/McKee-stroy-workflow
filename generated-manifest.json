@@ -1,0 +1,636 @@
+{
+  "schemaVersion": 1,
+  "generatorVersion": "1.0.0",
+  "canonicalRoots": [
+    "AGENTS.md",
+    "src/skills",
+    "src/roles"
+  ],
+  "files": [
+    {
+      "path": ".agents/skills/act-designer/SKILL.md",
+      "source": "src/skills/act-designer/SKILL.md",
+      "sha256": "78e282af9959ec6e2766c839e06581f9b7c76b78b63b46d30bfe1b2778f071dc"
+    },
+    {
+      "path": ".agents/skills/arc-tracer/SKILL.md",
+      "source": "src/skills/arc-tracer/SKILL.md",
+      "sha256": "cfa0a6cddce3aaad99768f9f156b57ef946544512dbdac9cca101ba03e6c11fc"
+    },
+    {
+      "path": ".agents/skills/composition-conductor/SKILL.md",
+      "source": "src/skills/composition-conductor/SKILL.md",
+      "sha256": "5b2adacdf3f0357bb97c985901077c494973d93ef923a97dee5852264e861210"
+    },
+    {
+      "path": ".agents/skills/controlling-idea-architect/SKILL.md",
+      "source": "src/skills/controlling-idea-architect/SKILL.md",
+      "sha256": "086565bdde8aa81d204bf4bc0a8d1f6e02eb790f6ed7c175fcbc711ae713d339"
+    },
+    {
+      "path": ".agents/skills/exposition-smuggler/SKILL.md",
+      "source": "src/skills/exposition-smuggler/SKILL.md",
+      "sha256": "8145d7f6ef3f79b40b091a01e412dcbcd40cf1bbeaead9a5a19eeed50f402a30"
+    },
+    {
+      "path": ".agents/skills/key-image-curator/SKILL.md",
+      "source": "src/skills/key-image-curator/SKILL.md",
+      "sha256": "587fad0cf0a8dd5722572dee5e89afb146a7a298cc357f5eee08fa6af6cfc29a"
+    },
+    {
+      "path": ".agents/skills/mck-arc-walk/SKILL.md",
+      "source": "src/skills/mck-arc-walk/SKILL.md",
+      "sha256": "04b4c6b526a32c5b319f6d22ffa875b0bc42eacdeb820d297e3fad94cc8b6455"
+    },
+    {
+      "path": ".agents/skills/mck-beat-to-prose/SKILL.md",
+      "source": "src/skills/mck-beat-to-prose/SKILL.md",
+      "sha256": "b988d35b873fe1fc8b387d76523eee1e01d267ac8d65dfe7eff0c30f56d1fc0b"
+    },
+    {
+      "path": ".agents/skills/mck-controlling-idea/SKILL.md",
+      "source": "src/skills/mck-controlling-idea/SKILL.md",
+      "sha256": "af8f67d43f2ed2870302ad2267397c37db192a2b09f90a586058d34dff081b49"
+    },
+    {
+      "path": ".agents/skills/mck-crisis-dilemma/SKILL.md",
+      "source": "src/skills/mck-crisis-dilemma/SKILL.md",
+      "sha256": "f14bf6da36ba14523505b53d1f0f00610508550ed4e5b68ab59d9e7c92ac0918"
+    },
+    {
+      "path": ".agents/skills/mck-exposition-ammo/SKILL.md",
+      "source": "src/skills/mck-exposition-ammo/SKILL.md",
+      "sha256": "49db5e7c748b5177c98bd5771ec6682710bc13c347116d4e32edeaa0ad34a8ef"
+    },
+    {
+      "path": ".agents/skills/mck-gap-find/SKILL.md",
+      "source": "src/skills/mck-gap-find/SKILL.md",
+      "sha256": "145f36a141dd13e1e93a63bd4c16570b6539c3ad44d330ad46d97d512ae5a499"
+    },
+    {
+      "path": ".agents/skills/mck-honesty/SKILL.md",
+      "source": "src/skills/mck-honesty/SKILL.md",
+      "sha256": "0eb00a2d4e2e70f68cf73626904dfb0f9ff7b736232ce73de6337b25e88e46b5"
+    },
+    {
+      "path": ".agents/skills/mck-image-thread/SKILL.md",
+      "source": "src/skills/mck-image-thread/SKILL.md",
+      "sha256": "f0a147d34e49187edc38bf2ee82dcad9809b5664abb8be72fefe754dce6d6dd3"
+    },
+    {
+      "path": ".agents/skills/mck-negation-of-negation/SKILL.md",
+      "source": "src/skills/mck-negation-of-negation/SKILL.md",
+      "sha256": "b77949ebb190eee4f08fa70a4765fa6d1e479456fe6f1e406dbdfa77dc71441e"
+    },
+    {
+      "path": ".agents/skills/mck-setup-payoff/SKILL.md",
+      "source": "src/skills/mck-setup-payoff/SKILL.md",
+      "sha256": "f535b47cf3db96e658ab2490c672fb1a6e6d108b23d70e6166324a861285a877"
+    },
+    {
+      "path": ".agents/skills/mck-specificity-forge/SKILL.md",
+      "source": "src/skills/mck-specificity-forge/SKILL.md",
+      "sha256": "5e2eef1bb16dff0197611477b89f32b8ed41387ad82479b8c13153d79a5c82c3"
+    },
+    {
+      "path": ".agents/skills/mck-subtext-5layer/SKILL.md",
+      "source": "src/skills/mck-subtext-5layer/SKILL.md",
+      "sha256": "bc217a12e4a4d7b987fec0d6583c788e75c3391527a1d120778a58c710257e70"
+    },
+    {
+      "path": ".agents/skills/mck-surprise-plant/SKILL.md",
+      "source": "src/skills/mck-surprise-plant/SKILL.md",
+      "sha256": "aa3e40a314b84e5124493aa73eff4b1fb2ccb54707c81441d3d5b63dc8a2a629"
+    },
+    {
+      "path": ".agents/skills/mck-voice-first/SKILL.md",
+      "source": "src/skills/mck-voice-first/SKILL.md",
+      "sha256": "25a0b614bd15551391962df855232abb44b61ff70f5c70b3eccaec8af13ecc43"
+    },
+    {
+      "path": ".agents/skills/story-act/SKILL.md",
+      "source": "src/skills/story-act/SKILL.md",
+      "sha256": "bb9ccaa9111dbd01cb4083fdaf629c1737b55f020d22eefad1114947c80c413f"
+    },
+    {
+      "path": ".agents/skills/story-audit/SKILL.md",
+      "source": "src/skills/story-audit/SKILL.md",
+      "sha256": "dd77af953b17da9a5d971f020722d15491c21bc4e752db4ed60f5710f56d6c40"
+    },
+    {
+      "path": ".agents/skills/story-cast/SKILL.md",
+      "source": "src/skills/story-cast/SKILL.md",
+      "sha256": "250cd093d77e56bb43233061223660b985bbcf8535e0b38dd713badf32bbacec"
+    },
+    {
+      "path": ".agents/skills/story-new/SKILL.md",
+      "source": "src/skills/story-new/SKILL.md",
+      "sha256": "7ba9d66c171ccc948134d9183cbb4a8f46bcfc216984c84d60d9c1f62c98d519"
+    },
+    {
+      "path": ".agents/skills/story-persona/SKILL.md",
+      "source": "src/skills/story-persona/SKILL.md",
+      "sha256": "7a85d6f1c915541d316238324c9ef6e86c4fc63cd15fbe671fe82ef683802d5c"
+    },
+    {
+      "path": ".agents/skills/story-premise/SKILL.md",
+      "source": "src/skills/story-premise/SKILL.md",
+      "sha256": "c68f50166e3a531184873edbff310921c4f5b1b80c529ee30b281afea577a1ab"
+    },
+    {
+      "path": ".agents/skills/story-publish/SKILL.md",
+      "source": "src/skills/story-publish/SKILL.md",
+      "sha256": "1130035e3bd58b0af33d56fd08e4e345138fd8f7d2b4b4e759e8185e1994fca0"
+    },
+    {
+      "path": ".agents/skills/story-revise/SKILL.md",
+      "source": "src/skills/story-revise/SKILL.md",
+      "sha256": "d3606580f625b663b46d974f28e6a3a89657bf83ae8ec4e5ccee8e1b45a3921c"
+    },
+    {
+      "path": ".agents/skills/story-scene/SKILL.md",
+      "source": "src/skills/story-scene/SKILL.md",
+      "sha256": "5deb5d223e027dfec665aaa816d51fc739e80cbe91e27c599e2f83ac31068b7f"
+    },
+    {
+      "path": ".agents/skills/story-spine/SKILL.md",
+      "source": "src/skills/story-spine/SKILL.md",
+      "sha256": "024a454452e2025ec28a7abd9744a69b60f6969b985cc0fc1ed80cf2c2e4d458"
+    },
+    {
+      "path": ".agents/skills/story-status/SKILL.md",
+      "source": "src/skills/story-status/SKILL.md",
+      "sha256": "2da325d5deaddffe176fde0b5a6e5fd97e7dd5c97e01abfd9a98058fb6ea37a7"
+    },
+    {
+      "path": ".agents/skills/story-stop-loss/SKILL.md",
+      "source": "src/skills/story-stop-loss/SKILL.md",
+      "sha256": "bc28021a5cfa956bbd3844c6013955d79e8e7200d36b919c8815e7b11641b962"
+    },
+    {
+      "path": ".agents/skills/story-tournament/SKILL.md",
+      "source": "src/skills/story-tournament/SKILL.md",
+      "sha256": "36f773defdeb572a0eb732cd7947d516a98875cd7bfc53806d7c22360e8d635f"
+    },
+    {
+      "path": ".agents/skills/wiki-librarian/SKILL.md",
+      "source": "src/skills/wiki-librarian/SKILL.md",
+      "sha256": "d5a0b32d01046017e450d2e6e8fc23b60cea73f69c3c1495242190dd8b6ddc76"
+    },
+    {
+      "path": ".claude/agents/act-designer.md",
+      "source": "src/roles/act-designer.md",
+      "sha256": "595880b6df231227d83873d3c6b416870c9457bb6be4dd8edd4a78a4f43f862b"
+    },
+    {
+      "path": ".claude/agents/antagonism-stress-tester.md",
+      "source": "src/roles/antagonism-stress-tester.md",
+      "sha256": "e2f9c541e55d0303671ad22ebdaa8dca9ce33be868c90979e9f6042a4acf3844"
+    },
+    {
+      "path": ".claude/agents/arc-tracer.md",
+      "source": "src/roles/arc-tracer.md",
+      "sha256": "75c9cb09e2767c61e4fa57d1ff86133e4be10b8281945858a08a77cdcb3040c8"
+    },
+    {
+      "path": ".claude/agents/beat-miner.md",
+      "source": "src/roles/beat-miner.md",
+      "sha256": "17a272fbcd10863692de24981253308a1c7b2d57d5d50ce6de2e29315843967b"
+    },
+    {
+      "path": ".claude/agents/cast-balancer.md",
+      "source": "src/roles/cast-balancer.md",
+      "sha256": "9af4acb9861d75d3819496e1df427215061465c3c776ede33cd0e75e88cad828"
+    },
+    {
+      "path": ".claude/agents/character-forger.md",
+      "source": "src/roles/character-forger.md",
+      "sha256": "ba8791052301a77403440e725c2bbae48ccc20a553de2c34e1fc9f78a9580644"
+    },
+    {
+      "path": ".claude/agents/cliche-hunter.md",
+      "source": "src/roles/cliche-hunter.md",
+      "sha256": "72d5b313ccf1681ddf92ef3ee2be12932bc766a39793cb8d604757541fcfbe65"
+    },
+    {
+      "path": ".claude/agents/composition-conductor.md",
+      "source": "src/roles/composition-conductor.md",
+      "sha256": "7c9db3f18d3cf992eadf21b4033460e85436a83afff5cb769469befedf4a8bee"
+    },
+    {
+      "path": ".claude/agents/continuity-supervisor.md",
+      "source": "src/roles/continuity-supervisor.md",
+      "sha256": "c148974ac1a0676750c22760a431338674fbaffae6adbcb0ffc5a11981b6808d"
+    },
+    {
+      "path": ".claude/agents/controlling-idea-architect.md",
+      "source": "src/roles/controlling-idea-architect.md",
+      "sha256": "c98f6357d9b6d18cde586677ef588fe990070b0c8f5abd3043f1dffa502f224f"
+    },
+    {
+      "path": ".claude/agents/crisis-climax-auditor.md",
+      "source": "src/roles/crisis-climax-auditor.md",
+      "sha256": "76d6274541e670cd7732a3256e5992add83a35aa830f92f419b990e638a58d9f"
+    },
+    {
+      "path": ".claude/agents/exposition-smuggler.md",
+      "source": "src/roles/exposition-smuggler.md",
+      "sha256": "299bc9033e51854528086a5455bc244dcb6bdeac20455a873d60442d53f69ecb"
+    },
+    {
+      "path": ".claude/agents/genre-cartographer.md",
+      "source": "src/roles/genre-cartographer.md",
+      "sha256": "c557c04ee4f91811e3526588ccfbd25b4f7a2d415e2b5ca98a46f56b8e95c5c2"
+    },
+    {
+      "path": ".claude/agents/key-image-curator.md",
+      "source": "src/roles/key-image-curator.md",
+      "sha256": "ca9715b59b4b308842ca3d0693da55c08cc1824a76574206b55149f6f63c5d22"
+    },
+    {
+      "path": ".claude/agents/pacing-analyst.md",
+      "source": "src/roles/pacing-analyst.md",
+      "sha256": "67ba35c92c17569fe28a06650083055080ab3c8077460bd5bc2357b7bb6f1f88"
+    },
+    {
+      "path": ".claude/agents/premise-prospector.md",
+      "source": "src/roles/premise-prospector.md",
+      "sha256": "53a19d8447d0674c659b158c7e56309ce3944c2db97c129b82c9695e9dc18e32"
+    },
+    {
+      "path": ".claude/agents/prose-drafter.md",
+      "source": "src/roles/prose-drafter.md",
+      "sha256": "2e50e80393f6bf5d88d77c8d3b05b0210c9cc65981f3608a801bb01696d53a16"
+    },
+    {
+      "path": ".claude/agents/reader-simulator.md",
+      "source": "src/roles/reader-simulator.md",
+      "sha256": "421765d1631c02209ee5be73441e8d0f3bf81ed0b17bd54fc756a96b12c18e95"
+    },
+    {
+      "path": ".claude/agents/scene-architect.md",
+      "source": "src/roles/scene-architect.md",
+      "sha256": "d235162cc287dd3dfba2bedbde9d76308445b092bd69b70bfb10e23c50301737"
+    },
+    {
+      "path": ".claude/agents/setting-surveyor.md",
+      "source": "src/roles/setting-surveyor.md",
+      "sha256": "caec0afefda79bc15729ed6a6f970b249d1f6058e25a2754a3909579d75b41a7"
+    },
+    {
+      "path": ".claude/agents/specificity-auditor.md",
+      "source": "src/roles/specificity-auditor.md",
+      "sha256": "a01e2479cc13142c2f41fa8efc922ed7d56fd7b46281341410710d86fd03e5d7"
+    },
+    {
+      "path": ".claude/agents/structure-skeleton.md",
+      "source": "src/roles/structure-skeleton.md",
+      "sha256": "6dce4f30865ec4e297c5b4ca295ba50cf592f98450d631abddf81446f1cd6160"
+    },
+    {
+      "path": ".claude/agents/subtext-whisperer.md",
+      "source": "src/roles/subtext-whisperer.md",
+      "sha256": "79dea5ee803fa98b4ce89647d993f1f932a5621f5ddcf055045c5bed3f47b54f"
+    },
+    {
+      "path": ".claude/agents/surprise-auditor.md",
+      "source": "src/roles/surprise-auditor.md",
+      "sha256": "cbae7ea632bce61fa9dccd27bc66d56db799e8f503f4313b7db1a16e4a029a72"
+    },
+    {
+      "path": ".claude/agents/tournament-judge.md",
+      "source": "src/roles/tournament-judge.md",
+      "sha256": "8e8f47a5b30ce274fe9bdb8080cd9b37eaebb7680f5c15f93c00d885aa27105c"
+    },
+    {
+      "path": ".claude/agents/voice-drift-detector.md",
+      "source": "src/roles/voice-drift-detector.md",
+      "sha256": "4969597eb86082ea909fe530cb33b2c2a7a88d950362f4c3d28b4d7548460af7"
+    },
+    {
+      "path": ".claude/agents/wiki-librarian.md",
+      "source": "src/roles/wiki-librarian.md",
+      "sha256": "f529e54f3d9a8ea06c7509478b7223897f33da951b027b86ec62dc400dd99f69"
+    },
+    {
+      "path": ".claude/rules/canonical-workflow.md",
+      "source": "AGENTS.md",
+      "sha256": "141468c73851d9a72a749663701fece644a086b1ed80ff1de911fb322a9d03bf"
+    },
+    {
+      "path": ".claude/skills/act-designer/SKILL.md",
+      "source": "src/skills/act-designer/SKILL.md",
+      "sha256": "78e282af9959ec6e2766c839e06581f9b7c76b78b63b46d30bfe1b2778f071dc"
+    },
+    {
+      "path": ".claude/skills/arc-tracer/SKILL.md",
+      "source": "src/skills/arc-tracer/SKILL.md",
+      "sha256": "cfa0a6cddce3aaad99768f9f156b57ef946544512dbdac9cca101ba03e6c11fc"
+    },
+    {
+      "path": ".claude/skills/composition-conductor/SKILL.md",
+      "source": "src/skills/composition-conductor/SKILL.md",
+      "sha256": "5b2adacdf3f0357bb97c985901077c494973d93ef923a97dee5852264e861210"
+    },
+    {
+      "path": ".claude/skills/controlling-idea-architect/SKILL.md",
+      "source": "src/skills/controlling-idea-architect/SKILL.md",
+      "sha256": "086565bdde8aa81d204bf4bc0a8d1f6e02eb790f6ed7c175fcbc711ae713d339"
+    },
+    {
+      "path": ".claude/skills/exposition-smuggler/SKILL.md",
+      "source": "src/skills/exposition-smuggler/SKILL.md",
+      "sha256": "8145d7f6ef3f79b40b091a01e412dcbcd40cf1bbeaead9a5a19eeed50f402a30"
+    },
+    {
+      "path": ".claude/skills/key-image-curator/SKILL.md",
+      "source": "src/skills/key-image-curator/SKILL.md",
+      "sha256": "587fad0cf0a8dd5722572dee5e89afb146a7a298cc357f5eee08fa6af6cfc29a"
+    },
+    {
+      "path": ".claude/skills/mck-arc-walk/SKILL.md",
+      "source": "src/skills/mck-arc-walk/SKILL.md",
+      "sha256": "04b4c6b526a32c5b319f6d22ffa875b0bc42eacdeb820d297e3fad94cc8b6455"
+    },
+    {
+      "path": ".claude/skills/mck-beat-to-prose/SKILL.md",
+      "source": "src/skills/mck-beat-to-prose/SKILL.md",
+      "sha256": "b988d35b873fe1fc8b387d76523eee1e01d267ac8d65dfe7eff0c30f56d1fc0b"
+    },
+    {
+      "path": ".claude/skills/mck-controlling-idea/SKILL.md",
+      "source": "src/skills/mck-controlling-idea/SKILL.md",
+      "sha256": "af8f67d43f2ed2870302ad2267397c37db192a2b09f90a586058d34dff081b49"
+    },
+    {
+      "path": ".claude/skills/mck-crisis-dilemma/SKILL.md",
+      "source": "src/skills/mck-crisis-dilemma/SKILL.md",
+      "sha256": "f14bf6da36ba14523505b53d1f0f00610508550ed4e5b68ab59d9e7c92ac0918"
+    },
+    {
+      "path": ".claude/skills/mck-exposition-ammo/SKILL.md",
+      "source": "src/skills/mck-exposition-ammo/SKILL.md",
+      "sha256": "49db5e7c748b5177c98bd5771ec6682710bc13c347116d4e32edeaa0ad34a8ef"
+    },
+    {
+      "path": ".claude/skills/mck-gap-find/SKILL.md",
+      "source": "src/skills/mck-gap-find/SKILL.md",
+      "sha256": "145f36a141dd13e1e93a63bd4c16570b6539c3ad44d330ad46d97d512ae5a499"
+    },
+    {
+      "path": ".claude/skills/mck-honesty/SKILL.md",
+      "source": "src/skills/mck-honesty/SKILL.md",
+      "sha256": "0eb00a2d4e2e70f68cf73626904dfb0f9ff7b736232ce73de6337b25e88e46b5"
+    },
+    {
+      "path": ".claude/skills/mck-image-thread/SKILL.md",
+      "source": "src/skills/mck-image-thread/SKILL.md",
+      "sha256": "f0a147d34e49187edc38bf2ee82dcad9809b5664abb8be72fefe754dce6d6dd3"
+    },
+    {
+      "path": ".claude/skills/mck-negation-of-negation/SKILL.md",
+      "source": "src/skills/mck-negation-of-negation/SKILL.md",
+      "sha256": "b77949ebb190eee4f08fa70a4765fa6d1e479456fe6f1e406dbdfa77dc71441e"
+    },
+    {
+      "path": ".claude/skills/mck-setup-payoff/SKILL.md",
+      "source": "src/skills/mck-setup-payoff/SKILL.md",
+      "sha256": "f535b47cf3db96e658ab2490c672fb1a6e6d108b23d70e6166324a861285a877"
+    },
+    {
+      "path": ".claude/skills/mck-specificity-forge/SKILL.md",
+      "source": "src/skills/mck-specificity-forge/SKILL.md",
+      "sha256": "5e2eef1bb16dff0197611477b89f32b8ed41387ad82479b8c13153d79a5c82c3"
+    },
+    {
+      "path": ".claude/skills/mck-subtext-5layer/SKILL.md",
+      "source": "src/skills/mck-subtext-5layer/SKILL.md",
+      "sha256": "bc217a12e4a4d7b987fec0d6583c788e75c3391527a1d120778a58c710257e70"
+    },
+    {
+      "path": ".claude/skills/mck-surprise-plant/SKILL.md",
+      "source": "src/skills/mck-surprise-plant/SKILL.md",
+      "sha256": "aa3e40a314b84e5124493aa73eff4b1fb2ccb54707c81441d3d5b63dc8a2a629"
+    },
+    {
+      "path": ".claude/skills/mck-voice-first/SKILL.md",
+      "source": "src/skills/mck-voice-first/SKILL.md",
+      "sha256": "25a0b614bd15551391962df855232abb44b61ff70f5c70b3eccaec8af13ecc43"
+    },
+    {
+      "path": ".claude/skills/story-act/SKILL.md",
+      "source": "src/skills/story-act/SKILL.md",
+      "sha256": "bb9ccaa9111dbd01cb4083fdaf629c1737b55f020d22eefad1114947c80c413f"
+    },
+    {
+      "path": ".claude/skills/story-audit/SKILL.md",
+      "source": "src/skills/story-audit/SKILL.md",
+      "sha256": "dd77af953b17da9a5d971f020722d15491c21bc4e752db4ed60f5710f56d6c40"
+    },
+    {
+      "path": ".claude/skills/story-cast/SKILL.md",
+      "source": "src/skills/story-cast/SKILL.md",
+      "sha256": "250cd093d77e56bb43233061223660b985bbcf8535e0b38dd713badf32bbacec"
+    },
+    {
+      "path": ".claude/skills/story-new/SKILL.md",
+      "source": "src/skills/story-new/SKILL.md",
+      "sha256": "7ba9d66c171ccc948134d9183cbb4a8f46bcfc216984c84d60d9c1f62c98d519"
+    },
+    {
+      "path": ".claude/skills/story-persona/SKILL.md",
+      "source": "src/skills/story-persona/SKILL.md",
+      "sha256": "7a85d6f1c915541d316238324c9ef6e86c4fc63cd15fbe671fe82ef683802d5c"
+    },
+    {
+      "path": ".claude/skills/story-premise/SKILL.md",
+      "source": "src/skills/story-premise/SKILL.md",
+      "sha256": "c68f50166e3a531184873edbff310921c4f5b1b80c529ee30b281afea577a1ab"
+    },
+    {
+      "path": ".claude/skills/story-publish/SKILL.md",
+      "source": "src/skills/story-publish/SKILL.md",
+      "sha256": "1130035e3bd58b0af33d56fd08e4e345138fd8f7d2b4b4e759e8185e1994fca0"
+    },
+    {
+      "path": ".claude/skills/story-revise/SKILL.md",
+      "source": "src/skills/story-revise/SKILL.md",
+      "sha256": "d3606580f625b663b46d974f28e6a3a89657bf83ae8ec4e5ccee8e1b45a3921c"
+    },
+    {
+      "path": ".claude/skills/story-scene/SKILL.md",
+      "source": "src/skills/story-scene/SKILL.md",
+      "sha256": "5deb5d223e027dfec665aaa816d51fc739e80cbe91e27c599e2f83ac31068b7f"
+    },
+    {
+      "path": ".claude/skills/story-spine/SKILL.md",
+      "source": "src/skills/story-spine/SKILL.md",
+      "sha256": "024a454452e2025ec28a7abd9744a69b60f6969b985cc0fc1ed80cf2c2e4d458"
+    },
+    {
+      "path": ".claude/skills/story-status/SKILL.md",
+      "source": "src/skills/story-status/SKILL.md",
+      "sha256": "2da325d5deaddffe176fde0b5a6e5fd97e7dd5c97e01abfd9a98058fb6ea37a7"
+    },
+    {
+      "path": ".claude/skills/story-stop-loss/SKILL.md",
+      "source": "src/skills/story-stop-loss/SKILL.md",
+      "sha256": "bc28021a5cfa956bbd3844c6013955d79e8e7200d36b919c8815e7b11641b962"
+    },
+    {
+      "path": ".claude/skills/story-tournament/SKILL.md",
+      "source": "src/skills/story-tournament/SKILL.md",
+      "sha256": "36f773defdeb572a0eb732cd7947d516a98875cd7bfc53806d7c22360e8d635f"
+    },
+    {
+      "path": ".claude/skills/wiki-librarian/SKILL.md",
+      "source": "src/skills/wiki-librarian/SKILL.md",
+      "sha256": "d5a0b32d01046017e450d2e6e8fc23b60cea73f69c3c1495242190dd8b6ddc76"
+    },
+    {
+      "path": ".cursor/rules/canonical-workflow.mdc",
+      "source": "AGENTS.md",
+      "sha256": "1c3e5bc4d655787cc23aac63ea8c6780af5fa40542d4fb1cd352e5f13b562890"
+    },
+    {
+      "path": ".opencode/agents/act-designer.md",
+      "source": "src/roles/act-designer.md",
+      "sha256": "595880b6df231227d83873d3c6b416870c9457bb6be4dd8edd4a78a4f43f862b"
+    },
+    {
+      "path": ".opencode/agents/antagonism-stress-tester.md",
+      "source": "src/roles/antagonism-stress-tester.md",
+      "sha256": "e2f9c541e55d0303671ad22ebdaa8dca9ce33be868c90979e9f6042a4acf3844"
+    },
+    {
+      "path": ".opencode/agents/arc-tracer.md",
+      "source": "src/roles/arc-tracer.md",
+      "sha256": "75c9cb09e2767c61e4fa57d1ff86133e4be10b8281945858a08a77cdcb3040c8"
+    },
+    {
+      "path": ".opencode/agents/beat-miner.md",
+      "source": "src/roles/beat-miner.md",
+      "sha256": "17a272fbcd10863692de24981253308a1c7b2d57d5d50ce6de2e29315843967b"
+    },
+    {
+      "path": ".opencode/agents/cast-balancer.md",
+      "source": "src/roles/cast-balancer.md",
+      "sha256": "9af4acb9861d75d3819496e1df427215061465c3c776ede33cd0e75e88cad828"
+    },
+    {
+      "path": ".opencode/agents/character-forger.md",
+      "source": "src/roles/character-forger.md",
+      "sha256": "ba8791052301a77403440e725c2bbae48ccc20a553de2c34e1fc9f78a9580644"
+    },
+    {
+      "path": ".opencode/agents/cliche-hunter.md",
+      "source": "src/roles/cliche-hunter.md",
+      "sha256": "72d5b313ccf1681ddf92ef3ee2be12932bc766a39793cb8d604757541fcfbe65"
+    },
+    {
+      "path": ".opencode/agents/composition-conductor.md",
+      "source": "src/roles/composition-conductor.md",
+      "sha256": "7c9db3f18d3cf992eadf21b4033460e85436a83afff5cb769469befedf4a8bee"
+    },
+    {
+      "path": ".opencode/agents/continuity-supervisor.md",
+      "source": "src/roles/continuity-supervisor.md",
+      "sha256": "c148974ac1a0676750c22760a431338674fbaffae6adbcb0ffc5a11981b6808d"
+    },
+    {
+      "path": ".opencode/agents/controlling-idea-architect.md",
+      "source": "src/roles/controlling-idea-architect.md",
+      "sha256": "c98f6357d9b6d18cde586677ef588fe990070b0c8f5abd3043f1dffa502f224f"
+    },
+    {
+      "path": ".opencode/agents/crisis-climax-auditor.md",
+      "source": "src/roles/crisis-climax-auditor.md",
+      "sha256": "76d6274541e670cd7732a3256e5992add83a35aa830f92f419b990e638a58d9f"
+    },
+    {
+      "path": ".opencode/agents/exposition-smuggler.md",
+      "source": "src/roles/exposition-smuggler.md",
+      "sha256": "299bc9033e51854528086a5455bc244dcb6bdeac20455a873d60442d53f69ecb"
+    },
+    {
+      "path": ".opencode/agents/genre-cartographer.md",
+      "source": "src/roles/genre-cartographer.md",
+      "sha256": "c557c04ee4f91811e3526588ccfbd25b4f7a2d415e2b5ca98a46f56b8e95c5c2"
+    },
+    {
+      "path": ".opencode/agents/key-image-curator.md",
+      "source": "src/roles/key-image-curator.md",
+      "sha256": "ca9715b59b4b308842ca3d0693da55c08cc1824a76574206b55149f6f63c5d22"
+    },
+    {
+      "path": ".opencode/agents/pacing-analyst.md",
+      "source": "src/roles/pacing-analyst.md",
+      "sha256": "67ba35c92c17569fe28a06650083055080ab3c8077460bd5bc2357b7bb6f1f88"
+    },
+    {
+      "path": ".opencode/agents/premise-prospector.md",
+      "source": "src/roles/premise-prospector.md",
+      "sha256": "53a19d8447d0674c659b158c7e56309ce3944c2db97c129b82c9695e9dc18e32"
+    },
+    {
+      "path": ".opencode/agents/prose-drafter.md",
+      "source": "src/roles/prose-drafter.md",
+      "sha256": "2e50e80393f6bf5d88d77c8d3b05b0210c9cc65981f3608a801bb01696d53a16"
+    },
+    {
+      "path": ".opencode/agents/reader-simulator.md",
+      "source": "src/roles/reader-simulator.md",
+      "sha256": "421765d1631c02209ee5be73441e8d0f3bf81ed0b17bd54fc756a96b12c18e95"
+    },
+    {
+      "path": ".opencode/agents/scene-architect.md",
+      "source": "src/roles/scene-architect.md",
+      "sha256": "d235162cc287dd3dfba2bedbde9d76308445b092bd69b70bfb10e23c50301737"
+    },
+    {
+      "path": ".opencode/agents/setting-surveyor.md",
+      "source": "src/roles/setting-surveyor.md",
+      "sha256": "caec0afefda79bc15729ed6a6f970b249d1f6058e25a2754a3909579d75b41a7"
+    },
+    {
+      "path": ".opencode/agents/specificity-auditor.md",
+      "source": "src/roles/specificity-auditor.md",
+      "sha256": "a01e2479cc13142c2f41fa8efc922ed7d56fd7b46281341410710d86fd03e5d7"
+    },
+    {
+      "path": ".opencode/agents/structure-skeleton.md",
+      "source": "src/roles/structure-skeleton.md",
+      "sha256": "6dce4f30865ec4e297c5b4ca295ba50cf592f98450d631abddf81446f1cd6160"
+    },
+    {
+      "path": ".opencode/agents/subtext-whisperer.md",
+      "source": "src/roles/subtext-whisperer.md",
+      "sha256": "79dea5ee803fa98b4ce89647d993f1f932a5621f5ddcf055045c5bed3f47b54f"
+    },
+    {
+      "path": ".opencode/agents/surprise-auditor.md",
+      "source": "src/roles/surprise-auditor.md",
+      "sha256": "cbae7ea632bce61fa9dccd27bc66d56db799e8f503f4313b7db1a16e4a029a72"
+    },
+    {
+      "path": ".opencode/agents/tournament-judge.md",
+      "source": "src/roles/tournament-judge.md",
+      "sha256": "8e8f47a5b30ce274fe9bdb8080cd9b37eaebb7680f5c15f93c00d885aa27105c"
+    },
+    {
+      "path": ".opencode/agents/voice-drift-detector.md",
+      "source": "src/roles/voice-drift-detector.md",
+      "sha256": "4969597eb86082ea909fe530cb33b2c2a7a88d950362f4c3d28b4d7548460af7"
+    },
+    {
+      "path": ".opencode/agents/wiki-librarian.md",
+      "source": "src/roles/wiki-librarian.md",
+      "sha256": "f529e54f3d9a8ea06c7509478b7223897f33da951b027b86ec62dc400dd99f69"
+    },
+    {
+      "path": "CLAUDE.md",
+      "source": "AGENTS.md",
+      "sha256": "f9f95a78275ef8977f2735ef93c42a8408271089cd54fc572e67af8cfb1f50eb"
+    }
+  ]
+}

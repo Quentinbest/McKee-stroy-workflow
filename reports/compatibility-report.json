@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "generatorVersion": "1.0.0",
+  "harnesses": {
+    "claude": {
+      "root": "CLAUDE.md",
+      "skills": 34,
+      "roles": 27,
+      "status": "generated"
+    },
+    "cursor": {
+      "root": "AGENTS.md",
+      "rules": 1,
+      "status": "generated"
+    },
+    "pi": {
+      "root": "AGENTS.md",
+      "sharedSkills": 34,
+      "status": "generated"
+    },
+    "opencode": {
+      "root": "AGENTS.md",
+      "sharedSkills": 34,
+      "roles": 27,
+      "status": "generated"
+    },
+    "codex": {
+      "root": "AGENTS.md",
+      "sharedSkills": 34,
+      "status": "generated"
+    }
+  }
+}

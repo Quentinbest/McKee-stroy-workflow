@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "permission": {
+    "read": {
+      "*": "allow",
+      "stories/private/**": "deny",
+      "drafts/**": "deny"
+    },
+    "edit": {
+      "*": "ask",
+      ".agents/**": "deny",
+      ".claude/skills/**": "deny",
+      ".claude/agents/**": "deny",
+      ".cursor/rules/**": "deny",
+      ".opencode/agents/**": "deny"
+    },
+    "bash": {
+      "node scripts/*": "allow",
+      "npm run agents:*": "allow",
+      "git reset --hard*": "deny",
+      "git push --force*": "deny",
+      "npm publish*": "deny",
+      "*": "ask"
+    }
+  }
+}

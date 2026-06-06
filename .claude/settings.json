@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(node scripts/*)",
+      "Bash(npm run agents:*)"
+    ],
+    "ask": [
+      "WebFetch",
+      "WebSearch"
+    ],
+    "deny": [
+      "Read(stories/private/**)",
+      "Read(drafts/**)",
+      "Bash(git reset --hard*)",
+      "Bash(git push --force*)",
+      "Bash(npm publish*)"
+    ]
+  }
+}
