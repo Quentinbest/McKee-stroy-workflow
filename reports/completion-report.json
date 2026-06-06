@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "verification-runtime",
+  "nodeVersion": "24.16.0",
+  "status": "passed",
+  "checks": [
+    {
+      "id": "unit-integration-security",
+      "command": "node --test tests/contracts/dependency-graph.test.mjs tests/contracts/generated-manifest.test.mjs tests/integration/generator.test.mjs tests/security/security.test.mjs",
+      "status": "pass"
+    },
+    {
+      "id": "smoke-claude",
+      "command": "node scripts/smoke-harness.mjs claude",
+      "status": "pass"
+    },
+    {
+      "id": "smoke-cursor",
+      "command": "node scripts/smoke-harness.mjs cursor",
+      "status": "pass"
+    },
+    {
+      "id": "smoke-pi",
+      "command": "node scripts/smoke-harness.mjs pi",
+      "status": "pass"
+    },
+    {
+      "id": "smoke-opencode",
+      "command": "node scripts/smoke-harness.mjs opencode",
+      "status": "pass"
+    },
+    {
+      "id": "smoke-codex",
+      "command": "node scripts/smoke-harness.mjs codex",
+      "status": "pass"
+    }
+  ],
+  "residualRisks": [
+    "Subjective story quality requires human evaluation.",
+    "Native Cursor CLI execution is unavailable in the current environment."
+  ]
+}
