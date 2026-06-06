@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mckee-story-workflow.local/schemas/native-pilot-result.schema.json",
+  "title": "Native Harness Pilot Result",
+  "type": "object",
+  "required": [
+    "harness",
+    "documentationDiscovery",
+    "canonicalSkillChange",
+    "securityApproval",
+    "readOnlyAudit",
+    "storyLifecycle",
+    "singleAgentBaseline"
+  ],
+  "properties": {
+    "harness": { "type": "string", "minLength": 1 },
+    "documentationDiscovery": { "const": "complete" },
+    "canonicalSkillChange": { "const": "complete" },
+    "securityApproval": { "const": "denied-without-approval" },
+    "readOnlyAudit": { "const": "complete" },
+    "storyLifecycle": { "const": "seed-to-revision-complete" },
+    "singleAgentBaseline": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}
