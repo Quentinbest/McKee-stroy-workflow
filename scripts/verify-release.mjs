@@ -15,6 +15,7 @@ const required = [
   "docs/agent/release-checklist.md",
   "reports/release-evidence.json",
   "reports/acceptance-audit.json",
+  "reports/native-conformance-pilots.json",
 ];
 for (const path of required) if (!existsSync(join(root, path))) failures.push(`missing ${path}`);
 
@@ -31,15 +32,20 @@ for (const entry of manifest.files) {
 const evidence = JSON.parse(readFileSync(join(root, "reports/release-evidence.json"), "utf8"));
 const audit = JSON.parse(readFileSync(join(root, "reports/acceptance-audit.json"), "utf8"));
 if (evidence.verification.framework !== "passed") failures.push("framework evidence not passed");
-if (evidence.verification.conformance !== "passed") failures.push("conformance evidence not passed");
+if (evidence.verification.deterministicConformance !== "passed") {
+  failures.push("deterministic conformance evidence not passed");
+}
+if (evidence.verification.nativeConformance !== "partial") {
+  failures.push("native conformance must preserve the unresolved Claude gate");
+}
 if (evidence.verification.humanLiteraryReview !== "pending") {
   failures.push("release candidate must preserve the pending human review state");
 }
-if (evidence.releaseDecision !== "release-candidate-only") {
-  failures.push("stable release must remain blocked before human review");
+if (evidence.releaseDecision !== "blocked-native-and-human-gates") {
+  failures.push("release must remain blocked before native and human gates pass");
 }
-if (audit.conclusion !== "technical-plan-implemented-stable-release-awaits-human-gate") {
-  failures.push("acceptance audit must preserve the pending human gate");
+if (audit.conclusion !== "native-conformance-and-human-gates-pending") {
+  failures.push("acceptance audit must preserve native and human pending gates");
 }
 
 if (failures.length) {

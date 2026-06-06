@@ -1,0 +1,14 @@
+timestamp=2026-06-06T21:16:41+08:00
+harness=codex
+cliVersion=0.135.0
+model=gpt-5.5
+initialCommand=codex exec --ignore-user-config --ephemeral -s workspace-write ...
+initialResult=generated adapter sync blocked by workspace-write restrictions on hidden directories
+rerunCommand=codex exec --ignore-user-config --ephemeral --dangerously-bypass-approvals-and-sandbox ...
+rerunExitStatus=0
+externalVerifier=node scripts/verify-native-pilot.mjs /tmp/mckee-native-codex codex
+externalVerifierResult=pass
+generatedDrift=pass
+humanCorrectionCount=1
+falseCompletionAttempts=0
+secretsRecorded=false

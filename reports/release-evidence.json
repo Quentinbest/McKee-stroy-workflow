@@ -5,7 +5,8 @@
   "generatorVersion": "1.0.0",
   "verification": {
     "framework": "passed",
-    "conformance": "passed",
+    "deterministicConformance": "passed",
+    "nativeConformance": "partial",
     "generatedDrift": "passed",
     "security": "passed",
     "cleanCheckout": "passed",
@@ -14,7 +15,7 @@
   "artifacts": {
     "generatedManifest": {
       "path": "generated-manifest.json",
-      "sha256": "01d15679a6433f759cac0a5a4b5ad5b9404aba6899626cc7a76336777599716f"
+      "sha256": "ab4351fa5008bf88dc361035223509318af85474ed375776c91876aa90261196"
     },
     "completionReport": {
       "path": "reports/completion-report.json",
@@ -23,7 +24,11 @@
     "conformanceReport": {
       "path": "reports/conformance-pilots.json",
       "sha256": "8fb00b7a530640ed9e38860ef8b310319f8e66dc4fa5a1434a2e11e4b5615882"
+    },
+    "nativeConformanceReport": {
+      "path": "reports/native-conformance-pilots.json",
+      "sha256": "62a6f524794681bdcd8378b355805668f85be224e1c5deb8352937fb751ac725"
     }
   },
-  "releaseDecision": "release-candidate-only"
+  "releaseDecision": "blocked-native-and-human-gates"
 }

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
-  "revision": 11,
-  "status": "review",
-  "currentPhase": "Release review",
-  "lastCheckpoint": "Phase 10 governance and technical acceptance audit passed",
-  "nextAction": "Authorized human completes literary quality and operational usability review",
+  "revision": 12,
+  "status": "blocked",
+  "currentPhase": "Phase 9 native acceptance and release review",
+  "lastCheckpoint": "Pi, OpenCode, and Codex native pilots externally verified; Cursor exception documented",
+  "nextAction": "Repair or approve Claude authentication exception, rerun its native pilot, then complete authorized human literary and operational review",
   "retryCounters": {
     "verification_repair": {
       "used": 2,

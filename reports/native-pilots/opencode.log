@@ -1,0 +1,14 @@
+timestamp=2026-06-06T21:17:47+08:00
+harness=opencode
+cliVersion=1.15.7
+models=google/gemini-2.5-flash,google/gemini-2.5-pro
+command=opencode run --pure --dangerously-skip-permissions --model google/gemini-2.5-flash ...
+exitStatus=0
+initialResult=invalid result.json despite completion claim
+correction=one bounded follow-up replaced result.json and reran drift verification
+externalVerifier=node scripts/verify-native-pilot.mjs /tmp/mckee-native-opencode opencode
+externalVerifierResult=pass
+generatedDrift=pass
+humanCorrectionCount=1
+falseCompletionAttempts=1
+secretsRecorded=false

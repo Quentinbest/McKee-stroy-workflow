@@ -9,6 +9,9 @@ const conformance = JSON.parse(
 const completion = JSON.parse(
   readFileSync(join(root, "reports/completion-report.json"), "utf8"),
 );
+const nativeConformance = JSON.parse(
+  readFileSync(join(root, "reports/native-conformance-pilots.json"), "utf8"),
+);
 const phases = [
   ["0", ["docs/agent/inventory.md", "docs/agent/migration-risk-register.md"]],
   ["1", ["src/source-provenance.json", "src/skills", "src/roles"]],
@@ -19,7 +22,11 @@ const phases = [
   ["6", ["config/security-policy.json", "scripts/verify-security.mjs"]],
   ["7", ["package.json", ".github/workflows/agent-framework.yml", "reports/completion-report.json"]],
   ["8", ["tasks/TASK-2026-001.state.json", "src/control-plane/story-lifecycle.json"]],
-  ["9", ["reports/conformance-pilots.json", "docs/agent/conformance-pilots.md"]],
+  ["9", [
+    "reports/conformance-pilots.json",
+    "reports/native-conformance-pilots.json",
+    "docs/agent/conformance-pilots.md",
+  ]],
   ["10", ["VERSION", "docs/agent/release-checklist.md", "reports/release-evidence.json"]],
 ];
 const phaseResults = Object.fromEntries(phases.map(([id, paths]) => [
@@ -29,10 +36,11 @@ const phaseResults = Object.fromEntries(phases.map(([id, paths]) => [
     evidence: paths,
   },
 ]));
+phaseResults["9"].status = nativeConformance.status === "passed" ? "passed" : "partial";
 const audit = {
   schemaVersion: 1,
   generatedAt: "verification-runtime",
-  status: "release-candidate",
+  status: nativeConformance.status === "passed" ? "release-candidate" : "blocked",
   phases: phaseResults,
   frameworkAcceptance: {
     rootGuidanceAllHarnesses: "passed",
@@ -45,16 +53,18 @@ const audit = {
     repositoryStateResume: "passed",
   },
   releaseGate: {
-    fiveHarnessDocumentationPilot: "passed",
-    fiveHarnessSkillChangePilot: "passed",
-    threeHarnessStoryLifecyclePilot: "passed-synthetic",
-    securityApprovalFlow: "passed",
+    fiveHarnessDocumentationPilot: nativeConformance.summary.fiveHarnessPilotGate,
+    fiveHarnessSkillChangePilot: nativeConformance.summary.fiveHarnessPilotGate,
+    threeHarnessStoryLifecyclePilot: nativeConformance.summary.threeHarnessStoryLifecycleGate,
+    securityApprovalFlow: "passed-native-three-harnesses",
     generatedDrift: "passed",
     frameworkTests: completion.status,
     humanStoryQualityAndOperationalReview: conformance.humanEvaluation.status,
   },
   conclusion: (
-    conformance.humanEvaluation.status === "complete"
+    nativeConformance.status !== "passed"
+      ? "native-conformance-and-human-gates-pending"
+      : conformance.humanEvaluation.status === "complete"
       ? "stable-release-eligible"
       : "technical-plan-implemented-stable-release-awaits-human-gate"
   ),

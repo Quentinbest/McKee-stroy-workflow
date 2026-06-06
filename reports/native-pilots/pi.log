@@ -1,0 +1,13 @@
+timestamp=2026-06-06T21:12:04+08:00
+harness=pi
+cliVersion=0.73.0
+model=openrouter/openai/gpt-4.1-mini
+command=pi --provider openrouter --model openai/gpt-4.1-mini --tools read,bash,edit,write,grep,find,ls --no-session -p ...
+exitStatus=0
+nativeTaskResult=complete
+externalVerifier=node scripts/verify-native-pilot.mjs /tmp/mckee-native-pi pi
+externalVerifierResult=pass
+generatedDrift=pass
+humanCorrectionCount=0
+falseCompletionAttempts=0
+secretsRecorded=false

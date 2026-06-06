@@ -11,6 +11,9 @@ function hash(path) {
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 const completion = JSON.parse(readFileSync(join(root, "reports/completion-report.json"), "utf8"));
 const conformance = JSON.parse(readFileSync(join(root, "reports/conformance-pilots.json"), "utf8"));
+const nativeConformance = JSON.parse(
+  readFileSync(join(root, "reports/native-conformance-pilots.json"), "utf8"),
+);
 const evidence = {
   schemaVersion: 1,
   release: packageJson.version,
@@ -18,7 +21,8 @@ const evidence = {
   generatorVersion: "1.0.0",
   verification: {
     framework: completion.status,
-    conformance: conformance.status,
+    deterministicConformance: conformance.status,
+    nativeConformance: nativeConformance.status,
     generatedDrift: "passed",
     security: "passed",
     cleanCheckout: "passed",
@@ -37,10 +41,16 @@ const evidence = {
       path: "reports/conformance-pilots.json",
       sha256: hash("reports/conformance-pilots.json"),
     },
+    nativeConformanceReport: {
+      path: "reports/native-conformance-pilots.json",
+      sha256: hash("reports/native-conformance-pilots.json"),
+    },
   },
-  releaseDecision: conformance.humanEvaluation.status === "complete"
-    ? "stable-eligible"
-    : "release-candidate-only",
+  releaseDecision: nativeConformance.status !== "passed"
+    ? "blocked-native-and-human-gates"
+    : conformance.humanEvaluation.status === "complete"
+      ? "stable-eligible"
+      : "release-candidate-only",
 };
 writeFileSync(
   join(root, "reports/release-evidence.json"),

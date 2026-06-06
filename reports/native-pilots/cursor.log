@@ -1,0 +1,7 @@
+timestamp=2026-06-06T21:17:47+08:00
+harness=cursor
+result=approved-capability-exception
+reason=Cursor CLI is not installed in the verification environment.
+fallback=node scripts/smoke-harness.mjs cursor
+fallbackResult=pass
+nativeModelExecution=not-run

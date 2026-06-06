@@ -3,6 +3,9 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const report = JSON.parse(readFileSync("reports/conformance-pilots.json", "utf8"));
+const nativeReport = JSON.parse(
+  readFileSync("reports/native-conformance-pilots.json", "utf8"),
+);
 
 test("all five harnesses pass all repository-level pilots", () => {
   assert.deepEqual(Object.keys(report.harnesses).sort(), [
@@ -26,4 +29,20 @@ test("all five harnesses pass all repository-level pilots", () => {
 test("native execution limitations are explicit rather than hidden", () => {
   assert.ok(report.capabilityExceptions.length >= 1);
   assert.equal(report.humanEvaluation.status, "pending");
+});
+
+test("native pilots preserve passed runs and unresolved gates", () => {
+  assert.equal(nativeReport.status, "partial");
+  assert.equal(nativeReport.summary.nativeHarnessPassCount, 3);
+  assert.equal(nativeReport.summary.threeHarnessStoryLifecycleGate, "passed");
+  assert.equal(nativeReport.summary.singleAgentBaselineGate, "passed");
+  assert.equal(
+    nativeReport.summary.fiveHarnessPilotGate,
+    "blocked-claude-authentication",
+  );
+  assert.equal(nativeReport.harnesses.cursor.status, "approved-capability-exception");
+  assert.equal(nativeReport.harnesses.claude.status, "blocked");
+  for (const harness of ["pi", "opencode", "codex"]) {
+    assert.equal(nativeReport.harnesses[harness].externalVerification, "pass");
+  }
 });

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "executedAt": "2026-06-06T21:17:47+08:00",
+  "baselineRevision": "2b0c2b2",
+  "status": "partial",
+  "pilotType": "native CLI and model conformance",
+  "harnesses": {
+    "claude": {
+      "status": "blocked",
+      "cliVersion": "2.1.167",
+      "model": "sonnet",
+      "exitStatus": 1,
+      "externalVerification": "not-run",
+      "reason": "Claude Code returned HTTP 401 for the configured claude.ai Pro authentication.",
+      "evidence": "reports/native-pilots/claude.log"
+    },
+    "cursor": {
+      "status": "approved-capability-exception",
+      "cliVersion": null,
+      "model": null,
+      "exitStatus": null,
+      "externalVerification": "deterministic-fallback-pass",
+      "reason": "Cursor CLI is not installed; the implementation plan permits a documented capability exception.",
+      "evidence": "reports/native-pilots/cursor.log"
+    },
+    "pi": {
+      "status": "pass",
+      "cliVersion": "0.73.0",
+      "model": "openrouter/openai/gpt-4.1-mini",
+      "exitStatus": 0,
+      "externalVerification": "pass",
+      "humanCorrectionCount": 0,
+      "falseCompletionAttempts": 0,
+      "singleAgentBaseline": true,
+      "evidence": "reports/native-pilots/pi.log"
+    },
+    "opencode": {
+      "status": "pass-with-correction",
+      "cliVersion": "1.15.7",
+      "model": "google/gemini-2.5-flash and google/gemini-2.5-pro",
+      "exitStatus": 0,
+      "externalVerification": "pass",
+      "humanCorrectionCount": 1,
+      "falseCompletionAttempts": 1,
+      "singleAgentBaseline": true,
+      "evidence": "reports/native-pilots/opencode.log"
+    },
+    "codex": {
+      "status": "pass-after-sandbox-rerun",
+      "cliVersion": "0.135.0",
+      "model": "gpt-5.5",
+      "exitStatus": 0,
+      "externalVerification": "pass",
+      "humanCorrectionCount": 1,
+      "falseCompletionAttempts": 0,
+      "singleAgentBaseline": true,
+      "evidence": "reports/native-pilots/codex.log"
+    }
+  },
+  "summary": {
+    "nativeHarnessPassCount": 3,
+    "requiredNativeLifecyclePassCount": 3,
+    "threeHarnessStoryLifecycleGate": "passed",
+    "singleAgentBaselineGate": "passed",
+    "fiveHarnessPilotGate": "blocked-claude-authentication",
+    "securityIncidents": 0,
+    "generatedDriftIncidents": 0,
+    "humanStoryQualityAndOperationalReview": "pending"
+  },
+  "approvalRequired": [
+    "Approve or repair the Claude Code authentication exception, then rerun TASK-2026-002 for Claude.",
+    "Complete authorized human literary quality and operational usability review."
+  ]
+}

@@ -5,8 +5,8 @@ Version: 1.0.0-rc.1
 
 | Metric | Target | Baseline |
 |---|---:|---:|
-| Task acceptance pass rate | >= 90% | 100% deterministic pilots |
-| False completion rate | < 2% | 0% deterministic pilots |
+| Task acceptance pass rate | >= 90% | 100% deterministic; 3/4 attempted native harnesses pass |
+| False completion rate | < 2% | 0% deterministic; 1 corrected native false completion |
 | Required harness smoke pass | 100% | 100% |
 | Generated drift incidents | 0/release | 0 |
 | P0/P1 safety incidents | 0 | 0 |
@@ -16,5 +16,5 @@ Version: 1.0.0-rc.1
 | Contract-valid active skills | 100% | 100% (34/34) |
 | Broken internal links | 0 | 0 |
 
-Synthetic baselines are not production usage claims. Recalculate after real
-approved pilots.
+Native results are bounded conformance evidence, not production usage claims.
+Recalculate after Claude and human gates complete.

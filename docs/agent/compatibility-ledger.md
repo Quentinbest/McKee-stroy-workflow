@@ -5,11 +5,11 @@ Next review: 2026-09-01
 
 | Harness | Baseline entry | Repository conformance | Native execution | Exception |
 |---|---|---|---|---|
-| Claude Code | `CLAUDE.md`, `.claude/` | 5/5 pilots pass | CLI observed; model run not approved | offline baseline |
-| Cursor | `AGENTS.md`, `.cursor/rules/` | 5/5 pilots pass | CLI unavailable | deterministic discovery fallback |
-| Pi | `AGENTS.md`, `.agents/skills/` | 5/5 pilots pass | CLI observed; model run not approved | offline baseline |
-| OpenCode | `AGENTS.md`, `.agents/skills/`, `.opencode/agents/` | 5/5 pilots pass | CLI observed; model run not approved | offline baseline |
-| Codex | `AGENTS.md`, `.agents/skills/`, `.codex/` | 5/5 pilots pass | CLI observed; model run not approved | offline baseline |
+| Claude Code | `CLAUDE.md`, `.claude/` | 5/5 deterministic | Blocked: HTTP 401 | exception not approved |
+| Cursor | `AGENTS.md`, `.cursor/rules/` | 5/5 deterministic | CLI unavailable | plan-approved deterministic fallback |
+| Pi | `AGENTS.md`, `.agents/skills/` | 5/5 deterministic | Native verifier pass | none |
+| OpenCode | `AGENTS.md`, `.agents/skills/`, `.opencode/agents/` | 5/5 deterministic | Native verifier pass after one correction | malformed first result recorded |
+| Codex | `AGENTS.md`, `.agents/skills/`, `.codex/` | 5/5 deterministic | Native verifier pass after sandbox rerun | hidden-directory write restriction |
 
 Removing a harness or weakening its safety boundary requires an ADR and major
 version review.
