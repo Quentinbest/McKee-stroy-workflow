@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TASK-2026-001",
+  "revision": 9,
+  "status": "in_progress",
+  "currentPhase": "Phase 9",
+  "lastCheckpoint": "Phase 8 control-plane acceptance passed",
+  "nextAction": "Run and record the cross-harness conformance pilot set",
+  "retryCounters": {
+    "verification_repair": {
+      "used": 2,
+      "limit": 3
+    },
+    "contract_repair": {
+      "used": 1,
+      "limit": 2
+    }
+  },
+  "artifactLedger": "tasks/ledgers/TASK-2026-001-artifacts.json",
+  "decisionLedger": "tasks/ledgers/TASK-2026-001-decisions.json",
+  "handoff": "tasks/handoffs/TASK-2026-001-latest.json"
+}

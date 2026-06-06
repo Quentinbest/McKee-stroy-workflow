@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TASK-2026-001",
+  "decisions": [
+    {
+      "id": "DECISION-001",
+      "status": "accepted",
+      "summary": "Use canonical core plus committed generated adapters",
+      "source": "docs/agent/decisions/ADR-0001-cross-harness-baseline.md"
+    },
+    {
+      "id": "DECISION-002",
+      "status": "accepted",
+      "summary": "Keep wiki integration read-only through MCKEE_WIKI_ROOT",
+      "source": "docs/agent/decisions/ADR-0001-cross-harness-baseline.md"
+    },
+    {
+      "id": "DECISION-003",
+      "status": "accepted",
+      "summary": "Use dependency-free Node.js baseline tooling",
+      "source": "docs/agent/testing-and-verification.md"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "valid": [
+    {
+      "id": "DELEGATION-001",
+      "taskId": "TASK-2026-001",
+      "role": "pacing-analyst",
+      "mode": "read_only",
+      "inputs": ["synthetic manuscript", "scene ledger"],
+      "outputs": ["pacing report"],
+      "allowedPaths": ["tests/fixtures/story/**"],
+      "forbiddenActions": ["write", "publish"],
+      "timeboxMinutes": 20,
+      "worktree": null,
+      "acceptance": ["report cites scene evidence"],
+      "status": "ready"
+    },
+    {
+      "id": "DELEGATION-002",
+      "taskId": "TASK-2026-001",
+      "role": "documentation-editor",
+      "mode": "scoped_write",
+      "inputs": ["approved task"],
+      "outputs": ["documentation patch"],
+      "allowedPaths": ["docs/pilot-a/**"],
+      "forbiddenActions": ["publish", "edit generated files"],
+      "timeboxMinutes": 30,
+      "worktree": "/tmp/worktree-a",
+      "acceptance": ["documentation checks pass"],
+      "status": "ready"
+    },
+    {
+      "id": "DELEGATION-003",
+      "taskId": "TASK-2026-001",
+      "role": "fixture-editor",
+      "mode": "scoped_write",
+      "inputs": ["approved task"],
+      "outputs": ["fixture patch"],
+      "allowedPaths": ["tests/pilot-b/**"],
+      "forbiddenActions": ["publish", "edit generated files"],
+      "timeboxMinutes": 30,
+      "worktree": "/tmp/worktree-b",
+      "acceptance": ["fixture tests pass"],
+      "status": "ready"
+    }
+  ],
+  "invalid": [
+    {
+      "id": "DELEGATION-099",
+      "taskId": "TASK-2026-001",
+      "role": "unsafe-writer",
+      "mode": "scoped_write",
+      "inputs": ["task"],
+      "outputs": ["patch"],
+      "allowedPaths": ["docs/**"],
+      "forbiddenActions": ["publish"],
+      "timeboxMinutes": 30,
+      "worktree": null,
+      "acceptance": ["patch exists"],
+      "status": "ready"
+    }
+  ]
+}

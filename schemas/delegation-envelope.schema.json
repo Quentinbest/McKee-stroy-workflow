@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mckee-story-workflow.local/schemas/delegation-envelope.schema.json",
+  "title": "Delegation Envelope",
+  "type": "object",
+  "required": [
+    "id",
+    "taskId",
+    "role",
+    "mode",
+    "inputs",
+    "outputs",
+    "allowedPaths",
+    "forbiddenActions",
+    "timeboxMinutes",
+    "worktree",
+    "acceptance",
+    "status"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^DELEGATION-[0-9]{3}$" },
+    "taskId": { "type": "string", "pattern": "^TASK-[0-9]{4}-[0-9]{3}$" },
+    "role": { "type": "string", "minLength": 1 },
+    "mode": { "enum": ["read_only", "scoped_write"] },
+    "inputs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "outputs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "allowedPaths": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "forbiddenActions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "timeboxMinutes": { "type": "integer", "minimum": 1, "maximum": 240 },
+    "worktree": { "type": ["string", "null"] },
+    "acceptance": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "status": { "enum": ["ready", "running", "complete", "blocked", "rejected"] }
+  },
+  "additionalProperties": false
+}

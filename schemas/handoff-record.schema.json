@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mckee-story-workflow.local/schemas/handoff-record.schema.json",
+  "title": "Structured Handoff Record",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "taskId",
+    "from",
+    "to",
+    "completed",
+    "currentState",
+    "nextAction",
+    "files",
+    "evidence",
+    "risks",
+    "blockers"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "taskId": { "type": "string", "pattern": "^TASK-[0-9]{4}-[0-9]{3}$" },
+    "from": { "type": "string", "minLength": 1 },
+    "to": { "type": "string", "minLength": 1 },
+    "completed": { "type": "array", "items": { "type": "string" } },
+    "currentState": { "type": "string", "minLength": 1 },
+    "nextAction": { "type": "string", "minLength": 1 },
+    "files": { "type": "array", "items": { "type": "string" } },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "blockers": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

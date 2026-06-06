@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "states": [
+    "seed",
+    "premise",
+    "controlling_idea",
+    "cast",
+    "spine",
+    "act_design",
+    "scene_contracts",
+    "beat_sheets",
+    "prose",
+    "audit",
+    "revision",
+    "publication_checks",
+    "export"
+  ],
+  "checkpoints": [
+    {
+      "after": "premise",
+      "requiredArtifact": "premise-and-genre@1.0.0",
+      "humanApproval": true
+    },
+    {
+      "after": "controlling_idea",
+      "requiredArtifact": "controlling-idea@1.0.0",
+      "humanApproval": true
+    },
+    {
+      "after": "spine",
+      "requiredArtifact": "story-spine@1.0.0",
+      "humanApproval": true
+    },
+    {
+      "after": "act_design",
+      "requiredArtifact": "act-sequence-design@1.0.0",
+      "humanApproval": true
+    },
+    {
+      "after": "prose",
+      "requiredArtifact": "prose-scenes@1.0.0",
+      "humanApproval": true
+    },
+    {
+      "after": "revision",
+      "requiredArtifact": "revision-passes@1.0.0",
+      "humanApproval": true
+    },
+    {
+      "after": "publication_checks",
+      "requiredArtifact": "publication-checks@1.0.0",
+      "humanApproval": true
+    }
+  ],
+  "retryPolicy": {
+    "creative_regeneration": 2,
+    "focused_repair": 3,
+    "contract_repair": 2,
+    "verification_repair": 3
+  },
+  "backtrackLimit": 2
+}

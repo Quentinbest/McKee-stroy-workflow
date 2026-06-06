@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "taskId": "TASK-2026-001",
+  "artifacts": [
+    {
+      "id": "phase-0-baseline",
+      "version": "1.0.0",
+      "path": "docs/agent/inventory.md",
+      "producer": "Phase 0",
+      "status": "verified",
+      "evidence": "commit 6a50675"
+    },
+    {
+      "id": "canonical-source",
+      "version": "1.0.0",
+      "path": "src/source-provenance.json",
+      "producer": "Phase 1",
+      "status": "verified",
+      "evidence": "commit 49e0947"
+    },
+    {
+      "id": "context-architecture",
+      "version": "1.0.0",
+      "path": "docs/agent/README.md",
+      "producer": "Phase 2",
+      "status": "verified",
+      "evidence": "commit 44a6560"
+    },
+    {
+      "id": "task-contract",
+      "version": "1.0.0",
+      "path": "tasks/TASK-2026-001-cross-harness-migration.md",
+      "producer": "Phase 3",
+      "status": "verified",
+      "evidence": "commit 769e7f2"
+    },
+    {
+      "id": "canonical-contracts",
+      "version": "1.0.0",
+      "path": "src/artifacts/story-artifacts.json",
+      "producer": "Phase 4",
+      "status": "verified",
+      "evidence": "commit 3aa76d1"
+    },
+    {
+      "id": "generated-adapters",
+      "version": "1.0.0",
+      "path": "generated-manifest.json",
+      "producer": "Phase 5",
+      "status": "verified",
+      "evidence": "commit 441fa12"
+    },
+    {
+      "id": "security-policy",
+      "version": "1.0.0",
+      "path": "config/security-policy.json",
+      "producer": "Phase 6",
+      "status": "verified",
+      "evidence": "commit a3e21be"
+    },
+    {
+      "id": "verification-suite",
+      "version": "1.0.0",
+      "path": "reports/completion-report.json",
+      "producer": "Phase 7",
+      "status": "verified",
+      "evidence": "commit 336c8a9"
+    },
+    {
+      "id": "resumable-control-plane",
+      "version": "1.0.0",
+      "path": "tasks/TASK-2026-001.state.json",
+      "producer": "Phase 8",
+      "status": "verified",
+      "evidence": "control-plane and resume E2E tests"
+    }
+  ]
+}

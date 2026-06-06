@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mckee-story-workflow.local/schemas/control-plane.schema.json",
+  "title": "Resumable Task Control Plane",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "taskId",
+    "revision",
+    "status",
+    "currentPhase",
+    "lastCheckpoint",
+    "nextAction",
+    "retryCounters",
+    "artifactLedger",
+    "decisionLedger",
+    "handoff"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "taskId": { "type": "string", "pattern": "^TASK-[0-9]{4}-[0-9]{3}$" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "status": {
+      "enum": ["ready", "in_progress", "verification", "review", "blocked", "done"]
+    },
+    "currentPhase": { "type": "string", "minLength": 1 },
+    "lastCheckpoint": { "type": "string", "minLength": 1 },
+    "nextAction": { "type": "string", "minLength": 1 },
+    "retryCounters": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["used", "limit"],
+        "properties": {
+          "used": { "type": "integer", "minimum": 0 },
+          "limit": { "type": "integer", "minimum": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "artifactLedger": { "type": "string", "minLength": 1 },
+    "decisionLedger": { "type": "string", "minLength": 1 },
+    "handoff": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}
