@@ -17,6 +17,8 @@ const required = [
   "reports/acceptance-audit.json",
   "reports/native-conformance-pilots.json",
   "reports/human-release-review.json",
+  "reports/human-review-objective-evidence.json",
+  "docs/agent/human-review-scorecard.md",
 ];
 for (const path of required) if (!existsSync(join(root, path))) failures.push(`missing ${path}`);
 
@@ -45,11 +47,20 @@ if (evidence.verification.humanLiteraryReview !== "pending") {
 if (evidence.verification.humanOperationalReview !== "pending") {
   failures.push("release candidate must preserve the pending operational review state");
 }
+if (evidence.verification.humanReviewCandidate !== "passed") {
+  failures.push("human review candidate evidence is not passed");
+}
+if (!evidence.artifacts.humanReviewObjectiveEvidence?.sha256) {
+  failures.push("human review objective evidence is not release-traced");
+}
 if (evidence.releaseDecision !== "release-candidate-only") {
   failures.push("stable release must remain blocked before human review");
 }
 if (audit.conclusion !== "technical-plan-implemented-stable-release-awaits-human-gate") {
   failures.push("acceptance audit must preserve the pending human gate");
+}
+if (audit.releaseGate.humanReviewObjectiveEvidence !== "passed") {
+  failures.push("acceptance audit lacks objective human-review evidence");
 }
 
 if (failures.length) {

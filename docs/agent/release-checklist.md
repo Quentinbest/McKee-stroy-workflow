@@ -22,7 +22,9 @@
 - [ ] Explicit publication approval for any external target.
 
 Execution protocol: `docs/agent/human-release-review.md`. Machine-readable
-record: `reports/human-release-review.json`.
+record: `reports/human-release-review.json`. Reviewer scorecard:
+`docs/agent/human-review-scorecard.md`. Objective evidence:
+`reports/human-review-objective-evidence.json`.
 
 ## Release Decision
 

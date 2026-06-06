@@ -104,6 +104,7 @@
     "generatedDrift": "passed",
     "frameworkTests": "passed",
     "humanReviewCandidate": "passed",
+    "humanReviewObjectiveEvidence": "passed",
     "humanStoryQualityAndOperationalReview": "pending"
   },
   "conclusion": "technical-plan-implemented-stable-release-awaits-human-gate"

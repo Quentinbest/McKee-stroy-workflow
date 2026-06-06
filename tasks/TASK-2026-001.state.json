@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
-  "revision": 13,
+  "revision": 14,
   "status": "review",
   "currentPhase": "Authorized human release review",
-  "lastCheckpoint": "Phase 9 accepted with owner-approved Claude and Cursor capability exceptions",
-  "nextAction": "Complete TASK-2026-003 using an authorized non-synthetic story lifecycle",
+  "lastCheckpoint": "Non-synthetic review candidate and objective human-review evidence verified",
+  "nextAction": "Authorized reviewer scores docs/agent/human-review-scorecard.md and records the stable-release decision",
   "retryCounters": {
     "verification_repair": {
       "used": 2,

@@ -89,6 +89,22 @@
       "producer": "Phase 10",
       "status": "review",
       "evidence": "technical gates pass; human stable-release gate pending"
+    },
+    {
+      "id": "human-review-candidate",
+      "version": "1.0.0-rc.1",
+      "path": "review-candidates/last-signal/lifecycle.json",
+      "producer": "Phase 10 follow-up",
+      "status": "verified",
+      "evidence": "15 checkpoints, revised manuscript, all P0/P1 findings closed"
+    },
+    {
+      "id": "human-review-objective-evidence",
+      "version": "1.0.0-rc.1",
+      "path": "reports/human-review-objective-evidence.json",
+      "producer": "Phase 10 follow-up",
+      "status": "verified",
+      "evidence": "npm run agents:test:human-review-evidence"
     }
   ]
 }

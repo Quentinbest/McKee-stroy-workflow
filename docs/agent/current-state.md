@@ -8,11 +8,12 @@ Migration state: Phases 0-10 complete; authorized human review pending
 
 - The canonical execution plan is
   `mckee-story-workflow-cross-harness-agent-implementation-plan.md`.
-- Existing `skills/`, `agents/`, and `templates/` content is legacy source until
-  it is imported into `src/`.
+- Canonical skills, roles, templates, and artifact contracts live in `src/`;
+  legacy paths remain compatibility inputs only.
 - The external McKee wiki is read-only to this repository and is located through
   `MCKEE_WIKI_ROOT`.
-- Generated harness adapters do not yet exist and must not be authored manually.
+- Generated harness adapters are committed and must be changed only through
+  canonical source plus `npm run agents:sync`.
 
 ## Baseline
 
@@ -57,5 +58,7 @@ The migration rollback point is the Git tag
 
 ## Next Milestone
 
-Complete human literary and operational usability review before deciding
-whether to promote `1.0.0-rc.1` to stable `1.0.0`.
+An authorized reviewer can now complete the literary and operational scorecard
+using `docs/agent/human-review-scorecard.md` and
+`reports/human-review-objective-evidence.json` before deciding whether to
+promote `1.0.0-rc.1` to stable `1.0.0`.

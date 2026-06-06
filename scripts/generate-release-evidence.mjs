@@ -65,6 +65,10 @@ const evidence = {
         sha256: hash(`${humanReview.story.artifactPath}/final-story.md`),
       },
     } : null,
+    humanReviewObjectiveEvidence: {
+      path: "reports/human-review-objective-evidence.json",
+      sha256: hash("reports/human-review-objective-evidence.json"),
+    },
   },
   releaseDecision: nativeConformance.status !== "passed"
     ? "blocked-native-and-human-gates"

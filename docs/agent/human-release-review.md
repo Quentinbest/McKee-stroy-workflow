@@ -10,12 +10,16 @@ not satisfy this gate.
 2. Run the lifecycle through `revision-passes`, preserving each artifact and
    checkpoint decision.
 3. Record the artifact root in `reports/human-release-review.json`.
-4. Score every literary and operational criterion from 1 to 5 and cite concrete
+4. Use `docs/agent/human-review-scorecard.md` and
+   `reports/human-review-objective-evidence.json` to inspect the prepared
+   evidence.
+5. Score every literary and operational criterion from 1 to 5 and cite concrete
    artifact or execution evidence.
-5. Use `changes-requested` if any blocking criterion scores below 3.
-6. Set `status`, both review-section statuses, and `stableRelease` to approved
+6. Use `changes-requested` if any blocking criterion scores below 3.
+7. Set `status`, both review-section statuses, and `stableRelease` to approved
    only when all criteria score at least 3 and no P0/P1 finding remains.
-7. Run `npm run agents:test:human-review` and `npm run agents:verify`.
+8. Run `npm run agents:test:human-review-evidence`,
+   `npm run agents:test:human-review`, and `npm run agents:verify`.
 
 ## Literary Criteria
 

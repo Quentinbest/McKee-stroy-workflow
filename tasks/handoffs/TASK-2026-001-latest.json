@@ -10,28 +10,33 @@
     "repository-state resume and delegation tests passed",
     "25 repository-level cross-harness pilot combinations passed",
     "Pi, OpenCode, and Codex native pilots externally verified",
-    "human release-review protocol and evidence schema prepared"
+    "complete non-synthetic story lifecycle verified through revision-passes",
+    "human review scorecard and objective evidence package verified"
   ],
-  "currentState": "1.0.0-rc.1 has complete technical and Phase 9 acceptance; authorized human release gates remain",
-  "nextAction": "Execute TASK-2026-003 with a reviewer-authorized non-synthetic story",
+  "currentState": "1.0.0-rc.1 has complete technical acceptance and a reviewer-ready human gate; subjective scores and authorization remain",
+  "nextAction": "Score docs/agent/human-review-scorecard.md and record reviewer identity, timestamp, criterion scores, and stable-release decision",
   "files": [
     "docs/agent/current-state.md",
     "tasks/TASK-2026-001.state.json",
     "reports/completion-report.json",
     "reports/native-conformance-pilots.json",
     "reports/human-release-review.json",
-    "docs/agent/human-release-review.md"
+    "reports/human-review-objective-evidence.json",
+    "docs/agent/human-release-review.md",
+    "docs/agent/human-review-scorecard.md",
+    "review-candidates/last-signal/final-story.md"
   ],
   "evidence": [
     "npm run agents:verify",
-    "clean detached worktree verification"
+    "clean detached worktree verification",
+    "npm run agents:test:human-review-evidence"
   ],
   "risks": [
     "Claude Code HTTP 401 is covered by an explicit owner-approved deterministic fallback",
     "Native Cursor CLI is unavailable; deterministic smoke is the approved fallback",
-    "Stable release is blocked on subjective story quality and operational usability review"
+    "Stable release is blocked only on subjective story quality and operational usability scores plus reviewer authorization"
   ],
   "blockers": [
-    "Human review requires an authorized reviewer and a non-synthetic story they are authorized to use"
+    "Human review requires an authorized reviewer; the non-synthetic review candidate and objective evidence are ready"
   ]
 }

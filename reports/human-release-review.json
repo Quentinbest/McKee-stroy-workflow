@@ -37,6 +37,7 @@
   "notes": [
     "An authorized human reviewer must evaluate a non-synthetic, complete lifecycle.",
     "The Last Signal candidate is complete and deterministically verified; criterion scores remain intentionally unsigned.",
+    "Objective measurements are recorded in reports/human-review-objective-evidence.json; reviewer prompts are in docs/agent/human-review-scorecard.md.",
     "External publication approval is separate from stable-release approval."
   ]
 }

@@ -19,6 +19,12 @@
       "status": "accepted",
       "summary": "Use dependency-free Node.js baseline tooling",
       "source": "docs/agent/testing-and-verification.md"
+    },
+    {
+      "id": "DECISION-004",
+      "status": "accepted",
+      "summary": "Keep subjective human scores and stable-release authorization separate from machine-generated objective evidence",
+      "source": "docs/agent/human-release-review.md"
     }
   ]
 }

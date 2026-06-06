@@ -69,6 +69,9 @@ const audit = {
     generatedDrift: "passed",
     frameworkTests: completion.status,
     humanReviewCandidate: reviewCandidateReady ? "passed" : "pending",
+    humanReviewObjectiveEvidence: existsSync(
+      join(root, "reports/human-review-objective-evidence.json"),
+    ) ? "passed" : "pending",
     humanStoryQualityAndOperationalReview: humanReview.status,
   },
   conclusion: (

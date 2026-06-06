@@ -37,6 +37,8 @@ gate using a reviewer-authorized, non-synthetic story lifecycle.
   for internal framework evaluation.
 - Complete lifecycle evidence through `revision-passes`, including a revised
   manuscript and traceable audit closure.
+- `reports/human-review-objective-evidence.json` and
+  `docs/agent/human-review-scorecard.md`.
 - Native and deterministic conformance reports.
 
 # Constraints
@@ -60,12 +62,13 @@ gate using a reviewer-authorized, non-synthetic story lifecycle.
 - [x] No unresolved P0/P1 finding remains.
 - [ ] Reviewer name, role, and timestamp are recorded.
 - [ ] Stable-release approval is explicit.
-- [ ] `npm run agents:test:human-review` passes.
+- [x] `npm run agents:test:human-review` passes in pending-review state.
 
 # Verification
 
 ```bash
 npm run agents:test:human-review
+npm run agents:test:human-review-evidence
 npm run agents:test:review-candidate
 npm run agents:verify
 ```
@@ -73,6 +76,8 @@ npm run agents:verify
 # Evidence
 
 - `reports/human-release-review.json`
+- `reports/human-review-objective-evidence.json`
+- `docs/agent/human-review-scorecard.md`
 - `review-candidates/last-signal/`
 
 # Rollback

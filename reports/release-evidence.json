@@ -41,6 +41,10 @@
         "path": "review-candidates/last-signal/final-story.md",
         "sha256": "96d6563591dab7ddc479e2d5a22d478e7fdd7f4d2c5c1b292b2e9d2f78fcad6a"
       }
+    },
+    "humanReviewObjectiveEvidence": {
+      "path": "reports/human-review-objective-evidence.json",
+      "sha256": "665e72b57e120a76b7a635ebee0d33258026aa91bf7cee5658b7c1cee5f02ab3"
     }
   },
   "releaseDecision": "release-candidate-only"
