@@ -2,7 +2,7 @@
 
 Status date: 2026-06-06
 Plan version: 1.0
-Migration state: Phase 10 implemented; Phase 9 native acceptance and human review pending
+Migration state: Phases 0-10 complete; authorized human review pending
 
 ## Authority
 
@@ -52,11 +52,10 @@ The migration rollback point is the Git tag
 | 6 | complete | Enforced safety policy |
 | 7 | complete | Full local and CI verification |
 | 8 | complete | Resumable control plane |
-| 9 | partial | Three native passes; Claude authentication gate unresolved |
+| 9 | complete | Three native passes; Claude and Cursor capability exceptions approved |
 | 10 | complete | Versioned governance baseline |
 
 ## Next Milestone
 
-Repair or approve the Claude Code authentication exception and rerun its native
-pilot. Then complete human literary and operational usability review before
-deciding whether to promote `1.0.0-rc.1` to stable `1.0.0`.
+Complete human literary and operational usability review before deciding
+whether to promote `1.0.0-rc.1` to stable `1.0.0`.

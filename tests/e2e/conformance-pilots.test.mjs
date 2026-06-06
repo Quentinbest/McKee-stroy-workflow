@@ -32,16 +32,16 @@ test("native execution limitations are explicit rather than hidden", () => {
 });
 
 test("native pilots preserve passed runs and unresolved gates", () => {
-  assert.equal(nativeReport.status, "partial");
+  assert.equal(nativeReport.status, "passed");
   assert.equal(nativeReport.summary.nativeHarnessPassCount, 3);
   assert.equal(nativeReport.summary.threeHarnessStoryLifecycleGate, "passed");
   assert.equal(nativeReport.summary.singleAgentBaselineGate, "passed");
   assert.equal(
     nativeReport.summary.fiveHarnessPilotGate,
-    "blocked-claude-authentication",
+    "passed-with-approved-capability-exceptions",
   );
   assert.equal(nativeReport.harnesses.cursor.status, "approved-capability-exception");
-  assert.equal(nativeReport.harnesses.claude.status, "blocked");
+  assert.equal(nativeReport.harnesses.claude.status, "approved-capability-exception");
   for (const harness of ["pi", "opencode", "codex"]) {
     assert.equal(nativeReport.harnesses[harness].externalVerification, "pass");
   }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedAt": "verification-runtime",
-  "status": "blocked",
+  "status": "release-candidate",
   "phases": {
     "0": {
       "status": "passed",
@@ -70,7 +70,7 @@
       ]
     },
     "9": {
-      "status": "partial",
+      "status": "passed",
       "evidence": [
         "reports/conformance-pilots.json",
         "reports/native-conformance-pilots.json",
@@ -97,13 +97,13 @@
     "repositoryStateResume": "passed"
   },
   "releaseGate": {
-    "fiveHarnessDocumentationPilot": "blocked-claude-authentication",
-    "fiveHarnessSkillChangePilot": "blocked-claude-authentication",
+    "fiveHarnessDocumentationPilot": "passed-with-approved-capability-exceptions",
+    "fiveHarnessSkillChangePilot": "passed-with-approved-capability-exceptions",
     "threeHarnessStoryLifecyclePilot": "passed",
     "securityApprovalFlow": "passed-native-three-harnesses",
     "generatedDrift": "passed",
     "frameworkTests": "passed",
     "humanStoryQualityAndOperationalReview": "pending"
   },
-  "conclusion": "native-conformance-and-human-gates-pending"
+  "conclusion": "technical-plan-implemented-stable-release-awaits-human-gate"
 }

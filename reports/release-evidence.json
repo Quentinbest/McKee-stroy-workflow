@@ -6,7 +6,7 @@
   "verification": {
     "framework": "passed",
     "deterministicConformance": "passed",
-    "nativeConformance": "partial",
+    "nativeConformance": "passed",
     "generatedDrift": "passed",
     "security": "passed",
     "cleanCheckout": "passed",
@@ -28,8 +28,8 @@
     },
     "nativeConformanceReport": {
       "path": "reports/native-conformance-pilots.json",
-      "sha256": "62a6f524794681bdcd8378b355805668f85be224e1c5deb8352937fb751ac725"
+      "sha256": "478e2a163b67f9d3656a2b25d125547089ae2424587e73229f793753c2448ef9"
     }
   },
-  "releaseDecision": "blocked-native-and-human-gates"
+  "releaseDecision": "release-candidate-only"
 }

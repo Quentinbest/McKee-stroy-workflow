@@ -36,8 +36,8 @@ if (evidence.verification.framework !== "passed") failures.push("framework evide
 if (evidence.verification.deterministicConformance !== "passed") {
   failures.push("deterministic conformance evidence not passed");
 }
-if (evidence.verification.nativeConformance !== "partial") {
-  failures.push("native conformance must preserve the unresolved Claude gate");
+if (evidence.verification.nativeConformance !== "passed") {
+  failures.push("native conformance evidence not passed");
 }
 if (evidence.verification.humanLiteraryReview !== "pending") {
   failures.push("release candidate must preserve the pending human review state");
@@ -45,11 +45,11 @@ if (evidence.verification.humanLiteraryReview !== "pending") {
 if (evidence.verification.humanOperationalReview !== "pending") {
   failures.push("release candidate must preserve the pending operational review state");
 }
-if (evidence.releaseDecision !== "blocked-native-and-human-gates") {
-  failures.push("release must remain blocked before native and human gates pass");
+if (evidence.releaseDecision !== "release-candidate-only") {
+  failures.push("stable release must remain blocked before human review");
 }
-if (audit.conclusion !== "native-conformance-and-human-gates-pending") {
-  failures.push("acceptance audit must preserve native and human pending gates");
+if (audit.conclusion !== "technical-plan-implemented-stable-release-awaits-human-gate") {
+  failures.push("acceptance audit must preserve the pending human gate");
 }
 
 if (failures.length) {

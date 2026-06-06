@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
-  "revision": 12,
-  "status": "blocked",
-  "currentPhase": "Phase 9 native acceptance and release review",
-  "lastCheckpoint": "Pi, OpenCode, and Codex native pilots externally verified; Cursor exception documented",
-  "nextAction": "Repair or approve Claude authentication exception, rerun its native pilot, then complete authorized human literary and operational review",
+  "revision": 13,
+  "status": "review",
+  "currentPhase": "Authorized human release review",
+  "lastCheckpoint": "Phase 9 accepted with owner-approved Claude and Cursor capability exceptions",
+  "nextAction": "Complete TASK-2026-003 using an authorized non-synthetic story lifecycle",
   "retryCounters": {
     "verification_repair": {
       "used": 2,

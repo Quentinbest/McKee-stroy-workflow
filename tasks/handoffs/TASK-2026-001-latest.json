@@ -12,8 +12,8 @@
     "Pi, OpenCode, and Codex native pilots externally verified",
     "human release-review protocol and evidence schema prepared"
   ],
-  "currentState": "1.0.0-rc.1 is blocked by Claude authentication and authorized human release gates",
-  "nextAction": "Repair or approve the Claude exception, then execute TASK-2026-003 with a reviewer-authorized non-synthetic story",
+  "currentState": "1.0.0-rc.1 has complete technical and Phase 9 acceptance; authorized human release gates remain",
+  "nextAction": "Execute TASK-2026-003 with a reviewer-authorized non-synthetic story",
   "files": [
     "docs/agent/current-state.md",
     "tasks/TASK-2026-001.state.json",
@@ -27,12 +27,11 @@
     "clean detached worktree verification"
   ],
   "risks": [
-    "Claude Code reports a valid Pro login but model requests fail with HTTP 401",
+    "Claude Code HTTP 401 is covered by an explicit owner-approved deterministic fallback",
     "Native Cursor CLI is unavailable; deterministic smoke is the approved fallback",
     "Stable release is blocked on subjective story quality and operational usability review"
   ],
   "blockers": [
-    "Claude authentication requires external account repair or explicit exception approval",
     "Human review requires an authorized reviewer and a non-synthetic story they are authorized to use"
   ]
 }

@@ -19,8 +19,9 @@ All 25 deterministic harness/scenario combinations pass.
 Native CLI/model evidence is tracked separately in
 `reports/native-conformance-pilots.json`. Pi, OpenCode, and Codex pass the
 external native verifier. Cursor uses the plan-approved missing-CLI exception.
-Claude is blocked by an HTTP 401 authentication failure, so the Phase 9
-five-harness acceptance criterion remains incomplete.
+Claude returned HTTP 401, and the project owner explicitly approved ignoring
+that subscription configuration. Its deterministic fallback is therefore an
+approved capability exception. Phase 9 acceptance is complete.
 
 ## Measures
 
@@ -40,8 +41,8 @@ five-harness acceptance criterion remains incomplete.
 
 - Cursor CLI is not installed; its discovery contract is tested through
   `AGENTS.md` and `.cursor/rules/`.
-- Claude Code native execution is not approved as an exception: the configured
-  authentication returned HTTP 401 and must be repaired or explicitly waived.
+- Claude Code native execution uses an owner-approved exception after the
+  configured subscription returned HTTP 401.
 
 The deterministic baseline does not replace native acceptance. Subjective
 literary quality and operational usability also remain pending human gates.

@@ -7,8 +7,8 @@
 - [x] Security and privacy tests pass.
 - [x] Documentation and HTML checks pass.
 - [x] Five harness smoke checks pass.
-- [ ] Five-harness native documentation and skill-change pilots pass or have
-  approved capability exceptions. Claude authentication is unresolved.
+- [x] Five-harness native documentation and skill-change pilots pass or have
+  approved capability exceptions.
 - [x] Security approval-flow test passes.
 - [x] At least three harnesses pass the synthetic story lifecycle pilot.
 - [x] Clean-checkout verification passes.
@@ -26,6 +26,5 @@ record: `reports/human-release-review.json`.
 
 ## Release Decision
 
-`1.0.0-rc.1` is implemented but not release-eligible. Stable `1.0.0` remains
-blocked until the Claude native gate and all human gates are completed or
-explicitly approved by an authorized owner.
+`1.0.0-rc.1` is release-candidate eligible. Stable `1.0.0` remains blocked
+until all human gates are completed by an authorized owner.

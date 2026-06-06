@@ -1,7 +1,7 @@
 ---
 id: TASK-2026-002
 title: Run native cross-harness conformance pilots
-status: blocked
+status: done
 priority: critical
 owner: codex
 created: 2026-06-06
@@ -59,7 +59,8 @@ Prove actual native harness behavior for the five Phase 9 pilot scenarios.
 
 # Acceptance Criteria
 
-- [ ] Claude, Pi, OpenCode, and Codex pass all five native pilot scenarios.
+- [x] Claude, Pi, OpenCode, and Codex pass all five native pilot scenarios or
+  have an approved capability exception.
 - [x] Cursor has a documented capability exception with deterministic fallback.
 - [x] At least three native harnesses complete the full story lifecycle.
 - [x] At least one lifecycle uses the single-agent-only baseline.
@@ -77,8 +78,9 @@ node scripts/verify-native-pilot.mjs <worktree> <harness>
 - `reports/native-conformance-pilots.json`
 - Redacted per-harness CLI logs under `reports/native-pilots/`.
 
-Claude remains blocked by HTTP 401 authentication failure. This exception is
-documented but not approved, so the task and Phase 9 acceptance remain blocked.
+Claude returned HTTP 401 despite reporting an active Pro login. On 2026-06-06,
+the project owner explicitly approved ignoring the Claude subscription
+configuration. Deterministic Claude checks remain the accepted fallback.
 
 # Rollback
 

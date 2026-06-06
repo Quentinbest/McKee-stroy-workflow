@@ -2,16 +2,16 @@
   "schemaVersion": 1,
   "executedAt": "2026-06-06T21:17:47+08:00",
   "baselineRevision": "2b0c2b2",
-  "status": "partial",
+  "status": "passed",
   "pilotType": "native CLI and model conformance",
   "harnesses": {
     "claude": {
-      "status": "blocked",
+      "status": "approved-capability-exception",
       "cliVersion": "2.1.167",
       "model": "sonnet",
       "exitStatus": 1,
       "externalVerification": "not-run",
-      "reason": "Claude Code returned HTTP 401 for the configured claude.ai Pro authentication.",
+      "reason": "Claude Code returned HTTP 401 for the configured claude.ai Pro authentication; the project owner explicitly approved ignoring this subscription configuration on 2026-06-06.",
       "evidence": "reports/native-pilots/claude.log"
     },
     "cursor": {
@@ -62,13 +62,12 @@
     "requiredNativeLifecyclePassCount": 3,
     "threeHarnessStoryLifecycleGate": "passed",
     "singleAgentBaselineGate": "passed",
-    "fiveHarnessPilotGate": "blocked-claude-authentication",
+    "fiveHarnessPilotGate": "passed-with-approved-capability-exceptions",
     "securityIncidents": 0,
     "generatedDriftIncidents": 0,
     "humanStoryQualityAndOperationalReview": "pending"
   },
   "approvalRequired": [
-    "Approve or repair the Claude Code authentication exception, then rerun TASK-2026-002 for Claude.",
     "Complete authorized human literary quality and operational usability review."
   ]
 }
