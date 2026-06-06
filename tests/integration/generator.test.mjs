@@ -14,6 +14,16 @@ test("generator is deterministic", () => {
   assert.deepEqual([...first], [...second]);
 });
 
+test("OpenCode role adapters omit Claude-specific scalar tool declarations", () => {
+  const generated = buildGeneratedFiles(root);
+  const claudeRole = generated.get(".claude/agents/setting-surveyor.md").content;
+  const openCodeRole = generated.get(".opencode/agents/setting-surveyor.md").content;
+
+  assert.match(claudeRole, /^tools: Read, Write, Edit, Grep, Glob, WebSearch$/m);
+  assert.doesNotMatch(openCodeRole, /^tools:/m);
+  assert.match(openCodeRole, /^generated: true$/m);
+});
+
 test("one canonical skill change updates only its adapters and manifest", () => {
   const temp = mkdtempSync(join(tmpdir(), "mckee-generator-"));
   try {

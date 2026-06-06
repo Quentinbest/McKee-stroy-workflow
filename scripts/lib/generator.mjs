@@ -47,6 +47,10 @@ function generatedMarkdown(source, sourcePath) {
   return `${source.slice(0, end)}\n${metadata}${source.slice(end)}`;
 }
 
+function openCodeAgentMarkdown(source, sourcePath) {
+  return generatedMarkdown(source, sourcePath).replace(/^tools:\s*.+\n/m, "");
+}
+
 function addFile(files, path, content, sourcePath = null, sourceVersionValue = null) {
   files.set(path, {
     content: content.endsWith("\n") ? content : `${content}\n`,
@@ -74,9 +78,10 @@ export function buildGeneratedFiles(root) {
     const sourcePath = `src/roles/${filename}`;
     const source = readFileSync(join(root, sourcePath), "utf8");
     const generated = generatedMarkdown(source, sourcePath);
+    const openCodeGenerated = openCodeAgentMarkdown(source, sourcePath);
     const version = sourceVersion(source);
     addFile(files, `.claude/agents/${id}.md`, generated, sourcePath, version);
-    addFile(files, `.opencode/agents/${id}.md`, generated, sourcePath, version);
+    addFile(files, `.opencode/agents/${id}.md`, openCodeGenerated, sourcePath, version);
   }
 
   const agentsSource = readFileSync(join(root, "AGENTS.md"), "utf8");

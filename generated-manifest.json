@@ -1083,7 +1083,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "ca77ca84dece9e9cf253995bdafd5a4ff74cad4d1723fc42c8cdef8c1bc384a8"
+      "sha256": "ca891e3bfd3e28ddaa80c4cf2e8073862faec2ebe1ffbe284563cce56a3575ff"
     },
     {
       "path": ".opencode/agents/antagonism-stress-tester.md",
@@ -1094,7 +1094,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "b23e5898768c196b8ab7da8e8cdb81c4add54bfcce404c7a95195afc4931ef04"
+      "sha256": "ecc9c704c2cb29818fe038f7827f0c96f8c20d6fcc5af6f70df264e346b8bce7"
     },
     {
       "path": ".opencode/agents/arc-tracer.md",
@@ -1105,7 +1105,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "3bc2bef9ee58d12d077ce78b40cbe23254faa255cd5a720441f9765966f63f97"
+      "sha256": "5d9dfafbc676b2a6f6b6ca281d58cce93e3fce4b10dae0c5a4c64e0f59c6a8d9"
     },
     {
       "path": ".opencode/agents/beat-miner.md",
@@ -1116,7 +1116,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "bfbfae7d1c33b90fcc23a1074cb2da082b7ba73d1a03122555c3b9afbef47efa"
+      "sha256": "06772b3c7a965da97b2d13d75682ce73886922757e195ff05969f2b587a1184e"
     },
     {
       "path": ".opencode/agents/cast-balancer.md",
@@ -1127,7 +1127,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "4960e79b881a9401b1508a99adf974af44682d541e156121fd5766e892a9769f"
+      "sha256": "32a9631fba0e5df88619d6b3d04d94e50caf2e252902f06b5fab0f1f55e3b434"
     },
     {
       "path": ".opencode/agents/character-forger.md",
@@ -1138,7 +1138,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "d72d5262d6bb71bd62bf59c8604f3e3cec619e966dc7037f3eecf49d43e5beea"
+      "sha256": "178b9b58611a6d8a44f6064690df47282442c4fbfbff593a715d5fd74c19cec1"
     },
     {
       "path": ".opencode/agents/cliche-hunter.md",
@@ -1149,7 +1149,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "7d2721e136d4d841b415396213e29425d5617c168becb66e688bdf5d431071bc"
+      "sha256": "78ec0875829cc4e3fc0b86c756b08b818bb3af10aa956cfed6734b4fe440ec63"
     },
     {
       "path": ".opencode/agents/composition-conductor.md",
@@ -1160,7 +1160,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "33bb11e49f9bd577608db02bfa1b737311ffcd95b412aeed0461f5d8c69e769d"
+      "sha256": "ea8f9c8f10ebb965d1e4a66de70f811eb476c8363d66b257ba03f3aa289dbd6e"
     },
     {
       "path": ".opencode/agents/continuity-supervisor.md",
@@ -1171,7 +1171,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "a3e068e4c52f0f4044246556b33d7651edf21e97814e6df8c03a176908d22d5a"
+      "sha256": "65f083becb4ff79b25009033a1850021aa0d402cc35dee302d45ccd62dc55417"
     },
     {
       "path": ".opencode/agents/controlling-idea-architect.md",
@@ -1182,7 +1182,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "6fc20abe886ce7affb5fbc49e275b81caec44d92a488b75f433d7569977b4b30"
+      "sha256": "ab55f4015350b9a6d4a5678f29c4612ff63c86bfbf8c9320216bacaddb7f398a"
     },
     {
       "path": ".opencode/agents/crisis-climax-auditor.md",
@@ -1193,7 +1193,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "bf2c01d57960008e56ae1322182f7c01042edfde0955dd20a2e704cc9f7a90c8"
+      "sha256": "9b2b34945c4254e019dd5f98a72dd87a35e5bfd540d25b6decde7bc1c4faaabe"
     },
     {
       "path": ".opencode/agents/exposition-smuggler.md",
@@ -1204,7 +1204,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "ff3b5c63707f45ae59ea2eb39d310c2539014b0e2530202f5c6d4a0dacec2b6c"
+      "sha256": "7a8068b8274ad235a8aa9bf2d176a9aa31d5e52674b83455cecde37e8040ae3e"
     },
     {
       "path": ".opencode/agents/genre-cartographer.md",
@@ -1215,7 +1215,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "58276204107966dd8c159a4809d408ef77da7022b9c8540721343b9a9696df81"
+      "sha256": "556fd7e2be4c0c9f1c2afb470c172f883dedda909524846774bc97a35b25f596"
     },
     {
       "path": ".opencode/agents/key-image-curator.md",
@@ -1226,7 +1226,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "da7802f515555d7457ecbadeb64dd00458951a0df617555a1f20bda44cb24247"
+      "sha256": "acf95214e95db8e598c24a7aba09f930872180367ba2bb8bf6fc39461bfa99aa"
     },
     {
       "path": ".opencode/agents/pacing-analyst.md",
@@ -1237,7 +1237,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "6d1ca3f818f44a6d45386d98ebe41e86966ce0a35e57505a076dff93f6fcc5a4"
+      "sha256": "7dc010e09fa1a82cd5d0fa7137b2c7d73dac5db04036dd5e3fdfe9745a073849"
     },
     {
       "path": ".opencode/agents/premise-prospector.md",
@@ -1248,7 +1248,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "e1762e125b14b6b2398b2eab1768b6df7004e17cfb2f4cc895a402f386bdd8a7"
+      "sha256": "0373c3d91b2683613ede2b7ef0c607cbe7202bec214bc870b1ac49377c9f8cbc"
     },
     {
       "path": ".opencode/agents/prose-drafter.md",
@@ -1259,7 +1259,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "a3b52b61e3a2e70e0a277dcd1ce91f3c94994d123f39bc3bd5feff9c9722d8a9"
+      "sha256": "2aa3d2a2a844e064da7a52a94b8ba0e047a8f9832da615b2f31c59133807f08c"
     },
     {
       "path": ".opencode/agents/reader-simulator.md",
@@ -1270,7 +1270,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "86e2162a3bac7553be512b35940e038836b088fc96977f967fa6b48d5be8176f"
+      "sha256": "d292f98f48332ef1165277d1845458ef1b621d887f8e488de5b61077046dd1fd"
     },
     {
       "path": ".opencode/agents/scene-architect.md",
@@ -1281,7 +1281,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "e8a63377eebd67d1cc68a8d76c30ebf903d03a8fb5e28b5d8276dfa5f6c1a07e"
+      "sha256": "c179938c9d009f63ed944a9f94eb4f2075362306cfc087d57b8a86b4fb4a970c"
     },
     {
       "path": ".opencode/agents/setting-surveyor.md",
@@ -1292,7 +1292,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "4ed185bb9ff83674d6f3dd6d81ce678b17c5fa0a0cb6f54797f13e2e7ed23618"
+      "sha256": "ab87bca2780ab762d2990baedaee57f9831c25fc1e81866d036365ad3934e3a3"
     },
     {
       "path": ".opencode/agents/specificity-auditor.md",
@@ -1303,7 +1303,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "dc85bcaeecc43960d5af76719ed0e9b82aebc42120a45771f3d7884567187e91"
+      "sha256": "7e1d0f58414d24bf92291f1cf778cbe33b11ab9928a2cd314178b490d5a93d2a"
     },
     {
       "path": ".opencode/agents/structure-skeleton.md",
@@ -1314,7 +1314,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "601dc95779975fda52d5adbea82e9a3fc4829ecf576c9d4a70c56ce2d53e5555"
+      "sha256": "16ee5e6e86506cbcdc26c4e4002b493278fc6b1829753d0b709f6b0e86f169c7"
     },
     {
       "path": ".opencode/agents/subtext-whisperer.md",
@@ -1325,7 +1325,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "07eaaff8b94eb60ba8cb7b30ada747dd4455b7f0cc9dcf573fcc23bd46bca288"
+      "sha256": "8aaf159904979e89c1c881ec8794b446c56ed92ec74b7dfd40ff21866d1bc5d7"
     },
     {
       "path": ".opencode/agents/surprise-auditor.md",
@@ -1336,7 +1336,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "d80f9217b9466979bb955b50ab6a75cfa56f7e07959a74561441f5167910dd5d"
+      "sha256": "824f16a349a1ef88eafdaeb888da6809b61b514178a2563c4b461f66545c6216"
     },
     {
       "path": ".opencode/agents/tournament-judge.md",
@@ -1347,7 +1347,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "041881cb64ada1ea2bdaee3d0d3bbc40aab2c52b539b50968c17e2863b931f6b"
+      "sha256": "1c19bdae762f4d0aebd4721e30663bcd38752d40fc80861c51918256f39dc070"
     },
     {
       "path": ".opencode/agents/voice-drift-detector.md",
@@ -1358,7 +1358,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "601fd7528e531f55b090a6f827b2ca7d06a22431c9449d0d5a8b6113b7d59fb2"
+      "sha256": "a4e87a70fb2b1e52b6aa258aa4f693705b043ded344114d3a37a7c489ac4c567"
     },
     {
       "path": ".opencode/agents/wiki-librarian.md",
@@ -1369,7 +1369,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "980761764e2d9681b3ba73b55ddbdb5b802dc772a4d18bd0f0c5bb6079e551f4"
+      "sha256": "be557860ca8fa13efeda7e84e15c2c8ad45135ce9974d2f4bd72807b1e21fa3b"
     },
     {
       "path": "CLAUDE.md",
