@@ -103,6 +103,7 @@
     "securityApprovalFlow": "passed-native-three-harnesses",
     "generatedDrift": "passed",
     "frameworkTests": "passed",
+    "humanReviewCandidate": "passed",
     "humanStoryQualityAndOperationalReview": "pending"
   },
   "conclusion": "technical-plan-implemented-stable-release-awaits-human-gate"

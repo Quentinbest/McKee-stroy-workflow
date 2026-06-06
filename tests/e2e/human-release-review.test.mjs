@@ -22,6 +22,14 @@ test("forged approval without reviewer and evidence is rejected", () => {
     const review = JSON.parse(readFileSync("reports/human-release-review.json", "utf8"));
     review.status = "approved";
     review.releaseApproval.stableRelease = true;
+    for (const sectionName of ["literaryReview", "operationalReview"]) {
+      review[sectionName].status = "approved";
+      review[sectionName].criteria = review[sectionName].criteria.map((criterion) => ({
+        ...criterion,
+        score: 3,
+        evidence: null,
+      }));
+    }
     writeFileSync(path, `${JSON.stringify(review, null, 2)}\n`);
 
     const result = spawnSync("node", [verifier, path], { encoding: "utf8" });

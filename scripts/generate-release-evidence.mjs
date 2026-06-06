@@ -17,6 +17,10 @@ const nativeConformance = JSON.parse(
 const humanReview = JSON.parse(
   readFileSync(join(root, "reports/human-release-review.json"), "utf8"),
 );
+const reviewCandidateReady = (
+  humanReview.story.lifecycleComplete === true
+  && typeof humanReview.story.artifactPath === "string"
+);
 const evidence = {
   schemaVersion: 1,
   release: packageJson.version,
@@ -29,6 +33,7 @@ const evidence = {
     generatedDrift: "passed",
     security: "passed",
     cleanCheckout: "passed",
+    humanReviewCandidate: reviewCandidateReady ? "passed" : "pending",
     humanLiteraryReview: humanReview.literaryReview.status,
     humanOperationalReview: humanReview.operationalReview.status,
   },
@@ -49,6 +54,17 @@ const evidence = {
       path: "reports/native-conformance-pilots.json",
       sha256: hash("reports/native-conformance-pilots.json"),
     },
+    humanReviewCandidate: reviewCandidateReady ? {
+      path: humanReview.story.artifactPath,
+      lifecycle: {
+        path: `${humanReview.story.artifactPath}/lifecycle.json`,
+        sha256: hash(`${humanReview.story.artifactPath}/lifecycle.json`),
+      },
+      manuscript: {
+        path: `${humanReview.story.artifactPath}/final-story.md`,
+        sha256: hash(`${humanReview.story.artifactPath}/final-story.md`),
+      },
+    } : null,
   },
   releaseDecision: nativeConformance.status !== "passed"
     ? "blocked-native-and-human-gates"

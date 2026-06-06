@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "slug": "last-signal",
+  "title": "The Last Signal",
+  "lang": "en",
+  "created": "2026-06-06",
+  "lastUpdated": "2026-06-06",
+  "state": "revision-passes",
+  "lifecycleComplete": true,
+  "checkpoints": [
+    {"stage": "seed", "decision": "approved", "evidence": "seed-and-premise.md"},
+    {"stage": "premise-tournament", "decision": "candidate-3-selected", "evidence": "seed-and-premise.md"},
+    {"stage": "premise", "decision": "locked", "evidence": "story-contract.md"},
+    {"stage": "genre", "decision": "locked", "evidence": "story-contract.md"},
+    {"stage": "controlling-idea", "decision": "locked", "evidence": "story-contract.md"},
+    {"stage": "setting", "decision": "locked", "evidence": "story-contract.md"},
+    {"stage": "cast", "decision": "locked", "evidence": "story-contract.md"},
+    {"stage": "spine", "decision": "locked", "evidence": "structure.md"},
+    {"stage": "act-design", "decision": "locked", "evidence": "structure.md"},
+    {"stage": "scene-cards", "decision": "locked", "evidence": "structure.md"},
+    {"stage": "beat-sheets", "decision": "locked", "evidence": "structure.md"},
+    {"stage": "prose", "decision": "complete", "evidence": "draft.md"},
+    {"stage": "critic-pass", "decision": "passed-with-revisions", "evidence": "audit.md"},
+    {"stage": "revision-passes", "decision": "complete", "evidence": "revision-passes.md"},
+    {"stage": "polished", "decision": "candidate", "evidence": "final-story.md"}
+  ],
+  "artifacts": {
+    "seed": "seed-and-premise.md",
+    "premiseCard": "story-contract.md",
+    "genreContract": "story-contract.md",
+    "controllingIdea": "story-contract.md",
+    "castRoster": "story-contract.md",
+    "worldBible": "story-contract.md",
+    "voiceAnchors": "story-contract.md",
+    "spine": "structure.md",
+    "actDesign": "structure.md",
+    "sceneCards": "structure.md",
+    "beatSheets": "structure.md",
+    "prose": "draft.md",
+    "auditReport": "audit.md",
+    "revisionPasses": "revision-passes.md",
+    "manuscript": "final-story.md"
+  }
+}
+

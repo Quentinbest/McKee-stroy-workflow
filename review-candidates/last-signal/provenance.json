@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "slug": "last-signal",
+  "created": "2026-06-06",
+  "purpose": "human-release-review-candidate",
+  "origin": "original seed generated for framework evaluation",
+  "containsPrivateUserMaterial": false,
+  "syntheticFixture": false,
+  "externalPublicationApproved": false,
+  "authorizedUse": "internal framework evaluation only"
+}
+

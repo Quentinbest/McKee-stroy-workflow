@@ -15,6 +15,12 @@ const nativeConformance = JSON.parse(
 const humanReview = JSON.parse(
   readFileSync(join(root, "reports/human-release-review.json"), "utf8"),
 );
+const reviewCandidateReady = (
+  humanReview.story.lifecycleComplete === true
+  && typeof humanReview.story.artifactPath === "string"
+  && existsSync(join(root, humanReview.story.artifactPath, "lifecycle.json"))
+  && existsSync(join(root, humanReview.story.artifactPath, "final-story.md"))
+);
 const phases = [
   ["0", ["docs/agent/inventory.md", "docs/agent/migration-risk-register.md"]],
   ["1", ["src/source-provenance.json", "src/skills", "src/roles"]],
@@ -62,6 +68,7 @@ const audit = {
     securityApprovalFlow: "passed-native-three-harnesses",
     generatedDrift: "passed",
     frameworkTests: completion.status,
+    humanReviewCandidate: reviewCandidateReady ? "passed" : "pending",
     humanStoryQualityAndOperationalReview: humanReview.status,
   },
   conclusion: (

@@ -10,6 +10,7 @@
     "generatedDrift": "passed",
     "security": "passed",
     "cleanCheckout": "passed",
+    "humanReviewCandidate": "passed",
     "humanLiteraryReview": "pending",
     "humanOperationalReview": "pending"
   },
@@ -29,6 +30,17 @@
     "nativeConformanceReport": {
       "path": "reports/native-conformance-pilots.json",
       "sha256": "478e2a163b67f9d3656a2b25d125547089ae2424587e73229f793753c2448ef9"
+    },
+    "humanReviewCandidate": {
+      "path": "review-candidates/last-signal",
+      "lifecycle": {
+        "path": "review-candidates/last-signal/lifecycle.json",
+        "sha256": "db8a7efc5f598c5e624f7d938e57cc7ada8289f31d92d9e8f06085e62abc6793"
+      },
+      "manuscript": {
+        "path": "review-candidates/last-signal/final-story.md",
+        "sha256": "96d6563591dab7ddc479e2d5a22d478e7fdd7f4d2c5c1b292b2e9d2f78fcad6a"
+      }
     }
   },
   "releaseDecision": "release-candidate-only"

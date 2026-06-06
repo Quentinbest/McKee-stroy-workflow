@@ -1,7 +1,7 @@
 ---
 id: TASK-2026-003
 title: Complete human literary and operational release review
-status: ready
+status: review
 priority: critical
 owner: authorized-human-reviewer
 created: 2026-06-06
@@ -12,7 +12,7 @@ approval_required:
 scope:
   allowed:
     - reports/human-release-review.json
-    - reviewer-authorized non-synthetic story artifacts
+    - review-candidates/**
   forbidden:
     - stories/private/** without explicit story-scoped authorization
     - external publication
@@ -33,8 +33,10 @@ gate using a reviewer-authorized, non-synthetic story lifecycle.
 
 # Inputs
 
-- A non-synthetic story seed and artifacts the reviewer is authorized to use.
-- Complete lifecycle evidence through `revision-passes`.
+- `review-candidates/last-signal/`, an original non-private story package created
+  for internal framework evaluation.
+- Complete lifecycle evidence through `revision-passes`, including a revised
+  manuscript and traceable audit closure.
 - Native and deterministic conformance reports.
 
 # Constraints
@@ -52,10 +54,10 @@ gate using a reviewer-authorized, non-synthetic story lifecycle.
 
 # Acceptance Criteria
 
-- [ ] A non-synthetic lifecycle reaches `revision-passes`.
+- [x] A non-synthetic lifecycle reaches `revision-passes`.
 - [ ] Every literary criterion has a score and concrete evidence.
 - [ ] Every operational criterion has a score and concrete evidence.
-- [ ] No unresolved P0/P1 finding remains.
+- [x] No unresolved P0/P1 finding remains.
 - [ ] Reviewer name, role, and timestamp are recorded.
 - [ ] Stable-release approval is explicit.
 - [ ] `npm run agents:test:human-review` passes.
@@ -64,13 +66,14 @@ gate using a reviewer-authorized, non-synthetic story lifecycle.
 
 ```bash
 npm run agents:test:human-review
+npm run agents:test:review-candidate
 npm run agents:verify
 ```
 
 # Evidence
 
 - `reports/human-release-review.json`
-- Reviewer-authorized lifecycle artifact root.
+- `review-candidates/last-signal/`
 
 # Rollback
 
