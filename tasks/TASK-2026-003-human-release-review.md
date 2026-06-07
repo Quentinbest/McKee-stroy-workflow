@@ -57,8 +57,8 @@ gate using a reviewer-authorized, non-synthetic story lifecycle.
 # Acceptance Criteria
 
 - [x] A non-synthetic lifecycle reaches `revision-passes`.
-- [ ] Every literary criterion has a score and concrete evidence.
-- [ ] Every operational criterion has a score and concrete evidence.
+- [x] Every literary criterion has a score and concrete evidence.
+- [x] Every operational criterion has a score and concrete evidence.
 - [x] No unresolved P0/P1 finding remains.
 - [ ] Reviewer name, role, and timestamp are recorded.
 - [ ] Stable-release approval is explicit.

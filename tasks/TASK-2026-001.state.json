@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
-  "revision": 14,
+  "revision": 15,
   "status": "review",
   "currentPhase": "Authorized human release review",
-  "lastCheckpoint": "Non-synthetic review candidate and objective human-review evidence verified",
-  "nextAction": "Authorized reviewer scores docs/agent/human-review-scorecard.md and records the stable-release decision",
+  "lastCheckpoint": "User supplied 5/5 scores for all literary and operational criteria",
+  "nextAction": "Record authorized reviewer identity, role, timestamp, section approvals, and explicit stable-release decision",
   "retryCounters": {
     "verification_repair": {
       "used": 2,

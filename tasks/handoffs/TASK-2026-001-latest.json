@@ -11,10 +11,11 @@
     "25 repository-level cross-harness pilot combinations passed",
     "Pi, OpenCode, and Codex native pilots externally verified",
     "complete non-synthetic story lifecycle verified through revision-passes",
-    "human review scorecard and objective evidence package verified"
+    "human review scorecard and objective evidence package verified",
+    "direct user instruction supplied 5/5 scores for all twelve review criteria"
   ],
-  "currentState": "1.0.0-rc.1 has complete technical acceptance and a reviewer-ready human gate; subjective scores and authorization remain",
-  "nextAction": "Score docs/agent/human-review-scorecard.md and record reviewer identity, timestamp, criterion scores, and stable-release decision",
+  "currentState": "1.0.0-rc.1 has complete technical acceptance and all review criteria scored 5/5; reviewer identity and explicit authorization remain",
+  "nextAction": "Record reviewer name, role, ISO 8601 timestamp, section approvals, and explicit stable-release decision",
   "files": [
     "docs/agent/current-state.md",
     "tasks/TASK-2026-001.state.json",
@@ -34,9 +35,9 @@
   "risks": [
     "Claude Code HTTP 401 is covered by an explicit owner-approved deterministic fallback",
     "Native Cursor CLI is unavailable; deterministic smoke is the approved fallback",
-    "Stable release is blocked only on subjective story quality and operational usability scores plus reviewer authorization"
+    "Stable release is blocked only on reviewer identity, timestamp, section approvals, and explicit stable-release authorization"
   ],
   "blockers": [
-    "Human review requires an authorized reviewer; the non-synthetic review candidate and objective evidence are ready"
+    "The direct user scoring instruction did not provide the reviewer name, role, timestamp, or explicit stable-release decision"
   ]
 }

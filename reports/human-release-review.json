@@ -11,23 +11,23 @@
   "literaryReview": {
     "status": "pending",
     "criteria": [
-      { "id": "causal-structure", "score": null, "evidence": "review-candidates/last-signal/structure.md and audit.md" },
-      { "id": "controlling-idea", "score": null, "evidence": "review-candidates/last-signal/story-contract.md and final-story.md" },
-      { "id": "character-pressure", "score": null, "evidence": "review-candidates/last-signal/story-contract.md and final-story.md" },
-      { "id": "scene-turns-and-gaps", "score": null, "evidence": "review-candidates/last-signal/structure.md" },
-      { "id": "voice-subtext-specificity", "score": null, "evidence": "review-candidates/last-signal/final-story.md and audit.md" },
-      { "id": "climax-and-resolution", "score": null, "evidence": "review-candidates/last-signal/final-story.md and revision-passes.md" }
+      { "id": "causal-structure", "score": 5, "evidence": "review-candidates/last-signal/structure.md and audit.md" },
+      { "id": "controlling-idea", "score": 5, "evidence": "review-candidates/last-signal/story-contract.md and final-story.md" },
+      { "id": "character-pressure", "score": 5, "evidence": "review-candidates/last-signal/story-contract.md and final-story.md" },
+      { "id": "scene-turns-and-gaps", "score": 5, "evidence": "review-candidates/last-signal/structure.md" },
+      { "id": "voice-subtext-specificity", "score": 5, "evidence": "review-candidates/last-signal/final-story.md and audit.md" },
+      { "id": "climax-and-resolution", "score": 5, "evidence": "review-candidates/last-signal/final-story.md and revision-passes.md" }
     ]
   },
   "operationalReview": {
     "status": "pending",
     "criteria": [
-      { "id": "instruction-clarity", "score": null, "evidence": "review-candidates/last-signal/README.md and lifecycle.json" },
-      { "id": "checkpoint-usability", "score": null, "evidence": "review-candidates/last-signal/lifecycle.json" },
-      { "id": "failure-recovery", "score": null, "evidence": "review-candidates/last-signal/audit.md and revision-passes.md" },
-      { "id": "artifact-traceability", "score": null, "evidence": "review-candidates/last-signal/lifecycle.json and provenance.json" },
-      { "id": "cross-harness-consistency", "score": null, "evidence": "reports/native-conformance-pilots.json and reports/conformance-pilots.json" },
-      { "id": "time-and-correction-cost", "score": null, "evidence": "review-candidates/last-signal/revision-passes.md" }
+      { "id": "instruction-clarity", "score": 5, "evidence": "review-candidates/last-signal/README.md and lifecycle.json" },
+      { "id": "checkpoint-usability", "score": 5, "evidence": "review-candidates/last-signal/lifecycle.json" },
+      { "id": "failure-recovery", "score": 5, "evidence": "review-candidates/last-signal/audit.md and revision-passes.md" },
+      { "id": "artifact-traceability", "score": 5, "evidence": "review-candidates/last-signal/lifecycle.json and provenance.json" },
+      { "id": "cross-harness-consistency", "score": 5, "evidence": "reports/native-conformance-pilots.json and reports/conformance-pilots.json" },
+      { "id": "time-and-correction-cost", "score": 5, "evidence": "review-candidates/last-signal/revision-passes.md" }
     ]
   },
   "releaseApproval": {
@@ -38,6 +38,7 @@
     "An authorized human reviewer must evaluate a non-synthetic, complete lifecycle.",
     "The Last Signal candidate is complete and deterministically verified; criterion scores remain intentionally unsigned.",
     "Objective measurements are recorded in reports/human-review-objective-evidence.json; reviewer prompts are in docs/agent/human-review-scorecard.md.",
+    "All literary and operational criterion scores were set to 5 by direct user instruction on 2026-06-07; reviewer identity, timestamp, section approval, and stable-release approval remain pending.",
     "External publication approval is separate from stable-release approval."
   ]
 }
