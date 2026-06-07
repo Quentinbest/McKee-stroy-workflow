@@ -1,6 +1,6 @@
 {
   "name": "mckee-story-workflow",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Cross-harness McKee story workflow agent framework",
   "type": "module",

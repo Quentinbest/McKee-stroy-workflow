@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
-  "revision": 15,
-  "status": "review",
-  "currentPhase": "Authorized human release review",
-  "lastCheckpoint": "User supplied 5/5 scores for all literary and operational criteria",
-  "nextAction": "Record authorized reviewer identity, role, timestamp, section approvals, and explicit stable-release decision",
+  "revision": 16,
+  "status": "done",
+  "currentPhase": "Stable release complete",
+  "lastCheckpoint": "Stable 1.0.0 approved by project owner after 5/5 human review",
+  "nextAction": "Follow the maintenance calendar; require separate approval for external publication",
   "retryCounters": {
     "verification_repair": {
       "used": 2,

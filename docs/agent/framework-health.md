@@ -1,7 +1,7 @@
 # Framework Health Baseline
 
 Baseline: 2026-06-06
-Version: 1.0.0-rc.1
+Version: 1.0.0
 
 | Metric | Target | Baseline |
 |---|---:|---:|

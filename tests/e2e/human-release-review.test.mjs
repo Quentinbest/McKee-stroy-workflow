@@ -7,12 +7,16 @@ import test from "node:test";
 
 const verifier = "scripts/verify-human-release-review.mjs";
 
-test("pending human release review is valid but does not approve release", () => {
+test("authorized human release review approves stable release", () => {
   const result = spawnSync("node", [verifier], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
   const review = JSON.parse(readFileSync("reports/human-release-review.json", "utf8"));
-  assert.equal(review.status, "pending");
-  assert.equal(review.releaseApproval.stableRelease, false);
+  assert.equal(review.status, "approved");
+  assert.equal(review.releaseApproval.stableRelease, true);
+  assert.equal(review.releaseApproval.externalPublication, false);
+  assert.ok(review.reviewer.name);
+  assert.ok(review.reviewer.role);
+  assert.ok(review.reviewer.reviewedAt);
 });
 
 test("forged approval without reviewer and evidence is rejected", () => {
@@ -20,8 +24,7 @@ test("forged approval without reviewer and evidence is rejected", () => {
   try {
     const path = join(temp, "review.json");
     const review = JSON.parse(readFileSync("reports/human-release-review.json", "utf8"));
-    review.status = "approved";
-    review.releaseApproval.stableRelease = true;
+    review.reviewer = null;
     for (const sectionName of ["literaryReview", "operationalReview"]) {
       review[sectionName].status = "approved";
       review[sectionName].criteria = review[sectionName].criteria.map((criterion) => ({

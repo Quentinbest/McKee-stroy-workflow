@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "release": "1.0.0-rc.1",
-  "channel": "release-candidate",
+  "release": "1.0.0",
+  "channel": "stable",
   "generatorVersion": "1.0.0",
   "verification": {
     "framework": "passed",
@@ -11,8 +11,8 @@
     "security": "passed",
     "cleanCheckout": "passed",
     "humanReviewCandidate": "passed",
-    "humanLiteraryReview": "pending",
-    "humanOperationalReview": "pending"
+    "humanLiteraryReview": "approved",
+    "humanOperationalReview": "approved"
   },
   "artifacts": {
     "generatedManifest": {
@@ -25,11 +25,11 @@
     },
     "conformanceReport": {
       "path": "reports/conformance-pilots.json",
-      "sha256": "8fb00b7a530640ed9e38860ef8b310319f8e66dc4fa5a1434a2e11e4b5615882"
+      "sha256": "918591a5e1b885d563ff94f95bdfe888167d6b7f345d25e1b4233585665f68fd"
     },
     "nativeConformanceReport": {
       "path": "reports/native-conformance-pilots.json",
-      "sha256": "478e2a163b67f9d3656a2b25d125547089ae2424587e73229f793753c2448ef9"
+      "sha256": "b8e0daa689e7244e182e76fc54d2c0f7a4418323a4fe21d9b9fa801403eb2a98"
     },
     "humanReviewCandidate": {
       "path": "review-candidates/last-signal",
@@ -44,8 +44,8 @@
     },
     "humanReviewObjectiveEvidence": {
       "path": "reports/human-review-objective-evidence.json",
-      "sha256": "665e72b57e120a76b7a635ebee0d33258026aa91bf7cee5658b7c1cee5f02ab3"
+      "sha256": "ee432f3c25fbe9ca1afc8e046f85491c5a7be39f097e71ca12550c01975f3d5b"
     }
   },
-  "releaseDecision": "release-candidate-only"
+  "releaseDecision": "stable-eligible"
 }

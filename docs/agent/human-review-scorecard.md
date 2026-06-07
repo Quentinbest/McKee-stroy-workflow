@@ -1,7 +1,7 @@
 # Human Release Review Scorecard
 
-This scorecard is the final authorized-human gate for `1.0.0-rc.1`. It does not
-authorize external publication.
+This scorecard records the authorized-human gate for stable `1.0.0`. It does
+not authorize external publication.
 
 ## Review Inputs
 
@@ -51,4 +51,3 @@ npm run agents:test:human-review-evidence
 npm run agents:test:human-review
 MCKEE_WIKI_ROOT=/Users/quentin/Writing/LLM-Wiki-Story npm run agents:verify
 ```
-

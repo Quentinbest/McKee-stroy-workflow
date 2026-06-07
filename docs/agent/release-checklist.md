@@ -16,9 +16,9 @@
 
 ## Human Gates
 
-- [ ] Human literary quality review of a non-synthetic story lifecycle.
-- [ ] Human operational usability review.
-- [ ] Explicit stable-release approval.
+- [x] Human literary quality review of a non-synthetic story lifecycle.
+- [x] Human operational usability review.
+- [x] Explicit stable-release approval.
 - [ ] Explicit publication approval for any external target.
 
 Execution protocol: `docs/agent/human-release-review.md`. Machine-readable
@@ -28,5 +28,5 @@ record: `reports/human-release-review.json`. Reviewer scorecard:
 
 ## Release Decision
 
-`1.0.0-rc.1` is release-candidate eligible. Stable `1.0.0` remains blocked
-until all human gates are completed by an authorized owner.
+Stable `1.0.0` is approved. External publication remains blocked until a
+separate target-specific approval is recorded.

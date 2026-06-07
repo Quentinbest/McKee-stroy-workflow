@@ -44,5 +44,6 @@ approved capability exception. Phase 9 acceptance is complete.
 - Claude Code native execution uses an owner-approved exception after the
   configured subscription returned HTTP 401.
 
-The deterministic baseline does not replace native acceptance. Subjective
-literary quality and operational usability also remain pending human gates.
+The deterministic baseline does not replace native acceptance. Authorized
+literary quality and operational usability review passed separately using the
+non-synthetic `review-candidates/last-signal/` lifecycle.

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "taskId": "TASK-2026-001",
   "from": "codex-phase-10",
-  "to": "authorized-human-reviewer",
+  "to": "framework-maintainers",
   "completed": [
     "Phases 0-10 implemented",
     "clean-checkout verification passed",
@@ -12,10 +12,11 @@
     "Pi, OpenCode, and Codex native pilots externally verified",
     "complete non-synthetic story lifecycle verified through revision-passes",
     "human review scorecard and objective evidence package verified",
-    "direct user instruction supplied 5/5 scores for all twelve review criteria"
+    "direct user instruction supplied 5/5 scores for all twelve review criteria",
+    "project owner identity, timestamp, section approvals, and stable-release approval recorded"
   ],
-  "currentState": "1.0.0-rc.1 has complete technical acceptance and all review criteria scored 5/5; reviewer identity and explicit authorization remain",
-  "nextAction": "Record reviewer name, role, ISO 8601 timestamp, section approvals, and explicit stable-release decision",
+  "currentState": "Stable 1.0.0 is approved and all implementation-plan acceptance gates pass",
+  "nextAction": "Operate under the maintenance calendar and request separate approval before external publication",
   "files": [
     "docs/agent/current-state.md",
     "tasks/TASK-2026-001.state.json",
@@ -35,9 +36,7 @@
   "risks": [
     "Claude Code HTTP 401 is covered by an explicit owner-approved deterministic fallback",
     "Native Cursor CLI is unavailable; deterministic smoke is the approved fallback",
-    "Stable release is blocked only on reviewer identity, timestamp, section approvals, and explicit stable-release authorization"
+    "External publication remains separately approval-gated"
   ],
-  "blockers": [
-    "The direct user scoring instruction did not provide the reviewer name, role, timestamp, or explicit stable-release decision"
-  ]
+  "blockers": []
 }

@@ -84,15 +84,15 @@
     },
     {
       "id": "release-governance",
-      "version": "1.0.0-rc.1",
+      "version": "1.0.0",
       "path": "reports/acceptance-audit.json",
       "producer": "Phase 10",
-      "status": "review",
-      "evidence": "technical gates pass; human stable-release gate pending"
+      "status": "verified",
+      "evidence": "technical and authorized human stable-release gates passed"
     },
     {
       "id": "human-review-candidate",
-      "version": "1.0.0-rc.1",
+      "version": "1.0.0",
       "path": "review-candidates/last-signal/lifecycle.json",
       "producer": "Phase 10 follow-up",
       "status": "verified",
@@ -100,7 +100,7 @@
     },
     {
       "id": "human-review-objective-evidence",
-      "version": "1.0.0-rc.1",
+      "version": "1.0.0",
       "path": "reports/human-review-objective-evidence.json",
       "producer": "Phase 10 follow-up",
       "status": "verified",

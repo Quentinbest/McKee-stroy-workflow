@@ -1,11 +1,11 @@
 ---
 id: TASK-2026-003
 title: Complete human literary and operational release review
-status: review
+status: done
 priority: critical
 owner: authorized-human-reviewer
 created: 2026-06-06
-updated: 2026-06-06
+updated: 2026-06-07
 risk: high
 approval_required:
   - stable-release
@@ -60,9 +60,9 @@ gate using a reviewer-authorized, non-synthetic story lifecycle.
 - [x] Every literary criterion has a score and concrete evidence.
 - [x] Every operational criterion has a score and concrete evidence.
 - [x] No unresolved P0/P1 finding remains.
-- [ ] Reviewer name, role, and timestamp are recorded.
-- [ ] Stable-release approval is explicit.
-- [x] `npm run agents:test:human-review` passes in pending-review state.
+- [x] Reviewer name, role, and timestamp are recorded.
+- [x] Stable-release approval is explicit.
+- [x] `npm run agents:test:human-review` passes in approved stable-release state.
 
 # Verification
 

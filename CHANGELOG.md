@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.0 - 2026-06-07
+
+- Completed authorized human literary and operational review with all twelve
+  criteria scored 5/5.
+- Verified the non-synthetic `The Last Signal` lifecycle through revision
+  passes with all P0/P1 findings closed.
+- Promoted the cross-harness framework from release candidate to stable.
+- Preserved external publication as a separate, unapproved gate.
+
 ## 1.0.0-rc.1 - 2026-06-06
 
 - Established canonical `src/skills/`, `src/roles/`, templates, provenance, and
@@ -13,5 +22,5 @@
   isolation.
 - Added governance, release evidence, and rollback runbooks.
 
-This is a release candidate. Stable release remains gated on human literary
-quality and operational usability review.
+This release candidate was promoted to stable `1.0.0` after authorized human
+literary quality and operational usability review.

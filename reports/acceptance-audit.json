@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedAt": "verification-runtime",
-  "status": "release-candidate",
+  "status": "stable",
   "phases": {
     "0": {
       "status": "passed",
@@ -105,7 +105,7 @@
     "frameworkTests": "passed",
     "humanReviewCandidate": "passed",
     "humanReviewObjectiveEvidence": "passed",
-    "humanStoryQualityAndOperationalReview": "pending"
+    "humanStoryQualityAndOperationalReview": "approved"
   },
-  "conclusion": "technical-plan-implemented-stable-release-awaits-human-gate"
+  "conclusion": "stable-release-eligible"
 }

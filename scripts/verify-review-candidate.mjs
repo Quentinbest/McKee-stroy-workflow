@@ -87,8 +87,8 @@ if (!candidatePath) {
     if (normalize(join(root, review.story.artifactPath)) !== candidate) {
       failures.push("review record artifactPath does not match verified candidate");
     }
-    if (review.status === "approved" || review.releaseApproval?.stableRelease === true) {
-      failures.push("candidate verification cannot substitute for human release approval");
+    if (review.releaseApproval?.externalPublication === true) {
+      failures.push("candidate verification cannot authorize external publication");
     }
 
     if (!failures.length) {
@@ -103,4 +103,3 @@ if (failures.length) {
   console.error(failures.join("\n"));
   process.exit(1);
 }
-

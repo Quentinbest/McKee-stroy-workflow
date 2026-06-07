@@ -49,7 +49,13 @@ phaseResults["9"].status = nativeConformance.status === "passed" ? "passed" : "p
 const audit = {
   schemaVersion: 1,
   generatedAt: "verification-runtime",
-  status: nativeConformance.status === "passed" ? "release-candidate" : "blocked",
+  status: (
+    nativeConformance.status !== "passed"
+      ? "blocked"
+      : humanReview.status === "approved"
+        ? "stable"
+        : "release-candidate"
+  ),
   phases: phaseResults,
   frameworkAcceptance: {
     rootGuidanceAllHarnesses: "passed",

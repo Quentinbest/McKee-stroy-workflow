@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedAt": "verification-runtime",
-  "release": "1.0.0-rc.1",
+  "release": "1.0.0",
   "candidate": {
     "artifactPath": "review-candidates/last-signal",
     "lifecycleState": "revision-passes",

@@ -41,11 +41,11 @@ if (evidence.verification.deterministicConformance !== "passed") {
 if (evidence.verification.nativeConformance !== "passed") {
   failures.push("native conformance evidence not passed");
 }
-if (evidence.verification.humanLiteraryReview !== "pending") {
-  failures.push("release candidate must preserve the pending human review state");
+if (evidence.verification.humanLiteraryReview !== "approved") {
+  failures.push("stable release requires approved human literary review");
 }
-if (evidence.verification.humanOperationalReview !== "pending") {
-  failures.push("release candidate must preserve the pending operational review state");
+if (evidence.verification.humanOperationalReview !== "approved") {
+  failures.push("stable release requires approved human operational review");
 }
 if (evidence.verification.humanReviewCandidate !== "passed") {
   failures.push("human review candidate evidence is not passed");
@@ -53,11 +53,11 @@ if (evidence.verification.humanReviewCandidate !== "passed") {
 if (!evidence.artifacts.humanReviewObjectiveEvidence?.sha256) {
   failures.push("human review objective evidence is not release-traced");
 }
-if (evidence.releaseDecision !== "release-candidate-only") {
-  failures.push("stable release must remain blocked before human review");
+if (evidence.releaseDecision !== "stable-eligible") {
+  failures.push("release evidence does not mark the release stable-eligible");
 }
-if (audit.conclusion !== "technical-plan-implemented-stable-release-awaits-human-gate") {
-  failures.push("acceptance audit must preserve the pending human gate");
+if (audit.status !== "stable" || audit.conclusion !== "stable-release-eligible") {
+  failures.push("acceptance audit does not prove stable-release eligibility");
 }
 if (audit.releaseGate.humanReviewObjectiveEvidence !== "passed") {
   failures.push("acceptance audit lacks objective human-review evidence");
@@ -67,4 +67,4 @@ if (failures.length) {
   console.error(failures.join("\n"));
   process.exit(1);
 }
-console.log(`Release governance: PASS (${version}, release candidate)`);
+console.log(`Release governance: PASS (${version}, stable)`);

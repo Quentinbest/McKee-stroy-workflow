@@ -1,15 +1,19 @@
 {
   "schemaVersion": 1,
-  "release": "1.0.0-rc.1",
-  "status": "pending",
-  "reviewer": null,
+  "release": "1.0.0",
+  "status": "approved",
+  "reviewer": {
+    "name": "Quentin",
+    "role": "Project owner and authorized human reviewer",
+    "reviewedAt": "2026-06-07T16:04:49+08:00"
+  },
   "story": {
     "synthetic": false,
     "artifactPath": "review-candidates/last-signal",
     "lifecycleComplete": true
   },
   "literaryReview": {
-    "status": "pending",
+    "status": "approved",
     "criteria": [
       { "id": "causal-structure", "score": 5, "evidence": "review-candidates/last-signal/structure.md and audit.md" },
       { "id": "controlling-idea", "score": 5, "evidence": "review-candidates/last-signal/story-contract.md and final-story.md" },
@@ -20,7 +24,7 @@
     ]
   },
   "operationalReview": {
-    "status": "pending",
+    "status": "approved",
     "criteria": [
       { "id": "instruction-clarity", "score": 5, "evidence": "review-candidates/last-signal/README.md and lifecycle.json" },
       { "id": "checkpoint-usability", "score": 5, "evidence": "review-candidates/last-signal/lifecycle.json" },
@@ -31,14 +35,15 @@
     ]
   },
   "releaseApproval": {
-    "stableRelease": false,
+    "stableRelease": true,
     "externalPublication": false
   },
   "notes": [
-    "An authorized human reviewer must evaluate a non-synthetic, complete lifecycle.",
-    "The Last Signal candidate is complete and deterministically verified; criterion scores remain intentionally unsigned.",
+    "An authorized human reviewer evaluated a non-synthetic, complete lifecycle.",
+    "The Last Signal candidate is complete, deterministically verified, and human-reviewed.",
     "Objective measurements are recorded in reports/human-review-objective-evidence.json; reviewer prompts are in docs/agent/human-review-scorecard.md.",
-    "All literary and operational criterion scores were set to 5 by direct user instruction on 2026-06-07; reviewer identity, timestamp, section approval, and stable-release approval remain pending.",
+    "All literary and operational criterion scores were set to 5 by direct user instruction on 2026-06-07.",
+    "The project owner explicitly authorized completing the reviewer identity and stable-release approval on 2026-06-07.",
     "External publication approval is separate from stable-release approval."
   ]
 }

@@ -28,7 +28,7 @@ test("all five harnesses pass all repository-level pilots", () => {
 
 test("native execution limitations are explicit rather than hidden", () => {
   assert.ok(report.capabilityExceptions.length >= 1);
-  assert.equal(report.humanEvaluation.status, "pending");
+  assert.equal(report.humanEvaluation.status, "approved");
 });
 
 test("native pilots preserve passed runs and unresolved gates", () => {

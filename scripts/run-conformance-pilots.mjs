@@ -48,6 +48,9 @@ const artifactCatalog = JSON.parse(
 const delegationFixtures = JSON.parse(
   readFileSync(join(root, "tests/fixtures/control-plane/delegations.json"), "utf8"),
 );
+const humanReview = JSON.parse(
+  readFileSync(join(root, "reports/human-release-review.json"), "utf8"),
+);
 
 function commandAvailable(command) {
   return spawnSync("sh", ["-lc", `command -v ${command}`], { encoding: "utf8" }).status === 0;
@@ -130,7 +133,17 @@ const report = {
       fallback: "Cursor AGENTS.md and .cursor/rules discovery checks",
     },
   ],
-  humanEvaluation: lifecycle.humanEvaluation,
+  humanEvaluation: {
+    required: true,
+    status: humanReview.status,
+    evidence: [
+      "reports/human-release-review.json",
+      humanReview.story.artifactPath,
+    ],
+    reason: humanReview.status === "approved"
+      ? "Authorized review of a complete non-synthetic lifecycle passed."
+      : lifecycle.humanEvaluation.reason,
+  },
 };
 writeFileSync(
   join(root, "reports/conformance-pilots.json"),

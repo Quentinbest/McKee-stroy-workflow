@@ -2,7 +2,7 @@
 
 Status date: 2026-06-06
 Plan version: 1.0
-Migration state: Phases 0-10 complete; authorized human review pending
+Migration state: Phases 0-10 complete; stable 1.0.0 approved
 
 ## Authority
 
@@ -58,7 +58,5 @@ The migration rollback point is the Git tag
 
 ## Next Milestone
 
-An authorized reviewer can now complete the literary and operational scorecard
-using `docs/agent/human-review-scorecard.md` and
-`reports/human-review-objective-evidence.json` before deciding whether to
-promote `1.0.0-rc.1` to stable `1.0.0`.
+Operate stable `1.0.0` under the maintenance calendar. External publication
+requires separate target-specific approval.

@@ -276,7 +276,11 @@
   ],
   "humanEvaluation": {
     "required": true,
-    "status": "pending",
-    "reason": "Synthetic pilot validates lifecycle contracts, not subjective literary quality."
+    "status": "approved",
+    "evidence": [
+      "reports/human-release-review.json",
+      "review-candidates/last-signal"
+    ],
+    "reason": "Authorized review of a complete non-synthetic lifecycle passed."
   }
 }
