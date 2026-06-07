@@ -1329,7 +1329,7 @@
     "story-cast": {
       "positive": {
         "contract": {
-          "purpose": "Design and audit the full cast as a system of pressures — every character justified by a unique force they apply to the protagonist, no role redundant, every dimension of the protagonist illuminated by at least one foil. Delegates analysis to cast-balancer agent; guides character creation through character-forger agent. Use after spine is locked and before scene-level work. Trigger: /story-cast, \"design the cast\", \"character system\", \"who are the characters\", \"audit the cast\", \"is this character necessary\".",
+          "purpose": "Design and audit the full cast as a system of pressures — every character justified by a unique force they apply to the protagonist, no role redundant, every dimension of the protagonist illuminated by at least one foil. Delegates analysis to cast-balancer agent; guides character creation through character-forger agent. Use after premise, genre, Controlling Idea, and setting are locked, before story-spine turns the pressure system into event structure. Trigger: /story-cast, \"design the cast\", \"character system\", \"who are the characters\", \"audit the cast\", \"is this character necessary\".",
           "trigger": [
             "/story-cast",
             "story cast"
@@ -1356,6 +1356,11 @@
             "validate produced artifacts against the stated quality gates"
           ],
           "artifacts": [
+            "drafts/{slug}/premise-card.md",
+            "drafts/{slug}/controlling-idea.md",
+            "drafts/{slug}/genre-contract.md",
+            "drafts/{slug}/world-bible.md",
+            "drafts/{slug}/spine.md",
             "drafts/{slug}/characters/",
             "drafts/{slug}/cast-design.md",
             "drafts/{slug}/cast-roster.md"
@@ -1375,7 +1380,8 @@
           "handoff": [
             "cast-balancer",
             "character-forger",
-            "story-act"
+            "story-act",
+            "story-spine"
           ],
           "fixtures": {
             "positive": "story-cast:positive",
@@ -1437,6 +1443,8 @@
             "genre-cartographer",
             "mck-controlling-idea",
             "premise-prospector",
+            "setting-surveyor",
+            "story-cast",
             "story-persona",
             "story-spine"
           ],
@@ -1558,6 +1566,8 @@
             "genre-cartographer",
             "mck-controlling-idea",
             "premise-prospector",
+            "setting-surveyor",
+            "story-cast",
             "story-spine"
           ],
           "fixtures": {
@@ -1771,7 +1781,7 @@
     "story-spine": {
       "positive": {
         "contract": {
-          "purpose": "Build or revise a story's load-bearing skeleton — the spine of major events from Inciting Incident through Progressive Complications, Crisis, Climax, and Resolution. Delegates heavy generation to the structure-skeleton agent; audits the result against McKee predicates; and locks the spine when validated. Trigger: /story-spine, \"build the spine\", \"story structure\", \"map the plot\", \"inciting incident\", \"what happens in the story\", \"story skeleton\".",
+          "purpose": "Build or revise a story's load-bearing skeleton — the spine of major events from Inciting Incident through Progressive Complications, Crisis, Climax, and Resolution. Delegates heavy generation to the structure-skeleton agent; audits the result against McKee predicates; and locks the spine when validated. Use after the cast pressure system is locked. Trigger: /story-spine, \"build the spine\", \"story structure\", \"map the plot\", \"inciting incident\", \"what happens in the story\", \"story skeleton\".",
           "trigger": [
             "/story-spine",
             "story spine"
@@ -1801,9 +1811,11 @@
             "drafts/{slug}/premise-card.md",
             "drafts/{slug}/controlling-idea.md",
             "drafts/{slug}/genre-contract.md",
+            "drafts/{slug}/cast-design.md",
+            "drafts/{slug}/cast-roster.md",
             "drafts/{slug}/characters/",
-            "drafts/{slug}/spine.md",
-            "drafts/{slug}/misdirection-plan.md"
+            "drafts/{slug}/world-bible.md",
+            "drafts/{slug}/spine.md"
           ],
           "quality_gates": [
             "required workflow steps are completed",
@@ -1822,7 +1834,6 @@
             "mck-surprise-plant",
             "story-act",
             "story-cast",
-            "story-new",
             "structure-skeleton"
           ],
           "fixtures": {
@@ -1881,14 +1892,14 @@
             "no network or publication by default"
           ],
           "handoff": [
+            "genre-cartographer",
             "mck-controlling-idea",
+            "setting-surveyor",
             "story-act",
             "story-audit",
             "story-cast",
             "story-new",
-            "story-publish",
-            "story-revise",
-            "story-scene"
+            "story-publish"
           ],
           "fixtures": {
             "positive": "story-status:positive",

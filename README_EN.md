@@ -84,9 +84,10 @@ Use story-new with this seed:
 "A clockmaker builds clocks that run backward."
 ```
 
-Then continue through `story-premise`, `story-spine`, `story-cast`,
-`story-act`, `story-scene`, `story-audit`, `story-revise`, and
-`story-publish`. Use `story-status` at any point to inspect the lifecycle state.
+Then lock the Genre Contract, Controlling Idea, and setting before continuing
+through `story-cast`, `story-spine`, `story-act`, `story-scene`, `story-audit`,
+`story-revise`, and `story-publish`. Use `story-status` at any point to inspect
+the lifecycle state.
 
 ## Harness Support
 
@@ -147,8 +148,8 @@ Full lifecycle from seed to manuscript.
 | `story-new` | Start a new project from any seed (dream, image, news, mood) |
 | `story-status` | Dashboard — what's locked, what's next |
 | `story-premise` | Generate and lock a Premise Card |
-| `story-spine` | Build the story skeleton (Inciting Incident → Crisis → Climax) |
 | `story-cast` | Design the full cast as a system of pressures |
+| `story-spine` | Build the story skeleton from the locked cast pressure system (Inciting Incident → Crisis → Climax) |
 | `story-act` | Plan an act's scene sequence |
 | `story-scene` | Draft or revise a single scene (most-used skill) |
 | `story-audit` | Run the full McKee critic suite |

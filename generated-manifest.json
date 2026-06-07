@@ -258,7 +258,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "4b4863e976c9747ff9bca75043f1a19b8c560b99496156fb8ab500f484fb0b65"
+      "sha256": "b6a89aeae8e9f5126cd6243e9fe23cd09e18534065b3689ab96d3881ac80894b"
     },
     {
       "path": ".agents/skills/story-new/SKILL.md",
@@ -269,7 +269,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "986f6668b8d03185f30287072d2594965ce1abcf10c5e96ccb3937afce2e52bc"
+      "sha256": "2b0fa41a870f52beea70bc901c297807cbf0070daf62080427bdb22acddf0b2c"
     },
     {
       "path": ".agents/skills/story-persona/SKILL.md",
@@ -291,7 +291,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "06655310ce34817d0988a60c4268f51113b57ad7bf040853942427f66b662668"
+      "sha256": "7add2ed2ee16b933083386d94daf2d0a2e6729d3897d6d0adc34d24cb4ff8cf2"
     },
     {
       "path": ".agents/skills/story-publish/SKILL.md",
@@ -335,7 +335,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "0f1a105b2291cb6c1fccae573869fe035dca3239b73f14e585f4eda458d032c5"
+      "sha256": "e7f64114c9154b0fca71019771936bde7ec2aefa183ac7a89f3bcc7bef6277e8"
     },
     {
       "path": ".agents/skills/story-status/SKILL.md",
@@ -346,7 +346,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "55de1fe74f09a44e7235a419b700ecc1519dc2bb08c583020c30209b1adc6657"
+      "sha256": "889b7f2629176fa95e19cb5c71bc06311af751ac1e8f07970fb9655914f6f16a"
     },
     {
       "path": ".agents/skills/story-stop-loss/SKILL.md",
@@ -434,7 +434,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "4960e79b881a9401b1508a99adf974af44682d541e156121fd5766e892a9769f"
+      "sha256": "2d51474c9a6fbf8986dc64a5b2be01a8c185098532235075e7e45e161956ba6b"
     },
     {
       "path": ".claude/agents/character-forger.md",
@@ -445,7 +445,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "d72d5262d6bb71bd62bf59c8604f3e3cec619e966dc7037f3eecf49d43e5beea"
+      "sha256": "64b24f2c126420f52ff491852e663d799b574ac602e32844548672bc1bbd2c26"
     },
     {
       "path": ".claude/agents/cliche-hunter.md",
@@ -621,7 +621,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "601dc95779975fda52d5adbea82e9a3fc4829ecf576c9d4a70c56ce2d53e5555"
+      "sha256": "6b1ec7922c71399469e2ef052f4364640cdcee87ad336652e86205e6188bf7f7"
     },
     {
       "path": ".claude/agents/subtext-whisperer.md",
@@ -940,7 +940,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "4b4863e976c9747ff9bca75043f1a19b8c560b99496156fb8ab500f484fb0b65"
+      "sha256": "b6a89aeae8e9f5126cd6243e9fe23cd09e18534065b3689ab96d3881ac80894b"
     },
     {
       "path": ".claude/skills/story-new/SKILL.md",
@@ -951,7 +951,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "986f6668b8d03185f30287072d2594965ce1abcf10c5e96ccb3937afce2e52bc"
+      "sha256": "2b0fa41a870f52beea70bc901c297807cbf0070daf62080427bdb22acddf0b2c"
     },
     {
       "path": ".claude/skills/story-persona/SKILL.md",
@@ -973,7 +973,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "06655310ce34817d0988a60c4268f51113b57ad7bf040853942427f66b662668"
+      "sha256": "7add2ed2ee16b933083386d94daf2d0a2e6729d3897d6d0adc34d24cb4ff8cf2"
     },
     {
       "path": ".claude/skills/story-publish/SKILL.md",
@@ -1017,7 +1017,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "0f1a105b2291cb6c1fccae573869fe035dca3239b73f14e585f4eda458d032c5"
+      "sha256": "e7f64114c9154b0fca71019771936bde7ec2aefa183ac7a89f3bcc7bef6277e8"
     },
     {
       "path": ".claude/skills/story-status/SKILL.md",
@@ -1028,7 +1028,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "55de1fe74f09a44e7235a419b700ecc1519dc2bb08c583020c30209b1adc6657"
+      "sha256": "889b7f2629176fa95e19cb5c71bc06311af751ac1e8f07970fb9655914f6f16a"
     },
     {
       "path": ".claude/skills/story-stop-loss/SKILL.md",
@@ -1127,7 +1127,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "32a9631fba0e5df88619d6b3d04d94e50caf2e252902f06b5fab0f1f55e3b434"
+      "sha256": "f56a85a9c59929463543072bc205398257147a0896534637f34f35188332bff3"
     },
     {
       "path": ".opencode/agents/character-forger.md",
@@ -1138,7 +1138,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "178b9b58611a6d8a44f6064690df47282442c4fbfbff593a715d5fd74c19cec1"
+      "sha256": "9eec22dc562354439054d8731bc46fd1b27027a228e39fe6f227c60cef082a8d"
     },
     {
       "path": ".opencode/agents/cliche-hunter.md",
@@ -1314,7 +1314,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "16ee5e6e86506cbcdc26c4e4002b493278fc6b1829753d0b709f6b0e86f169c7"
+      "sha256": "892f2055a6437112f871ef060eddebdea833a79739985811a66f3ef0ad46041a"
     },
     {
       "path": ".opencode/agents/subtext-whisperer.md",

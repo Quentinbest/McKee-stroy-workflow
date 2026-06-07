@@ -132,7 +132,7 @@ The platform has four layers:
 ┌──────────────────────────────────────────────────────────────────────┐
 │  LAYER 1 — WORKFLOW SKILLS  (/story-*)                               │
 │  User-facing entry points. Run in main context. Visible, iterative.  │
-│  story-new · story-status · story-premise · story-spine · story-cast │
+│  story-new · story-status · story-premise · story-cast · story-spine │
 │  story-act · story-scene · story-audit · story-revise · story-publish│
 ├──────────────────────────────────────────────────────────────────────┤
 │  LAYER 2 — METHODOLOGY SKILLS  (/mck-*)                              │
@@ -178,11 +178,11 @@ Every project moves through these states, tracked in `lifecycle.json`:
 inspiration
     ↓  /story-new
 premise_locked
-    ↓  /mck-controlling-idea or /story-premise
+    ↓  /genre-cartographer
 genre_locked
-    ↓  /genre-cartographer (agent) or manual
+    ↓  /mck-controlling-idea
 controlling_idea_locked
-    ↓  /story-spine
+    ↓  /setting-surveyor or world-bible lock
 setting_locked
     ↓  /story-cast
 cast_locked
@@ -214,7 +214,7 @@ Each gate has **must-pass predicates**. The system will not advance a project pa
     "genre": true,
     "controlling_idea": true,
     "spine": true,
-    "cast": false
+    "cast": true
   }
 }
 ```
@@ -242,7 +242,7 @@ The skill:
 
 The agent returns 5 candidates. Review them. Pick one, or request a variant. The skill writes `premise-card.md` and advances the lifecycle.
 
-### Step 3 — Forge the Controlling Idea
+### Step 3 — Lock the story contracts
 
 ```
 /controlling-idea-architect FORGE
@@ -250,21 +250,29 @@ The agent returns 5 candidates. Review them. Pick one, or request a variant. The
 
 Generates 3 candidates (idealist / pessimist / ironic). After you select one, the Honesty Engine runs automatically: is this CI grounded in something real, or is it a moral bumper sticker?
 
-### Step 4 — Build the spine
+Also lock the Genre Contract with `genre-cartographer` and the setting with
+`setting-surveyor` or the project world bible.
 
-```
-/story-spine
-```
-
-Spawns `structure-skeleton` agent. The skill audits the returned spine against McKee predicates (Inciting Incident, Crisis dilemma, Climax causality) and iterates up to 3 rounds. After locking, offers to design the Inevitable-Surprise architecture.
-
-### Step 5 — Design the cast
+### Step 4 — Design the cast
 
 ```
 /story-cast
 ```
 
-Spawns `character-forger` for the protagonist and core characters. Spawns `cast-balancer` to verify each character exerts unique pressure on the protagonist. No redundant roles.
+Spawns `character-forger` for the protagonist and core characters. Spawns
+`cast-balancer` to verify that each character exerts unique pressure and records
+the structural responsibilities the spine must later test.
+
+### Step 5 — Build the spine
+
+```
+/story-spine
+```
+
+Spawns `structure-skeleton` with the locked cast. The skill audits the returned
+spine against McKee predicates (Inciting Incident, Crisis dilemma, Climax
+causality) and iterates up to 3 rounds. After locking, it offers to design the
+Inevitable-Surprise architecture.
 
 ### Step 6 — Plan Act 1
 
@@ -338,7 +346,8 @@ That's it. From seed to prose in 7 steps.
 
 **Purpose**: Build the story's load-bearing skeleton — Inciting Incident through Crisis, Climax, and Resolution.
 **Trigger**: `/story-spine`, "build the spine", "story structure", "map the plot"
-**Input**: premise-card.md, controlling-idea.md (if locked), genre-contract.md (if locked)
+**Input**: locked premise-card.md, controlling-idea.md, genre-contract.md,
+setting, cast-design.md, cast-roster.md, and character files
 **Output**: `drafts/{slug}/spine.md` with Mermaid timeline + MDQ statement
 
 **Predicates checked**:
@@ -350,7 +359,8 @@ That's it. From seed to prose in 7 steps.
 
 **After locking**: offers `/mck-surprise-plant DESIGN` — design the Inevitable-Surprise architecture before writing Act 1.
 
-**When to use**: after Controlling Idea is locked. The spine is the single most important structural artifact.
+**When to use**: after the cast is locked. The spine turns the predefined
+pressure system into a causal event structure.
 
 ---
 
@@ -358,7 +368,7 @@ That's it. From seed to prose in 7 steps.
 
 **Purpose**: Design the full cast as a system of pressures on the protagonist.
 **Trigger**: `/story-cast`, "design the cast", "character system"
-**Input**: premise-card.md, spine.md, genre-contract.md
+**Input**: premise-card.md, controlling-idea.md, genre-contract.md, and locked setting
 **Output**: character files in `drafts/{slug}/characters/` + cast-design.md
 
 **What it produces per character**:
@@ -369,7 +379,9 @@ That's it. From seed to prose in 7 steps.
 
 **Redundancy audit**: spawns `cast-balancer` to verify no two characters apply the same pressure. Recommends merges, cuts, or promotions.
 
-**When to use**: after the spine is locked (or at least the protagonist is designed), before Act 1 scene planning begins.
+**When to use**: after premise, genre, Controlling Idea, and setting are locked,
+before `/story-spine`. Re-run in audit mode after the spine if you need to
+verify scene-time coverage.
 
 ---
 
@@ -938,7 +950,7 @@ lifecycle.json → state: "premise_locked"
 
 ---
 
-### Session 2 — Controlling Idea + Spine
+### Session 2 — Controlling Idea + Cast
 
 ```
 /controlling-idea-architect FORGE
@@ -952,6 +964,25 @@ Three candidates generated (idealist / pessimist / ironic). You select the ironi
 controlling-idea.md written
 lifecycle.json → state: "controlling_idea_locked"
 ```
+
+The Genre Contract and setting are locked, then:
+
+```
+/story-cast
+```
+
+`character-forger` produces files for: protagonist, elder, junior ghost (the
+sect member who stayed), sister. `cast-balancer` finds junior ghost and
+protagonist have overlapping pressure (both are "what loyalty costs") and
+distinguishes rewarded loyalty from punished loyalty.
+
+```
+lifecycle.json → state: "cast_locked"
+```
+
+---
+
+### Session 3 — Spine + Act 1
 
 ```
 /story-spine
@@ -972,16 +1003,6 @@ Misdirected expectation: audience expects protagonist will be reconciled with th
 ```
 lifecycle.json → state: "spine_locked"
 ```
-
----
-
-### Session 3 — Cast + Act 1
-
-```
-/story-cast
-```
-
-`character-forger` produces files for: protagonist, elder, junior ghost (the sect member who stayed), sister. `cast-balancer` finds junior ghost and protagonist have overlapping pressure (both are "what loyalty costs") — recommends distinguishing: junior ghost represents loyalty that was rewarded; protagonist represents loyalty that was punished. Pressure now distinct.
 
 ```
 /story-act 1

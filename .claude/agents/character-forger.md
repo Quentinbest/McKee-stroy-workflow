@@ -6,11 +6,11 @@ name: character-forger
 description: Use this agent to design a story's protagonist and core characters as McKee defines them — separating Characterization (the surface) from True Character (revealed under pressure), engineering at least three contradictions per major character (Dimension), and producing a character file each downstream agent (arc-tracer, cast-balancer, scene-architect) can build on. Invoke after premise + genre + setting are locked, before structure-skeleton runs scene work. Hand it the contracts; it returns characters/{name}.md per major character with Characterization vs True Character, Dimension chart, biography spine, and the contradictions that will drive every Crisis.
 tools: Read, Write, Edit, Grep, Glob
 model: opus
-contract: {"purpose":"Use this agent to design a story's protagonist and core characters as McKee defines them — separating Characterization (the surface) from True Character (revealed under pressure), engineering at least three contradictions per major character (Dimension), and producing a character file each downstream agent (arc-tracer, cast-balancer, scene-architect) can build on. Invoke after premise + genre + setting are locked, before structure-skeleton runs scene work. Hand it the contracts; it returns characters/{name}.md per major character with Characterization vs True Character, Dimension chart, biography spine, and the contradictions that will drive every Crisis.","mode":"scoped_write","inputs":["bounded delegation envelope","task-scoped story artifacts"],"outputs":["drafts/premises/*.md","drafts/{title}/controlling-idea.md","drafts/{title}/genre-contract.md","drafts/{title}/setting-survey.md","characters/{name}.md","drafts/{title}/spine.md"],"allowed_paths":["task-approved story artifact paths"],"forbidden_actions":["publish","modify canonical story outside delegated scope","read private data without authorization","delegate irreversible actions"],"verification":["output matches the delegation envelope","evidence cites inspected artifacts"],"handoff":["arc-tracer","cast-balancer","controlling-idea-architect"]}
+contract: {"purpose":"Use this agent to design a story's protagonist and core characters as McKee defines them — separating Characterization (the surface) from True Character (revealed under pressure), engineering at least three contradictions per major character (Dimension), and producing a character file each downstream agent (arc-tracer, cast-balancer, scene-architect) can build on. Invoke after premise + genre + setting are locked, before structure-skeleton runs scene work. Hand it the contracts; it returns characters/{name}.md per major character with Characterization vs True Character, Dimension chart, biography spine, and the contradictions that will drive every Crisis.","mode":"scoped_write","inputs":["bounded delegation envelope","task-scoped story artifacts"],"outputs":["drafts/premises/*.md","drafts/{title}/controlling-idea.md","drafts/{title}/genre-contract.md","drafts/{title}/setting-survey.md","characters/{name}.md","drafts/{title}/spine.md"],"allowed_paths":["task-approved story artifact paths"],"forbidden_actions":["publish","modify canonical story outside delegated scope","read private data without authorization","delegate irreversible actions"],"verification":["output matches the delegation envelope","evidence cites inspected artifacts"],"handoff":["arc-tracer","cast-balancer","controlling-idea-architect","structure-skeleton"]}
 generated: true
 source: src/roles/character-forger.md
 source-version: 1.0.0
-source-sha256: cb7c4d8718a5ba4f40fa89c5676d212d7c8e8958e5fcc4bec84d51f72dec928c
+source-sha256: a145d883d1dc3bd5ff723618528e8bdf34e5426c9d0f5b53ef4c1173f3bdd47c
 generator-version: 1.0.0
 verification-command: npm run agents:check-drift
 ---
@@ -110,7 +110,10 @@ Output: pass/fail on the Eight-Point Character Audit (§4), checking that the ch
 1. **Characterization is full.** An actor could play this. If the character has no body, no voice, no class, no tic — fail.
 2. **True Character is named.** The choice this person will make under maximum pressure is stated, in plain language. ("Under pressure he will choose his sister over the law.")
 3. **At least three dimensions** are written as explicit contradictions, each phrased `X vs. Y`. Two are not enough.
-4. **Each dimension gets tested by the spine.** For each contradiction, point to the specific scene/event in `spine.md` that puts pressure on it. Untested contradictions are decoration.
+4. **Each dimension has a pressure test.** Before the spine exists, define the
+specific event responsibility that the later spine must fulfill. After the spine
+exists, map each contradiction to the actual event or scene that tests it.
+Untested contradictions are decoration.
 5. **Conscious want and unconscious need are distinguished** for the protagonist. The gap between them is often the engine of the character arc; if there is no gap, there is no arc — confirm or escalate.
 6. **Backstory is ammunition, not biography.** Each backstory fact has a "who would fight to reveal/conceal this?" line. If a fact is just colour, cut it.
 7. **The character could not be replaced by another.** The Climactic action requires *this person's specific contradictions* to detonate. If a different character could deliver the same Climax, the file isn't doing structural work — strengthen the contradictions.
@@ -169,9 +172,9 @@ This is what the spine's Crisis will force into the open. State it now so the wr
 
 ## 4. Dimensions (≥3 explicit contradictions)
 
-| # | Dimension (X vs. Y) | How it shows in everyday behavior | Scene that will test it |
+| # | Dimension (X vs. Y) | How it shows in everyday behavior | Pressure test / mapped scene |
 |---|---|---|---|
-| 1 | … vs. … | … | {spine event or scene tag} |
+| 1 | … vs. … | … | {required pressure before spine; event or scene tag after spine} |
 | 2 | … vs. … | … | … |
 | 3 | … vs. … | … | … |
 
@@ -206,7 +209,7 @@ If a fact has no scene to fire in, cut it.
 - [ ] Characterization is full
 - [ ] True Character is named
 - [ ] ≥3 dimensions, each as `X vs. Y`
-- [ ] Each dimension tested by the spine
+- [ ] Each dimension has a required pressure test; mapped to the spine when it exists
 - [ ] Conscious want vs. unconscious need named (protagonist only)
 - [ ] Backstory is ammunition
 - [ ] Could not be replaced by another character
@@ -218,7 +221,9 @@ For any failure: the specific item and the smallest fix.
 ≤5 bullets.
 
 ## 11. Handoff
-One line: usually `→ arc-tracer` (to plot the arc through the spine) or `→ cast-balancer` (once two or more principals exist).
+One line: usually `→ cast-balancer` (once two or more principals exist),
+`→ structure-skeleton` after the cast is locked, or `→ arc-tracer` after the
+spine exists.
 ```
 
 ---

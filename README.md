@@ -81,9 +81,9 @@ npm run agents:verify
 “一位钟表匠造出了会倒着走的钟。”
 ```
 
-随后依次使用 `story-premise`、`story-spine`、`story-cast`、`story-act`、
-`story-scene`、`story-audit`、`story-revise` 和 `story-publish`。可随时使用
-`story-status` 查看生命周期状态。
+随后锁定 Genre Contract、Controlling Idea 和 Setting，再依次使用
+`story-cast`、`story-spine`、`story-act`、`story-scene`、`story-audit`、
+`story-revise` 和 `story-publish`。可随时使用 `story-status` 查看生命周期状态。
 
 ## Harness 支持
 
@@ -145,8 +145,8 @@ npm run agents:verify
 | `story-new` | 从任意种子开始新项目，如梦境、画面、新闻或情绪 |
 | `story-status` | 显示已锁定内容和下一步的状态面板 |
 | `story-premise` | 生成并锁定 Premise Card |
-| `story-spine` | 构建故事骨架（Inciting Incident -> Crisis -> Climax） |
 | `story-cast` | 将完整角色阵容设计为压力系统 |
+| `story-spine` | 从已锁定的人物压力系统构建故事骨架（Inciting Incident -> Crisis -> Climax） |
 | `story-act` | 规划单个 Act 的 Scene 序列 |
 | `story-scene` | 起草或修订单个 Scene，是最常用的 Skill |
 | `story-audit` | 运行完整 McKee Critic 套件 |

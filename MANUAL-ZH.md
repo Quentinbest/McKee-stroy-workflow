@@ -132,7 +132,7 @@ cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 ┌──────────────────────────────────────────────────────────────────────┐
 │  第一层 — 工作流技能  (/story-*)                                      │
 │  面向用户的入口点。在主对话上下文中运行。可见、可迭代、可打断。          │
-│  story-new · story-status · story-premise · story-spine · story-cast │
+│  story-new · story-status · story-premise · story-cast · story-spine │
 │  story-act · story-scene · story-audit · story-revise · story-publish│
 ├──────────────────────────────────────────────────────────────────────┤
 │  第二层 — 方法论技能  (/mck-*)                                        │
@@ -178,11 +178,11 @@ cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 inspiration（灵感）
     ↓  /story-new
 premise_locked（前提锁定）
-    ↓  /mck-controlling-idea 或 /story-premise
+    ↓  /genre-cartographer
 genre_locked（类型锁定）
-    ↓  /genre-cartographer（代理）或手动
+    ↓  /mck-controlling-idea
 controlling_idea_locked（主控思想锁定）
-    ↓  /story-spine
+    ↓  /setting-surveyor 或锁定 world-bible
 setting_locked（世界设定锁定）
     ↓  /story-cast
 cast_locked（人物阵容锁定）
@@ -226,7 +226,7 @@ done（完成）
 
 查看5个候选，选择一个，或要求变体。技能写入 `premise-card.md`，推进生命周期。
 
-### 第3步 — 锻造主控思想
+### 第3步 — 锁定故事合同
 
 ```
 /controlling-idea-architect FORGE
@@ -234,21 +234,27 @@ done（完成）
 
 生成3个候选（理想主义者/悲观主义者/讽刺性）。你选定后，诚实引擎自动运行：这个主控思想是扎根于真实观察的，还是道德口号？
 
-### 第4步 — 构建故事脊椎
+同时使用 `genre-cartographer` 锁定 Genre Contract，并使用
+`setting-surveyor` 或项目的 world bible 锁定世界设定。
 
-```
-/story-spine
-```
-
-召唤 `structure-skeleton` 代理。技能对返回的脊椎进行麦基断言审核（激励事件、危机两难、高潮因果链），迭代最多3轮。锁定后，提供设计必然性惊喜架构的选项。
-
-### 第5步 — 设计人物阵容
+### 第4步 — 设计人物阵容
 
 ```
 /story-cast
 ```
 
-召唤 `character-forger` 创建主角及核心人物文件。召唤 `cast-balancer` 验证每个人物对主角施加的压力唯一且不可重叠。
+召唤 `character-forger` 创建主角及核心人物文件。召唤 `cast-balancer`
+验证每个人物对主角施加的压力唯一且不可重叠，并记录后续脊椎必须检验的结构职责。
+
+### 第5步 — 构建故事脊椎
+
+```
+/story-spine
+```
+
+把已锁定的人物阵容交给 `structure-skeleton`。技能对返回的脊椎进行麦基
+断言审核（激励事件、危机两难、高潮因果链），迭代最多3轮。锁定后，提供
+设计必然性惊喜架构的选项。
 
 ### 第6步 — 规划第一幕
 
@@ -322,7 +328,8 @@ done（完成）
 
 **用途**：构建故事的承重骨架——从激励事件到危机、高潮和结局。
 **触发词**：`/story-spine`，"构建脊椎"，"故事结构"，"规划情节"
-**输入**：`premise-card.md`，`controlling-idea.md`（如已锁定），`genre-contract.md`（如已锁定）
+**输入**：已锁定的 `premise-card.md`、`controlling-idea.md`、
+`genre-contract.md`、世界设定、`cast-design.md`、`cast-roster.md` 和人物文件
 **输出**：`drafts/{slug}/spine.md`（含美人鱼时间线 + 主要戏剧性问题陈述）
 
 **检验的断言**：
@@ -334,7 +341,7 @@ done（完成）
 
 **锁定后**：提供 `/mck-surprise-plant DESIGN` 选项——在写第一幕之前设计必然性惊喜架构。
 
-**何时使用**：主控思想锁定后。脊椎是最重要的结构成果物。
+**何时使用**：人物阵容锁定后。脊椎把预先定义的人物压力系统转化为因果事件结构。
 
 ---
 
@@ -342,7 +349,7 @@ done（完成）
 
 **用途**：将完整人物阵容设计为作用于主角的压力系统。
 **触发词**：`/story-cast`，"设计人物"，"人物系统"
-**输入**：`premise-card.md`，`spine.md`，`genre-contract.md`
+**输入**：`premise-card.md`、`controlling-idea.md`、`genre-contract.md` 和已锁定的世界设定
 **输出**：`drafts/{slug}/characters/` 中的人物文件 + `cast-design.md`
 
 **每个人物产出内容**：
@@ -353,7 +360,8 @@ done（完成）
 
 **冗余性审核**：召唤 `cast-balancer` 验证没有两个人物施加相同的压力。推荐合并、删除或提升的方案。
 
-**何时使用**：脊椎锁定后，第一幕场景规划开始前。
+**何时使用**：前提、类型、主控思想和设定锁定后，`/story-spine` 之前。
+脊椎完成后可用审核模式复查人物是否获得足够的结构性场景。
 
 ---
 
@@ -918,7 +926,7 @@ lifecycle.json → state: "premise_locked"
 
 ---
 
-### 第二次会话 — 主控思想与脊椎
+### 第二次会话 — 主控思想与人物阵容
 
 ```
 /controlling-idea-architect FORGE
@@ -932,6 +940,23 @@ lifecycle.json → state: "premise_locked"
 controlling-idea.md 写入
 lifecycle.json → state: "controlling_idea_locked"
 ```
+
+锁定 Genre Contract 和世界设定，然后运行：
+
+```
+/story-cast
+```
+
+`character-forger` 为主角、长老、小师弟和师姐制作人物文件。`cast-balancer`
+发现小师弟和主角都承载“忠诚的代价”，于是把两者区分为被奖励的忠诚与被惩罚的忠诚。
+
+```
+lifecycle.json → state: "cast_locked"
+```
+
+---
+
+### 第三次会话 — 脊椎与第一幕
 
 ```
 /story-spine
@@ -954,16 +979,6 @@ lifecycle.json → state: "spine_locked"
 ```
 
 被误导的期望：受众期望主角与宗门和解。真实结局：主角实现了和解，发现其代价超过了流放。6个双重解读项目植入第一幕和第二幕。
-
----
-
-### 第三次会话 — 人物阵容与第一幕
-
-```
-/story-cast
-```
-
-`character-forger` 为以下人物制作文件：主角、长老、小师弟（留下来的宗门成员）、师姐。`cast-balancer` 发现小师弟和主角压力重叠（都是"忠诚的代价"）——建议区分：小师弟代表被奖励的忠诚；主角代表被惩罚的忠诚。压力现在是独特的。
 
 ```
 /story-act 1

@@ -20,7 +20,7 @@ triggers:
   - what's next in the story
   - show me the project state
   - story status
-contract: {"purpose":"Show the current lifecycle state of a story project — what's locked, what's next, what artifacts exist, and what blocking issues exist. The dashboard for a story project in progress. Trigger: /story-status, \"where are we\", \"project status\", \"what's locked\", \"what's next in the story\", \"show me the project state\".","trigger":["/story-status","story status"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/*/lifecycle.json","drafts/{slug}/lifecycle.json"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["read-only analysis","no network or publication by default"],"handoff":["mck-controlling-idea","story-act","story-audit","story-cast","story-new","story-publish","story-revise","story-scene"],"fixtures":{"positive":"story-status:positive","negative":"story-status:missing-trigger"}}
+contract: {"purpose":"Show the current lifecycle state of a story project — what's locked, what's next, what artifacts exist, and what blocking issues exist. The dashboard for a story project in progress. Trigger: /story-status, \"where are we\", \"project status\", \"what's locked\", \"what's next in the story\", \"show me the project state\".","trigger":["/story-status","story status"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/*/lifecycle.json","drafts/{slug}/lifecycle.json"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["read-only analysis","no network or publication by default"],"handoff":["genre-cartographer","mck-controlling-idea","setting-surveyor","story-act","story-audit","story-cast","story-new","story-publish"],"fixtures":{"positive":"story-status:positive","negative":"story-status:missing-trigger"}}
 ---
 
 # Story Project Status
@@ -91,11 +91,11 @@ Based on `state`, suggest the next natural action:
 | State | Suggestion |
 |---|---|
 | `inspiration` | `/story-new` to initialize the project |
-| `premise_locked` | `/mck-controlling-idea` to forge the theme, then `/story-spine` |
-| `genre_locked` | `/mck-controlling-idea` if not done, or `/story-spine` |
-| `controlling_idea_locked` | `/story-spine` to build the story skeleton |
+| `premise_locked` | `/genre-cartographer` and `/mck-controlling-idea` to lock the story contracts |
+| `genre_locked` | `/mck-controlling-idea` if not done, then lock setting and cast |
+| `controlling_idea_locked` | `/setting-surveyor` if setting is open, then `/story-cast` |
 | `setting_locked` | `/story-cast` to design the character system |
-| `cast_locked` | `/story-spine` if not done, or `/story-act` to begin scene planning |
+| `cast_locked` | `/story-spine` to build the event structure from the pressure system |
 | `spine_locked` | `/story-act` to plan Act 1's scene sequence |
 | `act_design_locked` | `/story-scene` to draft the first scene |
 | `scene_cards_locked` | `/story-scene` to begin prose drafting |

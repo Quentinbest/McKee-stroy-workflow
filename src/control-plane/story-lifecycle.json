@@ -27,6 +27,11 @@
       "humanApproval": true
     },
     {
+      "after": "cast",
+      "requiredArtifact": "cast-system@1.0.0",
+      "humanApproval": true
+    },
+    {
       "after": "spine",
       "requiredArtifact": "story-spine@1.0.0",
       "humanApproval": true

@@ -7,7 +7,8 @@ description: |
   Build or revise a story's load-bearing skeleton — the spine of major events
   from Inciting Incident through Progressive Complications, Crisis, Climax, and
   Resolution. Delegates heavy generation to the structure-skeleton agent; audits
-  the result against McKee predicates; and locks the spine when validated.
+  the result against McKee predicates; and locks the spine when validated. Use
+  after the cast pressure system is locked.
   Trigger: /story-spine, "build the spine", "story structure", "map the plot",
   "inciting incident", "what happens in the story", "story skeleton".
 allowed-tools:
@@ -24,7 +25,7 @@ triggers:
   - story skeleton
   - what happens in the story
   - inciting incident to climax
-contract: {"purpose":"Build or revise a story's load-bearing skeleton — the spine of major events from Inciting Incident through Progressive Complications, Crisis, Climax, and Resolution. Delegates heavy generation to the structure-skeleton agent; audits the result against McKee predicates; and locks the spine when validated. Trigger: /story-spine, \"build the spine\", \"story structure\", \"map the plot\", \"inciting incident\", \"what happens in the story\", \"story skeleton\".","trigger":["/story-spine","story spine"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/premise-card.md","drafts/{slug}/controlling-idea.md","drafts/{slug}/genre-contract.md","drafts/{slug}/characters/","drafts/{slug}/spine.md","drafts/{slug}/misdirection-plan.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["mck-crisis-dilemma","mck-surprise-plant","story-act","story-cast","story-new","structure-skeleton"],"fixtures":{"positive":"story-spine:positive","negative":"story-spine:missing-trigger"}}
+contract: {"purpose":"Build or revise a story's load-bearing skeleton — the spine of major events from Inciting Incident through Progressive Complications, Crisis, Climax, and Resolution. Delegates heavy generation to the structure-skeleton agent; audits the result against McKee predicates; and locks the spine when validated. Use after the cast pressure system is locked. Trigger: /story-spine, \"build the spine\", \"story structure\", \"map the plot\", \"inciting incident\", \"what happens in the story\", \"story skeleton\".","trigger":["/story-spine","story spine"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/premise-card.md","drafts/{slug}/controlling-idea.md","drafts/{slug}/genre-contract.md","drafts/{slug}/cast-design.md","drafts/{slug}/cast-roster.md","drafts/{slug}/characters/","drafts/{slug}/world-bible.md","drafts/{slug}/spine.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["mck-crisis-dilemma","mck-surprise-plant","story-act","story-cast","structure-skeleton"],"fixtures":{"positive":"story-spine:positive","negative":"story-spine:missing-trigger"}}
 ---
 
 # Building the Story Spine
@@ -35,19 +36,24 @@ The spine is the story's load-bearing skeleton: the sequence of events from Inci
 
 Read:
 - `drafts/{slug}/premise-card.md` (required — locked premise)
-- `drafts/{slug}/controlling-idea.md` (if exists)
-- `drafts/{slug}/genre-contract.md` (if exists)
-- All character files in `drafts/{slug}/characters/` (if any)
+- `drafts/{slug}/controlling-idea.md` (required — locked)
+- `drafts/{slug}/genre-contract.md` (required — locked)
+- `drafts/{slug}/cast-design.md` and `drafts/{slug}/cast-roster.md` (required)
+- All character files in `drafts/{slug}/characters/` (required)
+- `drafts/{slug}/world-bible.md` or the locked Setting Survey (required)
 
-If the premise is not locked, stop and run `/story-new` first.
+If the premise, genre, Controlling Idea, setting, or cast is not locked, stop
+and route to the missing contract. In particular, run `/story-cast` before
+building the spine: the spine must dramatize an already-defined pressure system.
 
 ## Step 1 — Brief the structure-skeleton Agent
 
 Invoke the `structure-skeleton` agent with:
 - The locked premise
-- The Controlling Idea (if locked)
-- The Genre Contract (if locked)
-- Character files (if any)
+- The locked Controlling Idea
+- The locked Genre Contract
+- The locked cast design, roster, and Character Files
+- The locked setting and world rules
 - The target length (short story / novella / novel / series)
 - Any known constraints (must start in X, must end with Y, real historical events, etc.)
 
@@ -130,4 +136,4 @@ If user declines: note in `lifecycle.json`:
 
 ## Step 6 — Suggest Next
 
-> "Spine is locked. Next: `/story-act` to plan each act's scene sequence, or `/story-cast` if you haven't designed the full cast yet."
+> "Spine is locked. Next: optionally re-run `/story-cast` in audit mode to verify scene-time coverage, then use `/story-act` to plan each act's scene sequence."

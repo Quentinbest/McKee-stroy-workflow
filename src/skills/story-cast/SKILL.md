@@ -8,7 +8,8 @@ description: |
   justified by a unique force they apply to the protagonist, no role redundant,
   every dimension of the protagonist illuminated by at least one foil.
   Delegates analysis to cast-balancer agent; guides character creation through
-  character-forger agent. Use after spine is locked and before scene-level work.
+  character-forger agent. Use after premise, genre, Controlling Idea, and setting
+  are locked, before story-spine turns the pressure system into event structure.
   Trigger: /story-cast, "design the cast", "character system", "who are the
   characters", "audit the cast", "is this character necessary".
 allowed-tools:
@@ -25,7 +26,7 @@ triggers:
   - audit the cast
   - is this character necessary
   - cast design
-contract: {"purpose":"Design and audit the full cast as a system of pressures — every character justified by a unique force they apply to the protagonist, no role redundant, every dimension of the protagonist illuminated by at least one foil. Delegates analysis to cast-balancer agent; guides character creation through character-forger agent. Use after spine is locked and before scene-level work. Trigger: /story-cast, \"design the cast\", \"character system\", \"who are the characters\", \"audit the cast\", \"is this character necessary\".","trigger":["/story-cast","story cast"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/characters/","drafts/{slug}/cast-design.md","drafts/{slug}/cast-roster.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["cast-balancer","character-forger","story-act"],"fixtures":{"positive":"story-cast:positive","negative":"story-cast:missing-trigger"}}
+contract: {"purpose":"Design and audit the full cast as a system of pressures — every character justified by a unique force they apply to the protagonist, no role redundant, every dimension of the protagonist illuminated by at least one foil. Delegates analysis to cast-balancer agent; guides character creation through character-forger agent. Use after premise, genre, Controlling Idea, and setting are locked, before story-spine turns the pressure system into event structure. Trigger: /story-cast, \"design the cast\", \"character system\", \"who are the characters\", \"audit the cast\", \"is this character necessary\".","trigger":["/story-cast","story cast"],"exclusions":["unrelated requests","operations outside the active task scope"],"inputs":{"required":["active task or explicit user goal"],"optional":["story project artifacts","McKee wiki references"]},"preconditions":["applicable instructions and task scope are loaded","required private-data access is explicitly authorized"],"procedure":["follow the ordered workflow in the SKILL.md body","validate produced artifacts against the stated quality gates"],"artifacts":["drafts/{slug}/premise-card.md","drafts/{slug}/controlling-idea.md","drafts/{slug}/genre-contract.md","drafts/{slug}/world-bible.md","drafts/{slug}/spine.md","drafts/{slug}/characters/","drafts/{slug}/cast-design.md","drafts/{slug}/cast-roster.md"],"quality_gates":["required workflow steps are completed","outputs remain consistent with canonical terminology and task acceptance"],"failure_behavior":["report missing inputs or authorization as blocked","apply story-stop-loss when bounded revision limits are reached"],"side_effects":["task-scoped story artifact writes","no network or publication by default"],"handoff":["cast-balancer","character-forger","story-act","story-spine"],"fixtures":{"positive":"story-cast:positive","negative":"story-cast:missing-trigger"}}
 ---
 
 # Cast Design
@@ -33,6 +34,19 @@ contract: {"purpose":"Design and audit the full cast as a system of pressures �
 The cast is not a list of characters — it's a **system of pressures**. Every character exists because they apply a force to the protagonist that no other character can apply. Remove a character; nothing else loses that pressure. Add a character; a new pressure arrives that changes the protagonist's situation.
 
 McKee: *"Every principal character must be justified by the unique pressure they exert on the protagonist's arc."*
+
+## Before Starting
+
+Read:
+- `drafts/{slug}/premise-card.md` (required — locked premise)
+- `drafts/{slug}/controlling-idea.md` (required — locked value and Counter-Idea)
+- `drafts/{slug}/genre-contract.md` (required — genre roles and obligations)
+- `drafts/{slug}/world-bible.md` or the locked Setting Survey (required)
+- `drafts/{slug}/spine.md` only when re-auditing an existing cast after spine design
+
+If the premise, Genre Contract, Controlling Idea, or setting is not locked, stop
+and route to the missing contract. Initial cast design does not require a spine:
+the cast defines the human pressure system that `story-spine` must dramatize.
 
 ## Step 1 — Inventory Existing Characters
 
@@ -47,7 +61,8 @@ If a full cast exists, proceed to Step 4.
 
 ## Step 2 — Identify Required Pressure Types
 
-From the spine and controlling idea, identify what pressures the protagonist must face:
+From the premise, Controlling Idea, Genre Contract, and setting, identify what
+pressures the protagonist must face:
 
 **Inner antagonism** — the protagonist's own contradictions, fears, wounds
 **Personal antagonism** — one or more principal characters in conflict with the protagonist
@@ -61,7 +76,8 @@ Also check the Genre Contract (if locked) for character archetypes the genre dem
 
 For each missing essential role, invoke the `character-forger` agent with:
 - The protagonist's character file (or description)
-- The spine
+- The locked premise and Controlling Idea
+- The Genre Contract and setting rules
 - The specific pressure this new character must apply
 - Any genre or period constraints
 
@@ -71,14 +87,21 @@ The agent returns a Character File with Characterization, True Character, Dimens
 
 Invoke the `cast-balancer` agent with:
 - All character files
-- The spine
-- The Genre Contract (if locked)
+- The Controlling Idea
+- The Genre Contract
+- The locked setting
+- The spine only if it already exists and this is a post-spine audit
 
 The agent returns `drafts/{slug}/cast-design.md` with:
 - **Pressure matrix** (who applies what force)
 - **Redundancy diagnosis** (any two characters applying the same pressure)
 - **Dimension coverage** (which protagonist dimensions are illuminated by foils)
 - **Merge/cut/promote recommendations**
+- **Spine responsibilities** (which pressures the later spine must test)
+
+When no spine exists, defer only scene-time verification. When a spine exists,
+also verify that every principal character receives enough structural work to
+apply the pressure they were designed for.
 
 ## Step 5 — Act on Recommendations
 
@@ -126,4 +149,6 @@ Update `lifecycle.json`:
 "locked": { "cast": true }
 ```
 
-Suggest next: `/story-act` to begin designing act-level scene sequences.
+Suggest next: `/story-spine` to build the event structure from the locked cast.
+After the spine is locked, `/story-cast` may be re-run in audit mode to verify
+scene-time coverage before `/story-act`.

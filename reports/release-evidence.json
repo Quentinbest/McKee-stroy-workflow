@@ -17,11 +17,11 @@
   "artifacts": {
     "generatedManifest": {
       "path": "generated-manifest.json",
-      "sha256": "ab4351fa5008bf88dc361035223509318af85474ed375776c91876aa90261196"
+      "sha256": "ef4a2ce3404c4f255e191c1a8188ec24634450052dced0917cdad92d534ce85b"
     },
     "completionReport": {
       "path": "reports/completion-report.json",
-      "sha256": "e384ed92d099a60b258e07218a0787b17e507b63eb250b09221d3cf5702d5c0a"
+      "sha256": "cc0b385f6ba2ff5c802c31b14fd7db15ec6ca76bb7a4a0ab55510b4f22469353"
     },
     "conformanceReport": {
       "path": "reports/conformance-pilots.json",
