@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "scene_ref": "{{act}}-{{scene}}",
+  "execution_mode": "detect-only",
+  "status": "drafted",
+  "stages_completed": [],
+  "writer_decision": null,
+  "current_round": 0,
+  "rolling_review_due": false,
+  "beats": [
+    {
+      "beat_ref": "{{beat}}",
+      "status": "drafted",
+      "candidate_text": "",
+      "clean_text": "",
+      "detections": [],
+      "patches": [],
+      "review_items": [],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 0,
+        "critic": 0,
+        "patch": 0,
+        "diversity": 0
+      },
+      "writer_decision": null,
+      "deferred_to_batch_boundary": false
+    }
+  ]
+}

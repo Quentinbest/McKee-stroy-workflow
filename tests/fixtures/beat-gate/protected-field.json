@@ -1,0 +1,24 @@
+{
+  "policy": {
+    "version": "1.0.0",
+    "auto_rules": [
+      "locked_term_alias"
+    ],
+    "review_rules": [
+      "protected_contract_overlap"
+    ],
+    "protected_fields": [
+      "character_desire"
+    ],
+    "term_mappings": [
+      {
+        "canonical": "ask for help",
+        "aliases": [
+          "hide the wound"
+        ],
+        "forced_dimension": "character_desire"
+      }
+    ]
+  },
+  "candidate_text": "She wanted to hide the wound from everyone."
+}
