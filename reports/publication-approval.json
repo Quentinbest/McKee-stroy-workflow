@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "operation": "publication",
+  "target": "github-release",
+  "release": "1.0.0",
+  "releaseRef": "v1.0.0-rc.1",
+  "sourceCommit": "4a52686e9bacc6e0d8aaace037a161402d13c470",
+  "scope": [
+    "release-assets/checksums.txt",
+    "release-assets/dist.tar.gz",
+    "release-assets/manifest.json",
+    "release-assets/reports.tar.gz"
+  ],
+  "task": "TASK-2026-019",
+  "approvedBy": {
+    "name": "Quentin",
+    "role": "Repository owner"
+  },
+  "approvedAt": "2026-06-11T02:21:31Z",
+  "expiresAt": "2026-06-18T02:21:31Z"
+}
