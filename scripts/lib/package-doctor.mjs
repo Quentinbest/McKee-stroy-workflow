@@ -1,3 +1,5 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { buildPackageArtifacts, PACKAGE_HOSTS } from "./package-adapters.mjs";
 import { buildPackageModels, frameworkRoot } from "./package-model.mjs";
 
@@ -102,4 +104,11 @@ export function buildPackageDoctorReport(root = frameworkRoot()) {
     source: "src/distribution/packages.json",
     scopes,
   };
+}
+
+export function writePackageDoctorReport(root = frameworkRoot()) {
+  const report = buildPackageDoctorReport(root);
+  mkdirSync(join(root, "reports"), { recursive: true });
+  writeFileSync(join(root, "reports/package-doctor.json"), `${JSON.stringify(report, null, 2)}\n`);
+  return report;
 }

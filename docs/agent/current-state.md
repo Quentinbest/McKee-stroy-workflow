@@ -80,6 +80,6 @@ The migration rollback point is the Git tag
 
 ## Next Milestone
 
-Push the verified RC source and approval carrier commit, then collect hosted CI
-evidence for the GitHub draft release. Future external publication still
-requires separate target-specific approval.
+Collect hosted CI evidence for GitHub RC `v1.0.0-rc.2`; RC 1 remains an
+immutable failed workflow attempt. Future external publication still requires
+separate target-specific approval.

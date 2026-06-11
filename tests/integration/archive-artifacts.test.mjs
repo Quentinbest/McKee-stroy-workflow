@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import test from "node:test";
 import { gunzipSync, gzipSync } from "node:zlib";
 import {
@@ -43,6 +43,24 @@ test("archive export writes both expected tarballs", () => {
   assert.equal(manifest.assets.length, 2);
   assert.ok(existsSync(`${root}/release-assets/dist.tar.gz`));
   assert.ok(existsSync(`${root}/release-assets/reports.tar.gz`));
+});
+
+test("archive export recreates required reports from a clean generated state", () => {
+  const generatedReports = [
+    "reports/package-artifacts.json",
+    "reports/package-doctor.json",
+    "reports/package-install-smoke.json",
+    "reports/package-models.json",
+    "reports/package-pilots.json",
+    "reports/rc-artifacts.json",
+  ];
+  for (const path of generatedReports) rmSync(`${root}/${path}`, { force: true });
+
+  buildArchiveArtifacts(root);
+
+  for (const path of generatedReports) {
+    assert.ok(existsSync(`${root}/${path}`), `${path} was not regenerated`);
+  }
 });
 
 test("archive verification validates manifest and checksums", () => {

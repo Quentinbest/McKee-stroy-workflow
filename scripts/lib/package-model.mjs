@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -139,4 +139,24 @@ export function buildPackageModels(root = frameworkRoot()) {
       .flatMap((classification) => byClassification.get(classification) ?? [])
       .sort(),
   }));
+}
+
+export function buildPackageModelsReport(root = frameworkRoot()) {
+  const models = buildPackageModels(root);
+  const source = readPackageDistribution(root);
+  return {
+    schemaVersion: 1,
+    generatedAt: "package-model-runtime",
+    source: "src/distribution/packages.json",
+    packageCount: models.length,
+    packages: models,
+    skillCount: source.skillCatalog.length,
+  };
+}
+
+export function writePackageModelsReport(root = frameworkRoot()) {
+  const report = buildPackageModelsReport(root);
+  mkdirSync(join(root, "reports"), { recursive: true });
+  writeFileSync(join(root, "reports/package-models.json"), `${JSON.stringify(report, null, 2)}\n`);
+  return report;
 }

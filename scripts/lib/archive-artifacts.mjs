@@ -10,9 +10,13 @@ import {
 } from "node:fs";
 import { gunzipSync, gzipSync } from "node:zlib";
 import { join, relative, sep } from "node:path";
-import { writePackageArtifacts } from "./package-adapters.mjs";
+import {
+  writePackageArtifacts,
+  writePilotPackageArtifacts,
+} from "./package-adapters.mjs";
+import { writePackageDoctorReport } from "./package-doctor.mjs";
 import { writePackageInstallSmokeReport } from "./package-install-smoke.mjs";
-import { frameworkRoot } from "./package-model.mjs";
+import { frameworkRoot, writePackageModelsReport } from "./package-model.mjs";
 import { writeRcArtifacts } from "./release-artifacts.mjs";
 
 const TAR_BLOCK_SIZE = 512;
@@ -208,7 +212,10 @@ function archiveSpec(root) {
 }
 
 export function buildArchiveArtifacts(root = frameworkRoot()) {
+  writePackageModelsReport(root);
+  writePilotPackageArtifacts(root);
   writePackageArtifacts(root);
+  writePackageDoctorReport(root);
   writeRcArtifacts(root);
   writePackageInstallSmokeReport(root);
   const assetRoot = join(root, "release-assets");

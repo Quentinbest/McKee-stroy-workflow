@@ -30,7 +30,7 @@
 - [x] Human literary quality review of a non-synthetic story lifecycle.
 - [x] Human operational usability review.
 - [x] Explicit stable-release approval.
-- [x] Explicit publication approval for GitHub RC `v1.0.0-rc.1`.
+- [x] Explicit publication approval for GitHub RC `v1.0.0-rc.2`.
 - [x] Top-level repository license review is complete: MIT.
 - [x] External release commands fail closed without both gates.
 
@@ -41,7 +41,7 @@ record: `reports/human-release-review.json`. Reviewer scorecard:
 
 ## Release Decision
 
-Stable `1.0.0` is approved. GitHub RC `v1.0.0-rc.1` is separately authorized
+Stable `1.0.0` is approved. GitHub RC `v1.0.0-rc.2` is separately authorized
 through a commit-bound approval record. Any other target, ref, source commit,
 or publication window requires a new approval.
 
