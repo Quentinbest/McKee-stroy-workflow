@@ -32,6 +32,10 @@ This is a **McKee-native story generation platform** — a hybrid of Claude Code
 
 Current workflow note: scene drafting now includes an internal **Beat Gate** before the full-scene critics run. The Beat Gate handles deterministic mechanical cleanup when provably safe, blind Beat critique, `AUTO` / `REVIEW` / `REJECT` classification, resumable per-scene ledgers, and rolling reader/pacing checks every 2-3 committed scenes.
 
+Repository maintainers can run `node scripts/run-beat-gate-dry-run.mjs` to
+exercise the runner, ledger, critic report, diversity escalation, and rolling
+review artifacts against synthetic prose without reading a real manuscript.
+
 The system is built on Robert McKee's *Story* (1997) — the most rigorous published framework for story structure, character, genre, and meaning. Everything the system produces is grounded in McKee's methodology: every scene must turn, every crisis must be a true dilemma, every controlling idea must be dramatized through structure rather than asserted through dialogue.
 
 **What it is not**: a prompt-based story generator. The system runs iterative workflows, tracks project state, spawns critic agents with fresh eyes, and enforces convergence protocols. It is a *platform for serious craft*, not an autocomplete.

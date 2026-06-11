@@ -8,6 +8,7 @@ const requiredFiles = [
   "templates/lifecycle.json",
   "skills/story-beat-gate/SKILL.md",
   "skills/story-beat-gate/scripts/beat-gate-rules.mjs",
+  "scripts/run-beat-gate-dry-run.mjs",
   "agents/blind-beat-critic.md",
   "agents/diversity-challenger.md",
   "tests/beat-gate-rules.test.mjs",
@@ -17,7 +18,8 @@ const requiredFiles = [
   "tests/story-authority-boundaries.test.mjs",
   "tests/rolling-reader-check.test.mjs",
   "tests/beat-gate-resume.test.mjs",
-  "tests/beat-gate-workflow.test.mjs"
+  "tests/beat-gate-workflow.test.mjs",
+  "tests/beat-gate-e2e.test.mjs"
 ];
 
 const jsonFiles = [
@@ -51,6 +53,10 @@ const stringChecks = [
   {
     file: "README.md",
     needle: "internal Beat Gate"
+  },
+  {
+    file: "README.md",
+    needle: "run-beat-gate-dry-run.mjs"
   },
   {
     file: "MANUAL.md",

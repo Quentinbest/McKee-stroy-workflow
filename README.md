@@ -149,12 +149,18 @@ cp -r McKee-stroy-workflow/agents/* your-story-project/.claude/agents/
 # Optional: verify Beat Gate contracts and fixtures
 node scripts/verify-beat-gate.mjs
 node --test tests/*.test.mjs
+node scripts/run-beat-gate-dry-run.mjs
 
 # Scaffold a new project
 mkdir -p drafts/my-story/{characters,scenes,prose}
 cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
 cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 ```
+
+The dry run creates a synthetic story project under a temporary directory and
+verifies deterministic cleanup, protected-field rejection, human decisions,
+non-convergence escalation, and rolling review artifacts without using a real
+manuscript.
 
 ---
 
