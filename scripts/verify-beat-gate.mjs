@@ -1,0 +1,127 @@
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+
+const requiredFiles = [
+  "templates/beat-gate-policy.json",
+  "templates/beat-gate-ledger.json",
+  "templates/lifecycle.json",
+  "skills/story-beat-gate/SKILL.md",
+  "skills/story-beat-gate/scripts/beat-gate-rules.mjs",
+  "agents/blind-beat-critic.md",
+  "agents/diversity-challenger.md",
+  "tests/beat-gate-rules.test.mjs",
+  "tests/beat-gate-skill-contract.test.mjs",
+  "tests/beat-gate-agent-contracts.test.mjs",
+  "tests/story-scene-beat-gate.test.mjs",
+  "tests/story-authority-boundaries.test.mjs",
+  "tests/rolling-reader-check.test.mjs",
+  "tests/beat-gate-resume.test.mjs",
+  "tests/beat-gate-workflow.test.mjs"
+];
+
+const jsonFiles = [
+  "templates/beat-gate-policy.json",
+  "templates/beat-gate-ledger.json",
+  "templates/lifecycle.json",
+  "tests/fixtures/beat-gate/normal.json",
+  "tests/fixtures/beat-gate/protected-field.json",
+  "tests/fixtures/beat-gate/ambiguous.json",
+  "tests/fixtures/beat-gate/non-convergent.json",
+  "tests/fixtures/beat-gate/rolling-window.json"
+];
+
+const stringChecks = [
+  {
+    file: "skills/story-scene/SKILL.md",
+    needle: "/story-beat-gate"
+  },
+  {
+    file: "skills/story-scene/SKILL.md",
+    needle: "drafts/{slug}/audit/rolling/{through-scene}-reader.md"
+  },
+  {
+    file: "skills/story-status/SKILL.md",
+    needle: "Beat Gate version status"
+  },
+  {
+    file: "skills/story-revise/SKILL.md",
+    needle: "Rolling WINDOW reports may inform priorities"
+  },
+  {
+    file: "README.md",
+    needle: "internal Beat Gate"
+  },
+  {
+    file: "MANUAL.md",
+    needle: "Beat Gate"
+  },
+  {
+    file: "MANUAL-ZH.md",
+    needle: "Beat Gate"
+  }
+];
+
+const bannedSessionFile =
+  "pi-session-2026-06-10T11-12-49-706Z_" +
+  "019eb13c-2622-742f-8fea-23b14b2644e6.html";
+
+function fail(message) {
+  console.error(`FAIL: ${message}`);
+  process.exitCode = 1;
+}
+
+for (const file of requiredFiles) {
+  if (!fs.existsSync(file)) {
+    fail(`Missing required file: ${file}`);
+  }
+}
+
+for (const file of jsonFiles) {
+  try {
+    JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch (error) {
+    fail(`Invalid JSON in ${file}: ${error.message}`);
+  }
+}
+
+const lifecycle = JSON.parse(fs.readFileSync("templates/lifecycle.json", "utf8"));
+if (!lifecycle.workflow_versions || !Object.prototype.hasOwnProperty.call(lifecycle.workflow_versions, "beat_gate")) {
+  fail("templates/lifecycle.json is missing workflow_versions.beat_gate");
+}
+
+for (const { file, needle } of stringChecks) {
+  const content = fs.readFileSync(file, "utf8");
+  if (!content.includes(needle)) {
+    fail(`${file} is missing required text: ${needle}`);
+  }
+}
+
+const repoRoot = process.cwd();
+const pathsToScan = ["tests", "scripts", "skills", "agents", "templates"];
+for (const scanRoot of pathsToScan) {
+  const stack = [scanRoot];
+  while (stack.length) {
+    const current = stack.pop();
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const absolute = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(absolute);
+        continue;
+      }
+      const content = fs.readFileSync(absolute, "utf8");
+      if (content.includes(bannedSessionFile)) {
+        fail(`Private session filename leaked into ${absolute}`);
+      }
+      if (content.includes(repoRoot)) {
+        fail(`Absolute repo path leaked into ${absolute}`);
+      }
+    }
+  }
+}
+
+if (process.exitCode) {
+  process.exit(process.exitCode);
+}
+
+console.log("Beat Gate verification: PASS");

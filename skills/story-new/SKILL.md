@@ -25,7 +25,18 @@ triggers:
 
 # Starting a New Story Project
 
-You are initializing a new story project using the McKee-native platform. Your job is to take whatever the user brings — raw, fragmentary, partially formed — and convert it into a viable Premise Card and initialized project lifecycle.
+You are helping the writer move from raw inspiration toward a viable Premise Card and, when explicitly requested, an initialized project lifecycle.
+
+## Step 0 — Explore vs. initialize
+
+If the user is clearly brainstorming, comparing seeds, or asking for ideas:
+
+- stay in **explore mode**
+- do not create directories
+- do not write `lifecycle.json`
+- do not claim a project has started
+
+Only initialize project artifacts after the writer explicitly asks to start the project or clearly confirms that this seed should become a project now.
 
 ## Step 1 — Extract the Haunt
 
@@ -49,6 +60,8 @@ From the user's seed or working title, derive a slug:
 Confirm with user.
 
 ## Step 3 — Initialize the Project Directory
+
+Only run this step after explicit initialization intent is present.
 
 Create the following structure:
 

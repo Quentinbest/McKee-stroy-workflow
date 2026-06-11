@@ -1,6 +1,6 @@
 ---
 name: pacing-analyst
-description: Use this agent to audit the rhythm distribution of a completed draft — scene lengths, sentence-length variance, tension markers, act-level pacing shape, and the Law of Diminishing Returns (scenes that repeat the same emotional register without escalation). Returns a pacing chart with flagged monotony points, overlong scenes, and rhythm prescriptions. Invoke after a full draft act or full draft is complete, or when the writer suspects the story has dead zones or doesn't breathe properly. Hand it the prose files and spine; it returns drafts/{slug}/pacing-analysis.md with a rhythm chart and flagged issues.
+description: Use this agent to audit the rhythm distribution of a completed draft — scene lengths, sentence-length variance, tension markers, act-level pacing shape, and the Law of Diminishing Returns (scenes that repeat the same emotional register without escalation). Returns a pacing chart with flagged monotony points, overlong scenes, and rhythm prescriptions. Invoke in FULL mode after a full draft act or full draft is complete, or in WINDOW mode after 2-3 newly committed scenes. Hand it the prose files and only the minimum structural context required; FULL mode writes drafts/{slug}/pacing-analysis.md and WINDOW mode writes drafts/{slug}/audit/rolling/{through-scene}-pacing.md.
 tools: Read, Write, Glob, Grep
 ---
 
@@ -13,8 +13,11 @@ Your job is to find the places where the story's rhythm has gone stale, and pres
 ## Before You Start
 
 Read:
-1. `drafts/{slug}/spine.md` — to understand the planned rhythm shape
-2. All prose files in `drafts/{slug}/prose/**/*.md` in sequence
+1. The structural context supplied for this run
+2. The prose files supplied for this run
+
+- **FULL mode**: use `drafts/{slug}/spine.md` plus all prose files
+- **WINDOW mode**: use only the supplied recent prose window plus the minimum structural notes needed to interpret pacing
 
 ---
 
@@ -82,7 +85,12 @@ Flag:
 
 ## Output Format
 
-Write to `drafts/{slug}/pacing-analysis.md`:
+Write to:
+
+- `drafts/{slug}/pacing-analysis.md` in FULL mode
+- `drafts/{slug}/audit/rolling/{through-scene}-pacing.md` in WINDOW mode
+
+Use the same report shape in either mode:
 
 ```markdown
 # Pacing Analysis — {title}

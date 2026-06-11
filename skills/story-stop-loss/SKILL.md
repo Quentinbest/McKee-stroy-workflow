@@ -53,7 +53,7 @@ If the artifact is entering the loop and **already passes** all floor predicates
 |---|---|
 | Repair loop (artifact fails floor predicates) | **5 rounds** |
 | Quality elevation loop (artifact passes floor) | **3 rounds** |
-| Single-beat revision within a scene | **3 rounds** |
+| Single-beat revision within Beat Gate | **3 rounds** |
 | Critic disagreement (one critic flags, others pass) | **2 rounds** |
 
 A **round** = one full generate-critique-revise cycle on the same artifact.
@@ -145,4 +145,8 @@ SAME PREDICATE 3×:  escalate immediately (don't wait for cap)
 CAP REACHED:        present best version + paths A/B/C
 BACKTRACK DEPTH:    3 levels max, then escalate
 NEVER:              silently declare failing artifact "done"
+
+Beat Gate note:
+- Round 2 on the same unresolved Beat predicate requires a diversity challenge.
+- Round 3 requires upstream backtracking or explicit human adjudication.
 ```

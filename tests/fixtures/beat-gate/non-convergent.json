@@ -1,0 +1,16 @@
+{
+  "scene_ref": "2-3",
+  "current_round": 2,
+  "predicate": "text_equals_want",
+  "history": [
+    {
+      "round": 1,
+      "action": "review"
+    },
+    {
+      "round": 2,
+      "action": "diversity_required"
+    }
+  ],
+  "next_expected": "upstream_or_human"
+}

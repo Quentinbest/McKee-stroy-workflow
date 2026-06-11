@@ -120,7 +120,7 @@ Triggered by `/command` or natural language. Visible to the user. Orchestrate do
 | `/story-premise` | Lock a premise from a slate of candidates |
 | `/story-spine` | Build or revise the spine (Inciting → Crisis → Climax) |
 | `/story-cast` | Design and audit the full cast as a pressure system |
-| `/story-scene` | Draft or revise a single scene (most-used skill) |
+| `/story-scene` | Draft or revise a single scene; local Beat work now passes through an internal Beat Gate before full-scene critics |
 | `/story-act` | Plan an act's scene sequence |
 | `/story-audit` | Run the full critic suite over current draft |
 | `/story-revise` | Multi-pass revision orchestrator (one issue per pass) |
@@ -174,10 +174,10 @@ Audit artifacts with **fresh eyes**. Must not see the generator's reasoning. Par
 | `subtext-whisperer` | Text ≠ subtext ≠ desire |
 | `continuity-supervisor`* | World rules, character knowledge, physical possibility |
 | `voice-drift-detector`* | Line-level voice consistency vs anchors |
-| `reader-simulator`* | Reads blind; reports engagement curve & confusion points |
+| `reader-simulator`* | Reads blind; reports FULL-draft or WINDOW engagement findings |
 | `tournament-judge`* | Blind ranking of N candidates against criteria |
 | `specificity-auditor`* | Flags generic nouns / verbs that need forge invocation |
-| `pacing-analyst`* | Scene length & rhythm distribution |
+| `pacing-analyst`* | Scene length & rhythm distribution, including WINDOW checks |
 
 ### Specialist Agents
 

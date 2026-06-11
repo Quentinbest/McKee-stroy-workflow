@@ -57,16 +57,21 @@ The moment of gap (expectation vs. result) is where story lives. When a characte
 
 Write the prose to: `drafts/{slug}/prose/{act}-{scene}-draft.md`
 
-Add beat-progress markers as you complete each beat:
-```
-<!-- Beat 1 ✓ -->
-<!-- Beat 2 ✓ -->
+Do not place beat-progress markers or review notes inline inside the reader-facing prose body.
+
+If you need authoring annotations, place them under a trailing authoring fence:
+```markdown
+<!-- AUTHORING (stripped at publish) -->
+- Beat 1 ✓
+- Beat 2 ✓
+- VOICE CHECK: ...
+- SUBTEXT CHECK: ...
 ```
 
 After completing the full draft:
 1. Read the whole scene aloud (mentally) for rhythm and voice consistency
-2. Flag any line that violates voice anchors as a `<!-- VOICE CHECK: ... -->` comment
-3. Flag any line where text ≈ want as `<!-- SUBTEXT CHECK: ... -->`
+2. Flag any line that violates voice anchors inside the authoring fence
+3. Flag any line where text ≈ want inside the authoring fence
 
 Return a brief summary of:
 - Scene drafted: {act}.{scene}

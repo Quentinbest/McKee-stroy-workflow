@@ -30,6 +30,8 @@ The cast is not a list of characters — it's a **system of pressures**. Every c
 
 McKee: *"Every principal character must be justified by the unique pressure they exert on the protagonist's arc."*
 
+Locked character desire is protected creative authority. Local scene repair may identify a desire mismatch, but only the writer can reopen a character's conscious desire or redefine the pressure system that grows from it.
+
 ## Step 1 — Inventory Existing Characters
 
 Read all files in `drafts/{slug}/characters/`. List:
@@ -83,6 +85,7 @@ For each recommendation:
 - **Merge**: Combine two characters' functions into one — rewrite the remaining file
 - **Promote**: Elevate a minor character to a principal role — expand the file
 - **Add**: Create a new character for an uncovered pressure (loop to Step 3)
+- **Reopen desire**: if a downstream Beat or scene failure implies the locked desire is wrong, stop and ask for explicit writer approval before changing it. Name the invalidation scope before applying the change.
 
 ## Step 6 — Write the Cast Roster
 

@@ -29,6 +29,8 @@ triggers:
 
 A premise is not a plot summary. It is the story's **nucleus**: *who wants what against what opposition*. From this nucleus, all structure grows.
 
+Once locked, the premise is a protected creative contract. Suggestions may diagnose a mismatch, but the system must not silently mutate the premise. Reopening it always requires an explicit writer decision.
+
 McKee's three-part premise structure:
 1. **Who** — the protagonist (defined by wound, want, and True Character)
 2. **Wants what** — the Object of Desire (specific, active, achievable)
@@ -86,6 +88,8 @@ When the user chooses, write `drafts/{slug}/premise-card.md` and update `lifecyc
 "state": "premise_locked",
 "locked": { "premise": true }
 ```
+
+If an existing locked premise must change, surface the conflict explicitly and ask whether the writer wants to reopen the premise. Do not edit the locked premise card without that decision.
 
 Suggest next:
 - `/mck-controlling-idea` to forge the theme
