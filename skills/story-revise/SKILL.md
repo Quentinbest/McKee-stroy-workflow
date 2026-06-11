@@ -105,10 +105,13 @@ Do not rewrite whole paragraphs — only the generic element.
 **Fix**: Pacing issues, engagement drops, confusion points.
 
 Process:
-1. Spawn `reader-simulator` with the prose files ONLY (no spine, no character files — blind read)
-2. In parallel, spawn `pacing-analyst` with prose + spine for a rhythm/escalation audit
-3. Merge findings: engagement drops + pacing problems in the same scene = high priority
-4. Execute targeted fixes: cut slack, clarify confusing transitions, insert breathing beats
+1. Review any existing rolling WINDOW reports under `drafts/{slug}/audit/rolling/` to see whether a pattern was already flagged earlier.
+2. Spawn `reader-simulator` in FULL mode with the prose files ONLY (no spine, no character files — blind read).
+3. In parallel, spawn `pacing-analyst` in FULL mode with prose + spine for a rhythm/escalation audit.
+4. Merge findings: engagement drops + pacing problems in the same scene = high priority.
+5. Execute targeted fixes: cut slack, clarify confusing transitions, insert breathing beats.
+
+Rolling WINDOW reports may inform priorities, but they never substitute for the final full-draft Pass 7 read.
 
 ## Pass Tracking
 

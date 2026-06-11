@@ -30,6 +30,12 @@
 
 This is a **McKee-native story generation platform** — a hybrid of Claude Code skills and specialized agents that takes a writer from a raw fragment of inspiration through to a structurally sound, polished prose draft.
 
+Current workflow note: scene drafting now includes an internal **Beat Gate** before the full-scene critics run. The Beat Gate handles deterministic mechanical cleanup when provably safe, blind Beat critique, `AUTO` / `REVIEW` / `REJECT` classification, resumable per-scene ledgers, and rolling reader/pacing checks every 2-3 committed scenes.
+
+Repository maintainers can run `node scripts/run-beat-gate-dry-run.mjs` to
+exercise the runner, ledger, critic report, diversity escalation, and rolling
+review artifacts against synthetic prose without reading a real manuscript.
+
 The system is built on Robert McKee's *Story* (1997) — the most rigorous published framework for story structure, character, genre, and meaning. Everything the system produces is grounded in McKee's methodology: every scene must turn, every crisis must be a true dilemma, every controlling idea must be dramatized through structure rather than asserted through dialogue.
 
 **What it is not**: a prompt-based story generator. The system runs iterative workflows, tracks project state, spawns critic agents with fresh eyes, and enforces convergence protocols. It is a *platform for serious craft*, not an autocomplete.
@@ -242,6 +248,8 @@ The skill:
 
 The agent returns 5 candidates. Review them. Pick one, or request a variant. The skill writes `premise-card.md` and advances the lifecycle.
 
+If you are only exploring seeds or asking for variants, `/story-new` now stays in explore mode and must not create project files until you explicitly start the project.
+
 ### Step 3 — Forge the Controlling Idea
 
 ```
@@ -405,14 +413,16 @@ That's it. From seed to prose in 7 steps.
 2. **Load Context** — Scene Card, character files, world-bible, voice anchors, preceding prose, persona working reference
 3. **5-Layer Subtext Model** — for each character: Wound / Want / Fear / Tactic / Text Strategy (filled in *before* any prose is written; shown to user for confirmation)
 4. **Gap Identification** — what does the POV character expect? What does the scene actually deliver?
-5. **Draft Beat by Beat** — one beat at a time; each beat filtered through the persona Decision Protocol (Belief / Beauty / Refusal / Truth); shown to user beat by beat
+5. **Draft Candidate Beats + Beat Gate** — each beat is drafted as a candidate, filtered through the persona Decision Protocol, then sent through `/story-beat-gate` for deterministic scan + blind Beat critique + one consolidated writer decision
 6. **Turning Point Check** — value charge has begun to shift; turning point is in action, not speech
-7. **Critic Audits** — `cliche-hunter` + `subtext-whisperer` + `continuity-supervisor`, run by the capability ladder (parallel agents → native critic tools → in-context sequential with a fresh-eyes reset). A self-audit-bias warning flags the drafter re-introducing the persona's forbidden moves (narrated realization, the `行为—破折号—解释` gloss). Each critic writes its report to disk before returning.
-8. **Revise** — apply findings; stop-loss enforces 3-round cap per beat
-9. **Commit** — bleed scan (strip authoring tokens / beat comments per the prose-body vs `<!-- AUTHORING -->` fence convention) → write prose file → update state.json → update Scene Card
-10. **Post-Commit Coherence** — image-system cadence check (motif gaps, Key Image status, new motifs detected) + setup-payoff ledger check (dangling setups, new setup detection, groundless payoffs)
+7. **Full-Scene Critic Audits** — `cliche-hunter` + `subtext-whisperer` + `continuity-supervisor`, run by the capability ladder (parallel agents → native critic tools → in-context sequential with a fresh-eyes reset). A self-audit-bias warning flags the drafter re-introducing the persona's forbidden moves (narrated realization, the `行为—破折号—解释` gloss). Each critic writes its report to disk before returning.
+8. **Revise** — apply findings; Beat Gate round 2 on the same predicate requires diversity challenge, round 3 requires upstream backtracking or explicit human adjudication
+9. **Commit** — bleed scan (strip authoring tokens / beat comments per the prose-body vs `<!-- AUTHORING -->` fence convention) → write prose file → update state.json → update Scene Card → persist Beat Gate ledger
+10. **Post-Commit Coherence** — image-system cadence check + setup-payoff ledger check + rolling WINDOW reader/pacing check every 2-3 newly committed scenes
 
 **Drafting mode**: single-scene by default. When asked to draft a whole sequence or act, **batch mode** runs the full workflow per scene but only pauses at sequence turning points (or on a Critical critic finding, a backtrack trigger, or a geography contradiction) — removing the per-scene "Continue." nudge while keeping the guardrails.
+
+**Detect-only fallback**: if the host cannot run the fixed Beat Gate runner, local mechanical findings stay `REVIEW`; the system must not self-authorize `AUTO`.
 
 **Backtracking Protocol**: if a scene repeatedly fails a predicate, the skill diagnoses the upstream cause (Scene Card / character want-wound / spine event) and proposes a specific mutation. Maximum 3 backtrack levels.
 
@@ -832,8 +842,10 @@ These agents read the draft blind and return findings. Their cold-start is a fea
 | `continuity-supervisor` | World-rule violations; character knowledge anachronisms; physical impossibilities; timeline errors | `/story-scene` |
 | `voice-drift-detector` | Voice inconsistencies against voice-anchors.md; wrong-era vocabulary; register drift | `/story-revise` Pass 5 |
 | `specificity-auditor` | Generic nouns and verbs; ranked ledger (CRITICAL / MAJOR / MINOR); world-bible-aware replacements | `/story-revise` Pass 6 |
-| `reader-simulator` | Blind read: engagement curve, confusion points, where interest drops | `/story-revise` Pass 7 |
-| `pacing-analyst` | Scene length distribution; rhythm variation; Law of Diminishing Returns violations | `/story-revise` Pass 7 |
+| `reader-simulator` | Blind read: FULL-draft engagement curve, or WINDOW reports after 2-3 committed scenes | `/story-revise` Pass 7, rolling review |
+| `pacing-analyst` | Scene length distribution; rhythm variation; FULL-draft or WINDOW pacing reports | `/story-revise` Pass 7, rolling review |
+| `blind-beat-critic` | Beat-level blind critique with bounded scene context only | `/story-scene` via `/story-beat-gate` |
+| `diversity-challenger` | Mechanism-level alternatives when a Beat repeats or fails to converge | `/story-scene` via `/story-beat-gate` |
 | `surprise-auditor` | Misdirection integrity; dual-reading availability per plant; reveal choreography at Climax | `/mck-surprise-plant AUDIT`, `/story-audit` |
 | `tournament-judge` | Blind ranking of N candidates against McKee criteria; returns ranked list + rationale + winner | `/story-tournament`, various |
 
@@ -858,6 +870,7 @@ These agents read the draft blind and return findings. Their cold-start is a fea
 ### `lifecycle.json`
 
 Tracks project state. Updated by workflow skills after each lifecycle gate.
+`workflow_versions.beat_gate` plus the Beat Gate artifact paths track whether a project is current, stale, or unverified for the Beat Gate workflow.
 
 Key fields:
 - `slug` — project identifier, used in all file paths
@@ -870,6 +883,7 @@ Key fields:
 ### `state.json`
 
 Tracks scene-level continuity state. Updated by `/story-scene` Step 9 after each committed scene. Queried by `continuity-supervisor` before each scene draft.
+Beat Gate evidence does **not** live here. It lives in `drafts/{slug}/audit/beat-gate/` and `drafts/{slug}/audit/rolling/`.
 
 Key blocks:
 - `characters` — per character: location, knowledge facts, possessions, relationships, wound status, current desire, value charge, arc progress

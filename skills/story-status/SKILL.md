@@ -37,6 +37,7 @@ Read `lifecycle.json`. Extract:
 - `state` (current lifecycle stage)
 - `locked` (map of what's done)
 - `artifacts` (paths)
+- `workflow_versions.beat_gate` if present
 
 ## Step 3 — Read Artifact Presence
 
@@ -44,6 +45,11 @@ For each artifact path in `artifacts`, check if the file exists and is non-stub.
 - Scene cards in `scenes/`
 - Prose files in `prose/`
 - Character files in `characters/`
+
+If Beat Gate artifacts are declared:
+- read the newest scene ledger under `drafts/{slug}/audit/beat-gate/`
+- extract the current Beat, current round, pending writer decision, and `execution_mode`
+- read the newest rolling report under `drafts/{slug}/audit/rolling/` if present
 
 **Stale-manuscript check**: if `manuscript.md` exists, compare its modified time against the newest file in `prose/`. If any prose file is newer than the manuscript, the manuscript is **stale** — prose was edited after the last assembly (a common situation after a post-publish expansion). Flag it as a blocking issue and recommend re-running `/story-publish` to regenerate. Do the same for `colophon.md` word counts if present.
 
@@ -75,6 +81,10 @@ ARTIFACTS
   Characters:   {N} files
   Scene Cards:  {N} files
   Prose:        {N} files
+  Beat Gate:    {current | stale | unverified | absent}
+  Current Beat: {scene/beat or none}
+  Pending Gate: {writer decision or none}
+  Last Rolling: {most recent rolling report or none}
 
 NEXT STEP
   → {suggested next action}
@@ -101,5 +111,10 @@ Based on `state`, suggest the next natural action:
 | `done` | Project complete. To extend it (e.g. expand under-built acts), say so — this re-opens to `polished` and the manuscript will need regenerating. |
 
 If a gate is locked but its artifact file is missing or stubbed, flag it as a potential issue.
+
+**Beat Gate version status**
+- `current`: lifecycle metadata and the latest ledger agree on the same Beat Gate version
+- `stale`: the ledger was produced by an older Beat Gate version than the installed workflow expects
+- `unverified`: the project has Beat Gate artifacts but no trustworthy version marker
 
 **Note on `done`:** `done` is not a dead-end. Post-publish edits are legitimate (the most common is expanding an act that came in under budget). When prose changes after `done`, treat the project as re-opened to `polished`: the manuscript, colophon word-count, and lifecycle notes are now stale and must be regenerated via `/story-publish`. The stale-manuscript check above will catch this automatically.

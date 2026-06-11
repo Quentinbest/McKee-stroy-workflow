@@ -1,0 +1,13 @@
+{
+  "through_scene": "2-3",
+  "window_scenes": [
+    "2-1",
+    "2-2",
+    "2-3"
+  ],
+  "expected_outputs": [
+    "drafts/example/audit/rolling/2-3-reader.md",
+    "drafts/example/audit/rolling/2-3-pacing.md"
+  ],
+  "advisory_only": true
+}

@@ -1,0 +1,32 @@
+{
+  "policy": {
+    "version": "1.0.0",
+    "auto_rules": [
+      "locked_term_alias",
+      "unknown_rule"
+    ],
+    "review_rules": [
+      "ambiguous_term_mapping",
+      "unknown_rule",
+      "malformed_authoring_comment"
+    ],
+    "protected_fields": [
+      "premise"
+    ],
+    "term_mappings": [
+      {
+        "canonical": "Scene Card",
+        "aliases": [
+          "board"
+        ]
+      },
+      {
+        "canonical": "Beat Sheet",
+        "aliases": [
+          "board"
+        ]
+      }
+    ]
+  },
+  "candidate_text": "The board was open.\n<!-- Beat 1"
+}

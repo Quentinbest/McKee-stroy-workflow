@@ -3,9 +3,10 @@ name: story-scene
 description: |
   Draft or revise a single scene — the most-used skill in the platform. Loads
   the Scene Card, walks through the 5-layer subtext authoring model in-context,
-  generates prose iteratively with user able to interject, then runs critic
-  audits (cliche-hunter, subtext-whisperer, continuity-supervisor — as agents
-  where supported, else in-context) before committing the scene to the project.
+  generates candidate Beats, runs an internal Beat Gate for deterministic fixes
+  and blind critique, then runs full-scene critic audits
+  (cliche-hunter, subtext-whisperer, continuity-supervisor — as agents where
+  supported, else in-context) before committing the scene to the project.
   The primary scene-writing workflow.
   Trigger: /story-scene, "write scene", "draft scene", "scene 2.3",
   "work on scene", "write the next scene".
@@ -27,7 +28,7 @@ triggers:
 
 # Scene Drafting Workflow
 
-This is the primary scene-writing skill. It runs in main context — the methodology is visible, the user can interject at any step. Agents are spawned only for isolated audits at the end.
+This is the primary scene-writing skill. It runs in main context — the methodology is visible, the user can interject at any step. Beat-level local quality now flows through an internal Beat Gate before the scene-level critics run.
 
 ## Drafting Mode — single scene vs. sequence batch
 
@@ -83,22 +84,33 @@ Before writing, confirm:
 
 If the gap is "none" or "as expected" → redesign the scene's turning point before drafting.
 
-## Step 5 — Draft Prose Beat by Beat
+## Step 5 — Draft Candidate Beats, then run Beat Gate
 
 Translate the beat sheet (or infer beats from the Scene Card) into prose, one beat at a time.
 
 For each beat:
-- Write the beat
+- Write a candidate Beat
 - Apply sensory specificity (at least one non-visual sense)
 - Apply subtext (no character says what they mean)
-- Run the persona Decision Protocol silently (Belief / Beauty / Refusal / Truth filters). If the beat passes all four: show it. If any filter fails: flag the failure and offer two alternatives.
-- Show to user — ask if it lands
-- If user says yes, move to the next beat
-- If user says no, revise in place before moving on
+- Run the persona Decision Protocol silently (Belief / Beauty / Refusal / Truth filters). If the Beat fails any filter: flag the failure before sending it into Beat Gate.
+- Invoke `/story-beat-gate` with the candidate Beat, bounded Scene Contract, continuity excerpt, and current round state.
+- The Beat Gate returns:
+  - a cleaned Beat
+  - applied `AUTO` fixes
+  - remaining `REVIEW`
+  - any `REJECT`
+  - the writer actions available for this round
+- Show **one consolidated result** to the user rather than one question per micro-patch.
+- If the writer accepts: move to the next beat.
+- If the writer revises: revise in place and re-run Beat Gate for that Beat only.
+- If batch mode is active and the Beat is safe to defer: record `deferred_to_batch_boundary` and continue without claiming final aesthetic acceptance.
+- If the Beat Gate surfaces a protected-field conflict, critical issue, or stop-loss escalation: pause immediately even in batch mode.
 
 POV consistency: maintain the scene's POV throughout. Never slip into another character's interiority.
 
 Rhythm: defer to the Formal Habits in the persona (sentence length axis, verb orientation axis). If no persona: vary sentence length — fragments for shock; long sentences for dread.
+
+**Resumability:** if `drafts/{slug}/audit/beat-gate/{act}-{scene}.json` already records an incomplete Beat, resume from the first incomplete stage instead of redrafting or rerunning completed checks.
 
 ## Step 6 — Turning Point Check
 
@@ -107,9 +119,9 @@ At the scene's midpoint or climax, confirm:
 - The turning point is in the **scene's action**, not in a speech
 - After the turning point, the scene moves toward its close at the new value charge
 
-## Step 7 — Run Critic Audits (capability ladder)
+## Step 7 — Run Full-Scene Critic Audits (capability ladder)
 
-When the draft is complete, run three critics on the new scene. Use the highest rung the host supports (same ladder as `/story-audit` Step 0):
+When the draft is complete, run the full-scene critics on the new scene. Beat Gate does **not** replace this step; it protects each Beat before the scene-level pass. Use the highest rung the host supports (same ladder as `/story-audit` Step 0):
 
 1. **Parallel agents** (Claude Code with `Agent`): spawn all three as isolated agents — true fresh eyes.
 2. **Native critic tools** (e.g. Pi `cliche_hunt`, `subtext_check`): call them.
@@ -136,7 +148,9 @@ Apply revision findings:
 
 If more than 2 critics flag the same beat → drop into a focused revision loop on that beat. Cap at 3 rounds.
 
-If the same predicate fails 3 consecutive rounds → do not run a 4th. Apply the **Backtracking Protocol** below before escalating to the user.
+If the same predicate fails for the same Beat:
+- **Round 2**: ordinary patching stops and a diversity challenge is required.
+- **Round 3**: do not run a 4th ordinary loop. Apply the **Backtracking Protocol** below or escalate to the user for adjudication.
 
 ## Backtracking Protocol (V2)
 
@@ -211,6 +225,11 @@ Update `drafts/{slug}/state.json` if it exists:
 
 Update Scene Card with `status: complete` and `prose_file` path.
 
+Update the Beat Gate ledger for the scene:
+- Persist the final writer decision for each Beat
+- Mark any deferred Beat as resolved when the batch boundary decision lands
+- Record `execution_mode`, round counts, and whether diversity or upstream backtracking was triggered
+
 **Persona Voice Anchor update**: if `persona.md` exists and Voice Anchors section contains stubs, and 3 or more scenes are now committed — run `/story-persona LOAD` (B2 only) to populate Voice Anchors from the committed prose. This keeps the persona grounded in actual work rather than intention.
 
 ## Step 10 — Post-Commit Coherence Check (V2)
@@ -245,6 +264,17 @@ If `state.json` has a `setup_payoff_ledger` array:
 3. **Groundless payoff check**: if the scene resolves something (a character acts on information, uses an object, fulfills a promise), verify there's a corresponding setup entry. If none: *"Payoff without registered setup: '{element}'. Either plant the setup in an earlier scene or register retroactively."*
 
 If no `state.json` exists: this is degraded mode (continuity tracking, image-system, and setup-payoff checks are all disabled). It should have been scaffolded at `/story-act` Step 7. Prompt: *"No state.json found — running in degraded mode. Scaffold it from `templates/state.json` (or re-run `/story-act` Step 7) to enable continuity, image-system, and setup-payoff tracking."* Skip the rest of Step 10.
+
+### 10C — Rolling blind read trigger
+
+After every 2-3 newly committed Scenes, unless the writer disabled it for this project:
+
+1. Run `reader-simulator` in WINDOW mode over the most recent prose window only.
+2. Run `pacing-analyst` in WINDOW mode over the same prose window plus minimal structural context.
+3. Write the reports to:
+   - `drafts/{slug}/audit/rolling/{through-scene}-reader.md`
+   - `drafts/{slug}/audit/rolling/{through-scene}-pacing.md`
+4. Treat all rolling findings as advisory only. They may prioritize revision, but they must not automatically rewrite accepted prose.
 
 ---
 

@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "auto_rules": [
+    "strip_authoring_comment",
+    "normalize_blank_lines",
+    "locked_term_alias"
+  ],
+  "review_rules": [
+    "forbidden_gloss_pattern",
+    "protected_contract_overlap",
+    "ambiguous_term_mapping",
+    "malformed_authoring_comment",
+    "unknown_rule"
+  ],
+  "protected_fields": [
+    "premise",
+    "character_desire",
+    "relationship_stance",
+    "causality",
+    "gap",
+    "turning_point",
+    "value_shift",
+    "world_core_fact"
+  ],
+  "round_thresholds": {
+    "diversity_required": 2,
+    "upstream_or_human": 3
+  },
+  "rolling_review": {
+    "enabled": true,
+    "cadence_scenes": 3
+  },
+  "term_mappings": [
+    {
+      "canonical": "Scene Card",
+      "aliases": [
+        "scene card"
+      ]
+    },
+    {
+      "canonical": "Beat Sheet",
+      "aliases": [
+        "beat sheet"
+      ]
+    }
+  ]
+}

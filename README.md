@@ -10,6 +10,8 @@ Built on Robert McKee's *Story* methodology. See `story-plan.md` for the full im
 
 The skills are authored for Claude Code (where critics run as parallel isolated agents). They also run on hosts without an agent-spawning tool — OpenCode, Pi, etc. — by degrading gracefully: the critic suite falls to native critic tools (where the host provides them, e.g. Pi's `cliche_hunt`/`subtext_check`) or to in-context sequential passes with a fresh-eyes reset between dimensions. See `/story-audit` Step 0 (capability ladder) and its Cross-Platform Critic Map. On non-Claude-Code hosts the skill body is typically pasted/loaded as a prompt; the capability ladder is what makes that portable.
 
+`story-scene` now also uses an internal Beat Gate before full-scene critics: deterministic mechanical fixes when provably safe, blind Beat critique, one consolidated writer decision, resumable scene ledgers, and rolling reader/pacing checks every 2-3 committed scenes. Hosts without Node.js or command execution fall back to `detect-only` and never self-authorize `AUTO`.
+
 ---
 
 ## What This Is
@@ -71,7 +73,7 @@ Full lifecycle from seed to manuscript.
 | `story-spine` | Build the story skeleton (Inciting Incident → Crisis → Climax) |
 | `story-cast` | Design the full cast as a system of pressures |
 | `story-act` | Plan an act's scene sequence |
-| `story-scene` | Draft or revise a single scene (most-used skill) |
+| `story-scene` | Draft or revise a single scene with internal Beat Gate and rolling review |
 | `story-audit` | Run the full McKee critic suite |
 | `story-revise` | Multi-pass revision orchestrator |
 | `story-publish` | Final assembly and manuscript export |
@@ -90,7 +92,8 @@ Full lifecycle from seed to manuscript.
 ### Infrastructure Skills
 | Skill | Purpose |
 |---|---|
-| `story-stop-loss` | Stop-loss convergence protocol — iteration caps, three-strikes escalation, backtrack depth limit |
+| `story-stop-loss` | Stop-loss convergence protocol — iteration caps, Beat Gate diversity trigger at round 2, backtrack depth limit |
+| `story-beat-gate` | Internal Beat-level scan, blind critique, AUTO/REVIEW/REJECT classification, resumable ledger |
 | `story-persona` | Author Persona — FORGE / LOAD / APPLY modes; decision filter for all aesthetic choices |
 | `story-tournament` | Tournament generation for high-stakes creative decisions (also listed under V3 methodology) |
 
@@ -117,8 +120,10 @@ Drop into `.claude/agents/` in your project directory.
 - `tournament-judge` — Blind ranking of N candidates *(new)*
 - `voice-drift-detector` — Line-level voice consistency vs. anchors *(V2)*
 - `specificity-auditor` — Flags generic nouns/verbs; world-bible-aware *(V2)*
-- `reader-simulator` — Blind read; engagement curve and confusion points *(V2)*
-- `pacing-analyst` — Scene length, rhythm distribution, Law of Diminishing Returns *(V2)*
+- `reader-simulator` — Blind read; FULL-draft and WINDOW rolling engagement reports *(V2)*
+- `pacing-analyst` — Scene length, rhythm distribution, FULL-draft and WINDOW rolling pacing reports *(V2)*
+- `blind-beat-critic` — Beat-level blind critique with bounded scene context *(new)*
+- `diversity-challenger` — Mechanism-level alternatives when a Beat repeats or will not converge *(new)*
 - `surprise-auditor` — Naive read + misdirection plan cross-reference; verifies dual-reading plants and re-read moment at Climax *(V3)*
 
 ### Specialist Agents
@@ -141,11 +146,21 @@ cp -r McKee-stroy-workflow/skills/* ~/.claude/skills/
 # Install agents into your story project
 cp -r McKee-stroy-workflow/agents/* your-story-project/.claude/agents/
 
+# Optional: verify Beat Gate contracts and fixtures
+node scripts/verify-beat-gate.mjs
+node --test tests/*.test.mjs
+node scripts/run-beat-gate-dry-run.mjs
+
 # Scaffold a new project
 mkdir -p drafts/my-story/{characters,scenes,prose}
 cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
 cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 ```
+
+The dry run creates a synthetic story project under a temporary directory and
+verifies deterministic cleanup, protected-field rejection, human decisions,
+non-convergence escalation, and rolling review artifacts without using a real
+manuscript.
 
 ---
 
@@ -160,6 +175,8 @@ Work on a scene:
 ```
 /story-scene 2.3
 ```
+
+`/story-scene` now drafts candidate Beats, runs the internal Beat Gate, and asks for one consolidated Beat decision instead of one prompt per micro-patch.
 
 Apply subtext discipline to dialogue:
 ```
