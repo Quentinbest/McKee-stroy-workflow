@@ -21,11 +21,11 @@ function markdownFiles(path) {
     .sort();
 }
 
-function sourceVersion(source) {
+export function sourceVersion(source) {
   return source.match(/^version:\s*(.+)$/m)?.[1]?.trim() ?? "policy-1.0.0";
 }
 
-function generatedMarkdown(source, sourcePath) {
+export function generatedMarkdown(source, sourcePath) {
   const hash = sha256(source);
   const version = sourceVersion(source);
   if (!source.startsWith("---\n")) {
@@ -47,7 +47,7 @@ function generatedMarkdown(source, sourcePath) {
   return `${source.slice(0, end)}\n${metadata}${source.slice(end)}`;
 }
 
-function openCodeAgentMarkdown(source, sourcePath) {
+export function openCodeAgentMarkdown(source, sourcePath) {
   return generatedMarkdown(source, sourcePath).replace(/^tools:\s*.+\n/m, "");
 }
 

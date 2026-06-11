@@ -9,7 +9,7 @@ artifacts, and run comparable repository checks.
 | Harness | Entry | Skills | Roles | Runtime policy |
 |---|---|---|---|---|
 | Claude Code | `CLAUDE.md` | `.claude/skills/` | `.claude/agents/` | `.claude/settings.json` |
-| Cursor | `AGENTS.md`, rules | concise `.cursor/rules/` adapters | baseline single agent | native sandbox |
+| Cursor | `AGENTS.md`, `.cursor/rules/` | `.cursor/skills/` | baseline single agent with documented Role fallback | native sandbox |
 | Pi | `AGENTS.md` | `.agents/skills/` | baseline single agent | OS/process policy |
 | OpenCode | `AGENTS.md` | `.agents/skills/` | `.opencode/agents/` | `opencode.jsonc` |
 | Codex | root/scoped `AGENTS.md` | `.agents/skills/` | optional native delegation | `.codex/config.toml` |
@@ -30,3 +30,5 @@ verification equivalence, owner, and review date. Missing baseline discovery or
 safety enforcement is not an acceptable exception.
 
 See `compatibility-baseline.md` for the observed local environment.
+See `package-installation.md` for generated RC layouts, installation commands,
+and the isolated verification boundary.

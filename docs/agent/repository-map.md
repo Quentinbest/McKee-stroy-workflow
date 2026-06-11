@@ -6,12 +6,16 @@
 | `docs/agent/` | canonical project context | yes | framework |
 | `src/skills/` | canonical skill definitions | yes | domain |
 | `src/roles/` | canonical bounded roles | yes | domain |
+| `src/distribution/` | canonical package editions and classification manifest | yes | framework |
 | `src/templates/` | canonical story templates | yes | framework/domain |
 | `src/prompts/` | shared canonical prompts | yes | domain |
 | `schemas/` | machine contracts | yes | framework |
 | `scripts/` | deterministic framework tooling | yes | framework |
 | `tests/` | fixtures and verification | yes | framework/security |
 | `tasks/` | active and archived work contracts | yes | task owners |
+| `dist/` | generated installable RC directories; Codex includes a local marketplace root | generated | release tooling |
+| `release-assets/` | generated tarball exports and archive manifests | generated | release tooling |
+| `reports/` | pilot/full package, doctor, install smoke, RC, archive, and release evidence | generated/reviewed | framework/release |
 | `.agents/skills/` | shared generated skills | no | generator |
 | `.claude/` | generated Claude adapters and reviewed settings | generated/config only | adapters |
 | `.cursor/rules/` | generated Cursor rules | no | generator |

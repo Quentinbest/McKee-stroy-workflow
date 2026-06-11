@@ -12,7 +12,7 @@
     "agents:sync": "node scripts/sync-harness-adapters.mjs",
     "agents:check-drift": "node scripts/check-generated-drift.mjs",
     "agents:lint": "node scripts/verify-instruction-graph.mjs && node scripts/verify-documentation.mjs",
-    "agents:test:contracts": "node scripts/verify-task-contracts.mjs && node scripts/verify-skill-contracts.mjs && node scripts/verify-control-plane.mjs",
+    "agents:test:contracts": "node scripts/verify-task-contracts.mjs && node scripts/verify-skill-contracts.mjs && node scripts/verify-control-plane.mjs && node scripts/verify-package-distribution.mjs",
     "agents:test:security": "node scripts/verify-security.mjs && node --test tests/security/security.test.mjs",
     "agents:test:conformance": "node scripts/run-conformance-pilots.mjs",
     "agents:test:review-candidate": "node scripts/verify-review-candidate.mjs",
@@ -28,6 +28,19 @@
     "agents:smoke:cursor": "node scripts/smoke-harness.mjs cursor",
     "agents:smoke:pi": "node scripts/smoke-harness.mjs pi",
     "agents:smoke:opencode": "node scripts/smoke-harness.mjs opencode",
-    "agents:smoke:codex": "node scripts/smoke-harness.mjs codex"
+    "agents:smoke:codex": "node scripts/smoke-harness.mjs codex",
+    "skills:cli:build": "node scripts/mckee-skills.mjs build --all",
+    "skills:cli:archive": "node scripts/mckee-skills.mjs archive",
+    "skills:cli:doctor": "node scripts/mckee-skills.mjs doctor --scope project",
+    "skills:archive": "node scripts/build-archive-artifacts.mjs && node scripts/verify-archive-artifacts.mjs",
+    "skills:build": "node scripts/build-package-models.mjs && node scripts/build-pilot-packages.mjs && node scripts/build-package-artifacts.mjs && node scripts/build-package-doctor.mjs && node scripts/build-rc-artifacts.mjs",
+    "skills:lint": "node scripts/verify-package-distribution.mjs",
+    "skills:test:contracts": "node scripts/verify-package-distribution.mjs && node --test tests/contracts/package-distribution.test.mjs",
+    "skills:test:pilot": "node scripts/verify-pilot-packages.mjs && node scripts/verify-package-artifacts.mjs && node scripts/verify-package-doctor.mjs && node scripts/verify-rc-artifacts.mjs && node scripts/verify-package-install-smoke.mjs && node scripts/build-archive-artifacts.mjs && node scripts/verify-archive-artifacts.mjs && node --test tests/integration/package-pilots.test.mjs && node --test tests/integration/package-artifacts.test.mjs && node --test tests/integration/package-doctor.test.mjs && node --test tests/integration/mckee-skills-cli.test.mjs && node --test tests/integration/rc-artifacts.test.mjs && node --test tests/integration/package-install-smoke.test.mjs && node --test tests/integration/archive-artifacts.test.mjs && node --test tests/integration/publication-readiness.test.mjs",
+    "skills:test:install": "node scripts/verify-package-install-smoke.mjs && node --test tests/integration/package-install-smoke.test.mjs",
+    "skills:doctor": "node scripts/build-package-doctor.mjs && node scripts/verify-package-doctor.mjs",
+    "skills:test:publication": "node --test tests/integration/publication-readiness.test.mjs",
+    "skills:publication:check": "node scripts/verify-publication-readiness.mjs",
+    "skills:verify:fast": "npm run skills:lint && npm run skills:test:contracts && npm run skills:test:pilot && npm run skills:build"
   }
 }

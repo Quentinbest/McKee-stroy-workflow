@@ -1,0 +1,63 @@
+name: Skills RC
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*-rc.*"
+
+permissions:
+  contents: read
+
+jobs:
+  build-rc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm run skills:verify:fast
+      - run: node scripts/mckee-skills.mjs archive
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skills-rc-dist
+          path: |
+            dist/**
+            release-assets/**
+            reports/package-*.json
+            reports/rc-artifacts.json
+            reports/archive-artifacts.json
+
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref_name, '-rc.')
+    needs: build-rc
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm run skills:verify:fast
+      - run: node scripts/mckee-skills.mjs archive
+      - name: Verify publication approval
+        run: >-
+          node scripts/verify-publication-readiness.mjs
+          --target github-release
+          --ref "${GITHUB_REF_NAME}"
+      - name: Create draft release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            release-assets/dist.tar.gz \
+            release-assets/reports.tar.gz \
+            release-assets/checksums.txt \
+            release-assets/manifest.json \
+            --draft \
+            --title "${GITHUB_REF_NAME}" \
+            --notes "Draft McKee Story Workflow RC built from the approved source commit and verified release assets."

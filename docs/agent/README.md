@@ -42,3 +42,5 @@ Summaries and generated adapters must point back to these authorities.
 - [Glossary](glossary.md)
 - [Runbooks](runbooks/)
 - [Decisions](decisions/)
+- [Publication approval](publication-approval.md)
+- [Package installation](package-installation.md)

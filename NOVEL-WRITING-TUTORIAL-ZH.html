@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="使用 McKee Story Workflow 从故事种子、人物压力系统和故事脊柱开始，逐幕逐场完成一部小说的中文入门教程。">
+  <link rel="icon" href="data:,">
+  <title>使用 McKee Story Workflow 写完一部小说：入门教程</title>
+  <style>
+    :root {
+      --ink: #172026;
+      --muted: #66727a;
+      --night: #102a35;
+      --night-soft: #1b4850;
+      --teal: #13766f;
+      --teal-soft: #dcefeb;
+      --gold: #c78b34;
+      --gold-soft: #f7ead2;
+      --rust: #a74d37;
+      --rust-soft: #f5dfd8;
+      --blue: #2d668b;
+      --paper: #f4efe5;
+      --panel: #fffdf8;
+      --line: #d8cfc0;
+      --code: #102731;
+      --shadow: 0 18px 52px rgba(20, 34, 40, 0.12);
+      --shadow-soft: 0 7px 24px rgba(20, 34, 40, 0.08);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 20px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 3%, rgba(199, 139, 52, 0.16), transparent 26rem),
+        radial-gradient(circle at 95% 8%, rgba(19, 118, 111, 0.15), transparent 29rem),
+        linear-gradient(180deg, #fbf9f4 0%, var(--paper) 48%, #e9e1d4 100%);
+      font-family: "Iowan Old Style", "Songti SC", "Noto Serif CJK SC",
+        "Source Han Serif SC", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.78;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--blue);
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--rust);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 78px 24px 68px;
+      color: #fffdf7;
+      background:
+        linear-gradient(122deg, rgba(13, 38, 48, 0.99), rgba(18, 79, 78, 0.96)),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 18px);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 580px;
+      height: 580px;
+      right: -180px;
+      top: -310px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 65px rgba(255, 255, 255, 0.025),
+        0 0 0 130px rgba(255, 255, 255, 0.018);
+    }
+
+    .hero::after {
+      content: "Cast → Spine";
+      position: absolute;
+      right: 7%;
+      bottom: 34px;
+      color: rgba(255, 255, 255, 0.11);
+      font-family: "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+      font-size: clamp(34px, 6vw, 76px);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      transform: rotate(-4deg);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1260px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: #f2c66f;
+      font-family: "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 0;
+      font-size: clamp(42px, 6.2vw, 80px);
+      line-height: 1.03;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      max-width: 880px;
+      margin: 25px 0 0;
+      color: rgba(255, 253, 247, 0.84);
+      font-size: clamp(17px, 2vw, 21px);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 880px;
+      margin-top: 34px;
+    }
+
+    .hero-stat {
+      border: 1px solid rgba(255, 255, 255, 0.19);
+      border-radius: 14px;
+      padding: 13px 15px;
+      background: rgba(255, 255, 255, 0.075);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-stat strong {
+      display: block;
+      color: #f5cb80;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-stat span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.74);
+      font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+      font-size: 12px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 286px minmax(0, 1fr);
+      gap: 28px;
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 32px 24px 90px;
+    }
+
+    #TOC {
+      position: sticky;
+      top: 18px;
+      align-self: start;
+      max-height: calc(100vh - 36px);
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: rgba(255, 253, 248, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    #TOC::before {
+      content: "教程目录";
+      display: block;
+      margin: 0 0 10px;
+      color: var(--night);
+      font-weight: 800;
+    }
+
+    #TOC ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #TOC li {
+      margin: 0;
+    }
+
+    #TOC ul ul {
+      display: none;
+    }
+
+    #TOC a {
+      display: block;
+      border-left: 2px solid transparent;
+      border-radius: 0 9px 9px 0;
+      padding: 7px 9px;
+      color: #30414a;
+      text-decoration: none;
+      font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    #TOC a:hover,
+    #TOC a:focus-visible {
+      border-left-color: var(--gold);
+      outline: none;
+      background: var(--gold-soft);
+      color: var(--night);
+    }
+
+    main {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(28px, 4.4vw, 58px);
+      background: rgba(255, 253, 248, 0.96);
+      box-shadow: var(--shadow-soft);
+    }
+
+    h2,
+    h3,
+    h4 {
+      color: var(--night);
+      line-height: 1.28;
+    }
+
+    h2 {
+      margin: 58px 0 23px;
+      border-top: 1px solid var(--line);
+      padding-top: 42px;
+      font-size: clamp(29px, 3.4vw, 43px);
+      letter-spacing: -0.035em;
+    }
+
+    main > h2:first-of-type {
+      margin-top: 0;
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    h3 {
+      margin: 34px 0 14px;
+      font-size: 23px;
+    }
+
+    h4 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.45em;
+    }
+
+    li + li {
+      margin-top: 7px;
+    }
+
+    strong {
+      color: #172f37;
+    }
+
+    blockquote {
+      margin: 24px 0;
+      border: 1px solid #d6c49f;
+      border-left: 5px solid var(--gold);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 17px 20px;
+      background: linear-gradient(90deg, var(--gold-soft), #fffaf0);
+      color: #45351f;
+      font-size: 1.04em;
+    }
+
+    blockquote p {
+      margin: 0;
+    }
+
+    code {
+      border-radius: 5px;
+      padding: 0.12em 0.36em;
+      background: #ece7dd;
+      color: #7a382a;
+      font-family: "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+      font-size: 0.86em;
+    }
+
+    pre {
+      margin: 21px 0;
+      overflow: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent),
+        var(--code);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      color: #e9f2ee;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    pre code {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font-size: 13px;
+    }
+
+    .sourceCode {
+      background: transparent;
+    }
+
+    .sourceCode .co {
+      color: #8eb5aa;
+    }
+
+    .sourceCode .kw,
+    .sourceCode .bu {
+      color: #f0c674;
+    }
+
+    .sourceCode .st {
+      color: #b9d7a8;
+    }
+
+    .sourceCode .fu,
+    .sourceCode .ex {
+      color: #86c6e3;
+    }
+
+    .sourceCode .va,
+    .sourceCode .dt {
+      color: #e6a6a1;
+    }
+
+    table {
+      display: block;
+      width: 100%;
+      margin: 23px 0;
+      overflow-x: auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fff;
+    }
+
+    thead {
+      background: var(--night);
+      color: #fff;
+    }
+
+    th,
+    td {
+      min-width: 140px;
+      border-bottom: 1px solid #e5ddd0;
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #faf6ee;
+    }
+
+    hr {
+      height: 1px;
+      margin: 42px 0;
+      border: 0;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+    }
+
+    ul.task-list {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    ul.task-list li {
+      position: relative;
+      margin: 8px 0;
+      border: 1px solid #ded5c8;
+      border-radius: 10px;
+      padding: 9px 12px 9px 38px;
+      background: #fffaf2;
+    }
+
+    ul.task-list input[type="checkbox"] {
+      position: absolute;
+      left: 13px;
+      top: 15px;
+      accent-color: var(--teal);
+    }
+
+    .source-link {
+      display: inline-block;
+      margin-top: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      padding: 8px 14px;
+      color: #fff;
+      text-decoration: none;
+      font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+      font-size: 13px;
+    }
+
+    .source-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    footer {
+      padding: 28px 24px 42px;
+      color: #66716f;
+      text-align: center;
+      font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+      font-size: 13px;
+    }
+
+    footer p {
+      margin: 4px 0;
+    }
+
+    @media (max-width: 1040px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      #TOC {
+        position: static;
+        max-height: none;
+      }
+
+      #TOC ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2px 10px;
+      }
+
+      .hero::after {
+        right: 4%;
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        font-size: 16px;
+      }
+
+      .hero {
+        padding: 55px 20px 48px;
+      }
+
+      .hero h1 {
+        font-size: clamp(38px, 12vw, 58px);
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .hero-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .layout {
+        gap: 18px;
+        padding: 18px 12px 60px;
+      }
+
+      #TOC {
+        border-radius: 15px;
+        padding: 14px;
+      }
+
+      #TOC ul {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        border-radius: 15px;
+        padding: 24px 18px 38px;
+      }
+
+      h2 {
+        margin-top: 46px;
+        padding-top: 34px;
+      }
+
+      pre {
+        margin-right: -8px;
+        margin-left: -8px;
+        padding: 16px;
+      }
+
+      pre code {
+        font-size: 12px;
+      }
+
+      th,
+      td {
+        min-width: 125px;
+        padding: 10px 12px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+        font-size: 11pt;
+      }
+
+      .hero {
+        padding: 24pt 0 18pt;
+        color: #000;
+        background: #fff;
+      }
+
+      .hero::before,
+      .hero::after,
+      .hero-stats,
+      .source-link,
+      #TOC,
+      footer {
+        display: none;
+      }
+
+      .hero h1,
+      .eyebrow,
+      .subtitle {
+        color: #000;
+      }
+
+      .layout {
+        display: block;
+        max-width: none;
+        padding: 0;
+      }
+
+      main {
+        border: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      h2,
+      h3 {
+        break-after: avoid;
+      }
+
+      pre,
+      blockquote,
+      table {
+        break-inside: avoid;
+      }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">McKee Story Workflow · Beginner Tutorial</p>
+      <h1>使用 McKee Story Workflow 写完一部小说：入门教程</h1>
+      <p class="subtitle">
+        从故事种子到可交付稿件：建立私有故事仓库，锁定人物压力系统与故事脊柱，
+        逐幕逐场起草，并通过审计与七轮修订完成小说。
+      </p>
+      <div class="hero-stats" aria-label="教程概览">
+        <div class="hero-stat"><strong>8</strong><span>创作阶段</span></div>
+        <div class="hero-stat"><strong>14</strong><span>教程章节</span></div>
+        <div class="hero-stat"><strong>5</strong><span>支持的 Harness</span></div>
+        <div class="hero-stat"><strong>Cast → Spine</strong><span>核心顺序约束</span></div>
+      </div>
+      <a class="source-link" href="./NOVEL-WRITING-TUTORIAL-ZH.md">查看 Markdown 源文档</a>
+    </div>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc" aria-label="教程目录">
+<ul>
+<li><a href="#1-开始前要理解的三件事" id="toc-1-开始前要理解的三件事">1.
+开始前要理解的三件事</a></li>
+<li><a href="#2-准备运行环境" id="toc-2-准备运行环境">2.
+准备运行环境</a></li>
+<li><a href="#3-准备你的故事种子" id="toc-3-准备你的故事种子">3.
+准备你的故事种子</a></li>
+<li><a href="#4-第一阶段从种子到-premise"
+id="toc-4-第一阶段从种子到-premise">4. 第一阶段：从种子到
+Premise</a></li>
+<li><a href="#5-第二阶段锁定四项基础合同"
+id="toc-5-第二阶段锁定四项基础合同">5.
+第二阶段：锁定四项基础合同</a></li>
+<li><a href="#6-第三阶段从-cast-构建-story-spine"
+id="toc-6-第三阶段从-cast-构建-story-spine">6. 第三阶段：从 Cast 构建
+Story Spine</a></li>
+<li><a href="#7-第四阶段分幕与分场" id="toc-7-第四阶段分幕与分场">7.
+第四阶段：分幕与分场</a></li>
+<li><a href="#8-第五阶段逐场写正文" id="toc-8-第五阶段逐场写正文">8.
+第五阶段：逐场写正文</a></li>
+<li><a href="#9-第六阶段阶段性检查与恢复"
+id="toc-9-第六阶段阶段性检查与恢复">9.
+第六阶段：阶段性检查与恢复</a></li>
+<li><a href="#10-第七阶段全书审计与七轮修订"
+id="toc-10-第七阶段全书审计与七轮修订">10.
+第七阶段：全书审计与七轮修订</a></li>
+<li><a href="#11-第八阶段组装-manuscript"
+id="toc-11-第八阶段组装-manuscript">11. 第八阶段：组装
+Manuscript</a></li>
+<li><a href="#12-一套可直接复用的会话节奏"
+id="toc-12-一套可直接复用的会话节奏">12.
+一套可直接复用的会话节奏</a></li>
+<li><a href="#13-常见错误" id="toc-13-常见错误">13. 常见错误</a></li>
+<li><a href="#14-最小完成标准" id="toc-14-最小完成标准">14.
+最小完成标准</a></li>
+</ul>
+    </nav>
+    <main>
+<p>本教程面向第一次使用本项目的作者。目标不是介绍所有 Skill 和
+Role，而是带你
+沿着一条最短、可恢复、可检查的路径，把一个故事种子推进为完整稿件。</p>
+<p>完整路径如下：</p>
+<pre class="text"><code>故事种子
+  -&gt; Premise + Genre Contract
+  -&gt; Controlling Idea
+  -&gt; Setting
+  -&gt; Cast
+  -&gt; Story Spine
+  -&gt; Act Design
+  -&gt; Scene Cards + Beat Sheets
+  -&gt; Prose
+  -&gt; Audit
+  -&gt; Revision
+  -&gt; Publication Checks
+  -&gt; Manuscript</code></pre>
+<p>其中最重要的顺序约束是：</p>
+<blockquote>
+<p><strong>先锁定人物压力系统（Cast），再构建故事脊柱（Story
+Spine）。</strong></p>
+</blockquote>
+<p>人物不是填入既有情节的名字。人物之间的欲望、矛盾和压力先被定义，故事脊柱
+再把这些压力转化为事件。</p>
+<hr />
+<h2 id="1-开始前要理解的三件事">1. 开始前要理解的三件事</h2>
+<h3 id="11-你负责判断智能体负责执行">1.1 你负责判断，智能体负责执行</h3>
+<p>项目会生成候选、检查结构、起草场景和运行批评，但以下决定必须由作者确认：</p>
+<ul>
+<li>哪个故事值得写；</li>
+<li>哪个 Premise 最接近你真正关心的问题；</li>
+<li>哪些人物、事件和结局属于这部小说；</li>
+<li>何时锁定一个阶段，何时回退重做；</li>
+<li>稿件何时可以导出或发布。</li>
+</ul>
+<p>不要把“文件已经生成”误认为“创作决定已经完成”。每个锁定点都应由你明确
+批准。</p>
+<h3 id="12-不要一次生成整部小说">1.2 不要一次生成整部小说</h3>
+<p>可靠的工作粒度是：</p>
+<pre class="text"><code>一项基础合同 -&gt; 一幕 -&gt; 一个段落（Sequence）-&gt; 一个场景（Scene）</code></pre>
+<p>正文阶段默认一次只写一个场景。需要加速时，可以按一个 Sequence
+批量起草， 但仍要逐场执行潜台词、鸿沟、转折和连续性检查。</p>
+<h3 id="13-故事文件应与公开框架分开">1.3 故事文件应与公开框架分开</h3>
+<p>本仓库保存公开的
+Skill、Role、模板和验证工具。你的正文、研究资料和已填写的
+作者人格（Author Persona）属于私有数据，建议放在一个单独的本地或私有 Git
+仓库中。不要把私人稿件提交到本框架仓库。</p>
+<hr />
+<h2 id="2-准备运行环境">2. 准备运行环境</h2>
+<h3 id="21-前置条件">2.1 前置条件</h3>
+<p>你需要：</p>
+<ul>
+<li>Git；</li>
+<li>Node.js 20 或更高版本；</li>
+<li>一个受支持的智能体运行环境（Harness）：Claude Code、Cursor、Pi、
+OpenCode 或 Codex；</li>
+<li>本项目的本地检出；</li>
+<li>可选但推荐：本地检出的 <a
+href="https://github.com/Quentinbest/LLM-Wiki-Story">LLM-Wiki-Story</a>。</li>
+</ul>
+<p>先验证框架本身：</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/Quentinbest/McKee-stroy-workflow.git</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/Quentinbest/LLM-Wiki-Story.git</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">MCKEE_WORKFLOW_ROOT</span><span class="op">=</span>/absolute/path/to/McKee-stroy-workflow</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">MCKEE_WIKI_ROOT</span><span class="op">=</span>/absolute/path/to/LLM-Wiki-Story</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run agents:verify</span></code></pre></div>
+<p>基线工具没有第三方运行时依赖，不需要执行
+<code>npm install</code>。</p>
+<h3 id="22-创建独立的故事仓库">2.2 创建独立的故事仓库</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> my-novel</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> my-novel</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code></pre></div>
+<p>不要急着添加公开远端。先确认这个仓库的隐私策略，再决定是否推送到私有
+Git 托管服务。</p>
+<h3 id="23-安装当前-harness-需要的-adapter">2.3 安装当前 Harness 需要的
+Adapter</h3>
+<p>Cursor、Pi、OpenCode 和 Codex 共用 <code>.agents/skills/</code>：</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> .agents</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">/.agents/skills&quot;</span> .agents/</span></code></pre></div>
+<p>再复制跨 Harness 的公共模板、生命周期契约和 Role 回退源：</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> templates .story-workflow/roles</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">&quot;</span>/src/templates/<span class="pp">*</span> templates/</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">&quot;</span>/src/roles/<span class="pp">*</span>.md .story-workflow/roles/</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">&quot;</span>/src/artifacts/story-artifacts.json .story-workflow/</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">&quot;</span>/src/control-plane/story-lifecycle.json .story-workflow/</span></code></pre></div>
+<p><code>templates/state.json</code>
+是正文连续性跟踪的必需输入。<code>.story-workflow/roles/</code>
+让没有原生 Role 调用能力的 Harness 能够在当前上下文中执行同一职责。</p>
+<p>然后根据 Harness 补充对应文件：</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Claude Code</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> .claude</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">/.claude/skills&quot;</span> .claude/</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">/.claude/agents&quot;</span> .claude/</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Cursor</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> .cursor</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">/.cursor/rules&quot;</span> .cursor/</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenCode</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> .opencode</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> <span class="st">&quot;</span><span class="va">$MCKEE_WORKFLOW_ROOT</span><span class="st">/.opencode/agents&quot;</span> .opencode/</span></code></pre></div>
+<p>Pi 和 Codex 使用前面的 <code>.agents/skills/</code> 即可。不同
+Harness 的原生委派能力
+不同，但生命周期、输入、工件和验收标准相同。没有原生 Role 或并行 Critic
+时，工作流会回退到单智能体顺序执行。</p>
+<p>框架升级后，重新复制对应
+Adapter。不要在故事仓库中手动修改这些生成文件；
+需要定制创作规则时，应写在故事仓库自己的 <code>AGENTS.md</code> 中。</p>
+<h3 id="24-为故事仓库写最小规则">2.4 为故事仓库写最小规则</h3>
+<p>在故事仓库根目录创建 <code>AGENTS.md</code>：</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Story Project Instructions</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This repository contains one private fiction project.</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Treat <span class="in">`drafts/**`</span>, populated personas, research, and manuscript files as private.</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Write story artifacts only under <span class="in">`drafts/{slug}/`</span>.</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Resolve <span class="in">`wiki/...`</span> references through <span class="in">`${MCKEE_WIKI_ROOT}/wiki/...`</span>.</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The external McKee wiki is read-only.</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Public runtime templates live under <span class="in">`templates/`</span>.</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If the Harness cannot invoke a native Role, read</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="in">`.story-workflow/roles/{role}.md`</span> and execute that Role in the current context.</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do not publish, upload, push, or disclose story material without explicit approval.</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Before changing a locked upstream artifact, explain the invalidation cascade and ask for approval.</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Follow this lifecycle:</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  Premise + Genre -&gt; Controlling Idea -&gt; Setting -&gt; Cast -&gt; Spine -&gt;</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  Act -&gt; Scene -&gt; Audit -&gt; Revision -&gt; Publication Checks -&gt; Export.</span></code></pre></div>
+<p>Claude Code 用户还应在根目录创建最小 <code>CLAUDE.md</code>：</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>@AGENTS.md</span></code></pre></div>
+<p>OpenCode 用户可在根目录创建最小
+<code>opencode.jsonc</code>，显式加载故事规则：</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;$schema&quot;</span><span class="fu">:</span> <span class="st">&quot;https://opencode.ai/config.json&quot;</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;instructions&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;AGENTS.md&quot;</span><span class="ot">]</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>每次开始创作会话时，明确本次授权范围：</p>
+<pre class="text"><code>本次任务授权你在当前私有故事仓库中读取和写入 drafts/**。
+禁止联网、发布、上传或推送。请使用项目中的 story-* 与 mck-* 技能，
+每到需要作者批准的锁定点就停下。</code></pre>
+<h3 id="25-验证-skill-是否被发现">2.5 验证 Skill 是否被发现</h3>
+<p>在故事仓库中启动 Harness，然后输入：</p>
+<pre class="text"><code>请使用 story-status 检查当前故事项目。现在还没有项目时，只报告未找到项目，
+不要自行创建文件。</code></pre>
+<p>能够识别 <code>story-status</code>
+并报告没有活动项目，说明基础发现正常。</p>
+<hr />
+<h2 id="3-准备你的故事种子">3. 准备你的故事种子</h2>
+<p>故事种子不需要是完整梗概。它可以是一幅画面、一段关系、一个矛盾、一句听来的
+话，或者一种迟迟挥之不去的情绪。</p>
+<p>教程使用这个示例：</p>
+<blockquote>
+<p>一位钟表匠造出会倒着走的钟，试图追回已经失去的女儿。</p>
+</blockquote>
+<p>启动前最好再准备四项约束：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语言</td>
+<td>简体中文</td>
+</tr>
+<tr>
+<td>体量</td>
+<td>约 8 万汉字</td>
+</tr>
+<tr>
+<td>类型倾向</td>
+<td>奇幻 / 家庭剧情</td>
+</tr>
+<tr>
+<td>不可改变的核心</td>
+<td>结局不能真的让时间倒流</td>
+</tr>
+</tbody>
+</table>
+<p>未知项可以留空。不要为了“准备充分”而先写几十页设定；工作流会在需要时要求
+补齐。</p>
+<hr />
+<h2 id="4-第一阶段从种子到-premise">4. 第一阶段：从种子到 Premise</h2>
+<p>输入：</p>
+<pre class="text"><code>请使用 story-new 开始一个新故事。
+
+故事种子：一位钟表匠造出会倒着走的钟，试图追回已经失去的女儿。
+语言：简体中文。
+目标体量：约 8 万汉字。
+类型倾向：奇幻 / 家庭剧情。
+硬约束：结局不能真的让时间倒流。
+
+先提炼这个种子最让我放不下的情感核心（haunt），等我确认后再继续。
+生成候选 Premise 后停下，不要替我锁定。</code></pre>
+<p><code>story-new</code> 会：</p>
+<ol type="1">
+<li>提炼 haunt；</li>
+<li>创建 <code>drafts/{slug}/</code>；</li>
+<li>初始化 <code>lifecycle.json</code>、世界设定和正文目录；</li>
+<li>生成多个 Premise 候选；</li>
+<li>在你选择后写入 <code>premise-card.md</code>。</li>
+</ol>
+<h3 id="如何选择-premise">如何选择 Premise</h3>
+<p>不要只选“最酷”的候选。优先选择同时满足以下条件的版本：</p>
+<ul>
+<li>主角有清晰、可行动的欲望对象（Object of Desire）；</li>
+<li>对抗力量足以持续一部长篇；</li>
+<li>激励事件能真正打破主角生活的平衡；</li>
+<li>故事中包含你愿意反复追问的价值冲突；</li>
+<li>结局不是从开头就能机械推导出来。</li>
+</ul>
+<p>锁定时输入：</p>
+<pre class="text"><code>我选择候选 2，但把主角的目标从“复活女儿”改为“证明女儿从未真正离开”。
+请据此修订 Premise Card，列出变化带来的代价。等我确认后再锁定。</code></pre>
+<p>通过标准：</p>
+<ul>
+<li><code>drafts/{slug}/premise-card.md</code> 存在；</li>
+<li>Premise 已由你明确确认；</li>
+<li><code>lifecycle.json</code> 中 <code>locked.premise</code> 为
+<code>true</code>。</li>
+</ul>
+<hr />
+<h2 id="5-第二阶段锁定四项基础合同">5. 第二阶段：锁定四项基础合同</h2>
+<p>在进入 Story Spine 前，依次锁定 Genre Contract、Controlling Idea、
+Setting 和 Cast。</p>
+<h3 id="51-genre-contract">5.1 Genre Contract</h3>
+<p>输入：</p>
+<pre class="text"><code>请使用 genre-cartographer，根据已锁定的 Premise 生成 Genre Contract。
+列出主要类型、次要类型、必须兑现的类型惯例、必备场景和不能误用的陈词滥调。
+先给我审核，不要自动锁定。</code></pre>
+<p>你需要确认：</p>
+<ul>
+<li>类型承诺与读者预期一致；</li>
+<li>必备场景确实会进入后续结构；</li>
+<li>“颠覆类型”没有变成拒绝兑现类型承诺。</li>
+</ul>
+<p>输出通常写入：</p>
+<pre class="text"><code>drafts/{slug}/genre-contract.md</code></pre>
+<h3 id="52-controlling-idea">5.2 Controlling Idea</h3>
+<p>控制思想（Controlling Idea）不是宣传语，而是故事最终通过行动证明的
+“价值 + 原因”。</p>
+<p>输入：</p>
+<pre class="text"><code>请使用 mck-controlling-idea，为当前故事生成 3 个 Controlling Idea 候选：
+一个正向、一个负向、一个反讽。每个候选都必须写成“价值 + 原因”，并说明
+它将如何被高潮中的行动证明。不要替我选择。</code></pre>
+<p>选择后可用 <code>mck-honesty</code> 检验它是否只是漂亮口号：</p>
+<pre class="text"><code>请使用 mck-honesty TEST 检验我选择的 Controlling Idea。
+重点判断：它是否来自具体的人类观察，对立思想是否得到公平而强大的表达。</code></pre>
+<p>通过标准：</p>
+<ul>
+<li><code>controlling-idea.md</code> 明确写出核心价值、原因和
+Counter-Idea；</li>
+<li>它能够被事件证明，而不需要角色在结尾说出来；</li>
+<li><code>locked.controlling_idea</code> 为 <code>true</code>。</li>
+</ul>
+<h3 id="53-setting">5.3 Setting</h3>
+<p>输入：</p>
+<pre class="text"><code>请使用 setting-surveyor 锁定当前故事的 Setting。
+至少覆盖时代、故事持续时间、地点、冲突层级、世界规则和研究目标。
+所有可能影响情节因果或人物能力的规则必须明确，未知项列为 research target。</code></pre>
+<p>通过标准：</p>
+<ul>
+<li><code>world-bible.md</code> 或 Setting Survey 已填写；</li>
+<li>关键地点、时间规则和超自然规则没有互相冲突；</li>
+<li><code>locked.setting</code> 为 <code>true</code>。</li>
+</ul>
+<h3 id="54-cast先设计压力系统">5.4 Cast：先设计压力系统</h3>
+<p>现在才进入人物设计：</p>
+<pre class="text"><code>请使用 story-cast 设计完整 Cast。
+把人物当作作用于主角的压力系统，而不是人物名单。
+必须覆盖内在、个人和外部三个层级的对抗力量；检查人物功能重复。
+先提交人物压力矩阵和删、并、增建议，等我批准后再锁定 Cast。</code></pre>
+<p>检查重点：</p>
+<ul>
+<li>每个主要人物施加一种不可替代的压力；</li>
+<li>至少有角色迫使主角暴露其 True Character；</li>
+<li>主要对立者拥有可信的 Counter-Idea，不是纯粹工具人；</li>
+<li>没有两个人物只是在不同场景重复同一功能；</li>
+<li>人物系统能够支撑 Genre Contract 要求的角色与场景。</li>
+</ul>
+<p>通过标准：</p>
+<ul>
+<li><code>characters/</code>、<code>cast-design.md</code> 和
+<code>cast-roster.md</code> 已建立；</li>
+<li>你明确批准了人物压力矩阵；</li>
+<li><code>locked.cast</code> 为 <code>true</code>。</li>
+</ul>
+<hr />
+<h2 id="6-第三阶段从-cast-构建-story-spine">6. 第三阶段：从 Cast 构建
+Story Spine</h2>
+<p>只有 Cast 锁定后，才运行：</p>
+<pre class="text"><code>请使用 story-spine，根据已锁定的 Premise、Genre Contract、
+Controlling Idea、Setting 和 Cast 构建 Story Spine。
+
+目标体量：约 8 万汉字。
+要求：
+1. 每次递进复杂化都由人物选择或对抗力量引起；
+2. 危机必须是真正的两难困境；
+3. 高潮必须由危机中的决定因果地产生；
+4. 结局展示高潮之后的新平衡；
+5. 逐项运行 McKee predicates 和 Gap 检查。
+
+先给我审核，不要自动锁定。</code></pre>
+<p>你应重点审查五个节点：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>必须回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>激励事件（Inciting Incident）</td>
+<td>是否真正打破主角生活平衡并提出主要戏剧问题？</td>
+</tr>
+<tr>
+<td>递进复杂化（Progressive Complications）</td>
+<td>是否越来越难，并迫使主角改变策略？</td>
+</tr>
+<tr>
+<td>危机（Crisis）</td>
+<td>是否没有无代价的正确答案？</td>
+</tr>
+<tr>
+<td>高潮（Climax）</td>
+<td>是否由主角的危机决定引发，而不是巧合？</td>
+</tr>
+<tr>
+<td>结局（Resolution）</td>
+<td>是否展示价值变化后的世界？</td>
+</tr>
+</tbody>
+</table>
+<p>如果危机只是一个“很难但答案明显”的选择：</p>
+<pre class="text"><code>请使用 mck-crisis-dilemma 修复当前 Crisis。
+保留人物欲望和世界规则，把它强化为不可调和的价值两难。</code></pre>
+<p>如果事件只是“然后发生了另一件事”，要求运行
+<code>mck-gap-find</code>，把连接改为 “因此”或“但是”的因果链。</p>
+<p>通过标准：</p>
+<ul>
+<li><code>spine.md</code> 的关键节点全部通过断言；</li>
+<li>所有主要人物压力都在 Spine 中获得结构职责；</li>
+<li>你明确批准后，<code>locked.spine</code> 才变为
+<code>true</code>。</li>
+</ul>
+<p>可选但推荐：在写第一幕前运行
+<code>mck-surprise-plant DESIGN</code>，从高潮向前设计
+可双重解读的误导与植入。惊奇结构很难在完整初稿后无痕补上。</p>
+<hr />
+<h2 id="7-第四阶段分幕与分场">7. 第四阶段：分幕与分场</h2>
+<h3 id="71-先确定篇幅预算">7.1 先确定篇幅预算</h3>
+<p>让智能体根据故事内容选择幕数，而不是机械套用三幕：</p>
+<pre class="text"><code>请根据已锁定的 Story Spine 设计全书的 Act 结构。
+目标总量约 8 万汉字，并为每一幕分配篇幅预算。
+说明为什么选择这个幕数，以及少一幕或多一幕会损失什么。
+每幕结尾必须是不可逆的事件转折。</code></pre>
+<p>确认 Act Design 后，逐幕运行 <code>story-act</code>：</p>
+<pre class="text"><code>请使用 story-act 规划 Act 1。
+先定义本幕的开场价值电荷、结束价值电荷和幕末转折，再拆成 Sequence 和 Scene。
+为每个 Scene Card 分配篇幅预算。完成后运行节奏检查并停下。</code></pre>
+<p>按顺序完成所有幕：</p>
+<pre class="text"><code>请使用 story-act 规划 Act 2。
+请使用 story-act 规划 Act 3。</code></pre>
+<h3 id="72-检查-scene-card">7.2 检查 Scene Card</h3>
+<p>每张 Scene Card 至少应包含：</p>
+<ul>
+<li>POV 人物的场景目标；</li>
+<li>具体对抗；</li>
+<li>转折点；</li>
+<li>开场和结尾的价值电荷；</li>
+<li>铺垫与兑现；</li>
+<li>意象或母题；</li>
+<li>目标篇幅。</li>
+</ul>
+<p>如果一个场景“提供信息但没有价值变化”，它还不是可写的场景。先改 Scene
+Card，不要靠漂亮正文掩盖结构空缺。</p>
+<h3 id="73-建立连续性状态">7.3 建立连续性状态</h3>
+<p>在开始正文前，确认 <code>state.json</code> 已由
+<code>story-act</code> 建立并填写：</p>
+<ul>
+<li>人物当前位置、知识和持有物；</li>
+<li>地理关系和世界状态；</li>
+<li>时间线；</li>
+<li>意象系统；</li>
+<li>铺垫与兑现台账。</li>
+</ul>
+<p>没有 <code>state.json</code>
+仍可写作，但连续性、意象和铺垫检查会进入降级模式。</p>
+<hr />
+<h2 id="8-第五阶段逐场写正文">8. 第五阶段：逐场写正文</h2>
+<h3 id="81-第一个场景">8.1 第一个场景</h3>
+<p>输入：</p>
+<pre class="text"><code>请使用 story-scene 起草 Scene 1.1。
+严格读取 Scene Card、相关人物文件、world-bible、persona、state.json。
+在写正文前先展示五层潜台词表和本场景的 Gap，等我确认。
+按节拍起草，完成后运行 cliché、subtext 和 continuity 三项检查。
+修订通过后再写入 prose 文件。</code></pre>
+<p><code>story-scene</code> 的标准循环是：</p>
+<pre class="text"><code>读取 Scene Card
+  -&gt; 填写五层潜台词
+  -&gt; 确认预期与结果之间的 Gap
+  -&gt; 按 Beat 起草
+  -&gt; 检查 Turning Point
+  -&gt; 运行 Critic
+  -&gt; 局部修订
+  -&gt; 写入 prose
+  -&gt; 更新 state.json</code></pre>
+<h3 id="82-你在每个场景需要判断什么">8.2 你在每个场景需要判断什么</h3>
+<p>重点判断：</p>
+<ul>
+<li>人物的行为是否符合其欲望、恐惧和策略；</li>
+<li>对话是否在做事，而不是解释人物内心；</li>
+<li>场景结果是否偏离 POV 人物的预期；</li>
+<li>转折是否发生在行动中，而不是一段总结性台词中；</li>
+<li>细节是否属于这个世界和这个 POV；</li>
+<li>这一场是否改变了下一场的条件。</li>
+</ul>
+<h3 id="83-单场模式与批量模式">8.3 单场模式与批量模式</h3>
+<p>第一次写作建议使用单场模式：</p>
+<pre class="text"><code>请使用 story-scene 写 Scene 1.2，完成后停下。</code></pre>
+<p>熟悉工作流后，可按 Sequence 批量：</p>
+<pre class="text"><code>请使用 story-scene 批量起草 Sequence 1.2（Scenes 1.4-1.6）。
+每个场景仍执行完整工作流，只在承重转折场景后暂停。
+遇到 Critical 问题、连续性冲突或需要回退上游时立即停下。</code></pre>
+<p>不要直接要求“继续写完剩下所有章节”。批量越大，作者越难在错误固化前纠偏。</p>
+<h3 id="84-场景反复修不好时">8.4 场景反复修不好时</h3>
+<p>同一个问题连续三轮失败，不要继续换词。要求启动回退诊断：</p>
+<pre class="text"><code>这个场景的同一项断言已经连续失败 3 次。
+请停止正文层修补，使用 Backtracking Protocol 定位是 Scene Card、
+人物欲望、state.json 还是 Spine 造成的问题。
+先说明建议修改的上游字段和失效范围，等我批准后再改。</code></pre>
+<p>修改锁定的上游工件会使下游内容失效。必须先知道哪些 Scene
+Card、人物弧光或 正文需要重新检查。</p>
+<hr />
+<h2 id="9-第六阶段阶段性检查与恢复">9. 第六阶段：阶段性检查与恢复</h2>
+<h3 id="91-随时查看状态">9.1 随时查看状态</h3>
+<p>每次新会话先运行：</p>
+<pre class="text"><code>请使用 story-status。
+列出当前 lifecycle 状态、已锁定工件、缺失工件、阻塞问题和唯一推荐的下一步。
+不要在状态检查中修改故事。</code></pre>
+<h3 id="92-每幕写完做一次轻量审计">9.2 每幕写完做一次轻量审计</h3>
+<pre class="text"><code>请使用 story-audit 审计 Act 1。
+重点检查结构转折、对抗升级、潜台词、陈词滥调、节奏、铺垫与兑现。
+把每个 Critic 的完整报告先写入 audit/，再汇总。</code></pre>
+<p>幕级审计可以更早发现“中段没有升级”或“人物压力没有进入事件”等问题，
+避免到全书完成后才重写整幕。</p>
+<h3 id="93-会话中断后如何继续">9.3 会话中断后如何继续</h3>
+<p>不要让智能体凭聊天记忆猜进度。重新启动后输入：</p>
+<pre class="text"><code>请使用 story-status 恢复项目。
+读取 lifecycle.json、state.json、已有 Scene Cards、prose 和 audit 报告。
+只重跑缺失步骤，不要覆盖已经完成且通过检查的工件。</code></pre>
+<hr />
+<h2 id="10-第七阶段全书审计与七轮修订">10.
+第七阶段：全书审计与七轮修订</h2>
+<p>所有场景完成后：</p>
+<pre class="text"><code>请使用 story-audit 对全书运行完整审计。
+使用当前 Harness 支持的最高 Critic 能力层级。
+每个 Critic 先落盘完整报告，再返回摘要。
+最后生成按 Critical、Major、Minor 排序的 audit-report.md。</code></pre>
+<p>全书审计至少覆盖：</p>
+<ul>
+<li>对抗力量是否在全书持续升级；</li>
+<li>Crisis 是否是真两难；</li>
+<li>Climax 是否由决定产生并回答主要戏剧问题；</li>
+<li>Genre Contract 是否兑现；</li>
+<li>每个场景是否发生有意义的价值变化；</li>
+<li>潜台词、陈词滥调和声音漂移；</li>
+<li>意象、铺垫与兑现；</li>
+<li>实际篇幅与 Act 预算是否严重偏离。</li>
+</ul>
+<p>然后运行：</p>
+<pre class="text"><code>请使用 story-revise，采用 audit-driven 模式执行全部七轮修订。
+每轮只修一个维度，并在 revision-log.md 记录修改文件、结果和遗留问题。
+同一问题达到 stop-loss 上限时停止并报告，不要无限重写。</code></pre>
+<p>七轮修订顺序：</p>
+<ol type="1">
+<li>Structure；</li>
+<li>Cliché；</li>
+<li>Subtext；</li>
+<li>Image System；</li>
+<li>Voice；</li>
+<li>Specificity；</li>
+<li>Reader Simulation。</li>
+</ol>
+<p>每轮只处理一个维度。把所有问题同时修，通常会在修好结构时破坏声音，或在
+润色句子时掩盖场景没有转折。</p>
+<hr />
+<h2 id="11-第八阶段组装-manuscript">11. 第八阶段：组装 Manuscript</h2>
+<p>当 <code>story-revise</code> 将项目标记为 <code>polished</code>
+后：</p>
+<pre class="text"><code>请使用 story-publish 进行最终组装。
+先检查缺失场景、作者标注泄漏、实际篇幅与预算、未闭合支线和铺垫。
+任何阻塞问题都先报告，不要强行导出。
+通过后生成 manuscript.md 和 colophon.md，但不要上传或对外发布。</code></pre>
+<p><code>story-publish</code>
+在这里的含义是“生成可交付稿件”，不是自动公开发布。最终文件
+通常位于：</p>
+<pre class="text"><code>drafts/{slug}/manuscript.md
+drafts/{slug}/colophon.md</code></pre>
+<p>发布后仍可继续修改。正文文件一旦比 <code>manuscript.md</code>
+更新，稿件就会被 <code>story-status</code> 标记为
+stale；完成修改后重新运行 <code>story-publish</code> 即可。</p>
+<hr />
+<h2 id="12-一套可直接复用的会话节奏">12. 一套可直接复用的会话节奏</h2>
+<h3 id="会话-a奠基">会话 A：奠基</h3>
+<pre class="text"><code>story-new
+-&gt; 选择并锁定 Premise
+-&gt; genre-cartographer
+-&gt; mck-controlling-idea
+-&gt; setting-surveyor
+-&gt; story-cast</code></pre>
+<h3 id="会话-b结构">会话 B：结构</h3>
+<pre class="text"><code>story-status
+-&gt; story-spine
+-&gt; 可选 mck-surprise-plant DESIGN
+-&gt; story-act 逐幕规划</code></pre>
+<h3 id="会话-c-以后正文循环">会话 C 以后：正文循环</h3>
+<pre class="text"><code>story-status
+-&gt; story-scene 写一个 Scene 或 Sequence
+-&gt; 检查 state.json
+-&gt; 幕末运行 story-audit</code></pre>
+<h3 id="完稿会话">完稿会话</h3>
+<pre class="text"><code>story-audit 全书
+-&gt; story-revise
+-&gt; story-publish
+-&gt; story-status 确认 done</code></pre>
+<hr />
+<h2 id="13-常见错误">13. 常见错误</h2>
+<h3 id="错误一先写-spine再补人物">错误一：先写 Spine，再补人物</h3>
+<p>结果通常是人物只为情节服务，决定缺乏可信动机。</p>
+<p>修复：回到 <code>story-cast</code>，先锁定压力系统，再让
+<code>story-spine</code> 重建事件因果。</p>
+<h3 id="错误二锁定点全部自动通过">错误二：锁定点全部自动通过</h3>
+<p>结果是候选方案未经作者判断就成为项目事实。</p>
+<p>修复：在提示中写明“先给我审核，不要自动锁定”。</p>
+<h3
+id="错误三一次生成整幕甚至整本书">错误三：一次生成整幕甚至整本书</h3>
+<p>结果是转折、声音和连续性问题成批固化。</p>
+<p>修复：默认逐场；熟练后最多按 Sequence 批量，并在承重场景暂停。</p>
+<h3
+id="错误四用漂亮句子修补无效场景">错误四：用漂亮句子修补无效场景</h3>
+<p>场景没有 Gap 或 Turning Point 时，句子再漂亮也不能让它成立。</p>
+<p>修复：回到 Scene Card，重写目标、冲突或结果。</p>
+<h3 id="错误五跳过-statejson">错误五：跳过 <code>state.json</code></h3>
+<p>结果是人物位置、知识、物件、地理和时间线在后期冲突。</p>
+<p>修复：重新运行 <code>story-act</code>
+的状态初始化步骤，再继续正文。</p>
+<h3 id="错误六把-story-publish-理解为自动公开">错误六：把
+<code>story-publish</code> 理解为自动公开</h3>
+<p>本 Skill
+只组装本地稿件。上传、推送、投稿和公开发布始终需要单独明确授权。</p>
+<hr />
+<h2 id="14-最小完成标准">14. 最小完成标准</h2>
+<p>一部小说在本工作流中达到“完成”，至少满足：</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />Premise、Genre Contract、Controlling
+Idea 和 Setting 已锁定；</label></li>
+<li><label><input type="checkbox" />Cast 在 Story Spine
+之前锁定；</label></li>
+<li><label><input type="checkbox" />Story Spine 的 Crisis 和 Climax
+通过因果检查；</label></li>
+<li><label><input type="checkbox" />每幕以不可逆转折结束；</label></li>
+<li><label><input type="checkbox" />每个 Scene 都有冲突、Gap、Turning
+Point 和价值变化；</label></li>
+<li><label><input
+type="checkbox" />所有正文场景都已落盘并更新连续性状态；</label></li>
+<li><label><input type="checkbox" />全书审计没有未处理的 Critical
+问题；</label></li>
+<li><label><input
+type="checkbox" />七轮修订已完成或明确记录跳过理由；</label></li>
+<li><label><input
+type="checkbox" />篇幅与结构预算已经核对；</label></li>
+<li><label><input
+type="checkbox" />稿件中没有元数据或作者标注泄漏；</label></li>
+<li><label><input type="checkbox" /><code>manuscript.md</code>
+已重新组装且不是 stale；</label></li>
+<li><label><input
+type="checkbox" />任何对外发布都经过作者单独批准。</label></li>
+</ul>
+<p>到这里，你得到的不是一次聊天生成的长文本，而是一套可以解释、回退、检查和
+继续修订的小说工程。</p>
+    </main>
+  </div>
+  <footer>
+    <p>McKee Story Workflow · 小说创作入门教程 · 2026-06-07</p>
+    <p>本页面为单文件离线文档；稿件公开发布仍需作者单独批准。</p>
+  </footer>
+</body>
+</html>

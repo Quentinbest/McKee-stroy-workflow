@@ -26,6 +26,12 @@
 
 ---
 
+> 第一次使用本项目完成一部长篇小说，请先阅读独立的
+> [《使用 McKee Story Workflow 写完一部小说：入门教程》](NOVEL-WRITING-TUTORIAL-ZH.md)
+> （[HTML 版](NOVEL-WRITING-TUTORIAL-ZH.html)）。
+> 本手册用于查阅完整 Skill、Role 和方法论细节；入门教程提供从环境准备到
+> `manuscript.md` 的顺序操作路径。
+
 ## 1. 这是什么
 
 这是一个**以麦基方法论为核心的故事生成平台**——结合了 Claude Code 技能（Skills）与专用智能代理（Agents），将作者从一个模糊的创作冲动，引导至结构严谨、文字打磨的完整散文草稿。

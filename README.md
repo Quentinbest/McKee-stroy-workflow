@@ -74,6 +74,12 @@ npm run agents:verify
 
 基线工具没有第三方运行时依赖，无需执行 package install。
 
+第一次使用本项目完成长篇创作，建议直接阅读：
+[《使用 McKee Story Workflow 写完一部小说：入门教程》](NOVEL-WRITING-TUTORIAL-ZH.md)
+（[HTML 版](NOVEL-WRITING-TUTORIAL-ZH.html)）。
+教程覆盖独立私有故事仓库配置、完整生命周期、每个阶段的可复制提示词，以及
+从逐场起草到最终稿件组装的验收标准。
+
 开始创作时，请让当前 Harness 使用 `story-new` 处理故事种子：
 
 ```text

@@ -643,7 +643,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "d80f9217b9466979bb955b50ab6a75cfa56f7e07959a74561441f5167910dd5d"
+      "sha256": "ccfbf4ba9258eca770731aa458e3f2b920713331acd76c6f036544df13c76318"
     },
     {
       "path": ".claude/agents/tournament-judge.md",
@@ -1336,7 +1336,7 @@
         "command": "npm run agents:check-drift",
         "result": "see reports/release-evidence.json"
       },
-      "sha256": "824f16a349a1ef88eafdaeb888da6809b61b514178a2563c4b461f66545c6216"
+      "sha256": "192476e231baee411ce367e9e235a1d8eadfea7ba1d0d66179f4c792b5b717b0"
     },
     {
       "path": ".opencode/agents/tournament-judge.md",

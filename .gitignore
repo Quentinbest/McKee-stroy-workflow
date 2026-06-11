@@ -1,0 +1,14 @@
+.DS_Store
+
+# Deterministic release outputs are rebuilt from the tagged source commit.
+dist/
+release-assets/
+reports/package-artifacts/
+reports/package-pilots/
+reports/archive-artifacts.json
+reports/package-artifacts.json
+reports/package-doctor.json
+reports/package-install-smoke.json
+reports/package-models.json
+reports/package-pilots.json
+reports/rc-artifacts.json
