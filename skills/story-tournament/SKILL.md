@@ -18,6 +18,13 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
+triggers:
+  - tournament
+  - generate alternatives
+  - give me options
+  - run a tournament
+  - what are my climax options
+  - competing premises
   - Agent
 triggers:
   - story tournament

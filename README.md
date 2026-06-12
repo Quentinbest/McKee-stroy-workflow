@@ -138,6 +138,26 @@ Drop into `.claude/agents/` in your project directory.
 
 ## Installation
 
+### Quick install (recommended)
+
+```bash
+# Clone this repo
+git clone https://github.com/Quentinbest/McKee-stroy-workflow.git
+
+# Install skills globally + scaffold a project (one command)
+cd McKee-stroy-workflow
+bash install.sh --project-dir /path/to/your-story-project
+```
+
+The install script:
+1. Copies all skills to `~/.claude/skills/` (global, available in every Claude Code session)
+2. Copies all agents to `your-project/.claude/agents/` (project-local, used by `Agent` tool)
+3. Scaffolds project directory structure from templates
+
+Run `bash install.sh --dry-run` to preview without making changes.
+
+### Manual install
+
 ```bash
 # Clone this repo
 git clone https://github.com/Quentinbest/McKee-stroy-workflow.git
@@ -148,7 +168,17 @@ cp -r McKee-stroy-workflow/skills/* ~/.claude/skills/
 # Install agents into your story project
 cp -r McKee-stroy-workflow/agents/* your-story-project/.claude/agents/
 
-# Optional: verify Beat Gate contracts and fixtures
+# Scaffold a new project
+mkdir -p drafts/my-story/{characters,scenes,prose,audit/beat-gate,audit/rolling}
+cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
+cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
+cp McKee-stroy-workflow/templates/beat-gate-policy.json drafts/my-story/beat-gate-policy.json
+```
+
+### Optional: verify
+
+```bash
+# Verify Beat Gate contracts and fixtures
 node scripts/verify-beat-gate.mjs
 node --test tests/*.test.mjs
 node scripts/run-beat-gate-dry-run.mjs
@@ -163,12 +193,6 @@ node scripts/run-writer-adjudication.mjs create \
   --input benchmarks/writer-adjudication/glass-orchard-calibration-v2.json \
   --output benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2 \
   --seed 20260612-v2
-
-# Scaffold a new project
-mkdir -p drafts/my-story/{characters,scenes,prose}
-cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
-cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
-```
 
 For live unresolved critic findings, first join them to an explicit variant
 catalog with `run-writer-adjudication.mjs prepare`. The command fails on

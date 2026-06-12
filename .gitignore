@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+
+# Test artifacts
+benchmarks/*/runs/*/
+!benchmarks/*/runs/.gitkeep
+
+# Story drafts (user-generated, not part of the repo)
+drafts/
+
+# Temporary
+*.tmp
+*.log

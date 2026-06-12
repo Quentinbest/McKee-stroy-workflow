@@ -18,6 +18,13 @@ allowed-tools:
   - Write
   - Edit
   - Glob
+triggers:
+  - inevitable surprise
+  - plant the foreshadowing
+  - misdirection plan
+  - dual reading
+  - make the climax feel inevitable
+  - foreshadowing
   - Grep
   - Agent
 triggers:
