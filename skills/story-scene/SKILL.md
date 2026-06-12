@@ -153,7 +153,8 @@ If more than 2 critics flag the same beat → drop into a focused revision loop 
 
 If the same predicate fails for the same Beat:
 - **Round 2**: ordinary patching stops and a diversity challenge is required.
-- **Round 3**: do not run a 4th ordinary loop. Apply the **Backtracking Protocol** below or escalate to the user for adjudication.
+- **Round 3**: do not run a 4th ordinary loop. Apply the **Backtracking Protocol** below or, for a bounded prose-only disagreement, run `/story-writer-adjudication`.
+- Writer adjudication never substitutes for reopening protected upstream fields.
 
 ## Backtracking Protocol (V2)
 
