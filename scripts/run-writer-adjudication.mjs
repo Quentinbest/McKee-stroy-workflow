@@ -13,6 +13,7 @@ const REPETITION_VALUES = new Set([
   "increased",
   "uncertain",
 ]);
+const CALIBRATION_CONTROL_VALUES = new Set(["none", "weak_challenger"]);
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -46,6 +47,12 @@ function assertNonEmptyString(value, label) {
 function validateOptionalCount(value, label) {
   if (value !== null && (!Number.isInteger(value) || value < 0)) {
     throw new Error(`${label} must be null or a non-negative integer`);
+  }
+}
+
+function validatePositiveInteger(value, label) {
+  if (!Number.isInteger(value) || value < 1) {
+    throw new Error(`${label} must be a positive integer`);
   }
 }
 
@@ -121,7 +128,133 @@ function validateInput(input) {
       comparison.finding?.question,
       `${label}.finding.question`,
     );
+    if (comparison.application != null) {
+      assertNonEmptyString(
+        comparison.application.target_file,
+        `${label}.application.target_file`,
+      );
+      if (
+        path.isAbsolute(comparison.application.target_file) ||
+        comparison.application.target_file
+          .split(/[\\/]/)
+          .includes("..")
+      ) {
+        throw new Error(
+          `${label}.application.target_file must stay within the application root`,
+        );
+      }
+    }
   }
+
+  return validateCalibration(input);
+}
+
+function validateCalibration(input) {
+  const calibration = input.calibration;
+  if (calibration == null) {
+    if (
+      input.comparisons.some(
+        (comparison) => comparison.calibration != null,
+      )
+    ) {
+      throw new Error(
+        "comparison calibration metadata requires top-level calibration",
+      );
+    }
+    return null;
+  }
+
+  if (calibration.mode !== "prospective") {
+    throw new Error("calibration.mode must be prospective");
+  }
+  assertNonEmptyString(calibration.pilot_id, "calibration.pilot_id");
+  validatePositiveInteger(
+    calibration.minimum_comparisons,
+    "calibration.minimum_comparisons",
+  );
+  validatePositiveInteger(
+    calibration.minimum_distinct_scenes,
+    "calibration.minimum_distinct_scenes",
+  );
+  if (
+    !Array.isArray(calibration.required_categories) ||
+    calibration.required_categories.length === 0
+  ) {
+    throw new Error(
+      "calibration.required_categories must contain at least one category",
+    );
+  }
+  for (const [index, category] of calibration.required_categories.entries()) {
+    assertNonEmptyString(
+      category,
+      `calibration.required_categories[${index}]`,
+    );
+  }
+  if (calibration.control_policy?.type !== "weak_challenger") {
+    throw new Error(
+      "calibration.control_policy.type must be weak_challenger",
+    );
+  }
+  validatePositiveInteger(
+    calibration.control_policy.minimum_count,
+    "calibration.control_policy.minimum_count",
+  );
+
+  const scenes = new Set();
+  const categories = new Set();
+  let controlCount = 0;
+  for (const [index, comparison] of input.comparisons.entries()) {
+    const label = `comparisons[${index}]`;
+    assertNonEmptyString(comparison.scene_ref, `${label}.scene_ref`);
+    assertNonEmptyString(
+      comparison.calibration?.category,
+      `${label}.calibration.category`,
+    );
+    if (
+      !CALIBRATION_CONTROL_VALUES.has(
+        comparison.calibration?.control_type,
+      )
+    ) {
+      throw new Error(
+        `${label}.calibration.control_type must be none or weak_challenger`,
+      );
+    }
+    scenes.add(comparison.scene_ref);
+    categories.add(comparison.calibration.category);
+    if (comparison.calibration.control_type === "weak_challenger") {
+      controlCount += 1;
+    }
+  }
+
+  if (input.comparisons.length < calibration.minimum_comparisons) {
+    throw new Error(
+      `prospective calibration requires at least ${calibration.minimum_comparisons} comparisons`,
+    );
+  }
+  if (scenes.size < calibration.minimum_distinct_scenes) {
+    throw new Error(
+      `prospective calibration requires at least ${calibration.minimum_distinct_scenes} distinct scenes`,
+    );
+  }
+  const missingCategories = calibration.required_categories.filter(
+    (category) => !categories.has(category),
+  );
+  if (missingCategories.length > 0) {
+    throw new Error(
+      `prospective calibration is missing required categories: ${missingCategories.join(", ")}`,
+    );
+  }
+  if (controlCount < calibration.control_policy.minimum_count) {
+    throw new Error(
+      `prospective calibration requires at least ${calibration.control_policy.minimum_count} weak challenger controls`,
+    );
+  }
+
+  return {
+    ...calibration,
+    distinct_scenes: scenes.size,
+    control_count: controlCount,
+  };
 }
 
 function orderComparisons(comparisons, seed) {
@@ -402,6 +535,101 @@ function percentage(numerator, denominator) {
     : Number(((numerator / denominator) * 100).toFixed(1));
 }
 
+function calibrationMetrics(comparisons, manifestCalibration) {
+  if (!manifestCalibration) {
+    return null;
+  }
+
+  const controls = comparisons.filter(
+    (comparison) => comparison.control_type === "weak_challenger",
+  );
+  const nonControls = comparisons.filter(
+    (comparison) => comparison.control_type !== "weak_challenger",
+  );
+  const byCategory = {};
+  for (const comparison of comparisons) {
+    const category = comparison.calibration_category;
+    const current = byCategory[category] ?? {
+      comparisons: 0,
+      challenger_preferred: 0,
+      baseline_preferred: 0,
+      ties: 0,
+      findings_accepted: 0,
+      findings_rejected: 0,
+      findings_uncertain: 0,
+    };
+    current.comparisons += 1;
+    if (comparison.preferred_role === "challenger") {
+      current.challenger_preferred += 1;
+    } else if (comparison.preferred_role === "baseline") {
+      current.baseline_preferred += 1;
+    } else {
+      current.ties += 1;
+    }
+    if (comparison.finding_disposition === "accept") {
+      current.findings_accepted += 1;
+    } else if (comparison.finding_disposition === "reject") {
+      current.findings_rejected += 1;
+    } else {
+      current.findings_uncertain += 1;
+    }
+    byCategory[category] = current;
+  }
+
+  const controlBaselinePreferred = controls.filter(
+    (comparison) => comparison.preferred_role === "baseline",
+  ).length;
+  const controlTies = controls.filter(
+    (comparison) => comparison.preferred_role === "tie",
+  ).length;
+  const controlChallengerPreferred = controls.filter(
+    (comparison) => comparison.preferred_role === "challenger",
+  ).length;
+
+  return {
+    mode: manifestCalibration.mode,
+    pilot_id: manifestCalibration.pilot_id,
+    distinct_scenes: manifestCalibration.distinct_scenes,
+    control_count: controls.length,
+    control_baseline_preferred: controlBaselinePreferred,
+    control_ties: controlTies,
+    control_challenger_preferred: controlChallengerPreferred,
+    control_resistance_rate_percent: percentage(
+      controlBaselinePreferred + controlTies,
+      controls.length,
+    ),
+    control_findings_rejected: controls.filter(
+      (comparison) => comparison.finding_disposition === "reject",
+    ).length,
+    non_control_comparisons: nonControls.length,
+    non_control_challenger_preferred: nonControls.filter(
+      (comparison) => comparison.preferred_role === "challenger",
+    ).length,
+    by_category: byCategory,
+  };
+}
+
+function renderCalibrationMetrics(calibration) {
+  if (!calibration) {
+    return "";
+  }
+  return `
+## Calibration
+
+| Metric | Result |
+|---|---:|
+| Pilot | ${calibration.pilot_id} |
+| Distinct scenes | ${calibration.distinct_scenes} |
+| Weak challenger controls | ${calibration.control_count} |
+| Control baseline preferred | ${calibration.control_baseline_preferred} |
+| Control ties | ${calibration.control_ties} |
+| Control challenger preferred | ${calibration.control_challenger_preferred} |
+| Control resistance rate | ${calibration.control_resistance_rate_percent}% |
+| Control findings rejected | ${calibration.control_findings_rejected} |
+| Non-control challenger preferred | ${calibration.non_control_challenger_preferred}/${calibration.non_control_comparisons} |
+`;
+}
+
 function renderReport(report) {
   return `# Writer Adjudication Report: ${report.title}
 
@@ -426,6 +654,7 @@ Status: ${report.status}
 | Variant-generation agent calls | ${report.metrics.variant_generation_agent_calls ?? "not recorded"} |
 | Cross-scene repetition after reveal | ${report.metrics.cross_scene_repetition_effect} |
 
+${renderCalibrationMetrics(report.calibration)}
 ## Decisions
 
 ${report.comparisons
@@ -439,7 +668,7 @@ ${report.comparisons
 
 export function createAdjudicationRun({ inputPath, outputDir, seed }) {
   const input = readJson(inputPath);
-  validateInput(input);
+  const calibration = validateInput(input);
   assertNonEmptyString(seed, "seed");
   const inputHash = sha256(fs.readFileSync(inputPath));
   const metadataPath = path.join(outputDir, "run-metadata.json");
@@ -499,13 +728,17 @@ export function createAdjudicationRun({ inputPath, outputDir, seed }) {
       variant_generation_agent_calls: null,
       notes: "",
     },
+    calibration,
     warning:
       "Do not open before Stage 1 is complete. This file provides procedural, not cryptographic, blinding.",
     comparisons: assignments.map((assignment) => ({
       comparison_id: assignment.public_id,
       source_id: assignment.comparison.id,
       source_ref: assignment.comparison.source_ref ?? assignment.comparison.id,
+      scene_ref: assignment.comparison.scene_ref ?? null,
       authority_attestation: assignment.comparison.authority_attestation,
+      calibration: assignment.comparison.calibration ?? null,
+      application: assignment.comparison.application ?? null,
       variant_roles: {
         [assignment.baseline_label]: "baseline",
         [assignment.challenger_label]: "challenger",
@@ -527,6 +760,7 @@ export function createAdjudicationRun({ inputPath, outputDir, seed }) {
       variant_generation_agent_calls: null,
       notes: "",
     },
+    calibration,
     human_evidence_recorded: false,
   };
 
@@ -653,7 +887,11 @@ export function scoreAdjudicationRun({
         : mapping.variant_roles[blindDecision.preferred_variant];
     return {
       comparison_id: blindDecision.comparison_id,
+      source_id: mapping.source_id,
       source_ref: mapping.source_ref,
+      scene_ref: mapping.scene_ref,
+      calibration_category: mapping.calibration?.category ?? null,
+      control_type: mapping.calibration?.control_type ?? "none",
       preferred_variant: blindDecision.preferred_variant,
       preferred_role: preferredRole,
       confidence: blindDecision.confidence,
@@ -727,6 +965,10 @@ export function scoreAdjudicationRun({
     overall_notes: stageTwo.overall_notes,
     comparisons,
   };
+  report.calibration = calibrationMetrics(
+    comparisons,
+    manifest.calibration,
+  );
 
   writeJson(path.join(outputDir, "adjudication-report.json"), report);
   writeText(path.join(outputDir, "adjudication-report.md"), renderReport(report));
@@ -741,12 +983,479 @@ export function scoreAdjudicationRun({
   return report;
 }
 
+function countOccurrences(content, needle) {
+  let count = 0;
+  let offset = 0;
+  while (true) {
+    const index = content.indexOf(needle, offset);
+    if (index === -1) {
+      return count;
+    }
+    count += 1;
+    offset = index + needle.length;
+  }
+}
+
+function completedRunArtifacts(outputDir, inputPath) {
+  const metadata = readJson(path.join(outputDir, "run-metadata.json"));
+  const report = readJson(path.join(outputDir, "adjudication-report.json"));
+  if (metadata.status !== "COMPLETE" || report.status !== "COMPLETE") {
+    throw new Error("Adjudication run must be COMPLETE before application");
+  }
+  const inputContent = fs.readFileSync(inputPath);
+  const inputHash = sha256(inputContent);
+  const stageOnePath = path.join(outputDir, "stage-1-decisions.json");
+  const stageTwoPath = path.join(outputDir, "stage-2-decisions.json");
+  const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
+  if (
+    inputHash !== metadata.input_sha256 ||
+    inputHash !== manifest.input_sha256
+  ) {
+    throw new Error(
+      "Adjudication input no longer matches run metadata and manifest",
+    );
+  }
+  if (
+    metadata.run_id !== manifest.run_id ||
+    report.run_id !== manifest.run_id
+  ) {
+    throw new Error("Completed adjudication run_id values do not match");
+  }
+  validateBlindPackage(outputDir, manifest);
+  const stageOne = readJson(stageOnePath);
+  validateStageOne(stageOne, manifest);
+  const stageOneHash = sha256(fs.readFileSync(stageOnePath));
+  const stageTwo = readJson(stageTwoPath);
+  validateStageTwo(stageTwo, manifest, stageOneHash);
+  if (
+    stageOneHash !== report.stage_1_sha256 ||
+    sha256(fs.readFileSync(stageTwoPath)) !== report.stage_2_sha256
+  ) {
+    throw new Error("Completed adjudication decisions no longer match report");
+  }
+  validateReportDecisionBinding({ report, manifest, stageOne, stageTwo });
+  return {
+    input: JSON.parse(inputContent.toString("utf8")),
+    report,
+  };
+}
+
+function validateReportDecisionBinding({
+  report,
+  manifest,
+  stageOne,
+  stageTwo,
+}) {
+  const manifestById = new Map(
+    manifest.comparisons.map((comparison) => [
+      comparison.comparison_id,
+      comparison,
+    ]),
+  );
+  const stageOneById = new Map(
+    stageOne.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  const stageTwoById = new Map(
+    stageTwo.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  const reportIds = report.comparisons?.map(
+    (comparison) => comparison.comparison_id,
+  );
+  const expectedIds = stageOne.comparisons.map(
+    (comparison) => comparison.comparison_id,
+  );
+  if (JSON.stringify(reportIds) !== JSON.stringify(expectedIds)) {
+    throw new Error("Completed report comparison order no longer matches decisions");
+  }
+
+  for (const comparison of report.comparisons) {
+    const mapping = manifestById.get(comparison.comparison_id);
+    const blindDecision = stageOneById.get(comparison.comparison_id);
+    const findingDecision = stageTwoById.get(comparison.comparison_id);
+    const preferredRole =
+      blindDecision.preferred_variant === "tie"
+        ? "tie"
+        : mapping.variant_roles[blindDecision.preferred_variant];
+    const mismatch =
+      (comparison.source_id !== undefined &&
+        comparison.source_id !== mapping.source_id) ||
+      comparison.source_ref !== mapping.source_ref ||
+      comparison.preferred_variant !== blindDecision.preferred_variant ||
+      comparison.preferred_role !== preferredRole ||
+      comparison.finding_disposition !==
+        findingDecision.finding_disposition ||
+      comparison.adopt_preferred_variant !==
+        findingDecision.adopt_preferred_variant;
+    if (mismatch) {
+      throw new Error(
+        `Completed report no longer matches decisions: ${comparison.comparison_id}`,
+      );
+    }
+  }
+}
+
+function resolveApplicationTarget(rootDir, targetFile) {
+  const root = path.resolve(rootDir);
+  const target = path.resolve(root, targetFile);
+  if (target !== root && !target.startsWith(`${root}${path.sep}`)) {
+    throw new Error(`Application target escapes root: ${targetFile}`);
+  }
+  return target;
+}
+
+function resolveSourceComparison(decision, inputById, inputBySourceRef) {
+  if (decision.source_id) {
+    return inputById.get(decision.source_id);
+  }
+  const matches = inputBySourceRef.get(decision.source_ref) ?? [];
+  if (matches.length > 1) {
+    throw new Error(
+      `Legacy report source_ref is ambiguous: ${decision.source_ref}`,
+    );
+  }
+  return matches[0];
+}
+
+export function applyAdjudicationRun({
+  outputDir,
+  inputPath,
+  rootDir,
+  write = false,
+}) {
+  const { input, report } = completedRunArtifacts(outputDir, inputPath);
+  const inputById = new Map(
+    input.comparisons.map((comparison) => [comparison.id, comparison]),
+  );
+  const inputBySourceRef = new Map();
+  for (const comparison of input.comparisons) {
+    const sourceRef = comparison.source_ref ?? comparison.id;
+    const matches = inputBySourceRef.get(sourceRef) ?? [];
+    matches.push(comparison);
+    inputBySourceRef.set(sourceRef, matches);
+  }
+  const internalOperations = [];
+
+  for (const decision of report.comparisons) {
+    if (
+      decision.adopt_preferred_variant !== "yes" ||
+      decision.preferred_role !== "challenger"
+    ) {
+      continue;
+    }
+    const comparison = resolveSourceComparison(
+      decision,
+      inputById,
+      inputBySourceRef,
+    );
+    if (!comparison) {
+      throw new Error(
+        `Completed report references unknown source comparison: ${decision.source_id ?? decision.source_ref}`,
+      );
+    }
+    if (!comparison.application) {
+      internalOperations.push({
+        comparison_id: decision.comparison_id,
+        source_id: comparison.id,
+        target_file: null,
+        status: "SKIPPED_NO_TARGET",
+      });
+      continue;
+    }
+
+    const targetPath = resolveApplicationTarget(
+      rootDir,
+      comparison.application.target_file,
+    );
+    if (!fs.existsSync(targetPath)) {
+      internalOperations.push({
+        comparison_id: decision.comparison_id,
+        source_id: comparison.id,
+        target_file: comparison.application.target_file,
+        target_path: targetPath,
+        status: "MISSING_TARGET",
+        baseline_occurrences: 0,
+        baseline_text: comparison.baseline_text,
+        challenger_text: comparison.challenger_text,
+      });
+      continue;
+    }
+    const content = fs.readFileSync(targetPath, "utf8");
+    const realRoot = fs.realpathSync(rootDir);
+    const realTarget = fs.realpathSync(targetPath);
+    if (
+      realTarget !== realRoot &&
+      !realTarget.startsWith(`${realRoot}${path.sep}`)
+    ) {
+      throw new Error(
+        `Application target resolves outside root: ${comparison.application.target_file}`,
+      );
+    }
+    const occurrences = countOccurrences(content, comparison.baseline_text);
+    internalOperations.push({
+      comparison_id: decision.comparison_id,
+      source_id: comparison.id,
+      target_file: comparison.application.target_file,
+      target_path: targetPath,
+      status: occurrences === 1 ? "READY" : "STALE_SOURCE",
+      baseline_occurrences: occurrences,
+      baseline_text: comparison.baseline_text,
+      challenger_text: comparison.challenger_text,
+    });
+  }
+
+  const blocked = internalOperations.filter(
+    (operation) =>
+      operation.status === "MISSING_TARGET" ||
+      operation.status === "STALE_SOURCE",
+  );
+  if (write && blocked.length > 0) {
+    throw new Error(
+      `Approved baseline must occur exactly once in every target; blocked: ${blocked
+        .map(
+          (operation) =>
+            `${operation.source_id} (${operation.baseline_occurrences})`,
+        )
+        .join(", ")}`,
+    );
+  }
+
+  if (write) {
+    const plannedFiles = new Map();
+    for (const operation of internalOperations.filter(
+      (candidate) => candidate.status === "READY",
+    )) {
+      const content =
+        plannedFiles.get(operation.target_path) ??
+        fs.readFileSync(operation.target_path, "utf8");
+      if (countOccurrences(content, operation.baseline_text) !== 1) {
+        throw new Error(
+          `Approved baseline must occur exactly once after planned replacements: ${operation.source_id}`,
+        );
+      }
+      plannedFiles.set(
+        operation.target_path,
+        content.replace(
+          operation.baseline_text,
+          operation.challenger_text,
+        ),
+      );
+    }
+    for (const [targetPath, content] of plannedFiles) {
+      fs.writeFileSync(targetPath, content);
+    }
+    for (const operation of internalOperations) {
+      if (operation.status === "READY") {
+        operation.status = "APPLIED";
+      }
+    }
+  }
+
+  const plan = {
+    version: "1.0.0",
+    run_id: report.run_id,
+    status: write ? "APPLIED" : "DRY_RUN",
+    operations: internalOperations.map((operation) => ({
+      comparison_id: operation.comparison_id,
+      source_id: operation.source_id,
+      target_file: operation.target_file,
+      status: operation.status,
+      baseline_occurrences: operation.baseline_occurrences ?? null,
+      baseline_sha256: operation.baseline_text
+        ? sha256(operation.baseline_text)
+        : null,
+      challenger_sha256: operation.challenger_text
+        ? sha256(operation.challenger_text)
+        : null,
+    })),
+  };
+  writeJson(path.join(outputDir, "application-plan.json"), plan);
+  return plan;
+}
+
+function findReports(rootDir) {
+  const reports = [];
+  const stack = [path.resolve(rootDir)];
+  while (stack.length > 0) {
+    const current = stack.pop();
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const entryPath = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(entryPath);
+      } else if (entry.name === "adjudication-report.json") {
+        reports.push(entryPath);
+      }
+    }
+  }
+  return reports.sort();
+}
+
+function renderAggregateReport(aggregate) {
+  return `# Writer Adjudication Aggregate
+
+## Metrics
+
+| Metric | Result |
+|---|---:|
+| Completed runs | ${aggregate.metrics.completed_runs} |
+| Comparisons | ${aggregate.metrics.comparisons} |
+| Challenger preferred | ${aggregate.metrics.challenger_preferred} |
+| Baseline preferred | ${aggregate.metrics.baseline_preferred} |
+| Ties | ${aggregate.metrics.ties} |
+| Findings accepted | ${aggregate.metrics.findings_accepted} |
+| Findings rejected | ${aggregate.metrics.findings_rejected} |
+| Preferred variants adopted | ${aggregate.metrics.preferred_variants_adopted} |
+| Writer review time | ${aggregate.metrics.writer_review_minutes} minutes |
+| Weak challenger controls | ${aggregate.calibration.control_count} |
+| Control resistance rate | ${aggregate.calibration.control_resistance_rate_percent}% |
+
+## Runs
+
+${aggregate.runs.map((run) => `- ${run.run_id}: ${run.comparisons} comparisons`).join("\n")}
+`;
+}
+
+function aggregateMetric(report, group, key) {
+  const value = report[group]?.[key] ?? 0;
+  if (
+    typeof value !== "number" ||
+    !Number.isFinite(value) ||
+    value < 0
+  ) {
+    throw new Error(
+      `${report.run_id}.${group}.${key} must be a non-negative number`,
+    );
+  }
+  return value;
+}
+
+export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
+  const reports = findReports(runsDir)
+    .map((reportPath) => ({
+      reportPath,
+      report: readJson(reportPath),
+    }))
+    .filter(({ report }) => report.status === "COMPLETE");
+  if (reports.length === 0) {
+    throw new Error("No completed adjudication reports found");
+  }
+  const runIds = reports.map(({ report }) => report.run_id);
+  const duplicateRunIds = runIds.filter(
+    (runId, index) => runIds.indexOf(runId) !== index,
+  );
+  if (duplicateRunIds.length > 0) {
+    throw new Error(
+      `Duplicate adjudication run_id values: ${[...new Set(duplicateRunIds)].join(", ")}`,
+    );
+  }
+
+  const metricKeys = [
+    "comparisons",
+    "challenger_preferred",
+    "baseline_preferred",
+    "ties",
+    "findings_accepted",
+    "findings_rejected",
+    "findings_uncertain",
+    "preferred_variants_adopted",
+    "writer_review_minutes",
+  ];
+  const metrics = { completed_runs: reports.length };
+  for (const key of metricKeys) {
+    metrics[key] = Number(
+      reports
+        .reduce(
+          (total, { report }) =>
+            total + aggregateMetric(report, "metrics", key),
+          0,
+        )
+        .toFixed(1),
+    );
+  }
+
+  const controlCount = reports.reduce(
+    (total, { report }) =>
+      total + aggregateMetric(report, "calibration", "control_count"),
+    0,
+  );
+  const controlBaselinePreferred = reports.reduce(
+    (total, { report }) =>
+      total +
+      aggregateMetric(
+        report,
+        "calibration",
+        "control_baseline_preferred",
+      ),
+    0,
+  );
+  const controlTies = reports.reduce(
+    (total, { report }) =>
+      total + aggregateMetric(report, "calibration", "control_ties"),
+    0,
+  );
+  const aggregate = {
+    version: "1.0.0",
+    status: "COMPLETE",
+    metrics,
+    calibration: {
+      control_count: controlCount,
+      control_baseline_preferred: controlBaselinePreferred,
+      control_ties: controlTies,
+      control_challenger_preferred: reports.reduce(
+        (total, { report }) =>
+          total +
+          aggregateMetric(
+            report,
+            "calibration",
+            "control_challenger_preferred",
+          ),
+        0,
+      ),
+      control_findings_rejected: reports.reduce(
+        (total, { report }) =>
+          total +
+          aggregateMetric(
+            report,
+            "calibration",
+            "control_findings_rejected",
+          ),
+        0,
+      ),
+      control_resistance_rate_percent: percentage(
+        controlBaselinePreferred + controlTies,
+        controlCount,
+      ),
+    },
+    runs: reports.map(({ reportPath, report }) => ({
+      run_id: report.run_id,
+      comparisons: report.metrics.comparisons,
+      report_path: path.relative(path.resolve(runsDir), reportPath),
+    })),
+  };
+
+  if (outputDir) {
+    writeJson(path.join(outputDir, "aggregate-report.json"), aggregate);
+    writeText(
+      path.join(outputDir, "aggregate-report.md"),
+      renderAggregateReport(aggregate),
+    );
+  }
+  return aggregate;
+}
+
 function usage() {
   return [
     "Usage:",
     "  node scripts/run-writer-adjudication.mjs create --input <file> --output <dir> --seed <value>",
     "  node scripts/run-writer-adjudication.mjs reveal --output <dir> --stage-1 <file>",
     "  node scripts/run-writer-adjudication.mjs score --output <dir> --stage-1 <file> --stage-2 <file>",
+    "  node scripts/run-writer-adjudication.mjs apply --input <file> --output <dir> --root <dir> [--write]",
+    "  node scripts/run-writer-adjudication.mjs aggregate --runs <dir> --output <dir>",
   ].join("\n");
 }
 
@@ -800,6 +1509,33 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     });
     console.log(
       `Writer adjudication: ${result.status} (${result.metrics.comparisons} comparisons)`,
+    );
+  } else if (command === "apply") {
+    const inputValue = option(args, "--input");
+    const rootValue = option(args, "--root");
+    if (!inputValue || !rootValue) {
+      throw new Error(usage());
+    }
+    const result = applyAdjudicationRun({
+      outputDir,
+      inputPath: path.resolve(process.cwd(), inputValue),
+      rootDir: path.resolve(process.cwd(), rootValue),
+      write: args.includes("--write"),
+    });
+    console.log(
+      `Writer adjudication application: ${result.status} (${result.operations.length} operations)`,
+    );
+  } else if (command === "aggregate") {
+    const runsValue = option(args, "--runs");
+    if (!runsValue) {
+      throw new Error(usage());
+    }
+    const result = aggregateAdjudicationRuns({
+      runsDir: path.resolve(process.cwd(), runsValue),
+      outputDir,
+    });
+    console.log(
+      `Writer adjudication aggregate: COMPLETE (${result.metrics.completed_runs} runs)`,
     );
   } else {
     throw new Error(usage());

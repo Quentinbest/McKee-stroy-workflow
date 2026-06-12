@@ -52,8 +52,17 @@ Create an input from `templates/writer-adjudication-input.json`.
   checking both variants against the locked authority artifacts.
 - Do not place source-role labels in `context`, `baseline_text`, or
   `challenger_text`.
-- For a prospective batch-quality pilot, prefer 12-18 Beats from at least two
-  scenes and include stylistically different material.
+- For a prospective calibration pilot, use 10-12 comparisons from at least
+  four scenes. Cover desire pressure, value direction, closure, and
+  cross-scene repetition. Include at least three deliberately weak challenger
+  controls so the workflow can demonstrate that the writer rejects harmful or
+  merely paraphrastic intervention.
+- Keep `calibration` metadata out of writer-facing material. The runner seals
+  categories and control labels in the manifest and validates the declared
+  sample coverage before creating Stage 1.
+- Add `application.target_file` only when the baseline text can be matched
+  exactly in one project-relative file. This declares a possible target; it
+  never grants permission to edit.
 
 ## Stage 1 — Create and blind-review
 
@@ -120,6 +129,7 @@ The report separates:
 - accepted/rejected/uncertain findings
 - explicit adoption intent
 - writer review minutes, recorded agent calls, and cross-scene repetition effect
+- prospective control resistance from substantive challenger preference
 
 The report calls human rejection a writer-rejected finding rate. It is not an
 objective false-positive rate.
@@ -127,6 +137,37 @@ objective false-positive rate.
 Apply prose only when the writer recorded adoption. Preserve rejected and
 uncertain findings as evidence; do not rewrite history to make the critic look
 correct.
+
+## Stage 4 — Preview and apply approved variants
+
+After scoring, create a non-mutating application plan:
+
+```bash
+node scripts/run-writer-adjudication.mjs apply \
+  --input drafts/{slug}/audit/adjudication/{run-id}-input.json \
+  --output drafts/{slug}/audit/adjudication/{run-id} \
+  --root drafts/{slug}
+```
+
+The default is always `DRY_RUN`. A comparison is `READY` only when the writer
+recorded adoption, the challenger won blind, the input and decision hashes
+still match, and the baseline occurs exactly once in the declared target.
+
+Inspect `application-plan.json`, then add `--write` to apply all ready
+operations. Any missing or stale target blocks the write before any file is
+changed.
+
+## Aggregate completed runs
+
+```bash
+node scripts/run-writer-adjudication.mjs aggregate \
+  --runs drafts/{slug}/audit/adjudication \
+  --output drafts/{slug}/audit/adjudication/aggregate
+```
+
+Aggregate reports combine completed-run counts, preferences, finding
+dispositions, adoptions, review time, and control resistance. They do not turn
+writer judgments into an objective critic score.
 
 ## Limits
 

@@ -20,6 +20,9 @@ test("writer adjudication separates blind preference from revealed finding", () 
   assert.match(adjudication, /Stage 1 — Create and blind-review/);
   assert.match(adjudication, /Stage 2 — Reveal and adjudicate the finding/);
   assert.match(adjudication, /Stage 3 — Score without auto-applying/);
+  assert.match(adjudication, /Stage 4 — Preview and apply approved variants/);
+  assert.match(adjudication, /default is always `DRY_RUN`/);
+  assert.match(adjudication, /Aggregate completed runs/);
 });
 
 test("writer adjudication preserves protected authority", () => {

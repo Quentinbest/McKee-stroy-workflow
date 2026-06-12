@@ -3,6 +3,7 @@
   "run_id": "{{date}}-{{slug}}-{{purpose}}",
   "title": "{{blind comparison title}}",
   "created_at": "{{YYYY-MM-DD}}",
+  "calibration": null,
   "process_metrics": {
     "critic_agent_calls": null,
     "variant_generation_agent_calls": null,
@@ -11,6 +12,7 @@
   "comparisons": [
     {
       "id": "{{stable-private-id}}",
+      "scene_ref": "{{scene-ref}}",
       "source_ref": "{{scene-or-beat-ref}}",
       "authority_attestation": {
         "protected_fields_unchanged": true,
@@ -19,6 +21,8 @@
       "context": "{{bounded context shared by both variants}}",
       "baseline_text": "{{current prose}}",
       "challenger_text": "{{single-purpose alternative}}",
+      "calibration": null,
+      "application": null,
       "finding": {
         "predicate": "{{critic predicate}}",
         "evidence": "{{specific evidence}}",
