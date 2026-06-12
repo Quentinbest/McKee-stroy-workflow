@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "scene_ref": "1-2",
+  "execution_mode": "in-context-fallback",
+  "status": "deferred_to_batch_boundary",
+  "stages_completed": [
+    "scan",
+    "critic",
+    "diversity_if_required"
+  ],
+  "writer_decision": "deferred_to_batch_boundary",
+  "current_round": 1,
+  "rolling_review_due": false,
+  "beats": [
+    {
+      "beat_ref": "1-2-1",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 1 -->\n低地诊所的发电机每隔七秒咳一次。碘酒、湿棉被和潮沟里的柴油味叠在一起。阿蓁正用蜡封药柜底缝，指甲里全是蓝色封泥。",
+      "clean_text": "低地诊所的发电机每隔七秒咳一次。碘酒、湿棉被和潮沟里的柴油味叠在一起。阿蓁正用蜡封药柜底缝，指甲里全是蓝色封泥。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 1 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    },
+    {
+      "beat_ref": "1-2-2",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 2 -->\n“今晚去高地。”林汐把通行证塞进药柜。\n阿蓁没看纸，只把蜡刀递给她：“那你封东边。”\n“主潮提前了。”\n“你每次说今晚，都是想让我别问明天。”",
+      "clean_text": "“今晚去高地。”林汐把通行证塞进药柜。\n阿蓁没看纸，只把蜡刀递给她：“那你封东边。”\n“主潮提前了。”\n“你每次说今晚，都是想让我别问明天。”",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 2 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    },
+    {
+      "beat_ref": "1-2-3",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 3 -->\n林汐袖口里的回声匣漏出三声短促蜂鸣。阿蓁的蜡刀停在柜缝里。“这是诊所旧警报，”她说，“母亲值夜那年，七码闸开之前也响过。”她把通行证推回药瓶之间，纸角沾上封泥。",
+      "clean_text": "林汐袖口里的回声匣漏出三声短促蜂鸣。阿蓁的蜡刀停在柜缝里。“这是诊所旧警报，”她说，“母亲值夜那年，七码闸开之前也响过。”她把通行证推回药瓶之间，纸角沾上封泥。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 3 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [
+        {
+          "classification": "REVIEW",
+          "predicate": "mechanism_repetition",
+          "evidence": "连续两场都依靠回声匣漏出声音推进信息，第二次的惊奇度明显下降。",
+          "question": "是否让阿蓁通过封泥颜色或旧水位刻痕识别证据，改变发现机制？"
+        }
+      ],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    }
+  ]
+}

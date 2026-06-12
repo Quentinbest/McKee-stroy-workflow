@@ -9,6 +9,16 @@ const requiredFiles = [
   "skills/story-beat-gate/SKILL.md",
   "skills/story-beat-gate/scripts/beat-gate-rules.mjs",
   "scripts/run-beat-gate-dry-run.mjs",
+  "scripts/run-beat-gate-dogfood.mjs",
+  "benchmarks/beat-gate-dogfood/README.md",
+  "benchmarks/beat-gate-dogfood/memory-tide.json",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-11-memory-tide/dogfood-report.json",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-11-memory-tide/writer-review-package.md",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-12-memory-tide/dogfood-report.json",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-12-memory-tide/writer-review-package.md",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-12-memory-tide/drafts/memory-tide/prose/1-4.md",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-12-memory-tide/drafts/memory-tide/audit/rolling/1-4-reader.md",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-12-memory-tide/drafts/memory-tide/audit/rolling/1-4-pacing.md",
   "agents/blind-beat-critic.md",
   "agents/diversity-challenger.md",
   "tests/beat-gate-rules.test.mjs",
@@ -19,13 +29,17 @@ const requiredFiles = [
   "tests/rolling-reader-check.test.mjs",
   "tests/beat-gate-resume.test.mjs",
   "tests/beat-gate-workflow.test.mjs",
-  "tests/beat-gate-e2e.test.mjs"
+  "tests/beat-gate-e2e.test.mjs",
+  "tests/beat-gate-dogfood.test.mjs"
 ];
 
 const jsonFiles = [
   "templates/beat-gate-policy.json",
   "templates/beat-gate-ledger.json",
   "templates/lifecycle.json",
+  "benchmarks/beat-gate-dogfood/memory-tide.json",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-11-memory-tide/dogfood-report.json",
+  "benchmarks/beat-gate-dogfood/runs/2026-06-12-memory-tide/dogfood-report.json",
   "tests/fixtures/beat-gate/normal.json",
   "tests/fixtures/beat-gate/protected-field.json",
   "tests/fixtures/beat-gate/ambiguous.json",
@@ -57,6 +71,10 @@ const stringChecks = [
   {
     file: "README.md",
     needle: "run-beat-gate-dry-run.mjs"
+  },
+  {
+    file: "README.md",
+    needle: "run-beat-gate-dogfood.mjs"
   },
   {
     file: "MANUAL.md",
@@ -104,7 +122,14 @@ for (const { file, needle } of stringChecks) {
 }
 
 const repoRoot = process.cwd();
-const pathsToScan = ["tests", "scripts", "skills", "agents", "templates"];
+const pathsToScan = [
+  "tests",
+  "scripts",
+  "skills",
+  "agents",
+  "templates",
+  "benchmarks"
+];
 for (const scanRoot of pathsToScan) {
   const stack = [scanRoot];
   while (stack.length) {

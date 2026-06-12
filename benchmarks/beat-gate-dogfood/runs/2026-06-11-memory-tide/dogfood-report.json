@@ -1,0 +1,33 @@
+{
+  "status": "AWAITING_WRITER",
+  "fixture": "benchmarks/beat-gate-dogfood/memory-tide.json",
+  "project_root": "drafts/memory-tide",
+  "execution_mode": "in-context-fallback",
+  "metrics": {
+    "scenes_attempted": 4,
+    "beats_attempted": 12,
+    "auto_patches": 13,
+    "auto_output_leaks": 0,
+    "critic_review_findings": 7,
+    "protected_probe_rejects": 1,
+    "beats_deferred_to_batch_boundary": 11,
+    "beats_awaiting_writer": 1,
+    "human_decision_points": 1,
+    "mechanism_categories_covered": 4,
+    "diversity_alternative_mechanisms": 3,
+    "batch_homogeneity_flags": 3
+  },
+  "compute": {
+    "runner_invocations": 13,
+    "isolated_critic_calls": 0,
+    "in_context_critic_passes": 12,
+    "diversity_passes": 1,
+    "rolling_review_passes": 0
+  },
+  "limitations": [
+    "The blind critic ran in-context, so drafter-reviewer independence is not proven.",
+    "Mechanism categories are fixture labels and do not prove prose-level diversity.",
+    "Final aesthetic acceptance and accepted-vs-rejected critic findings remain pending human judgment.",
+    "Rolling reader and pacing reviews must wait until the writer commits the scene batch."
+  ]
+}

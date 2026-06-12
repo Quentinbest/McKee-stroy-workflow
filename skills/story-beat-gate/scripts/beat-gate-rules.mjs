@@ -139,21 +139,82 @@ function normalizeBlankLines(text) {
 }
 
 function stripAuthoringComments(text) {
-  const pattern = /<!--\s*(Beat\s+\d+.*?|VOICE CHECK:.*?|SUBTEXT CHECK:.*?)\s*-->\n?/g;
+  const pattern =
+    /<!--\s*(Beat\s+\d+.*?|VOICE CHECK:.*?|SUBTEXT CHECK:.*?)\s*-->(?:\n(?!\n))?/g;
   const patches = [];
   let match;
   while ((match = pattern.exec(text)) !== null) {
+    let end = match.index + match[0].length;
+    if (match.index === 0) {
+      while (text[end] === "\n") {
+        end += 1;
+      }
+    }
     patches.push(
       createPatch({
         ruleId: "strip_authoring_comment",
-        original: match[0],
+        original: text.slice(match.index, end),
         replacement: "",
         start: match.index,
-        end: match.index + match[0].length
+        end
       })
     );
   }
   return patches;
+}
+
+function patchesOverlap(left, right) {
+  return left.start < right.end && right.start < left.end;
+}
+
+function resolvePatchConflicts(patches) {
+  const conflicted = new Set();
+  const reviewItems = [];
+
+  for (let leftIndex = 0; leftIndex < patches.length; leftIndex += 1) {
+    for (
+      let rightIndex = leftIndex + 1;
+      rightIndex < patches.length;
+      rightIndex += 1
+    ) {
+      const left = patches[leftIndex];
+      const right = patches[rightIndex];
+      if (!patchesOverlap(left, right)) {
+        continue;
+      }
+
+      const stripPatch =
+        left.rule_id === "strip_authoring_comment"
+          ? left
+          : right.rule_id === "strip_authoring_comment"
+            ? right
+            : null;
+      const nestedPatch = stripPatch === left ? right : left;
+      if (
+        stripPatch &&
+        nestedPatch.start >= stripPatch.start &&
+        nestedPatch.end <= stripPatch.end
+      ) {
+        conflicted.add(nestedPatch);
+        continue;
+      }
+
+      conflicted.add(left);
+      conflicted.add(right);
+      reviewItems.push({
+        code: "overlapping_auto_patches",
+        rule_id: `${left.rule_id}+${right.rule_id}`,
+        classification: "REVIEW",
+        message:
+          "Overlapping deterministic patches were withheld because their combined effect is ambiguous.",
+      });
+    }
+  }
+
+  return {
+    patches: patches.filter((patch) => !conflicted.has(patch)),
+    reviewItems,
+  };
 }
 
 function detectMalformedComments(text) {
@@ -230,16 +291,16 @@ export function applyBeatGateRules(input) {
   if ((policy.auto_rules || []).includes("strip_authoring_comment")) {
     compiledPatches.push(...stripAuthoringComments(candidateText));
   }
-  if ((policy.auto_rules || []).includes("normalize_blank_lines")) {
-    compiledPatches.push(...normalizeBlankLines(candidateText));
-  }
   if ((policy.auto_rules || []).includes("locked_term_alias")) {
     const termResult = buildLockedTermPatches(candidateText, policy, protectedFields);
     compiledPatches.push(...termResult.patches);
     detections.push(...termResult.detections);
   }
 
-  for (const patch of compiledPatches) {
+  const conflictResolution = resolvePatchConflicts(compiledPatches);
+  detections.push(...conflictResolution.reviewItems);
+
+  for (const patch of conflictResolution.patches) {
     if (hasProtectedDimension(patch.affected_dimensions, protectedFields)) {
       rejectItems.push({
         code: "protected_contract_overlap",
@@ -273,16 +334,32 @@ export function applyBeatGateRules(input) {
     }
   }
 
-  const sortedPatches = autoPatches.sort((a, b) => b.start - a.start);
+  const sortedPatches = [...autoPatches].sort((a, b) => b.start - a.start);
   let outputText = candidateText;
   for (const patch of sortedPatches) {
     outputText = applyPatch(outputText, patch);
   }
 
+  const appliedPatches = [...autoPatches].sort((a, b) => a.start - b.start);
+  if ((policy.auto_rules || []).includes("normalize_blank_lines")) {
+    const normalizationPatches = normalizeBlankLines(outputText).map(
+      (patch) => ({
+        ...patch,
+        coordinate_space: "output_after_primary_patches"
+      })
+    );
+    for (const patch of [...normalizationPatches].sort(
+      (a, b) => b.start - a.start
+    )) {
+      outputText = applyPatch(outputText, patch);
+    }
+    appliedPatches.push(...normalizationPatches);
+  }
+
   return {
     version: policy.version,
     output_text: outputText,
-    patches: autoPatches.sort((a, b) => a.start - b.start),
+    patches: appliedPatches,
     review_items: reviewItems,
     reject_items: rejectItems,
     policy_errors: policyValidation.errors

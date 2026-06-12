@@ -40,6 +40,90 @@ test("ambiguous mappings and malformed comments are reported without mutation", 
   assert.equal(result.output_text, fixture.candidate_text);
 });
 
+test("term aliases inside stripped comments do not corrupt reader-facing text", () => {
+  const policy = readFixture("normal.json").policy;
+  policy.term_mappings = [
+    {
+      canonical: "回声匣长名",
+      aliases: ["管"]
+    }
+  ];
+
+  const result = applyBeatGateRules({
+    policy,
+    candidate_text: "<!-- Beat 1 管 -->\n正文。\n"
+  });
+
+  assert.equal(result.output_text, "正文。\n");
+  assert.deepEqual(
+    result.patches.map((patch) => patch.rule_id),
+    ["strip_authoring_comment"]
+  );
+});
+
+test("leading authoring comments do not leave reader-facing blank lines", () => {
+  const policy = readFixture("normal.json").policy;
+  policy.term_mappings = [];
+
+  const result = applyBeatGateRules({
+    policy,
+    candidate_text: "<!-- Beat 1 -->\n\n\n正文。\n"
+  });
+
+  assert.equal(result.output_text, "正文。\n");
+  assert.deepEqual(
+    result.patches.map((patch) => patch.rule_id),
+    ["strip_authoring_comment"]
+  );
+});
+
+test("comment removal rechecks newly adjacent blank lines", () => {
+  const policy = readFixture("normal.json").policy;
+  policy.term_mappings = [];
+
+  const result = applyBeatGateRules({
+    policy,
+    candidate_text: "前文。\n<!-- Beat 2 -->\n\n\n正文。\n"
+  });
+
+  assert.equal(result.output_text, "前文。\n\n正文。\n");
+  assert.deepEqual(
+    result.patches.map((patch) => patch.rule_id),
+    ["strip_authoring_comment", "normalize_blank_lines"]
+  );
+  assert.equal(
+    result.patches[1].coordinate_space,
+    "output_after_primary_patches"
+  );
+});
+
+test("overlapping term aliases are withheld for review", () => {
+  const policy = readFixture("normal.json").policy;
+  policy.term_mappings = [
+    {
+      canonical: "Card",
+      aliases: ["card"]
+    },
+    {
+      canonical: "Scene Card Extended",
+      aliases: ["scene card"]
+    }
+  ];
+
+  const result = applyBeatGateRules({
+    policy,
+    candidate_text: "Open the scene card.\n"
+  });
+
+  assert.equal(result.output_text, "Open the scene card.\n");
+  assert.equal(result.patches.length, 0);
+  assert.ok(
+    result.review_items.some(
+      (item) => item.code === "overlapping_auto_patches"
+    )
+  );
+});
+
 test("policy validation flags unknown AUTO rules without crashing", () => {
   const fixture = readFixture("ambiguous.json");
   const validation = validatePolicy(fixture.policy);

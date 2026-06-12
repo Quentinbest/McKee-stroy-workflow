@@ -1,0 +1,296 @@
+{
+  "slug": "memory-tide",
+  "title": "潮汐档案",
+  "language": "zh",
+  "authority": {
+    "premise": "当防洪城以死者的最后记忆驱动海堤，一名记忆档案员发现母亲的临终记忆证明城市曾主动淹没低地；为了保护仍住在低地的妹妹，她必须在抹去证据、维持海堤与公开真相、让全城共同承担风暴之间作出选择。",
+    "controlling_idea": "当保护意味着替别人决定谁应承担代价，爱会变成一种温和的暴力；只有共同承担真相的风险，保护才可能保留人的尊严。",
+    "character_desires": {
+      "林汐": "保护妹妹阿蓁免于风暴、驱逐和制度报复。",
+      "阿蓁": "守住低地诊所，并拒绝被当作需要替她作决定的负担。",
+      "乔署长": "让海堤在风暴中继续运转，并保存管理署的合法性。"
+    },
+    "final_aesthetic_judgment": "human_only"
+  },
+  "human_decision": {
+    "decided_at": "2026-06-12",
+    "decision_source": "user",
+    "accepted_review_package": true,
+    "selected_ending": "A",
+    "rationale": "The user selected option A."
+  },
+  "voice_anchors": [
+    "具体物件先于抽象解释",
+    "情绪通过手部动作、声音和盐味显现",
+    "避免点破式心理总结",
+    "关键句保持短而克制"
+  ],
+  "world_constraints": [
+    "死者最后九十秒记忆可被燃烧，为海堤供能。",
+    "回声匣一旦燃料化，其中记忆不可恢复。",
+    "公共广播桥接会让海堤中枢降载九十秒。",
+    "本轮风暴主潮将在四十分钟内抵达。"
+  ],
+  "term_mappings": [
+    {
+      "canonical": "回声匣",
+      "aliases": [
+        "记忆管"
+      ]
+    },
+    {
+      "canonical": "海堤中枢",
+      "aliases": [
+        "堤心"
+      ]
+    }
+  ],
+  "protected_probe": {
+    "candidate_text": "林汐决定揭露真相。",
+    "mapping": {
+      "canonical": "保护阿蓁",
+      "aliases": [
+        "揭露真相"
+      ],
+      "forced_dimension": "character_desire"
+    }
+  },
+  "batch_observations": [
+    {
+      "severity": "high",
+      "category": "cross_scene_homogeneity",
+      "evidence": "多数 Beat 采用“具体物件或声音开场、克制对话推进、物件余波收尾”的同一审美模板；机制标签不同，但阅读质感仍趋同。",
+      "implication": "机制覆盖率不能作为成品多样性的代理指标。"
+    },
+    {
+      "severity": "medium",
+      "category": "information_mechanism_repetition",
+      "evidence": "1-1-2 与 1-2-3 都依赖回声匣漏出声音完成证据发现。",
+      "implication": "Beat 级 critic 能发现局部重复，但需要 batch 边界汇总才能判断跨场递减效应。"
+    },
+    {
+      "severity": "high",
+      "category": "self_review_distortion",
+      "evidence": "本环境没有独立 critic 调用；12 次审查均由同一上下文完成。",
+      "implication": "审查发现只能视为风险提示，不能作为质量通过证据。"
+    }
+  ],
+  "post_commit_observations": [
+    {
+      "status": "resolved",
+      "category": "information_mechanism_repetition",
+      "evidence": "1-2-3 已从声音泄漏改为封泥与旧水线的物证识别。"
+    },
+    {
+      "status": "residual",
+      "category": "cross_scene_homogeneity",
+      "evidence": "场景仍偏好由小型具体物件承载收尾；后续序列需要扩大空间、群体行动和句法尺度。"
+    },
+    {
+      "status": "residual",
+      "category": "self_review_distortion",
+      "evidence": "Beat critic 与 rolling review 均为 in-context fallback，不能证明真正的审查独立性。"
+    }
+  ],
+  "scenes": [
+    {
+      "ref": "1-1",
+      "title": "母亲的回声匣",
+      "contract": {
+        "opening_expectation": "林汐只需完成一份例行死者燃料化手续。",
+        "closing_reality": "母亲的记忆证明七码闸并非失守，而是被管理署主动开启。",
+        "gap": "私人哀悼变成了可能动摇全城秩序的证据。",
+        "value_shift": "服从正当程序 -> 怀疑程序掩盖谋杀"
+      },
+      "beats": [
+        {
+          "ref": "1-1-1",
+          "mechanism": "material_immersion",
+          "candidate_text": "<!-- Beat 1 记忆管 -->\n\n\n铜盘先传来母亲指甲刮过瓷杯的细响。林汐把记忆管扣进三枚簧片，盐雾从窗缝钻进来，舌根发苦。屏幕把死者姓名压成一行白字：许岚，待燃料化。",
+          "critic_findings": []
+        },
+        {
+          "ref": "1-1-2",
+          "mechanism": "information_control",
+          "candidate_text": "<!-- Beat 2 -->\n回声匣里没有遗言。先是雨点击打铁皮，再是有人连续报出水位，最后，一个男人说：“七码闸按名单放低地。高地电网优先。”林汐把音量旋到最小，仍觉得那句话贴着耳骨。",
+          "critic_findings": [
+            {
+              "classification": "REVIEW",
+              "predicate": "bounded_clarity",
+              "evidence": "“按名单放低地”提供阴谋信息，但名单性质与母亲为何在场仍不清楚。",
+              "question": "是否需要一个不解释全貌、但能证明母亲是现场见证人的具体声音？"
+            }
+          ],
+          "review_resolution": "作者接受保留歧义；1-1-3 将补足母亲在场的具体证据，而不解释全部阴谋。"
+        },
+        {
+          "ref": "1-1-3",
+          "mechanism": "action",
+          "candidate_text": "<!-- Beat 3 -->\n删除杆落下一半，母亲忽然咳了两声。那是林汐小时候撒谎时会听见的提醒。随后，许岚说：“七码闸不是溃口。是他们开的。”林汐松手。铜杆弹回去，撞出一声比警铃更轻的响。",
+          "accepted_text": "<!-- Beat 3 accepted -->\n删除杆落下一半，母亲忽然咳了两声。那是林汐小时候撒谎时会听见的提醒。远处有人喊“按名单开闸”，许岚立刻回了一句：“七码闸还有人。”金属扳手落地。林汐松手，铜杆弹回去，撞出一声比警铃更轻的响。",
+          "critic_findings": [
+            {
+              "classification": "REVIEW",
+              "predicate": "explanation_pressure",
+              "evidence": "母亲的最后一句完整解释了事件，可能让发现过于顺滑。",
+              "question": "是否删去“不是溃口”，只保留能让林汐得出结论的现场命令？"
+            }
+          ],
+          "review_resolution": "已删除解释性结论，改为现场命令、母亲反对与扳手落地，让林汐和读者自行推断。"
+        }
+      ]
+    },
+    {
+      "ref": "1-2",
+      "title": "低地诊所",
+      "contract": {
+        "opening_expectation": "林汐以为一张高地通行证足以让阿蓁离开。",
+        "closing_reality": "阿蓁拒绝通行证，并识别出母亲记忆中的诊所警报。",
+        "gap": "保护妹妹的行动被妹妹理解为再次替她决定。",
+        "value_shift": "单方面保护 -> 关系破裂与共同知情"
+      },
+      "beats": [
+        {
+          "ref": "1-2-1",
+          "mechanism": "material_immersion",
+          "candidate_text": "<!-- Beat 1 -->\n低地诊所的发电机每隔七秒咳一次。碘酒、湿棉被和潮沟里的柴油味叠在一起。阿蓁正用蜡封药柜底缝，指甲里全是蓝色封泥。",
+          "critic_findings": []
+        },
+        {
+          "ref": "1-2-2",
+          "mechanism": "relationship_pressure",
+          "candidate_text": "<!-- Beat 2 -->\n“今晚去高地。”林汐把通行证塞进药柜。\n阿蓁没看纸，只把蜡刀递给她：“那你封东边。”\n“主潮提前了。”\n“你每次说今晚，都是想让我别问明天。”",
+          "critic_findings": []
+        },
+        {
+          "ref": "1-2-3",
+          "mechanism": "material_immersion",
+          "candidate_text": "<!-- Beat 3 -->\n林汐袖口里的回声匣漏出三声短促蜂鸣。阿蓁的蜡刀停在柜缝里。“这是诊所旧警报，”她说，“母亲值夜那年，七码闸开之前也响过。”她把通行证推回药瓶之间，纸角沾上封泥。",
+          "accepted_text": "<!-- Beat 3 accepted -->\n阿蓁捏住回声匣的锁舌，用蜡刀刮下一点干裂的蓝泥。她把泥屑按在药柜背板的旧水线上，颜色严丝合缝。“东墙封泥，”她说，“母亲那晚来过诊所。”她把通行证推回药瓶之间，纸角也沾上了蓝色。",
+          "critic_findings": [
+            {
+              "classification": "REVIEW",
+              "predicate": "mechanism_repetition",
+              "evidence": "连续两场都依靠回声匣漏出声音推进信息，第二次的惊奇度明显下降。",
+              "question": "是否让阿蓁通过封泥颜色或旧水位刻痕识别证据，改变发现机制？"
+            }
+          ],
+          "review_resolution": "已将声音泄漏改为封泥与旧水线的物证识别，消除连续两场使用同一信息机制。"
+        }
+      ]
+    },
+    {
+      "ref": "1-3",
+      "title": "交换条件",
+      "contract": {
+        "opening_expectation": "林汐以为自己可以用制度漏洞保住证据和妹妹。",
+        "closing_reality": "乔署长把妹妹的安全与证据销毁绑定。",
+        "gap": "她试图规避选择，却被迫承认两种保护不可兼得。",
+        "value_shift": "秘密周旋 -> 公开选择的压力"
+      },
+      "beats": [
+        {
+          "ref": "1-3-1",
+          "mechanism": "relationship_pressure",
+          "candidate_text": "<!-- Beat 1 -->\n乔署长把一张新的高地证压在茶托下，杯底正好盖住阿蓁的名字。“你妹妹的床位已经登记，”他说，“风暴后，她也可以留下。”茶水没有热气，杯沿却烫得林汐指尖发白。",
+          "accepted_text": "<!-- Beat 1 accepted -->\n乔署长先把海堤负载表转向林汐，红线只剩最后一格。“今晚不能少任何一份燃料。”他端起茶，杯底粘起一张高地证，阿蓁的名字从湿痕下露出来。“床位名单只改这一次。”",
+          "critic_findings": [
+            {
+              "classification": "REVIEW",
+              "predicate": "antagonist_specificity",
+              "evidence": "交换条件清楚，但乔署长过早把威胁说得完整，缺少他自认正在救人的压力逻辑。",
+              "question": "是否让他先谈海堤负载，让通行证作为“附带安排”出现？"
+            }
+          ],
+          "review_resolution": "已先建立乔署长自认救城的负载逻辑，再让通行证以附带安排出现。"
+        },
+        {
+          "ref": "1-3-2",
+          "mechanism": "material_immersion",
+          "candidate_text": "<!-- Beat 2 -->\n墙后的海堤中枢低鸣了一次，桌上十二只空回声匣同时滚向西边。乔署长逐只扶正。“少一份记忆，七码闸就晚闭四秒。”他说，“你可以保存母亲，也可以保存低地。别假装这不是同一笔账。”",
+          "critic_findings": []
+        },
+        {
+          "ref": "1-3-3",
+          "mechanism": "action",
+          "candidate_text": "<!-- Beat 3 -->\n林汐把高地证对折，没有撕。她将折痕压过阿蓁的名字，再把纸推回茶托下。“四十分钟后，”她说，“你会听见我母亲。”乔署长第一次没有去扶滚动的回声匣。",
+          "critic_findings": [
+            {
+              "classification": "REVIEW",
+              "predicate": "protected_choice",
+              "evidence": "林汐承诺广播，但她如何同时履行“保护阿蓁”的锁定欲望仍未解决。",
+              "question": "这是策略升级，还是已把人物欲望从保护妹妹改成揭露真相？最终解释必须由作者裁决。"
+            }
+          ],
+          "review_resolution": "作者裁决为策略升级：公开母亲证据用于阻止管理署再次牺牲低地，锁定欲望仍是保护阿蓁。"
+        }
+      ]
+    },
+    {
+      "ref": "1-4",
+      "title": "九十秒",
+      "contract": {
+        "opening_expectation": "林汐以为抵达广播桥就能同时保存证据与海堤。",
+        "closing_reality": "广播必然令海堤降载九十秒，且母亲的记忆只能被公开或燃烧一次。",
+        "gap": "技术捷径消失，保护必须成为可见的共同选择。",
+        "value_shift": "独自承担 -> 是否允许他人共同承担",
+        "turning_point": "林汐不再寻找无代价方案，而决定谁有权参与风险。"
+      },
+      "beats": [
+        {
+          "ref": "1-4-1",
+          "mechanism": "action",
+          "candidate_text": "<!-- Beat 1 -->\n主潮撞上外墙时，广播桥的铜梯向左摆了半尺。林汐用肘弯夹住回声匣往上爬，下面的海堤中枢逐层熄灯。每暗一层，城里就有一排窗户亮起手摇灯。",
+          "critic_findings": []
+        },
+        {
+          "ref": "1-4-2",
+          "mechanism": "information_control",
+          "candidate_text": "<!-- Beat 2 -->\n桥台只有两个槽：广播，或燃料。林汐把回声匣放在两槽之间，手指悬在铜扣上。阿蓁的诊所频道不断呼叫她，乔署长的线路则一声不响。",
+          "critic_findings": [
+            {
+              "classification": "REVIEW",
+              "predicate": "meaningful_move",
+              "evidence": "“手指悬在两个选择之间”是危机占位符，没有产生新的行动或关系变化。",
+              "question": "谁的行动迫使林汐停止等待？"
+            }
+          ],
+          "review_resolution": "作为危机前的短暂停顿保留；下一 Beat 由林汐不可逆地卡死广播扣，完成行动转折。"
+        },
+        {
+          "ref": "1-4-3",
+          "mechanism": "information_control",
+          "candidate_text": "<!-- Beat 3 -->\n她按住广播扣，却没有压下去。诊所频道里，阿蓁开始逐个念病人的名字。林汐听完第一个，又等第二个。海水沿梯脚升上来，碰到她鞋底。",
+          "accepted_text": "<!-- Beat 3 accepted ending A -->\n林汐摘下档案员指环，横卡进广播扣。弹簧咬住银环，扣键沉到底，再也弹不回来。桥台警报骤响。她把诊所频道推上全城线：“阿蓁，继续念。”第一股回流撞上铜梯时，林汐仍握着扣键；阿蓁念出第二个名字，城里另一处有人接上第三个。",
+          "critic_findings": [
+            {
+              "classification": "REVIEW",
+              "predicate": "meaningful_move",
+              "evidence": "第二轮仍以等待和悬停表达两难，同一谓词没有收敛。",
+              "question": "必须改换行动、关系或信息机制，而不是继续延长犹豫。"
+            }
+          ],
+          "current_round": 2,
+          "review_resolution": "作者选择 A：以不可逆行动结束悬停，同时由阿蓁和全城继续决定是否共同承担风险。",
+          "diversity_alternatives": [
+            {
+              "id": "A",
+              "mechanism": "action",
+              "text": "林汐把自己的档案员指环卡进广播扣，让弹簧无法复位。她必须留在桥台承受九十秒冲击，阿蓁则带诊所的人决定是否继续报出名字。"
+            },
+            {
+              "id": "B",
+              "mechanism": "relationship_pressure",
+              "text": "林汐接通诊所却不宣布决定，只把两个槽和九十秒代价说清。阿蓁沉默后要求全城频道开放，让低地居民自己回答是否承担降载。"
+            },
+            {
+              "id": "C",
+              "mechanism": "information_control",
+              "text": "林汐先广播母亲记忆的校验码和七码闸命令，再把原始回声匣投入燃料槽。证据成为全城可复制的事实，母亲的声音却永远消失。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
