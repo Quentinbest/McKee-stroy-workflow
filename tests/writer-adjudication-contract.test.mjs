@@ -23,6 +23,8 @@ test("writer adjudication separates blind preference from revealed finding", () 
   assert.match(adjudication, /Stage 4 — Preview and apply approved variants/);
   assert.match(adjudication, /default is always `DRY_RUN`/);
   assert.match(adjudication, /Aggregate completed runs/);
+  assert.match(adjudication, /run-writer-adjudication\.mjs prepare/);
+  assert.match(adjudication, /never\s+generates a challenger/);
 });
 
 test("writer adjudication preserves protected authority", () => {

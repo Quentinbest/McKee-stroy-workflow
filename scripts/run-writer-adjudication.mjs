@@ -666,6 +666,120 @@ ${report.comparisons
 `;
 }
 
+function findingKey(value) {
+  return `${value.beat_ref}::${value.predicate}`;
+}
+
+function unresolvedFindings(source) {
+  const findings = Array.isArray(source.findings)
+    ? source.findings
+    : (source.scene_reviews ?? []).flatMap((review) =>
+        (review.findings ?? []).map((finding) => ({
+          scene_ref: review.scene_ref,
+          ...finding,
+        })),
+      );
+  return findings.filter(
+    (finding) => {
+      if (finding.assessment != null) {
+        return finding.assessment === "requires_fresh_human_review";
+      }
+      if (finding.status != null) {
+        return finding.status === "unresolved";
+      }
+      return finding.classification === "REVIEW";
+    },
+  );
+}
+
+function uniqueByFindingKey(values, label) {
+  const result = new Map();
+  for (const value of values) {
+    assertNonEmptyString(value.beat_ref, `${label}.beat_ref`);
+    assertNonEmptyString(value.predicate, `${label}.predicate`);
+    const key = findingKey(value);
+    if (result.has(key)) {
+      throw new Error(`Duplicate ${label} key: ${key}`);
+    }
+    result.set(key, value);
+  }
+  return result;
+}
+
+export function prepareAdjudicationInput({
+  findingsPath,
+  variantsPath,
+  outputPath,
+  runId,
+  title,
+  createdAt,
+}) {
+  assertNonEmptyString(runId, "runId");
+  assertNonEmptyString(title, "title");
+  assertNonEmptyString(createdAt, "createdAt");
+  const findingsSource = readJson(findingsPath);
+  const variantsSource = readJson(variantsPath);
+  const findings = unresolvedFindings(findingsSource);
+  if (findings.length === 0) {
+    throw new Error("No unresolved findings found");
+  }
+  if (!Array.isArray(variantsSource.variants)) {
+    throw new Error("variants must be an array");
+  }
+  const findingsByKey = uniqueByFindingKey(findings, "finding");
+  const variantsByKey = uniqueByFindingKey(
+    variantsSource.variants,
+    "variant",
+  );
+  const unmatchedVariantKeys = [...variantsByKey.keys()].filter(
+    (key) => !findingsByKey.has(key),
+  );
+  if (unmatchedVariantKeys.length > 0) {
+    throw new Error(
+      `Variants have no unresolved finding: ${unmatchedVariantKeys.join(", ")}`,
+    );
+  }
+
+  const comparisons = [...findingsByKey].map(([key, finding]) => {
+    const variant = variantsByKey.get(key);
+    if (!variant) {
+      throw new Error(`Missing variant for unresolved finding: ${key}`);
+    }
+    return {
+      id: variant.id,
+      scene_ref: variant.scene_ref ?? finding.scene_ref,
+      source_ref: variant.source_ref ?? finding.beat_ref,
+      authority_attestation: variant.authority_attestation,
+      context: variant.context,
+      baseline_text: variant.baseline_text,
+      challenger_text: variant.challenger_text,
+      calibration: variant.calibration ?? null,
+      application: variant.application ?? null,
+      finding: {
+        predicate: finding.predicate,
+        evidence: finding.evidence,
+        question: finding.question,
+      },
+    };
+  });
+  const prepared = {
+    version: "1.0.0",
+    run_id: runId,
+    title,
+    created_at: createdAt,
+    calibration: variantsSource.calibration ?? null,
+    process_metrics: variantsSource.process_metrics ?? {
+      critic_agent_calls: null,
+      variant_generation_agent_calls: null,
+      notes: "",
+    },
+    comparisons,
+  };
+  validateInput(prepared);
+  writeJson(outputPath, prepared);
+  return prepared;
+}
+
 export function createAdjudicationRun({ inputPath, outputDir, seed }) {
   const input = readJson(inputPath);
   const calibration = validateInput(input);
@@ -1451,6 +1565,7 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
 function usage() {
   return [
     "Usage:",
+    "  node scripts/run-writer-adjudication.mjs prepare --findings <file> --variants <file> --output <file> --run-id <id> --title <title> --created-at <date>",
     "  node scripts/run-writer-adjudication.mjs create --input <file> --output <dir> --seed <value>",
     "  node scripts/run-writer-adjudication.mjs reveal --output <dir> --stage-1 <file>",
     "  node scripts/run-writer-adjudication.mjs score --output <dir> --stage-1 <file> --stage-2 <file>",
@@ -1472,7 +1587,33 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   const outputDir = path.resolve(process.cwd(), outputValue);
 
-  if (command === "create") {
+  if (command === "prepare") {
+    const findingsValue = option(args, "--findings");
+    const variantsValue = option(args, "--variants");
+    const runId = option(args, "--run-id");
+    const title = option(args, "--title");
+    const createdAt = option(args, "--created-at");
+    if (
+      !findingsValue ||
+      !variantsValue ||
+      !runId ||
+      !title ||
+      !createdAt
+    ) {
+      throw new Error(usage());
+    }
+    const result = prepareAdjudicationInput({
+      findingsPath: path.resolve(process.cwd(), findingsValue),
+      variantsPath: path.resolve(process.cwd(), variantsValue),
+      outputPath: outputDir,
+      runId,
+      title,
+      createdAt,
+    });
+    console.log(
+      `Writer adjudication input: PREPARED (${result.comparisons.length} comparisons)`,
+    );
+  } else if (command === "create") {
     const inputValue = option(args, "--input");
     const seed = option(args, "--seed");
     if (!inputValue || !seed) {

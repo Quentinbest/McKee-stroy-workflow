@@ -8,6 +8,7 @@ import {
   aggregateAdjudicationRuns,
   applyAdjudicationRun,
   createAdjudicationRun,
+  prepareAdjudicationInput,
   revealAdjudicationRun,
   scoreAdjudicationRun,
 } from "../scripts/run-writer-adjudication.mjs";
@@ -236,5 +237,118 @@ test("aggregate report combines completed runs and calibration controls", () => 
     );
   } finally {
     fs.rmSync(runsDir, { recursive: true, force: true });
+  }
+});
+
+test("prepare joins unresolved findings to explicit variants", () => {
+  const rootDir = tempDir("writer-adjudication-prepare-");
+  const findingsPath = path.join(rootDir, "findings.json");
+  const variantsPath = path.join(rootDir, "variants.json");
+  const outputPath = path.join(rootDir, "prepared-input.json");
+
+  try {
+    writeJson(findingsPath, {
+      scene_reviews: [
+        {
+          scene_ref: "2-1",
+          findings: [
+            {
+              beat_ref: "2-1-2",
+              classification: "REVIEW",
+              predicate: "desire_pressure",
+              evidence: "The action is not connected to the locked desire.",
+              question: "Does the concrete cue make the desire causal?",
+            },
+            {
+              beat_ref: "2-1-3",
+              classification: "REVIEW",
+              assessment: "confirmed",
+              predicate: "closure",
+              evidence: "This finding was already resolved.",
+              question: "This should not enter a new run.",
+            },
+          ],
+        },
+      ],
+    });
+    writeJson(variantsPath, {
+      version: "1.0.0",
+      process_metrics: {
+        critic_agent_calls: 1,
+        variant_generation_agent_calls: 1,
+        notes: "",
+      },
+      variants: [
+        {
+          id: "prepared-2-1-2-desire",
+          scene_ref: "2-1",
+          beat_ref: "2-1-2",
+          predicate: "desire_pressure",
+          authority_attestation: {
+            protected_fields_unchanged: true,
+            notes: "The locked desire is unchanged.",
+          },
+          context: "A courier must protect her sister without changing course.",
+          baseline_text: "She closed the case.",
+          challenger_text: "Her sister's hospital tag caught in the latch as she closed the case.",
+        },
+      ],
+    });
+
+    const prepared = prepareAdjudicationInput({
+      findingsPath,
+      variantsPath,
+      outputPath,
+      runId: "prepared-run",
+      title: "Prepared run",
+      createdAt: "2026-06-12",
+    });
+
+    assert.equal(prepared.comparisons.length, 1);
+    assert.equal(prepared.comparisons[0].source_ref, "2-1-2");
+    assert.equal(
+      prepared.comparisons[0].finding.predicate,
+      "desire_pressure",
+    );
+    assert.equal(fs.existsSync(outputPath), true);
+
+    const missingVariants = readJson(variantsPath);
+    missingVariants.variants = [];
+    writeJson(variantsPath, missingVariants);
+    assert.throws(
+      () =>
+        prepareAdjudicationInput({
+          findingsPath,
+          variantsPath,
+          outputPath,
+          runId: "prepared-run",
+          title: "Prepared run",
+          createdAt: "2026-06-12",
+        }),
+      /Missing variant for unresolved finding/,
+    );
+
+    missingVariants.variants = [
+      {
+        id: "extra",
+        beat_ref: "9-9-9",
+        predicate: "closure",
+      },
+    ];
+    writeJson(variantsPath, missingVariants);
+    assert.throws(
+      () =>
+        prepareAdjudicationInput({
+          findingsPath,
+          variantsPath,
+          outputPath,
+          runId: "prepared-run",
+          title: "Prepared run",
+          createdAt: "2026-06-12",
+        }),
+      /Variants have no unresolved finding/,
+    );
+  } finally {
+    fs.rmSync(rootDir, { recursive: true, force: true });
   }
 });

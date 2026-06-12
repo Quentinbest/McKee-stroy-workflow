@@ -2,6 +2,12 @@
 
 This benchmark exercises the two-stage blind writer adjudication harness.
 
+To avoid manually copying critic evidence into an input, use `prepare` with an
+unresolved findings file and an explicit catalog based on
+`templates/writer-adjudication-variants.json`. The join key is
+`beat_ref + predicate`; missing, duplicate, or unmatched entries fail closed.
+The command does not generate prose or certify protected authority.
+
 Create a fresh copy of the Memory Tide package:
 
 ```bash

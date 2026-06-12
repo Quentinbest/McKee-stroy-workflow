@@ -64,6 +64,25 @@ Create an input from `templates/writer-adjudication-input.json`.
   exactly in one project-relative file. This declares a possible target; it
   never grants permission to edit.
 
+When critic output already contains unresolved `REVIEW` findings, copy
+`templates/writer-adjudication-variants.json`, prepare one bounded variant per
+`beat_ref + predicate`, then generate the standard input:
+
+```bash
+node scripts/run-writer-adjudication.mjs prepare \
+  --findings drafts/{slug}/audit/adjudication/unresolved-findings.json \
+  --variants drafts/{slug}/audit/adjudication/variants.json \
+  --output drafts/{slug}/audit/adjudication/{run-id}-input.json \
+  --run-id {run-id} \
+  --title "{blind comparison title}" \
+  --created-at {YYYY-MM-DD}
+```
+
+`prepare` accepts top-level `findings` or isolated-critic `scene_reviews`,
+keeps only unresolved entries, joins them to variants by
+`beat_ref + predicate`, and fails on duplicate, missing, or unmatched entries.
+It never generates a challenger or authority attestation by itself.
+
 ## Stage 1 — Create and blind-review
 
 Run:
