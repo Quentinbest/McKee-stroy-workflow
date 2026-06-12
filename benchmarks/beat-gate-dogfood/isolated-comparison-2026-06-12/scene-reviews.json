@@ -1,0 +1,92 @@
+{
+  "run_date": "2026-06-12",
+  "execution_mode": "parallel-isolated-agent",
+  "isolation_contract": {
+    "included": [
+      "candidate Beat text",
+      "bounded Scene Contract",
+      "locked character desires",
+      "world constraints",
+      "voice anchors",
+      "Beat and scene references"
+    ],
+    "excluded": [
+      "drafter reasoning",
+      "fallback findings",
+      "patch history",
+      "revisions",
+      "writer decision",
+      "selected ending",
+      "diversity alternatives"
+    ]
+  },
+  "scene_reviews": [
+    {
+      "scene_ref": "1-1",
+      "findings": [
+        {
+          "beat_ref": "1-1-2",
+          "classification": "REVIEW",
+          "predicate": "value_direction",
+          "evidence": "“七码闸按名单放低地。高地电网优先。”已直接表明管理署主动牺牲低地，提前完成了 closing 应承担的核心揭示。",
+          "question": "如何让这一信息形成可疑征兆，而把“主动开启七码闸”的确证留给 closing？"
+        },
+        {
+          "beat_ref": "1-1-3",
+          "classification": "REVIEW",
+          "predicate": "explanation_summary",
+          "evidence": "“那是林汐小时候撒谎时会听见的提醒”直接解释咳声的私人含义，短暂压平了由声音与手部动作承载的情绪。",
+          "question": "读者能否仅从咳声、林汐的动作和后续话语感知这段母女记忆，而无需叙述者点明？"
+        },
+        {
+          "beat_ref": "1-1-3",
+          "classification": "REVIEW",
+          "predicate": "desire_pressure",
+          "evidence": "林汐因母亲的指控松开删除杆，但三个 Beat 均未把低地威胁具体连接到阿蓁、诊所或制度报复，当前动作更像保护母亲证词而非锁定的“保护妹妹”欲望。",
+          "question": "这一刻有什么可感知的细节能使林汐暂停删除同时承受阿蓁将被风暴或管理署伤害的压力？"
+        }
+      ],
+      "passes": [
+        "1-1-1"
+      ],
+      "scene_pattern": "物件、声音、盐味与手部动作维持了统一声音，但核心证据在 1-1-2 提前落地，且林汐的妹妹保护欲尚未进入因果链。"
+    },
+    {
+      "scene_ref": "1-2",
+      "findings": [],
+      "passes": [
+        "1-2-1",
+        "1-2-2",
+        "1-2-3"
+      ],
+      "scene_pattern": "具体物件与感官压力持续推进；通行证被拒并沾上封泥，使单方面保护转向关系裂痕；旧警报识别完成共同知情的转折，欲望、Gap与Value Shift均保持锁定。"
+    },
+    {
+      "scene_ref": "1-3",
+      "findings": [
+        {
+          "beat_ref": "1-3-3",
+          "classification": "REVIEW",
+          "predicate": "value_direction",
+          "evidence": "“四十分钟后，你会听见我母亲”是明确的广播承诺，且精准对应主潮抵达时间；这呈现为林汐已经选择公开证据，而非仅被迫承认两种保护不可兼得。",
+          "question": "这是最终决定还是施压性的虚张声势？若是最终决定，本场是否越过了锁定的“公开选择的压力”，提前完成了选择？"
+        }
+      ],
+      "passes": [
+        "1-3-1",
+        "1-3-2"
+      ],
+      "scene_pattern": "乔署长的交易压力清晰，但场景从二选一威逼直接跳到广播宣告，林汐试图利用制度漏洞规避选择的动作未在这些节拍中显现。"
+    },
+    {
+      "scene_ref": "1-4",
+      "findings": [],
+      "passes": [
+        "1-4-1",
+        "1-4-2",
+        "1-4-3"
+      ],
+      "scene_pattern": "三个 Beat 以海堤熄灯、二选一槽位、病人点名逐级压缩无代价空间，并将林汐的注意力从独自操作转向倾听风险承担者；动作具体、价值方向清晰，尚未越界替她完成最终决定。"
+    }
+  ]
+}

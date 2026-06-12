@@ -23,3 +23,12 @@ test("skill fallback brief preserves agent exclusions", () => {
   assert.match(skill, /prior verdicts/);
   assert.match(skill, /It must not mutate Premise, desire, Scene Gap, or Value Shift/i);
 });
+
+test("blind critic receives Beat role and tests final Beat closure", () => {
+  assert.match(blindCritic, /Beat role and position/);
+  assert.match(blindCritic, /final or turning Beat/);
+  assert.match(
+    blindCritic,
+    /Do not\s+require closure from opening or middle Beats/,
+  );
+});

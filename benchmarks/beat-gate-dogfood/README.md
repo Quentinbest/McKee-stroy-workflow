@@ -34,3 +34,15 @@ scene batch.
 The mechanism-category metric is diagnostic only. The retained run also records
 batch-level prose homogeneity because different mechanism labels can still
 produce stylistically interchangeable prose.
+
+To compare the original in-context fallback with isolated scene critics and a
+prose-only batch auditor:
+
+```bash
+node scripts/compare-beat-gate-critics.mjs \
+  --output benchmarks/beat-gate-dogfood/isolated-comparison-2026-06-12
+```
+
+The report treats prior writer changes as retrospective alignment only. New
+isolated findings remain unresolved until a fresh human decision; they are not
+counted as false positives by default.

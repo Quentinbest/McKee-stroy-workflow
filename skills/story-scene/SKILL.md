@@ -105,6 +105,9 @@ For each beat:
 - If the writer revises: revise in place and re-run Beat Gate for that Beat only.
 - If batch mode is active and the Beat is safe to defer: record `deferred_to_batch_boundary` and continue without claiming final aesthetic acceptance.
 - If the Beat Gate surfaces a protected-field conflict, critical issue, or stop-loss escalation: pause immediately even in batch mode.
+- At a batch decision boundary with at least 6 Beats across 2 scenes, require
+  the Beat Gate's prose-only batch pattern audit before presenting the writer
+  summary. Do not substitute mechanism-label counts for this audit.
 
 POV consistency: maintain the scene's POV throughout. Never slip into another character's interiority.
 

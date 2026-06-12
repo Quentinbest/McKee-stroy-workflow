@@ -83,6 +83,7 @@ Record `execution_mode` in the ledger as:
 The blind critic receives only:
 
 - candidate Beat or cleaned Beat
+- Beat role and position: opening / middle / final / turning
 - bounded Scene Contract excerpt
 - relevant character/world constraints
 - continuity excerpt
@@ -151,6 +152,23 @@ The diversity challenger must return 2-3 alternatives that differ in mechanism:
 
 It must not mutate Premise, desire, Scene Gap, or Value Shift.
 
+### Batch pattern audit
+
+Before a consolidated batch-boundary writer decision, when the batch contains
+at least 6 cleaned Beats across at least 2 scenes:
+
+1. Run `batch-beat-pattern-auditor` over Beat text, refs, and voice anchors
+   only.
+2. Do not provide mechanism labels, prior findings, writer decisions, revision
+   history, or diversity alternatives.
+3. Write `drafts/{slug}/audit/beat-gate/{through-scene}-pattern.md`.
+4. Merge its findings as `REVIEW` only. It cannot rewrite or reject prose.
+5. If it finds a `HIGH` repetition that weakens a load-bearing final Beat,
+   require diversity before the writer decision even when local mechanism
+   labels differ.
+
+Mechanism labels are bookkeeping, not proof of reader-visible diversity.
+
 ## Stage 6 — Ledger and resumability
 
 Write the scene ledger **before** returning the writer summary.
@@ -164,6 +182,7 @@ The ledger stores:
 - writer decision
 - per-Beat candidate text, clean text, detections, patches, review items, reject items
 - history of diversity and backtracking triggers
+- batch pattern audit status and report path when the batch threshold is met
 
 If the run is interrupted, resume from the first incomplete stage rather than redrafting or re-running completed work.
 
