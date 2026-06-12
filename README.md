@@ -170,6 +170,11 @@ cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
 cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 ```
 
+For live unresolved critic findings, first join them to an explicit variant
+catalog with `run-writer-adjudication.mjs prepare`. The command fails on
+missing or duplicate `beat_ref + predicate` matches and reuses the same
+authority and calibration validation as hand-authored inputs.
+
 The dry run creates a synthetic story project under a temporary directory and
 verifies deterministic cleanup, protected-field rejection, human decisions,
 non-convergence escalation, and rolling review artifacts without using a real
