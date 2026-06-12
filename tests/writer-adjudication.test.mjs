@@ -275,19 +275,22 @@ test("score enforces stage ordering", () => {
   }
 });
 
-test("retained pilot is demonstrative and contains no human outcome", () => {
+test("retained pilot contains completed human adjudication evidence", () => {
   const runRoot = new URL(
     "../benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/",
     import.meta.url,
   );
   const metadata = readJson(new URL("run-metadata.json", runRoot));
   const stageOne = readJson(new URL("stage-1-decisions.json", runRoot));
+  const stageTwo = readJson(new URL("stage-2-decisions.json", runRoot));
+  const report = readJson(new URL("adjudication-report.json", runRoot));
 
-  assert.equal(metadata.status, "AWAITING_BLIND_REVIEW");
-  assert.equal(metadata.human_evidence_recorded, false);
-  assert.equal(stageOne.status, "AWAITING_WRITER");
-  assert.equal(
-    fs.existsSync(new URL("adjudication-report.json", runRoot)),
-    false,
-  );
+  assert.equal(metadata.status, "COMPLETE");
+  assert.equal(metadata.human_evidence_recorded, true);
+  assert.equal(stageOne.status, "COMPLETE");
+  assert.equal(stageTwo.status, "COMPLETE");
+  assert.equal(report.metrics.challenger_preferred, 2);
+  assert.equal(report.metrics.findings_accepted, 2);
+  assert.equal(report.metrics.preferred_variants_adopted, 2);
+  assert.equal(report.metrics.cross_scene_repetition_effect, "reduced");
 });

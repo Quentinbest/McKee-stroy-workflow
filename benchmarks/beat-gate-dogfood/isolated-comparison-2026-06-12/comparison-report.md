@@ -17,24 +17,24 @@ Isolated scene critics improved independence but did not reproduce the fallback'
 | Fallback-relative Beat coverage | 42.9% |
 | Isolated novel predicates | 1 |
 | Confirmed false positives | 0 |
-| Findings requiring fresh human review | 2 |
-| Human-changed Beats caught by isolated critics | 1/4 |
+| Findings requiring fresh human review | 0 |
+| Human-changed Beats caught by isolated critics | 2/5 |
 | Batch findings confirmed by prior changes | 2 |
 | New residual batch patterns | 3 |
 
 ## Interpretation
 
-The isolated findings were generated after the prior human decision, so this is alignment, not a causal acceptance rate.
+These alignment metrics mix earlier writer edits with later blind adjudication of two isolated findings; they are descriptive, not a general acceptance rate.
 
 - Isolation improved local independence but did not reproduce fallback coverage uniformly.
 - Scene-bounded critics cannot detect cross-scene diminishing returns.
 - Beat role must be explicit so a final Beat is tested for enacted closure rather than pressure alone.
 - A prose-only batch pattern audit should run before the consolidated writer decision.
-- No isolated finding should be labeled a false positive without fresh human adjudication.
+- Fresh blind human adjudication confirmed the two previously unresolved isolated findings.
 
 ## Evidence
 
 - `scene-reviews.json`: raw isolated scene-critic outputs
 - `batch-pattern-review.json`: raw prose-only batch audit
-- `adjudication.json`: comparison judgments with unresolved findings preserved
+- `adjudication.json`: comparison judgments, including fresh blind human decisions
 - `comparison-report.json`: machine-readable metrics

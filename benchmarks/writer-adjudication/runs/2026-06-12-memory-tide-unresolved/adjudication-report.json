@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "run_id": "2026-06-12-memory-tide-unresolved",
+  "title": "潮汐档案：未决发现盲测",
+  "status": "COMPLETE",
+  "stage_1_sha256": "ce6eeba1e6a309641e69c756b525def5ea86b864fb356f894008e73d38ec0c78",
+  "stage_2_sha256": "17005d7ce14c410ba337b3509e98258d0f11be53d7b0a35adf3453e537f2900e",
+  "metrics": {
+    "comparisons": 2,
+    "challenger_preferred": 2,
+    "baseline_preferred": 0,
+    "ties": 0,
+    "challenger_win_rate_excluding_ties_percent": 100,
+    "findings_accepted": 2,
+    "findings_rejected": 0,
+    "findings_uncertain": 0,
+    "writer_rejected_finding_rate_percent": 0,
+    "preferred_variants_adopted": 2,
+    "writer_review_minutes": 13.5,
+    "critic_agent_calls": 5,
+    "variant_generation_agent_calls": 0,
+    "cross_scene_repetition_effect": "reduced"
+  },
+  "batch_assessment": {
+    "overall_homogeneity": null,
+    "repeated_patterns_noticed": [],
+    "notes": ""
+  },
+  "batch_effect": {
+    "cross_scene_repetition": "reduced",
+    "notes": "User judged cross-scene repetition reduced."
+  },
+  "overall_notes": "Both critic findings were accepted and both blind-preferred challenger variants were approved for adoption.",
+  "comparisons": [
+    {
+      "comparison_id": "C01",
+      "source_ref": "1-1-3",
+      "preferred_variant": "A",
+      "preferred_role": "challenger",
+      "confidence": 4,
+      "meaningful_difference": "yes",
+      "blind_reasons": [],
+      "blind_notes": "User selected Variant A.",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "finding_rationale": "User accepted the finding and chose to adopt the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C02",
+      "source_ref": "1-1-2",
+      "preferred_variant": "B",
+      "preferred_role": "challenger",
+      "confidence": 3,
+      "meaningful_difference": "yes",
+      "blind_reasons": [],
+      "blind_notes": "User selected Variant B.",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "finding_rationale": "User accepted the finding and chose to adopt the blind-preferred variant."
+    }
+  ]
+}

@@ -431,7 +431,7 @@ Status: ${report.status}
 ${report.comparisons
   .map(
     (comparison) =>
-      `- ${comparison.comparison_id} / ${comparison.source_ref}: blind preference ${comparison.preferred_variant} (${comparison.preferred_role}); finding ${comparison.finding_disposition}; adoption ${comparison.adopt_preferred_variant}; rationale: ${comparison.finding_rationale || "none"}.`,
+      `- ${comparison.comparison_id} / ${comparison.source_ref}: blind preference ${comparison.preferred_variant} (${comparison.preferred_role}); finding ${comparison.finding_disposition}; adoption ${comparison.adopt_preferred_variant}; rationale: ${comparison.finding_rationale || "none"}`,
   )
   .join("\n")}
 `;

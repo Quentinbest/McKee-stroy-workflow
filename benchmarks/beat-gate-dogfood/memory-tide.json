@@ -113,6 +113,7 @@
           "ref": "1-1-2",
           "mechanism": "information_control",
           "candidate_text": "<!-- Beat 2 -->\n回声匣里没有遗言。先是雨点击打铁皮，再是有人连续报出水位，最后，一个男人说：“七码闸按名单放低地。高地电网优先。”林汐把音量旋到最小，仍觉得那句话贴着耳骨。",
+          "accepted_text": "<!-- Beat 2 accepted after blind adjudication -->\n回声匣里没有遗言。先是雨点击打铁皮，再是有人连续报出水位。一个男人念到七码闸时停了半拍，只说：“名单照旧。高地电网优先。”远处传来扳手落地，随后是母亲压低的一声：“低地还有人。”林汐把音量旋到最小，那句没说完的命令仍贴着耳骨。",
           "critic_findings": [
             {
               "classification": "REVIEW",
@@ -121,13 +122,13 @@
               "question": "是否需要一个不解释全貌、但能证明母亲是现场见证人的具体声音？"
             }
           ],
-          "review_resolution": "作者接受保留歧义；1-1-3 将补足母亲在场的具体证据，而不解释全部阴谋。"
+          "review_resolution": "盲测中作者选择较含混的 challenger，并接受 value_direction 发现；主动开启七码闸的确证留给 closing。"
         },
         {
           "ref": "1-1-3",
           "mechanism": "action",
           "candidate_text": "<!-- Beat 3 -->\n删除杆落下一半，母亲忽然咳了两声。那是林汐小时候撒谎时会听见的提醒。随后，许岚说：“七码闸不是溃口。是他们开的。”林汐松手。铜杆弹回去，撞出一声比警铃更轻的响。",
-          "accepted_text": "<!-- Beat 3 accepted -->\n删除杆落下一半，母亲忽然咳了两声。那是林汐小时候撒谎时会听见的提醒。远处有人喊“按名单开闸”，许岚立刻回了一句：“七码闸还有人。”金属扳手落地。林汐松手，铜杆弹回去，撞出一声比警铃更轻的响。",
+          "accepted_text": "<!-- Beat 3 accepted after blind adjudication -->\n删除杆落下一半，母亲忽然咳了两声。那是林汐小时候撒谎时会听见的提醒。远处有人喊“按名单开闸”，许岚立刻回了一句：“七码闸还有人。东墙诊所还亮着。”林汐认得那是阿蓁值夜的方向。金属扳手落地。她松手，铜杆弹回去，撞出一声比警铃更轻的响。",
           "critic_findings": [
             {
               "classification": "REVIEW",
@@ -136,7 +137,7 @@
               "question": "是否删去“不是溃口”，只保留能让林汐得出结论的现场命令？"
             }
           ],
-          "review_resolution": "已删除解释性结论，改为现场命令、母亲反对与扳手落地，让林汐和读者自行推断。"
+          "review_resolution": "先删除解释性结论；随后盲测中作者选择加入诊所线索的 challenger，并接受 desire_pressure 发现，使保护阿蓁进入当前动作的因果链。"
         }
       ]
     },

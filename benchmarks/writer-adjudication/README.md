@@ -2,19 +2,22 @@
 
 This benchmark exercises the two-stage blind writer adjudication harness.
 
-Create the demonstrative Memory Tide pilot:
+Create a fresh copy of the Memory Tide package:
 
 ```bash
 node scripts/run-writer-adjudication.mjs create \
   --input benchmarks/writer-adjudication/memory-tide-pilot.json \
-  --output benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved \
+  --output /tmp/2026-06-12-memory-tide-adjudication \
   --seed 20260612
 ```
 
-The retained run stops at `AWAITING_BLIND_REVIEW`. It proves deterministic
-ordering, balanced source roles, hash binding, and decision-package shape. It
-does **not** contain a human preference and must not be counted as evidence that
-either revision is better.
+The retained run is now `COMPLETE`. One writer preferred both challengers
+blind, marked both differences meaningful, accepted both findings, approved
+both variants for adoption, and judged cross-scene repetition reduced.
+
+This is real prospective evidence for these two comparisons, but it is still a
+single-writer, two-comparison sample. Do not promote a general critic rule from
+this run alone.
 
 For a real prospective pilot, write output under the story project's private
 `drafts/{slug}/audit/adjudication/` directory. Give the writer only

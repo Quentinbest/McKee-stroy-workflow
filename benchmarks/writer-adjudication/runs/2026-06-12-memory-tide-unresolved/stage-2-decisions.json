@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "run_id": "2026-06-12-memory-tide-unresolved",
+  "stage": "finding_adjudication",
+  "status": "COMPLETE",
+  "stage_1_sha256": "ce6eeba1e6a309641e69c756b525def5ea86b864fb356f894008e73d38ec0c78",
+  "reviewer": {
+    "id": "user",
+    "started_at": "2026-06-12T13:27:24Z",
+    "completed_at": "2026-06-12T13:28:48Z"
+  },
+  "comparisons": [
+    {
+      "comparison_id": "C01",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "User accepted the finding and chose to adopt the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C02",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "User accepted the finding and chose to adopt the blind-preferred variant."
+    }
+  ],
+  "batch_effect": {
+    "cross_scene_repetition": "reduced",
+    "notes": "User judged cross-scene repetition reduced."
+  },
+  "overall_notes": "Both critic findings were accepted and both blind-preferred challenger variants were approved for adoption."
+}

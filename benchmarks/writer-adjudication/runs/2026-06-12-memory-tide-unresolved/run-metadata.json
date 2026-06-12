@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "run_id": "2026-06-12-memory-tide-unresolved",
   "title": "潮汐档案：未决发现盲测",
-  "status": "AWAITING_BLIND_REVIEW",
+  "status": "COMPLETE",
   "comparison_count": 2,
   "seed": "20260612",
   "package_sha256": "fabbbcceb1662e51ee69951215df09910734080c121bb664c2d61d5135f1e53a",
@@ -12,5 +12,7 @@
     "variant_generation_agent_calls": 0,
     "notes": "Five isolated critic/auditor agents produced the retained findings; the two challenger variants were prepared in the main implementation context."
   },
-  "human_evidence_recorded": false
+  "human_evidence_recorded": true,
+  "stage_1_sha256": "ce6eeba1e6a309641e69c756b525def5ea86b864fb356f894008e73d38ec0c78",
+  "stage_2_sha256": "17005d7ce14c410ba337b3509e98258d0f11be53d7b0a35adf3453e537f2900e"
 }
