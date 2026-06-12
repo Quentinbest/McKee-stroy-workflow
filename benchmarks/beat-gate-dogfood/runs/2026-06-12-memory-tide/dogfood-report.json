@@ -1,0 +1,59 @@
+{
+  "status": "COMMITTED",
+  "fixture": "benchmarks/beat-gate-dogfood/memory-tide.json",
+  "project_root": "drafts/memory-tide",
+  "execution_mode": "in-context-fallback",
+  "metrics": {
+    "scenes_attempted": 4,
+    "beats_attempted": 12,
+    "auto_patches": 13,
+    "auto_output_leaks": 0,
+    "critic_review_findings": 7,
+    "protected_probe_rejects": 1,
+    "beats_deferred_to_batch_boundary": 0,
+    "beats_awaiting_writer": 0,
+    "beats_accepted": 12,
+    "review_findings_resolved": 7,
+    "human_decision_points": 1,
+    "human_decisions_recorded": 1,
+    "mechanism_categories_covered": 4,
+    "diversity_alternative_mechanisms": 3,
+    "initial_batch_risk_flags": 3,
+    "post_commit_residual_risks": 2,
+    "post_commit_resolved_risks": 1
+  },
+  "compute": {
+    "runner_invocations": 13,
+    "isolated_critic_calls": 0,
+    "in_context_critic_passes": 12,
+    "diversity_passes": 1,
+    "rolling_review_passes": 2
+  },
+  "decision": {
+    "selected_ending": "A",
+    "decided_at": "2026-06-12",
+    "decision_source": "user"
+  },
+  "post_commit_findings": [
+    {
+      "status": "resolved",
+      "category": "information_mechanism_repetition",
+      "evidence": "1-2-3 已从声音泄漏改为封泥与旧水线的物证识别。"
+    },
+    {
+      "status": "residual",
+      "category": "cross_scene_homogeneity",
+      "evidence": "场景仍偏好由小型具体物件承载收尾；后续序列需要扩大空间、群体行动和句法尺度。"
+    },
+    {
+      "status": "residual",
+      "category": "self_review_distortion",
+      "evidence": "Beat critic 与 rolling review 均为 in-context fallback，不能证明真正的审查独立性。"
+    }
+  ],
+  "limitations": [
+    "The blind critic ran in-context, so drafter-reviewer independence is not proven.",
+    "Mechanism categories are fixture labels and do not prove prose-level diversity.",
+    "Rolling reader and pacing reviews also ran in-context and are advisory, not independent quality proof."
+  ]
+}

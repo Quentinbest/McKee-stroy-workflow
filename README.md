@@ -150,6 +150,7 @@ cp -r McKee-stroy-workflow/agents/* your-story-project/.claude/agents/
 node scripts/verify-beat-gate.mjs
 node --test tests/*.test.mjs
 node scripts/run-beat-gate-dry-run.mjs
+node scripts/run-beat-gate-dogfood.mjs
 
 # Scaffold a new project
 mkdir -p drafts/my-story/{characters,scenes,prose}
@@ -161,6 +162,13 @@ The dry run creates a synthetic story project under a temporary directory and
 verifies deterministic cleanup, protected-field rejection, human decisions,
 non-convergence escalation, and rolling review artifacts without using a real
 manuscript.
+
+The dogfood benchmark runs a four-scene synthetic Chinese story through the
+same runner, ledger, critic-fallback, diversity, and human-boundary contracts.
+The default fixture applies the writer's dated choice of ending `A`, commits
+the accepted batch, and writes rolling reports. Add `--pending` to reproduce
+the pre-decision `AWAITING_WRITER` boundary and verify that Premise, character
+desire, and final aesthetic judgment are not silently automated.
 
 ---
 

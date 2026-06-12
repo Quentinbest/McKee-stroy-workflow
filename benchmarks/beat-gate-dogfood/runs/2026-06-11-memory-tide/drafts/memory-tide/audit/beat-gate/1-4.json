@@ -1,0 +1,126 @@
+{
+  "version": "1.0.0",
+  "scene_ref": "1-4",
+  "execution_mode": "in-context-fallback",
+  "status": "awaiting_writer",
+  "stages_completed": [
+    "scan",
+    "critic",
+    "diversity_if_required"
+  ],
+  "writer_decision": null,
+  "current_round": 2,
+  "rolling_review_due": false,
+  "beats": [
+    {
+      "beat_ref": "1-4-1",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 1 -->\n主潮撞上外墙时，广播桥的铜梯向左摆了半尺。林汐用肘弯夹住回声匣往上爬，下面的海堤中枢逐层熄灯。每暗一层，城里就有一排窗户亮起手摇灯。",
+      "clean_text": "主潮撞上外墙时，广播桥的铜梯向左摆了半尺。林汐用肘弯夹住回声匣往上爬，下面的海堤中枢逐层熄灯。每暗一层，城里就有一排窗户亮起手摇灯。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 1 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    },
+    {
+      "beat_ref": "1-4-2",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 2 -->\n桥台只有两个槽：广播，或燃料。林汐把回声匣放在两槽之间，手指悬在铜扣上。阿蓁的诊所频道不断呼叫她，乔署长的线路则一声不响。",
+      "clean_text": "桥台只有两个槽：广播，或燃料。林汐把回声匣放在两槽之间，手指悬在铜扣上。阿蓁的诊所频道不断呼叫她，乔署长的线路则一声不响。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 2 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [
+        {
+          "classification": "REVIEW",
+          "predicate": "meaningful_move",
+          "evidence": "“手指悬在两个选择之间”是危机占位符，没有产生新的行动或关系变化。",
+          "question": "谁的行动迫使林汐停止等待？"
+        }
+      ],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    },
+    {
+      "beat_ref": "1-4-3",
+      "status": "awaiting_writer",
+      "candidate_text": "<!-- Beat 3 -->\n她按住广播扣，却没有压下去。诊所频道里，阿蓁开始逐个念病人的名字。林汐听完第一个，又等第二个。海水沿梯脚升上来，碰到她鞋底。",
+      "clean_text": "她按住广播扣，却没有压下去。诊所频道里，阿蓁开始逐个念病人的名字。林汐听完第一个，又等第二个。海水沿梯脚升上来，碰到她鞋底。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 3 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [
+        {
+          "classification": "REVIEW",
+          "predicate": "meaningful_move",
+          "evidence": "第二轮仍以等待和悬停表达两难，同一谓词没有收敛。",
+          "question": "必须改换行动、关系或信息机制，而不是继续延长犹豫。"
+        }
+      ],
+      "reject_items": [],
+      "history": [
+        "round_1_meaningful_move",
+        "round_2_diversity_required"
+      ],
+      "rounds": {
+        "draft": 2,
+        "critic": 2,
+        "patch": 1,
+        "diversity": 1
+      },
+      "writer_decision": null,
+      "deferred_to_batch_boundary": false
+    }
+  ]
+}

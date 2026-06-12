@@ -1,0 +1,136 @@
+{
+  "version": "1.0.0",
+  "scene_ref": "1-1",
+  "execution_mode": "in-context-fallback",
+  "status": "deferred_to_batch_boundary",
+  "stages_completed": [
+    "scan",
+    "critic",
+    "diversity_if_required"
+  ],
+  "writer_decision": "deferred_to_batch_boundary",
+  "current_round": 1,
+  "rolling_review_due": false,
+  "beats": [
+    {
+      "beat_ref": "1-1-1",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 1 记忆管 -->\n\n\n铜盘先传来母亲指甲刮过瓷杯的细响。林汐把记忆管扣进三枚簧片，盐雾从窗缝钻进来，舌根发苦。屏幕把死者姓名压成一行白字：许岚，待燃料化。",
+      "clean_text": "铜盘先传来母亲指甲刮过瓷杯的细响。林汐把回声匣扣进三枚簧片，盐雾从窗缝钻进来，舌根发苦。屏幕把死者姓名压成一行白字：许岚，待燃料化。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 1 记忆管 -->\n\n\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 22,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        },
+        {
+          "rule_id": "locked_term_alias",
+          "classification": "AUTO",
+          "original_text": "记忆管",
+          "replacement_text": "回声匣",
+          "start": 42,
+          "end": 45,
+          "affected_dimensions": [
+            "locked_term"
+          ],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    },
+    {
+      "beat_ref": "1-1-2",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 2 -->\n回声匣里没有遗言。先是雨点击打铁皮，再是有人连续报出水位，最后，一个男人说：“七码闸按名单放低地。高地电网优先。”林汐把音量旋到最小，仍觉得那句话贴着耳骨。",
+      "clean_text": "回声匣里没有遗言。先是雨点击打铁皮，再是有人连续报出水位，最后，一个男人说：“七码闸按名单放低地。高地电网优先。”林汐把音量旋到最小，仍觉得那句话贴着耳骨。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 2 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [
+        {
+          "classification": "REVIEW",
+          "predicate": "bounded_clarity",
+          "evidence": "“按名单放低地”提供阴谋信息，但名单性质与母亲为何在场仍不清楚。",
+          "question": "是否需要一个不解释全貌、但能证明母亲是现场见证人的具体声音？"
+        }
+      ],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    },
+    {
+      "beat_ref": "1-1-3",
+      "status": "deferred_to_batch_boundary",
+      "candidate_text": "<!-- Beat 3 -->\n删除杆落下一半，母亲忽然咳了两声。那是林汐小时候撒谎时会听见的提醒。随后，许岚说：“七码闸不是溃口。是他们开的。”林汐松手。铜杆弹回去，撞出一声比警铃更轻的响。",
+      "clean_text": "删除杆落下一半，母亲忽然咳了两声。那是林汐小时候撒谎时会听见的提醒。随后，许岚说：“七码闸不是溃口。是他们开的。”林汐松手。铜杆弹回去，撞出一声比警铃更轻的响。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 3 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [
+        {
+          "classification": "REVIEW",
+          "predicate": "explanation_pressure",
+          "evidence": "母亲的最后一句完整解释了事件，可能让发现过于顺滑。",
+          "question": "是否删去“不是溃口”，只保留能让林汐得出结论的现场命令？"
+        }
+      ],
+      "reject_items": [],
+      "history": [],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "deferred_to_batch_boundary",
+      "deferred_to_batch_boundary": true
+    }
+  ]
+}

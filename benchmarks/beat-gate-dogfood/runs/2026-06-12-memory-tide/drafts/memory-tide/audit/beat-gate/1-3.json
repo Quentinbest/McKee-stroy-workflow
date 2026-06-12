@@ -1,0 +1,136 @@
+{
+  "version": "1.0.0",
+  "scene_ref": "1-3",
+  "execution_mode": "in-context-fallback",
+  "status": "accepted",
+  "stages_completed": [
+    "scan",
+    "critic",
+    "diversity_if_required",
+    "writer_decision",
+    "commit"
+  ],
+  "writer_decision": "accept",
+  "current_round": 1,
+  "rolling_review_due": false,
+  "beats": [
+    {
+      "beat_ref": "1-3-1",
+      "status": "accepted",
+      "candidate_text": "<!-- Beat 1 -->\n乔署长把一张新的高地证压在茶托下，杯底正好盖住阿蓁的名字。“你妹妹的床位已经登记，”他说，“风暴后，她也可以留下。”茶水没有热气，杯沿却烫得林汐指尖发白。",
+      "clean_text": "乔署长先把海堤负载表转向林汐，红线只剩最后一格。“今晚不能少任何一份燃料。”他端起茶，杯底粘起一张高地证，阿蓁的名字从湿痕下露出来。“床位名单只改这一次。”",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 1 accepted -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 25,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [
+        {
+          "classification": "REVIEW",
+          "predicate": "antagonist_specificity",
+          "evidence": "交换条件清楚，但乔署长过早把威胁说得完整，缺少他自认正在救人的压力逻辑。",
+          "question": "是否让他先谈海堤负载，让通行证作为“附带安排”出现？"
+        }
+      ],
+      "reject_items": [],
+      "history": [
+        "writer_resolution: 已先建立乔署长自认救城的负载逻辑，再让通行证以附带安排出现。",
+        "in_context_delta_recheck_completed"
+      ],
+      "rounds": {
+        "draft": 2,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "accept",
+      "deferred_to_batch_boundary": false,
+      "review_resolution": "已先建立乔署长自认救城的负载逻辑，再让通行证以附带安排出现。"
+    },
+    {
+      "beat_ref": "1-3-2",
+      "status": "accepted",
+      "candidate_text": "<!-- Beat 2 -->\n墙后的海堤中枢低鸣了一次，桌上十二只空回声匣同时滚向西边。乔署长逐只扶正。“少一份记忆，七码闸就晚闭四秒。”他说，“你可以保存母亲，也可以保存低地。别假装这不是同一笔账。”",
+      "clean_text": "墙后的海堤中枢低鸣了一次，桌上十二只空回声匣同时滚向西边。乔署长逐只扶正。“少一份记忆，七码闸就晚闭四秒。”他说，“你可以保存母亲，也可以保存低地。别假装这不是同一笔账。”",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 2 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [],
+      "reject_items": [],
+      "history": [
+        "in_context_delta_recheck_completed"
+      ],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "accept",
+      "deferred_to_batch_boundary": false,
+      "review_resolution": null
+    },
+    {
+      "beat_ref": "1-3-3",
+      "status": "accepted",
+      "candidate_text": "<!-- Beat 3 -->\n林汐把高地证对折，没有撕。她将折痕压过阿蓁的名字，再把纸推回茶托下。“四十分钟后，”她说，“你会听见我母亲。”乔署长第一次没有去扶滚动的回声匣。",
+      "clean_text": "林汐把高地证对折，没有撕。她将折痕压过阿蓁的名字，再把纸推回茶托下。“四十分钟后，”她说，“你会听见我母亲。”乔署长第一次没有去扶滚动的回声匣。",
+      "detections": [],
+      "patches": [
+        {
+          "rule_id": "strip_authoring_comment",
+          "classification": "AUTO",
+          "original_text": "<!-- Beat 3 -->\n",
+          "replacement_text": "",
+          "start": 0,
+          "end": 16,
+          "affected_dimensions": [],
+          "reversible": true,
+          "explainable": true
+        }
+      ],
+      "review_items": [
+        {
+          "classification": "REVIEW",
+          "predicate": "protected_choice",
+          "evidence": "林汐承诺广播，但她如何同时履行“保护阿蓁”的锁定欲望仍未解决。",
+          "question": "这是策略升级，还是已把人物欲望从保护妹妹改成揭露真相？最终解释必须由作者裁决。"
+        }
+      ],
+      "reject_items": [],
+      "history": [
+        "writer_resolution: 作者裁决为策略升级：公开母亲证据用于阻止管理署再次牺牲低地，锁定欲望仍是保护阿蓁。",
+        "in_context_delta_recheck_completed"
+      ],
+      "rounds": {
+        "draft": 1,
+        "critic": 1,
+        "patch": 1,
+        "diversity": 0
+      },
+      "writer_decision": "accept",
+      "deferred_to_batch_boundary": false,
+      "review_resolution": "作者裁决为策略升级：公开母亲证据用于阻止管理署再次牺牲低地，锁定欲望仍是保护阿蓁。"
+    }
+  ]
+}
