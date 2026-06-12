@@ -15,6 +15,11 @@ const requiredFiles = [
   "scripts/run-writer-adjudication.mjs",
   "benchmarks/writer-adjudication/README.md",
   "benchmarks/writer-adjudication/memory-tide-pilot.json",
+  "benchmarks/writer-adjudication/glass-orchard-calibration-v2.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/blind-package.md",
+  "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/stage-1-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/sealed-manifest.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/run-metadata.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/blind-package.md",
   "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/stage-1-decisions.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/reveal-package.md",
@@ -53,6 +58,8 @@ const requiredFiles = [
   "tests/beat-gate-e2e.test.mjs",
   "tests/beat-gate-dogfood.test.mjs",
   "tests/writer-adjudication.test.mjs",
+  "tests/writer-adjudication-calibration.test.mjs",
+  "tests/writer-adjudication-operations.test.mjs",
   "tests/writer-adjudication-contract.test.mjs"
 ];
 
@@ -62,6 +69,10 @@ const jsonFiles = [
   "templates/writer-adjudication-input.json",
   "templates/lifecycle.json",
   "benchmarks/writer-adjudication/memory-tide-pilot.json",
+  "benchmarks/writer-adjudication/glass-orchard-calibration-v2.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/stage-1-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/sealed-manifest.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/run-metadata.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/stage-1-decisions.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/sealed-manifest.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/run-metadata.json",

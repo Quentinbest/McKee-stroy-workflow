@@ -159,6 +159,10 @@ node scripts/run-writer-adjudication.mjs create \
   --input benchmarks/writer-adjudication/memory-tide-pilot.json \
   --output benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved \
   --seed 20260612
+node scripts/run-writer-adjudication.mjs create \
+  --input benchmarks/writer-adjudication/glass-orchard-calibration-v2.json \
+  --output benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2 \
+  --seed 20260612-v2
 
 # Scaffold a new project
 mkdir -p drafts/my-story/{characters,scenes,prose}
@@ -191,6 +195,13 @@ variant automatically.
 The retained Memory Tide pilot completed two comparisons: both challengers won
 blind, both findings were accepted, and both revisions were adopted. Treat this
 as narrow prospective evidence, not a general critic accuracy claim.
+
+The prepared Glass Orchard V2 calibration contains 12 comparisons across four
+synthetic scenes, including three sealed weak-challenger controls. It remains
+`AWAITING_BLIND_REVIEW`; no quality result is claimed until a writer completes
+both stages. Completed runs can be aggregated, and explicitly adopted
+challengers can be previewed with the exact-match `apply` dry-run before any
+prose is changed.
 
 ---
 
