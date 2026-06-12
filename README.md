@@ -188,6 +188,10 @@ post-reveal critic acceptance. It refuses incomplete stages and altered
 packages, records explicit adoption intent, and never applies a preferred
 variant automatically.
 
+The retained Memory Tide pilot completed two comparisons: both challengers won
+blind, both findings were accepted, and both revisions were adopted. Treat this
+as narrow prospective evidence, not a general critic accuracy claim.
+
 ---
 
 ## Usage

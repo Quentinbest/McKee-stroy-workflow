@@ -8,7 +8,7 @@ Isolation note: in-context fallback; findings are advisory.
 
 | Scene | Chinese characters (approx.) | Register | Shape |
 |---|---:|---|---|
-| 1-1 | 239 | REVELATION | escalates |
+| 1-1 | 295 | REVELATION | escalates |
 | 1-2 | 213 | RELATIONSHIP | brief breath |
 | 1-3 | 236 | TENSION | escalates |
 | 1-4 | 234 | ACTION | escalates |

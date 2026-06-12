@@ -112,7 +112,7 @@ export function compareBeatGateCritics() {
     },
     retrospective_human_alignment: {
       caveat:
-        "The isolated findings were generated after the prior human decision, so this is alignment, not a causal acceptance rate.",
+        "These alignment metrics mix earlier writer edits with later blind adjudication of two isolated findings; they are descriptive, not a general acceptance rate.",
       human_text_changed_beats: humanChangedBeats.size,
       fallback_flagged_beats_with_text_change: fallbackChangedBeats.length,
       fallback_flagged_beat_alignment_percent: percentage(
@@ -147,7 +147,7 @@ export function compareBeatGateCritics() {
       "Scene-bounded critics cannot detect cross-scene diminishing returns.",
       "Beat role must be explicit so a final Beat is tested for enacted closure rather than pressure alone.",
       "A prose-only batch pattern audit should run before the consolidated writer decision.",
-      "No isolated finding should be labeled a false positive without fresh human adjudication.",
+      "Fresh blind human adjudication confirmed the two previously unresolved isolated findings.",
     ],
   };
 }
@@ -191,7 +191,7 @@ ${comparison.conclusions.map((conclusion) => `- ${conclusion}`).join("\n")}
 
 - \`scene-reviews.json\`: raw isolated scene-critic outputs
 - \`batch-pattern-review.json\`: raw prose-only batch audit
-- \`adjudication.json\`: comparison judgments with unresolved findings preserved
+- \`adjudication.json\`: comparison judgments, including fresh blind human decisions
 - \`comparison-report.json\`: machine-readable metrics
 `;
 }

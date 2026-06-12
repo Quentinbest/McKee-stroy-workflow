@@ -16,22 +16,22 @@ test("isolated critic comparison preserves uncertainty and batch lift", () => {
   assert.equal(comparison.scene_critic.confirmed_false_positives, 0);
   assert.equal(
     comparison.scene_critic.isolated_findings_requiring_fresh_human_review,
-    2,
+    0,
   );
   assert.equal(
     comparison.retrospective_human_alignment
       .fallback_flagged_beats_with_text_change,
-    4,
+    5,
   );
   assert.equal(
     comparison.retrospective_human_alignment
       .isolated_flagged_beats_with_text_change,
-    1,
+    2,
   );
   assert.equal(
     comparison.retrospective_human_alignment
       .isolated_human_changed_beat_recall_percent,
-    25,
+    40,
   );
   assert.deepEqual(
     comparison.retrospective_human_alignment

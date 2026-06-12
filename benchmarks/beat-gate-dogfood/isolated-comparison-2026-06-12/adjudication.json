@@ -4,8 +4,9 @@
       "beat_ref": "1-1-2",
       "predicate": "value_direction",
       "relation_to_fallback": "partial_overlap",
-      "prior_human_outcome": "no_text_change",
-      "assessment": "requires_fresh_human_review"
+      "prior_human_outcome": "text_changed_after_blind_adjudication",
+      "assessment": "confirmed",
+      "writer_adjudication_run": "2026-06-12-memory-tide-unresolved"
     },
     {
       "beat_ref": "1-1-3",
@@ -18,8 +19,9 @@
       "beat_ref": "1-1-3",
       "predicate": "desire_pressure",
       "relation_to_fallback": "novel_predicate",
-      "prior_human_outcome": "not_addressed",
-      "assessment": "requires_fresh_human_review"
+      "prior_human_outcome": "text_changed_after_blind_adjudication",
+      "assessment": "confirmed",
+      "writer_adjudication_run": "2026-06-12-memory-tide-unresolved"
     },
     {
       "beat_ref": "1-3-3",

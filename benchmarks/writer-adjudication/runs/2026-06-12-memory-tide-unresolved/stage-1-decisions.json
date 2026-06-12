@@ -2,29 +2,29 @@
   "version": "1.0.0",
   "run_id": "2026-06-12-memory-tide-unresolved",
   "stage": "blind_preference",
-  "status": "AWAITING_WRITER",
+  "status": "COMPLETE",
   "package_sha256": "fabbbcceb1662e51ee69951215df09910734080c121bb664c2d61d5135f1e53a",
   "reviewer": {
-    "id": null,
-    "started_at": null,
-    "completed_at": null
+    "id": "user",
+    "started_at": "2026-06-12T13:15:19Z",
+    "completed_at": "2026-06-12T13:27:24Z"
   },
   "comparisons": [
     {
       "comparison_id": "C01",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
-      "notes": ""
+      "notes": "User selected Variant A."
     },
     {
       "comparison_id": "C02",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "B",
+      "confidence": 3,
+      "meaningful_difference": "yes",
       "reasons": [],
-      "notes": ""
+      "notes": "User selected Variant B."
     }
   ],
   "batch_assessment": {
