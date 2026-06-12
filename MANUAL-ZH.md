@@ -726,6 +726,25 @@ done（完成）
 
 ---
 
+### `/story-writer-adjudication`（作家盲测裁决）
+
+**用途**：在不让审稿标签污染作家第一判断的前提下，裁决有界的散文分歧。
+
+**第一阶段**以确定性种子随机排列 A/B 文本，记录偏好、置信度以及差异
+是否有意义。**第二阶段**才揭示原稿身份和审稿发现，并记录
+`accept` / `reject` / `uncertain` 以及是否明确采用偏好版本。
+
+运行器使用 SHA-256 哈希绑定两个阶段，拒绝不完整或被改动的盲测包。
+这是程序性盲测，不是密码学保密。
+最终报告还记录作家审核分钟数、已知 Agent 调用次数，以及跨场景重复是否
+减少。“作家拒绝发现率”单独呈现，不冒充客观误报率。
+
+它不能测试对 Premise、人物欲望、因果、Gap、Turning Point、Value Shift
+或世界核心事实的修改；这些修改必须重新开启对应的上游工作流。盲选偏好
+不会自动改写已接受的散文。
+
+---
+
 ### `/story-tournament`（锦标赛生成）
 
 **用途**：高风险创意决策的锦标赛生成——并行生成N个多元候选，盲判，选出赢家。
@@ -1138,6 +1157,7 @@ V3功能适用于任何项目。需要先锻造人格（`persona.md` 必须存�
 | `/story-persona` | V3 | 基础设施 | persona.md |
 | `/story-tournament` | V3 | 基础设施 | 候选排名 + 赢家 |
 | `/story-stop-loss` | V1 | 基础设施 | 收敛协议（内部） |
+| `/story-writer-adjudication` | V1 | 基础设施 | 盲选偏好 + 结构化人工裁决 |
 | `/controlling-idea-architect` | V1 | 重构技能 | controlling-idea.md |
 | `/arc-tracer` | V1 | 重构技能 | 人物弧光文件 |
 | `/act-designer` | V1 | 重构技能 | 幕结构文件 |

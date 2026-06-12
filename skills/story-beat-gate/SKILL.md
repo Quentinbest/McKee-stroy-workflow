@@ -183,6 +183,7 @@ The ledger stores:
 - per-Beat candidate text, clean text, detections, patches, review items, reject items
 - history of diversity and backtracking triggers
 - batch pattern audit status and report path when the batch threshold is met
+- writer adjudication run path when a `REVIEW` is escalated to a blind A/B test
 
 If the run is interrupted, resume from the first incomplete stage rather than redrafting or re-running completed work.
 
@@ -202,5 +203,11 @@ The writer can then:
 - revise
 - defer to batch boundary
 - reopen upstream
+- run `/story-writer-adjudication` for a bounded unresolved prose finding
 
 The Beat Gate does not declare the Beat aesthetically approved.
+
+Use writer adjudication only when the baseline and challenger preserve all
+protected fields. If the disagreement concerns Premise, desire, causality, Gap,
+Turning Point, Value Shift, or a world core fact, reopen the owning upstream
+artifact instead of disguising the change as a prose preference test.

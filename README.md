@@ -94,6 +94,7 @@ Full lifecycle from seed to manuscript.
 |---|---|
 | `story-stop-loss` | Stop-loss convergence protocol — iteration caps, Beat Gate diversity trigger at round 2, backtrack depth limit |
 | `story-beat-gate` | Internal Beat-level scan, blind critique, AUTO/REVIEW/REJECT classification, resumable ledger |
+| `story-writer-adjudication` | Two-stage blind A/B preference, reveal, and structured human finding decision |
 | `story-persona` | Author Persona — FORGE / LOAD / APPLY modes; decision filter for all aesthetic choices |
 | `story-tournament` | Tournament generation for high-stakes creative decisions (also listed under V3 methodology) |
 
@@ -154,6 +155,10 @@ node scripts/run-beat-gate-dry-run.mjs
 node scripts/run-beat-gate-dogfood.mjs
 node scripts/compare-beat-gate-critics.mjs \
   --output benchmarks/beat-gate-dogfood/isolated-comparison-2026-06-12
+node scripts/run-writer-adjudication.mjs create \
+  --input benchmarks/writer-adjudication/memory-tide-pilot.json \
+  --output benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved \
+  --seed 20260612
 
 # Scaffold a new project
 mkdir -p drafts/my-story/{characters,scenes,prose}
@@ -177,6 +182,11 @@ The critic comparison replays the original 12 candidate Beats through isolated
 scene critics and a separate prose-only batch pattern auditor. Its retained
 evidence shows that isolation helps local independence, but cross-scene
 homogeneity requires its own bounded audit before the writer decision.
+
+The writer adjudication harness then separates blind prose preference from
+post-reveal critic acceptance. It refuses incomplete stages and altered
+packages, records explicit adoption intent, and never applies a preferred
+variant automatically.
 
 ---
 

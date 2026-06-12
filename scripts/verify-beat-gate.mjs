@@ -5,11 +5,20 @@ import process from "node:process";
 const requiredFiles = [
   "templates/beat-gate-policy.json",
   "templates/beat-gate-ledger.json",
+  "templates/writer-adjudication-input.json",
   "templates/lifecycle.json",
   "skills/story-beat-gate/SKILL.md",
+  "skills/story-writer-adjudication/SKILL.md",
   "skills/story-beat-gate/scripts/beat-gate-rules.mjs",
   "scripts/run-beat-gate-dry-run.mjs",
   "scripts/run-beat-gate-dogfood.mjs",
+  "scripts/run-writer-adjudication.mjs",
+  "benchmarks/writer-adjudication/README.md",
+  "benchmarks/writer-adjudication/memory-tide-pilot.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/blind-package.md",
+  "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/stage-1-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/sealed-manifest.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/run-metadata.json",
   "benchmarks/beat-gate-dogfood/README.md",
   "benchmarks/beat-gate-dogfood/memory-tide.json",
   "benchmarks/beat-gate-dogfood/runs/2026-06-11-memory-tide/dogfood-report.json",
@@ -38,13 +47,20 @@ const requiredFiles = [
   "tests/beat-gate-resume.test.mjs",
   "tests/beat-gate-workflow.test.mjs",
   "tests/beat-gate-e2e.test.mjs",
-  "tests/beat-gate-dogfood.test.mjs"
+  "tests/beat-gate-dogfood.test.mjs",
+  "tests/writer-adjudication.test.mjs",
+  "tests/writer-adjudication-contract.test.mjs"
 ];
 
 const jsonFiles = [
   "templates/beat-gate-policy.json",
   "templates/beat-gate-ledger.json",
+  "templates/writer-adjudication-input.json",
   "templates/lifecycle.json",
+  "benchmarks/writer-adjudication/memory-tide-pilot.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/stage-1-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/sealed-manifest.json",
+  "benchmarks/writer-adjudication/runs/2026-06-12-memory-tide-unresolved/run-metadata.json",
   "benchmarks/beat-gate-dogfood/memory-tide.json",
   "benchmarks/beat-gate-dogfood/runs/2026-06-11-memory-tide/dogfood-report.json",
   "benchmarks/beat-gate-dogfood/runs/2026-06-12-memory-tide/dogfood-report.json",
@@ -87,6 +103,10 @@ const stringChecks = [
   {
     file: "README.md",
     needle: "run-beat-gate-dogfood.mjs"
+  },
+  {
+    file: "README.md",
+    needle: "run-writer-adjudication.mjs"
   },
   {
     file: "MANUAL.md",

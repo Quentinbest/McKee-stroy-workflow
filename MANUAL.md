@@ -745,6 +745,28 @@ From the answers, derives: Truth Library (3–5 specific observations about huma
 
 ---
 
+### `/story-writer-adjudication`
+
+**Purpose**: Resolve a bounded prose disagreement without letting critic labels
+contaminate the writer's first preference.
+
+**Stage 1** presents seeded A/B variants and records preference, confidence, and
+whether the difference is meaningful. **Stage 2** reveals which version was the
+baseline, shows the critic finding, and records `accept` / `reject` /
+`uncertain` plus explicit adoption intent.
+
+The runner binds both stages with SHA-256 hashes and refuses incomplete or
+altered packages. This is procedural blinding, not cryptographic secrecy.
+The final report also records writer review minutes, known agent-call counts,
+and whether cross-scene repetition was reduced. A writer-rejected finding rate
+is reported separately and is not claimed as an objective false-positive rate.
+
+It cannot test changes to Premise, character desire, causality, Gap, Turning
+Point, Value Shift, or world core facts. Those must reopen their owning
+workflow. A blind preference never auto-edits accepted prose.
+
+---
+
 ### `/story-tournament`
 
 **Purpose**: Tournament generation for high-stakes creative decisions — N diverse candidates in parallel, judged blind, winner selected.
@@ -1159,6 +1181,7 @@ Expected. Post-publish edits re-open the project to `polished`. `/story-status` 
 | `/story-persona` | V3 | Infrastructure | persona.md |
 | `/story-tournament` | V3 | Infrastructure | ranked candidates + winner |
 | `/story-stop-loss` | V1 | Infrastructure | convergence protocol (internal) |
+| `/story-writer-adjudication` | V1 | Infrastructure | blind preference + structured human adjudication |
 | `/controlling-idea-architect` | V1 | Refactored | controlling-idea.md |
 | `/arc-tracer` | V1 | Refactored | character arc document |
 | `/act-designer` | V1 | Refactored | act structure document |
