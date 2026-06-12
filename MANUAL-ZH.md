@@ -826,6 +826,7 @@ done（完成）
 | `reader-simulator` | 盲读：全文投入度曲线，或每 2-3 个已提交场景一次的 WINDOW 报告 | `/story-revise` 第7轮，滚动检查 |
 | `pacing-analyst` | 场景长度分布；节奏变化；全文或 WINDOW 节奏报告 | `/story-revise` 第7轮，滚动检查 |
 | `blind-beat-critic` | 只读有界场景上下文的节拍级盲审 | `/story-scene` 通过 `/story-beat-gate` |
+| `batch-beat-pattern-auditor` | 只读散文的跨场景模式审计；不接收机制标签或既往裁决 | `/story-scene` 通过 `/story-beat-gate`，在汇总作者决策之前 |
 | `diversity-challenger` | 当节拍重复或不收敛时，提供机制层面的不同候选 | `/story-scene` 通过 `/story-beat-gate` |
 | `surprise-auditor` | 误导完整性；每个植入项的双重解读可用性；高潮处的重读时刻 | `/mck-surprise-plant AUDIT`，`/story-audit` |
 | `tournament-judge` | 针对麦基标准对N个候选进行盲排；返回排名列表+理由+宣布赢家 | `/story-tournament`，多处 |

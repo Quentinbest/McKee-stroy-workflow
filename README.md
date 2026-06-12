@@ -123,6 +123,7 @@ Drop into `.claude/agents/` in your project directory.
 - `reader-simulator` — Blind read; FULL-draft and WINDOW rolling engagement reports *(V2)*
 - `pacing-analyst` — Scene length, rhythm distribution, FULL-draft and WINDOW rolling pacing reports *(V2)*
 - `blind-beat-critic` — Beat-level blind critique with bounded scene context *(new)*
+- `batch-beat-pattern-auditor` — Prose-only cross-scene homogeneity audit before the writer decision *(new)*
 - `diversity-challenger` — Mechanism-level alternatives when a Beat repeats or will not converge *(new)*
 - `surprise-auditor` — Naive read + misdirection plan cross-reference; verifies dual-reading plants and re-read moment at Climax *(V3)*
 
@@ -151,6 +152,8 @@ node scripts/verify-beat-gate.mjs
 node --test tests/*.test.mjs
 node scripts/run-beat-gate-dry-run.mjs
 node scripts/run-beat-gate-dogfood.mjs
+node scripts/compare-beat-gate-critics.mjs \
+  --output benchmarks/beat-gate-dogfood/isolated-comparison-2026-06-12
 
 # Scaffold a new project
 mkdir -p drafts/my-story/{characters,scenes,prose}
@@ -169,6 +172,11 @@ The default fixture applies the writer's dated choice of ending `A`, commits
 the accepted batch, and writes rolling reports. Add `--pending` to reproduce
 the pre-decision `AWAITING_WRITER` boundary and verify that Premise, character
 desire, and final aesthetic judgment are not silently automated.
+
+The critic comparison replays the original 12 candidate Beats through isolated
+scene critics and a separate prose-only batch pattern auditor. Its retained
+evidence shows that isolation helps local independence, but cross-scene
+homogeneity requires its own bounded audit before the writer decision.
 
 ---
 

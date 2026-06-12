@@ -1,0 +1,45 @@
+{
+  "run_date": "2026-06-12",
+  "execution_mode": "parallel-isolated-agent",
+  "scene_critic": {
+    "fallback_findings": 7,
+    "isolated_findings": 4,
+    "fallback_flagged_beats": 7,
+    "isolated_flagged_beats": 3,
+    "shared_flagged_beats": 3,
+    "fallback_only_flagged_beats": 4,
+    "isolated_beat_overlap_rate_percent": 100,
+    "fallback_beat_recall_percent": 42.9,
+    "isolated_novel_predicates": 1,
+    "confirmed_false_positives": 0,
+    "isolated_findings_requiring_fresh_human_review": 2
+  },
+  "retrospective_human_alignment": {
+    "caveat": "The isolated findings were generated after the prior human decision, so this is alignment, not a causal acceptance rate.",
+    "human_text_changed_beats": 4,
+    "fallback_flagged_beats_with_text_change": 4,
+    "fallback_flagged_beat_alignment_percent": 57.1,
+    "isolated_flagged_beats_with_text_change": 1,
+    "isolated_flagged_beat_alignment_percent": 33.3,
+    "isolated_human_changed_beat_recall_percent": 25,
+    "human_changed_beats_missed_by_isolated_scene_critics": [
+      "1-2-3",
+      "1-3-1",
+      "1-4-3"
+    ]
+  },
+  "batch_auditor": {
+    "findings": 5,
+    "high_severity_findings": 1,
+    "findings_confirmed_by_prior_human_changes": 2,
+    "new_residual_pattern_specificity": 3,
+    "healthy_variations": 3
+  },
+  "conclusions": [
+    "Isolation improved local independence but did not reproduce fallback coverage uniformly.",
+    "Scene-bounded critics cannot detect cross-scene diminishing returns.",
+    "Beat role must be explicit so a final Beat is tested for enacted closure rather than pressure alone.",
+    "A prose-only batch pattern audit should run before the consolidated writer decision.",
+    "No isolated finding should be labeled a false positive without fresh human adjudication."
+  ]
+}

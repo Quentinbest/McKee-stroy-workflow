@@ -845,6 +845,7 @@ These agents read the draft blind and return findings. Their cold-start is a fea
 | `reader-simulator` | Blind read: FULL-draft engagement curve, or WINDOW reports after 2-3 committed scenes | `/story-revise` Pass 7, rolling review |
 | `pacing-analyst` | Scene length distribution; rhythm variation; FULL-draft or WINDOW pacing reports | `/story-revise` Pass 7, rolling review |
 | `blind-beat-critic` | Beat-level blind critique with bounded scene context only | `/story-scene` via `/story-beat-gate` |
+| `batch-beat-pattern-auditor` | Prose-only cross-scene pattern audit; receives no mechanism labels or prior verdicts | `/story-scene` via `/story-beat-gate` before the consolidated writer decision |
 | `diversity-challenger` | Mechanism-level alternatives when a Beat repeats or fails to converge | `/story-scene` via `/story-beat-gate` |
 | `surprise-auditor` | Misdirection integrity; dual-reading availability per plant; reveal choreography at Climax | `/mck-surprise-plant AUDIT`, `/story-audit` |
 | `tournament-judge` | Blind ranking of N candidates against McKee criteria; returns ranked list + rationale + winner | `/story-tournament`, various |

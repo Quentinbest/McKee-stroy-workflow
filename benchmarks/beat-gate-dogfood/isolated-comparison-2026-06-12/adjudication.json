@@ -1,0 +1,59 @@
+{
+  "scene_findings": [
+    {
+      "beat_ref": "1-1-2",
+      "predicate": "value_direction",
+      "relation_to_fallback": "partial_overlap",
+      "prior_human_outcome": "no_text_change",
+      "assessment": "requires_fresh_human_review"
+    },
+    {
+      "beat_ref": "1-1-3",
+      "predicate": "explanation_summary",
+      "relation_to_fallback": "confirmed_overlap",
+      "prior_human_outcome": "text_changed",
+      "assessment": "confirmed"
+    },
+    {
+      "beat_ref": "1-1-3",
+      "predicate": "desire_pressure",
+      "relation_to_fallback": "novel_predicate",
+      "prior_human_outcome": "not_addressed",
+      "assessment": "requires_fresh_human_review"
+    },
+    {
+      "beat_ref": "1-3-3",
+      "predicate": "value_direction",
+      "relation_to_fallback": "partial_overlap",
+      "prior_human_outcome": "adjudicated_as_strategy",
+      "assessment": "not_text_changed"
+    }
+  ],
+  "batch_findings": [
+    {
+      "pattern": "悬而未决的手部动作反复收尾",
+      "prior_human_outcome": "final_instance_changed",
+      "assessment": "confirmed"
+    },
+    {
+      "pattern": "声音先行的信息揭露",
+      "prior_human_outcome": "one_repeated_instance_changed",
+      "assessment": "confirmed"
+    },
+    {
+      "pattern": "物件压住姓名与选择",
+      "prior_human_outcome": "residual",
+      "assessment": "new_specificity"
+    },
+    {
+      "pattern": "对话由道具动作切拍",
+      "prior_human_outcome": "residual",
+      "assessment": "new_specificity"
+    },
+    {
+      "pattern": "短促反转句式密集",
+      "prior_human_outcome": "residual",
+      "assessment": "new_specificity"
+    }
+  ]
+}

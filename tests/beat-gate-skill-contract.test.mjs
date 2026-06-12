@@ -21,3 +21,10 @@ test("story-beat-gate encodes bounded fallback briefs", () => {
   assert.match(skill, /The blind critic must not see:/);
   assert.match(skill, /When diversity is required, provide only:/);
 });
+
+test("story-beat-gate requires prose-only batch pattern review", () => {
+  assert.match(skill, /batch-beat-pattern-auditor/);
+  assert.match(skill, /at least 6 cleaned Beats across at least 2 scenes/);
+  assert.match(skill, /Do not provide mechanism labels/);
+  assert.match(skill, /Mechanism labels are bookkeeping/);
+});
