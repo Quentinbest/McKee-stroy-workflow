@@ -23,7 +23,8 @@
   "manuscript_built_at": null,
   "target_total": null,
   "workflow_versions": {
-    "beat_gate": null
+    "beat_gate": null,
+    "writer_adjudication": null
   },
   "artifacts": {
     "premise_card": "drafts/{{slug}}/premise-card.md",
@@ -41,6 +42,7 @@
     "state_db": "drafts/{{slug}}/state.json",
     "beat_gate_policy": "drafts/{{slug}}/beat-gate-policy.json",
     "beat_gate_audit_dir": "drafts/{{slug}}/audit/beat-gate/",
+    "writer_adjudication_audit_dir": "drafts/{{slug}}/audit/adjudication/",
     "rolling_audit_dir": "drafts/{{slug}}/audit/rolling/",
     "audit_report": "drafts/{{slug}}/audit-report.md",
     "manuscript": "drafts/{{slug}}/manuscript.md"

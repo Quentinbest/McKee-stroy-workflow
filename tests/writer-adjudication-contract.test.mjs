@@ -15,12 +15,16 @@ const storyScene = fs.readFileSync(
   "utf8",
 );
 
-test("writer adjudication separates blind preference from revealed finding", () => {
-  assert.match(adjudication, /Do not collapse these questions into one prompt/);
+test("writer adjudication separates preference, finding, and source-aware disposition", () => {
+  assert.match(adjudication, /Do not collapse these questions/);
   assert.match(adjudication, /Stage 1 — Create and blind-review/);
-  assert.match(adjudication, /Stage 2 — Reveal and adjudicate the finding/);
+  assert.match(adjudication, /Stage 2A — Blind finding adjudication/);
+  assert.match(adjudication, /Stage 2B — Source-role reveal and disposition/);
   assert.match(adjudication, /Stage 3 — Score without auto-applying/);
   assert.match(adjudication, /Stage 4 — Preview and apply approved variants/);
+  assert.match(adjudication, /unsupported-finding controls/);
+  assert.match(adjudication, /`PASS`, `WARN`, or `FAIL`/);
+  assert.match(adjudication, /Keeping the baseline is never/);
   assert.match(adjudication, /default is always `DRY_RUN`/);
   assert.match(adjudication, /Aggregate completed runs/);
   assert.match(adjudication, /run-writer-adjudication\.mjs prepare/);

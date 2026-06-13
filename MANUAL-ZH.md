@@ -731,13 +731,14 @@ done（完成）
 **用途**：在不让审稿标签污染作家第一判断的前提下，裁决有界的散文分歧。
 
 **第一阶段**以确定性种子随机排列 A/B 文本，记录偏好、置信度以及差异
-是否有意义。**第二阶段**才揭示原稿身份和审稿发现，并记录
-`accept` / `reject` / `uncertain` 以及是否明确采用偏好版本。
+是否有意义。**第二阶段 A** 在继续隐藏来源角色的情况下展示审稿 finding，
+记录 `accept` / `reject` / `uncertain`。**第二阶段 B** 才揭示来源角色，
+记录 `keep_baseline`、`adopt_challenger` 或 `defer`。
 
-运行器使用 SHA-256 哈希绑定两个阶段，拒绝不完整或被改动的盲测包。
-这是程序性盲测，不是密码学保密。
-最终报告还记录作家审核分钟数、已知 Agent 调用次数，以及跨场景重复是否
-减少。“作家拒绝发现率”单独呈现，不冒充客观误报率。
+运行器使用 SHA-256 哈希绑定全部阶段，拒绝不完整或被改动的盲测包。
+若在“无显著盲测差异”后接受 finding，必须显式解释判断变化。前瞻性校准
+同时使用弱挑战版本和无依据 finding 两类对照，并输出 `PASS`、`WARN` 或
+`FAIL`。这是程序性盲测，不是密码学保密。
 
 它不能测试对 Premise、人物欲望、因果、Gap、Turning Point、Value Shift
 或世界核心事实的修改；这些修改必须重新开启对应的上游工作流。盲选偏好
@@ -1157,7 +1158,7 @@ V3功能适用于任何项目。需要先锻造人格（`persona.md` 必须存�
 | `/story-persona` | V3 | 基础设施 | persona.md |
 | `/story-tournament` | V3 | 基础设施 | 候选排名 + 赢家 |
 | `/story-stop-loss` | V1 | 基础设施 | 收敛协议（内部） |
-| `/story-writer-adjudication` | V1 | 基础设施 | 盲选偏好 + 结构化人工裁决 |
+| `/story-writer-adjudication` | V2 | 基础设施 | 盲选偏好 + 盲判 finding + 来源揭晓后处置 |
 | `/controlling-idea-architect` | V1 | 重构技能 | controlling-idea.md |
 | `/arc-tracer` | V1 | 重构技能 | 人物弧光文件 |
 | `/act-designer` | V1 | 重构技能 | 幕结构文件 |
