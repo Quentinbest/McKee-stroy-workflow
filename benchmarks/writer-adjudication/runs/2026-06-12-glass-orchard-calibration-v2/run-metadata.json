@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "run_id": "2026-06-12-glass-orchard-calibration-v2",
   "title": "玻璃果园：前瞻性校准 V2",
-  "status": "AWAITING_BLIND_REVIEW",
+  "status": "COMPLETE",
   "comparison_count": 12,
   "seed": "20260612-v2",
   "package_sha256": "cc146765b586b4afe4d79c65e30f4ac7c37114cf81a0e31e42cfcf06a7164b08",
@@ -31,5 +31,7 @@
     "distinct_scenes": 4,
     "control_count": 3
   },
-  "human_evidence_recorded": false
+  "human_evidence_recorded": true,
+  "stage_1_sha256": "4ff0a3a7b969bd0642b1d24c015721f8527242a6ade081479ec52a634da75d73",
+  "stage_2_sha256": "2f041f6ff557062de5f2bbee83b675eb42df7a1f7cafa1a79a9565230d46ba3f"
 }

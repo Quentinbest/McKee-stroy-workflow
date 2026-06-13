@@ -1,0 +1,91 @@
+{
+  "version": "1.0.0",
+  "run_id": "2026-06-12-glass-orchard-calibration-v2",
+  "stage": "finding_adjudication",
+  "status": "COMPLETE",
+  "stage_1_sha256": "4ff0a3a7b969bd0642b1d24c015721f8527242a6ade081479ec52a634da75d73",
+  "reviewer": {
+    "id": "human-writer",
+    "started_at": "2026-06-13T03:17:43Z",
+    "completed_at": "2026-06-13T03:17:43Z"
+  },
+  "comparisons": [
+    {
+      "comparison_id": "C01",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C02",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C03",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C04",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C05",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C06",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C07",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C08",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C09",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C10",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C11",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    },
+    {
+      "comparison_id": "C12",
+      "finding_disposition": "accept",
+      "adopt_preferred_variant": "yes",
+      "rationale": "Writer accepted the finding and chose the blind-preferred variant."
+    }
+  ],
+  "batch_effect": {
+    "cross_scene_repetition": "reduced",
+    "notes": "Writer judged cross-scene repetition reduced after reviewing the preferred set."
+  },
+  "overall_notes": "Review start was not instrumented; reviewer timestamps record the final decision submission time."
+}

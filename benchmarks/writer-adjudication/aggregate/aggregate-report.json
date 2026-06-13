@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "status": "COMPLETE",
+  "metrics": {
+    "completed_runs": 2,
+    "comparisons": 14,
+    "challenger_preferred": 11,
+    "baseline_preferred": 3,
+    "ties": 0,
+    "findings_accepted": 14,
+    "findings_rejected": 0,
+    "findings_uncertain": 0,
+    "findings_accepted_without_meaningful_blind_difference": 1,
+    "preferred_variants_adopted": 14,
+    "writer_review_minutes": 13.5
+  },
+  "calibration": {
+    "control_count": 3,
+    "control_baseline_preferred": 1,
+    "control_ties": 0,
+    "control_challenger_preferred": 2,
+    "control_findings_accepted": 3,
+    "control_findings_rejected": 0,
+    "control_preferred_variants_adopted": 3,
+    "control_resistance_rate_percent": 33.3,
+    "control_warning": true
+  },
+  "runs": [
+    {
+      "run_id": "2026-06-12-glass-orchard-calibration-v2",
+      "comparisons": 12,
+      "report_path": "2026-06-12-glass-orchard-calibration-v2/adjudication-report.json"
+    },
+    {
+      "run_id": "2026-06-12-memory-tide-unresolved",
+      "comparisons": 2,
+      "report_path": "2026-06-12-memory-tide-unresolved/adjudication-report.json"
+    }
+  ]
+}

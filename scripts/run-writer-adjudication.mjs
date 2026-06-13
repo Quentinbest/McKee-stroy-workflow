@@ -594,12 +594,19 @@ function calibrationMetrics(comparisons, manifestCalibration) {
     control_baseline_preferred: controlBaselinePreferred,
     control_ties: controlTies,
     control_challenger_preferred: controlChallengerPreferred,
+    control_warning: controlChallengerPreferred > 0,
     control_resistance_rate_percent: percentage(
       controlBaselinePreferred + controlTies,
       controls.length,
     ),
+    control_findings_accepted: controls.filter(
+      (comparison) => comparison.finding_disposition === "accept",
+    ).length,
     control_findings_rejected: controls.filter(
       (comparison) => comparison.finding_disposition === "reject",
+    ).length,
+    control_preferred_variants_adopted: controls.filter(
+      (comparison) => comparison.adopt_preferred_variant === "yes",
     ).length,
     non_control_comparisons: nonControls.length,
     non_control_challenger_preferred: nonControls.filter(
@@ -624,8 +631,11 @@ function renderCalibrationMetrics(calibration) {
 | Control baseline preferred | ${calibration.control_baseline_preferred} |
 | Control ties | ${calibration.control_ties} |
 | Control challenger preferred | ${calibration.control_challenger_preferred} |
+| Control warning | ${calibration.control_warning ? "YES - weak challengers won; do not generalize critic quality" : "no"} |
 | Control resistance rate | ${calibration.control_resistance_rate_percent}% |
+| Control findings accepted | ${calibration.control_findings_accepted} |
 | Control findings rejected | ${calibration.control_findings_rejected} |
+| Control preferred variants adopted | ${calibration.control_preferred_variants_adopted} |
 | Non-control challenger preferred | ${calibration.non_control_challenger_preferred}/${calibration.non_control_comparisons} |
 `;
 }
@@ -647,6 +657,7 @@ Status: ${report.status}
 | Findings accepted | ${report.metrics.findings_accepted} |
 | Findings rejected | ${report.metrics.findings_rejected} |
 | Findings uncertain | ${report.metrics.findings_uncertain} |
+| Findings accepted without meaningful blind difference | ${report.metrics.findings_accepted_without_meaningful_blind_difference} |
 | Writer-rejected finding rate | ${report.metrics.writer_rejected_finding_rate_percent}% |
 | Preferred variants adopted | ${report.metrics.preferred_variants_adopted} |
 | Writer review time | ${report.metrics.writer_review_minutes} minutes |
@@ -1051,6 +1062,12 @@ export function scoreAdjudicationRun({
       findings_uncertain: comparisons.filter(
         (comparison) => comparison.finding_disposition === "uncertain",
       ).length,
+      findings_accepted_without_meaningful_blind_difference:
+        comparisons.filter(
+          (comparison) =>
+            comparison.finding_disposition === "accept" &&
+            comparison.meaningful_difference === "no",
+        ).length,
       writer_rejected_finding_rate_percent: percentage(
         comparisons.filter(
           (comparison) => comparison.finding_disposition === "reject",
@@ -1423,10 +1440,14 @@ function renderAggregateReport(aggregate) {
 | Ties | ${aggregate.metrics.ties} |
 | Findings accepted | ${aggregate.metrics.findings_accepted} |
 | Findings rejected | ${aggregate.metrics.findings_rejected} |
+| Findings accepted without meaningful blind difference | ${aggregate.metrics.findings_accepted_without_meaningful_blind_difference} |
 | Preferred variants adopted | ${aggregate.metrics.preferred_variants_adopted} |
 | Writer review time | ${aggregate.metrics.writer_review_minutes} minutes |
 | Weak challenger controls | ${aggregate.calibration.control_count} |
+| Control warning | ${aggregate.calibration.control_warning ? "YES - weak challengers won; do not generalize critic quality" : "no"} |
 | Control resistance rate | ${aggregate.calibration.control_resistance_rate_percent}% |
+| Control findings accepted | ${aggregate.calibration.control_findings_accepted} |
+| Control preferred variants adopted | ${aggregate.calibration.control_preferred_variants_adopted} |
 
 ## Runs
 
@@ -1476,6 +1497,7 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
     "findings_accepted",
     "findings_rejected",
     "findings_uncertain",
+    "findings_accepted_without_meaningful_blind_difference",
     "preferred_variants_adopted",
     "writer_review_minutes",
   ];
@@ -1530,6 +1552,16 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
           ),
         0,
       ),
+      control_findings_accepted: reports.reduce(
+        (total, { report }) =>
+          total +
+          aggregateMetric(
+            report,
+            "calibration",
+            "control_findings_accepted",
+          ),
+        0,
+      ),
       control_findings_rejected: reports.reduce(
         (total, { report }) =>
           total +
@@ -1537,6 +1569,16 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
             report,
             "calibration",
             "control_findings_rejected",
+          ),
+        0,
+      ),
+      control_preferred_variants_adopted: reports.reduce(
+        (total, { report }) =>
+          total +
+          aggregateMetric(
+            report,
+            "calibration",
+            "control_preferred_variants_adopted",
           ),
         0,
       ),
@@ -1551,6 +1593,8 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
       report_path: path.relative(path.resolve(runsDir), reportPath),
     })),
   };
+  aggregate.calibration.control_warning =
+    aggregate.calibration.control_challenger_preferred > 0;
 
   if (outputDir) {
     writeJson(path.join(outputDir, "aggregate-report.json"), aggregate);

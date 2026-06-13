@@ -38,10 +38,16 @@ node scripts/run-writer-adjudication.mjs create \
   --seed 20260612-v2
 ```
 
-The retained run is `AWAITING_BLIND_REVIEW`; it is a prepared experiment, not
-human quality evidence. Give the writer only `blind-package.md` and
-`stage-1-decisions.json`. Control labels remain sealed through both writer
-decision stages and appear only in the final scored report.
+The retained run is now `COMPLETE`. One writer preferred 9 challengers and 3
+baselines, accepted all 12 findings, approved all blind-preferred variants,
+and judged cross-scene repetition reduced.
+
+This result does not validate the critic. Two of three deliberately weak
+challengers won blind, all three control findings were accepted, and control
+resistance was only 33.3%. C10 was accepted after reveal despite being marked
+as no meaningful difference during blind review. Treat this as evidence that
+the current controls, reveal wording, or Stage 2 decision design do not yet
+reliably resist post-reveal acquiescence.
 
 For a real prospective pilot, write output under the story project's private
 `drafts/{slug}/audit/adjudication/` directory. Give the writer only
