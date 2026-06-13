@@ -37,7 +37,8 @@ Read `lifecycle.json`. Extract:
 - `state` (current lifecycle stage)
 - `locked` (map of what's done)
 - `artifacts` (paths)
-- `workflow_versions.beat_gate` if present
+- `workflow_versions.beat_gate` and `workflow_versions.writer_adjudication` if
+  present
 
 ## Step 3 — Read Artifact Presence
 
@@ -50,6 +51,11 @@ If Beat Gate artifacts are declared:
 - read the newest scene ledger under `drafts/{slug}/audit/beat-gate/`
 - extract the current Beat, current round, pending writer decision, and `execution_mode`
 - read the newest rolling report under `drafts/{slug}/audit/rolling/` if present
+
+If Writer Adjudication artifacts are declared:
+- read the newest `run-metadata.json` under
+  `drafts/{slug}/audit/adjudication/`
+- report its protocol version, workflow status, and calibration status
 
 **Stale-manuscript check**: if `manuscript.md` exists, compare its modified time against the newest file in `prose/`. If any prose file is newer than the manuscript, the manuscript is **stale** — prose was edited after the last assembly (a common situation after a post-publish expansion). Flag it as a blocking issue and recommend re-running `/story-publish` to regenerate. Do the same for `colophon.md` word counts if present.
 
@@ -85,6 +91,8 @@ ARTIFACTS
   Current Beat: {scene/beat or none}
   Pending Gate: {writer decision or none}
   Last Rolling: {most recent rolling report or none}
+  Adjudication: {protocol version | absent} / {workflow status}
+  Calibration:  {PASS | WARN | FAIL | not assessed}
 
 NEXT STEP
   → {suggested next action}

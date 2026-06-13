@@ -1,9 +1,9 @@
 ---
 name: story-writer-adjudication
 description: |
-  Two-stage writer adjudication for unresolved prose findings. Creates a seeded
-  A/B package without source-role labels, locks blind preference before reveal,
-  then records finding disposition and adoption intent. Trigger:
+  Protocol V2 writer adjudication for unresolved prose findings. Separately
+  locks blind prose preference, blind finding judgment, and source-aware
+  variant disposition. Trigger:
   /story-writer-adjudication, "blind adjudication", "compare revisions blind",
   "resolve critic disagreement".
 allowed-tools:
@@ -23,14 +23,16 @@ triggers:
 # Writer Adjudication
 
 Use this workflow when a specific prose-level `REVIEW` remains unresolved and
-there is one bounded alternative worth testing. It measures two different
+there is one bounded alternative worth testing. It measures three different
 questions in sequence:
 
 1. Which prose version does the writer prefer without knowing its source?
-2. After reveal, does the writer accept the critic finding and intend to adopt
-   the preferred version?
+2. While source roles remain hidden, does the writer accept the critic finding?
+3. After source-role reveal, does the writer keep the baseline, adopt the
+   challenger, or defer?
 
-Do not collapse these questions into one prompt.
+Do not collapse these questions or reveal source roles before Stage 2A is
+locked.
 
 ## Authority boundary
 
@@ -54,15 +56,50 @@ Create an input from `templates/writer-adjudication-input.json`.
   `challenger_text`.
 - For a prospective calibration pilot, use 10-12 comparisons from at least
   four scenes. Cover desire pressure, value direction, closure, and
-  cross-scene repetition. Include at least three deliberately weak challenger
-  controls so the workflow can demonstrate that the writer rejects harmful or
-  merely paraphrastic intervention.
+  cross-scene repetition.
+- Include at least three deliberately weak challenger controls to test whether
+  blind prose comparison resists harmful or merely paraphrastic revisions.
+- Include at least two unsupported-finding controls whose evidence does not
+  support the diagnostic claim. These test finding-acceptance bias separately
+  from revision quality.
 - Keep `calibration` metadata out of writer-facing material. The runner seals
   categories and control labels in the manifest and validates the declared
-  sample coverage before creating Stage 1.
+  sample coverage before creating Stage 1. Protocol V2 titles, contexts, and
+  finding text must not contain source-role or calibration-control labels.
+- Use these default success gates:
+  `minimum_weak_challenger_resistance_percent: 80`,
+  `maximum_unsupported_findings_accepted: 0`, and
+  `maximum_acceptances_without_meaningful_difference: 0`.
 - Add `application.target_file` only when the baseline text can be matched
   exactly in one project-relative file. This declares a possible target; it
   never grants permission to edit.
+
+For a Protocol V2 calibration input, replace top-level `calibration: null`
+with:
+
+```json
+{
+  "mode": "prospective",
+  "pilot_id": "{{pilot-id}}",
+  "minimum_comparisons": 10,
+  "minimum_distinct_scenes": 4,
+  "required_categories": [
+    "desire_pressure",
+    "value_direction",
+    "closure",
+    "cross_scene_repetition"
+  ],
+  "control_policies": {
+    "weak_challenger": { "minimum_count": 3 },
+    "unsupported_finding": { "minimum_count": 2 }
+  },
+  "success_gates": {
+    "minimum_weak_challenger_resistance_percent": 80,
+    "maximum_unsupported_findings_accepted": 0,
+    "maximum_acceptances_without_meaningful_difference": 0
+  }
+}
+```
 
 When critic output already contains unresolved `REVIEW` findings, copy
 `templates/writer-adjudication-variants.json`, prepare one bounded variant per
@@ -109,7 +146,7 @@ Do not reveal or summarize `sealed-manifest.json`. The writer records:
 
 Set `status` to `COMPLETE` only after every comparison is decided.
 
-## Stage 2 — Reveal and adjudicate the finding
+## Stage 2A — Blind finding adjudication
 
 Run:
 
@@ -120,16 +157,33 @@ node scripts/run-writer-adjudication.mjs reveal \
 ```
 
 The runner refuses incomplete decisions, package tampering, or a mismatched
-hash. After reading `reveal-package.md`, the writer completes
-`stage-2-decisions.json`:
+hash. Protocol V2 creates `finding-package.md` and
+`stage-2a-decisions.json`. Source roles and calibration labels remain hidden.
+The writer records:
 
 - `finding_disposition`: `accept`, `reject`, or `uncertain`
-- `adopt_preferred_variant`: `yes`, `no`, or `defer`
-- whether cross-scene repetition was reduced, unchanged, increased, or remains
-  uncertain
 - rationale
+- `blind_difference_reconciliation` when accepting a finding after Stage 1
+  recorded `meaningful_difference: no`
 
-Again, set `status` to `COMPLETE` only when all entries are decided.
+Set `status` to `COMPLETE` only when every finding is decided.
+
+## Stage 2B — Source-role reveal and disposition
+
+Run:
+
+```bash
+node scripts/run-writer-adjudication.mjs reveal-roles \
+  --output drafts/{slug}/audit/adjudication/{run-id} \
+  --stage-1 drafts/{slug}/audit/adjudication/{run-id}/stage-1-decisions.json \
+  --stage-2a drafts/{slug}/audit/adjudication/{run-id}/stage-2a-decisions.json
+```
+
+Only after Stage 2A is complete does the runner create
+`role-reveal-package.md` and `stage-2b-decisions.json`. The writer records
+`variant_disposition` as `keep_baseline`, `adopt_challenger`, or `defer`, plus
+rationale and the batch-level repetition effect. Keeping the baseline is never
+counted as variant adoption.
 
 ## Stage 3 — Score without auto-applying
 
@@ -139,23 +193,30 @@ Run:
 node scripts/run-writer-adjudication.mjs score \
   --output drafts/{slug}/audit/adjudication/{run-id} \
   --stage-1 drafts/{slug}/audit/adjudication/{run-id}/stage-1-decisions.json \
-  --stage-2 drafts/{slug}/audit/adjudication/{run-id}/stage-2-decisions.json
+  --stage-2a drafts/{slug}/audit/adjudication/{run-id}/stage-2a-decisions.json \
+  --stage-2b drafts/{slug}/audit/adjudication/{run-id}/stage-2b-decisions.json
 ```
 
 The report separates:
 
 - baseline/challenger blind preference
 - accepted/rejected/uncertain findings
-- explicit adoption intent
+- explicit baseline/challenger disposition and post-reveal reversals
 - writer review minutes, recorded agent calls, and cross-scene repetition effect
-- prospective control resistance from substantive challenger preference
+- weak-challenger resistance and unsupported-finding acceptance
+- a `PASS`, `WARN`, or `FAIL` calibration status
+
+`FAIL` means an unsupported finding was accepted or a finding was accepted
+after `meaningful_difference: no`. `WARN` means those hard gates passed but
+weak-challenger resistance was below the configured threshold. Only `PASS`
+clears this run's calibration gates; repeated runs across distinct material
+are still required before generalizing critic quality.
 
 The report calls human rejection a writer-rejected finding rate. It is not an
 objective false-positive rate.
 
-Apply prose only when the writer recorded adoption. Preserve rejected and
-uncertain findings as evidence; do not rewrite history to make the critic look
-correct.
+Apply prose only for `adopt_challenger`. Preserve rejected and uncertain
+findings as evidence; do not rewrite history to make the critic look correct.
 
 ## Stage 4 — Preview and apply approved variants
 
@@ -169,8 +230,8 @@ node scripts/run-writer-adjudication.mjs apply \
 ```
 
 The default is always `DRY_RUN`. A comparison is `READY` only when the writer
-recorded adoption, the challenger won blind, the input and decision hashes
-still match, and the baseline occurs exactly once in the declared target.
+recorded `adopt_challenger`, the input and decision hashes still match, and the
+baseline occurs exactly once in the declared target.
 
 Inspect `application-plan.json`, then add `--write` to apply all ready
 operations. Any missing or stale target blocks the write before any file is
@@ -185,8 +246,9 @@ node scripts/run-writer-adjudication.mjs aggregate \
 ```
 
 Aggregate reports combine completed-run counts, preferences, finding
-dispositions, adoptions, review time, and control resistance. They do not turn
-writer judgments into an objective critic score.
+dispositions, source-aware variant choices, review time, both control types,
+and V2 calibration status. They do not turn writer judgments into an objective
+critic score.
 
 ## Limits
 
@@ -194,5 +256,7 @@ writer judgments into an objective critic score.
   cryptographic secrecy.
 - A retained example with no completed human decision is a harness
   demonstration, not quality evidence.
+- Runs created with input version `1.x` retain the legacy combined Stage 2 for
+  reproducibility. New runs must use input version `2.0.0`.
 - Do not calibrate a general rule from one story or one writer. Require repeated
   adjudications across distinct material.

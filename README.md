@@ -193,6 +193,7 @@ node scripts/run-writer-adjudication.mjs create \
   --input benchmarks/writer-adjudication/glass-orchard-calibration-v2.json \
   --output benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2 \
   --seed 20260612-v2
+```
 
 For live unresolved critic findings, first join them to an explicit variant
 catalog with `run-writer-adjudication.mjs prepare`. The command fails on
@@ -216,21 +217,24 @@ scene critics and a separate prose-only batch pattern auditor. Its retained
 evidence shows that isolation helps local independence, but cross-scene
 homogeneity requires its own bounded audit before the writer decision.
 
-The writer adjudication harness then separates blind prose preference from
-post-reveal critic acceptance. It refuses incomplete stages and altered
-packages, records explicit adoption intent, and never applies a preferred
+Writer Adjudication Protocol V2 separates three decisions: blind prose
+preference, blind finding judgment, and source-aware variant disposition.
+Source roles remain hidden through Stage 2A. The runner requires explicit
+reconciliation before accepting a finding after `meaningful_difference: no`,
+records `keep_baseline` separately from `adopt_challenger`, and never applies a
 variant automatically.
 
 The retained Memory Tide pilot completed two comparisons: both challengers won
 blind, both findings were accepted, and both revisions were adopted. Treat this
 as narrow prospective evidence, not a general critic accuracy claim.
 
-The completed Glass Orchard V2 calibration contains 12 comparisons across four
-synthetic scenes, including three sealed weak-challenger controls. Challengers
-won 9/12 overall, but two weak controls also won and control resistance was
-only 33.3%. This is a warning against generalizing critic quality and suggests
-the reveal/Stage 2 design may permit acquiescence. The dry-run application
-plan changed no prose because the synthetic fixture declares no targets.
+The completed Glass Orchard calibration dataset V2 used the legacy combined
+Stage 2 protocol. It contains 12 comparisons across four synthetic scenes,
+including three sealed weak-challenger controls. Challengers won 9/12 overall,
+but two weak controls also won and control resistance was only 33.3%. That
+failure motivated Protocol V2's separate unsupported-finding controls and
+`PASS` / `WARN` / `FAIL` gates. The retained evidence remains unchanged and
+must not be treated as Protocol V2 validation.
 
 ---
 

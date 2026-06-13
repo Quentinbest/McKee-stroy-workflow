@@ -7,13 +7,24 @@ const PREFERENCE_VALUES = new Set(["A", "B", "tie"]);
 const DIFFERENCE_VALUES = new Set(["yes", "no", "uncertain"]);
 const FINDING_VALUES = new Set(["accept", "reject", "uncertain"]);
 const ADOPTION_VALUES = new Set(["yes", "no", "defer"]);
+const VARIANT_DISPOSITION_VALUES = new Set([
+  "keep_baseline",
+  "adopt_challenger",
+  "defer",
+]);
 const REPETITION_VALUES = new Set([
   "reduced",
   "unchanged",
   "increased",
   "uncertain",
 ]);
-const CALIBRATION_CONTROL_VALUES = new Set(["none", "weak_challenger"]);
+const CALIBRATION_CONTROL_VALUES = new Set([
+  "none",
+  "weak_challenger",
+  "unsupported_finding",
+]);
+const PROTOCOL_V1 = "1.0.0";
+const PROTOCOL_V2 = "2.0.0";
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -77,10 +88,47 @@ function durationMinutes(reviewer, label) {
   return Number(((completedAt - startedAt) / 60000).toFixed(1));
 }
 
+function protocolVersion(value) {
+  assertNonEmptyString(value, "version");
+  const major = Number.parseInt(value.split(".")[0], 10);
+  if (major === 1) {
+    return PROTOCOL_V1;
+  }
+  if (major === 2) {
+    return PROTOCOL_V2;
+  }
+  throw new Error("version must use supported protocol major 1 or 2");
+}
+
+function manifestProtocolVersion(manifest) {
+  return manifest.protocol_version ?? PROTOCOL_V1;
+}
+
+function isProtocolV2(manifest) {
+  return manifestProtocolVersion(manifest) === PROTOCOL_V2;
+}
+
+function leaksSealedRole(value) {
+  return (
+    typeof value === "string" &&
+    /\bbaseline\b|\bchallenger\b|weak_challenger|unsupported_finding|基线|挑战版本/i.test(
+      value,
+    )
+  );
+}
+
 function validateInput(input) {
-  assertNonEmptyString(input.version, "version");
+  const adjudicationProtocol = protocolVersion(input.version);
   assertNonEmptyString(input.run_id, "run_id");
   assertNonEmptyString(input.title, "title");
+  if (
+    adjudicationProtocol === PROTOCOL_V2 &&
+    leaksSealedRole(input.title)
+  ) {
+    throw new Error(
+      "title must not leak source roles or calibration controls in protocol V2",
+    );
+  }
   validateOptionalCount(
     input.process_metrics?.critic_agent_calls ?? null,
     "process_metrics.critic_agent_calls",
@@ -128,6 +176,19 @@ function validateInput(input) {
       comparison.finding?.question,
       `${label}.finding.question`,
     );
+    if (
+      adjudicationProtocol === PROTOCOL_V2 &&
+      [
+        comparison.context,
+        comparison.finding.predicate,
+        comparison.finding.evidence,
+        comparison.finding.question,
+      ].some(leaksSealedRole)
+    ) {
+      throw new Error(
+        `${label} writer-facing metadata must not leak source roles or calibration controls in protocol V2`,
+      );
+    }
     if (comparison.application != null) {
       assertNonEmptyString(
         comparison.application.target_file,
@@ -146,10 +207,10 @@ function validateInput(input) {
     }
   }
 
-  return validateCalibration(input);
+  return validateCalibration(input, adjudicationProtocol);
 }
 
-function validateCalibration(input) {
+function validateCalibration(input, adjudicationProtocol) {
   const calibration = input.calibration;
   if (calibration == null) {
     if (
@@ -190,19 +251,56 @@ function validateCalibration(input) {
       `calibration.required_categories[${index}]`,
     );
   }
-  if (calibration.control_policy?.type !== "weak_challenger") {
-    throw new Error(
-      "calibration.control_policy.type must be weak_challenger",
+  const isV2 = adjudicationProtocol === PROTOCOL_V2;
+  if (isV2) {
+    validatePositiveInteger(
+      calibration.control_policies?.weak_challenger?.minimum_count,
+      "calibration.control_policies.weak_challenger.minimum_count",
+    );
+    validatePositiveInteger(
+      calibration.control_policies?.unsupported_finding?.minimum_count,
+      "calibration.control_policies.unsupported_finding.minimum_count",
+    );
+    const successGates = calibration.success_gates;
+    if (
+      typeof successGates?.minimum_weak_challenger_resistance_percent !==
+        "number" ||
+      successGates.minimum_weak_challenger_resistance_percent < 0 ||
+      successGates.minimum_weak_challenger_resistance_percent > 100
+    ) {
+      throw new Error(
+        "calibration.success_gates.minimum_weak_challenger_resistance_percent must be from 0 to 100",
+      );
+    }
+    for (const key of [
+      "maximum_unsupported_findings_accepted",
+      "maximum_acceptances_without_meaningful_difference",
+    ]) {
+      const value = successGates[key];
+      if (!Number.isInteger(value) || value < 0) {
+        throw new Error(
+          `calibration.success_gates.${key} must be a non-negative integer`,
+        );
+      }
+    }
+  } else {
+    if (calibration.control_policy?.type !== "weak_challenger") {
+      throw new Error(
+        "calibration.control_policy.type must be weak_challenger",
+      );
+    }
+    validatePositiveInteger(
+      calibration.control_policy.minimum_count,
+      "calibration.control_policy.minimum_count",
     );
   }
-  validatePositiveInteger(
-    calibration.control_policy.minimum_count,
-    "calibration.control_policy.minimum_count",
-  );
 
   const scenes = new Set();
   const categories = new Set();
-  let controlCount = 0;
+  const controlCounts = {
+    weak_challenger: 0,
+    unsupported_finding: 0,
+  };
   for (const [index, comparison] of input.comparisons.entries()) {
     const label = `comparisons[${index}]`;
     assertNonEmptyString(comparison.scene_ref, `${label}.scene_ref`);
@@ -210,19 +308,21 @@ function validateCalibration(input) {
       comparison.calibration?.category,
       `${label}.calibration.category`,
     );
-    if (
-      !CALIBRATION_CONTROL_VALUES.has(
-        comparison.calibration?.control_type,
-      )
-    ) {
+    const controlType = comparison.calibration?.control_type;
+    if (!CALIBRATION_CONTROL_VALUES.has(controlType)) {
       throw new Error(
-        `${label}.calibration.control_type must be none or weak_challenger`,
+        `${label}.calibration.control_type must be none, weak_challenger, or unsupported_finding`,
+      );
+    }
+    if (!isV2 && controlType === "unsupported_finding") {
+      throw new Error(
+        `${label}.calibration.control_type unsupported_finding requires protocol V2`,
       );
     }
     scenes.add(comparison.scene_ref);
     categories.add(comparison.calibration.category);
-    if (comparison.calibration.control_type === "weak_challenger") {
-      controlCount += 1;
+    if (controlType !== "none") {
+      controlCounts[controlType] += 1;
     }
   }
 
@@ -244,16 +344,31 @@ function validateCalibration(input) {
       `prospective calibration is missing required categories: ${missingCategories.join(", ")}`,
     );
   }
-  if (controlCount < calibration.control_policy.minimum_count) {
+  const weakMinimum = isV2
+    ? calibration.control_policies.weak_challenger.minimum_count
+    : calibration.control_policy.minimum_count;
+  if (controlCounts.weak_challenger < weakMinimum) {
     throw new Error(
-      `prospective calibration requires at least ${calibration.control_policy.minimum_count} weak challenger controls`,
+      `prospective calibration requires at least ${weakMinimum} weak challenger controls`,
     );
+  }
+  if (isV2) {
+    const unsupportedMinimum =
+      calibration.control_policies.unsupported_finding.minimum_count;
+    if (controlCounts.unsupported_finding < unsupportedMinimum) {
+      throw new Error(
+        `prospective calibration requires at least ${unsupportedMinimum} unsupported finding controls`,
+      );
+    }
   }
 
   return {
     ...calibration,
     distinct_scenes: scenes.size,
-    control_count: controlCount,
+    control_count: controlCounts.weak_challenger,
+    weak_challenger_control_count: controlCounts.weak_challenger,
+    unsupported_finding_control_count:
+      controlCounts.unsupported_finding,
   };
 }
 
@@ -337,7 +452,7 @@ ${sections.join("\n")}`;
 
 function stageOneTemplate(input, assignments, packageHash) {
   return {
-    version: "1.0.0",
+    version: protocolVersion(input.version),
     run_id: input.run_id,
     stage: "blind_preference",
     status: "AWAITING_WRITER",
@@ -422,7 +537,23 @@ function validateBlindPackage(outputDir, manifest) {
   }
 }
 
-function renderRevealPackage(manifest, stageOne) {
+function validateGeneratedPackage(
+  outputDir,
+  fileName,
+  expectedHash,
+  label,
+) {
+  assertNonEmptyString(expectedHash, `${label}.sha256`);
+  const packagePath = path.join(outputDir, fileName);
+  if (!fs.existsSync(packagePath)) {
+    throw new Error(`${fileName} is missing`);
+  }
+  if (sha256(fs.readFileSync(packagePath)) !== expectedHash) {
+    throw new Error(`${fileName} no longer matches ${label}`);
+  }
+}
+
+function renderLegacyRevealPackage(manifest, stageOne) {
   const decisions = new Map(
     stageOne.comparisons.map((decision) => [
       decision.comparison_id,
@@ -457,7 +588,7 @@ Stage 1 was locked before this file was generated.
 ${sections.join("\n")}`;
 }
 
-function stageTwoTemplate(manifest, stageOneHash) {
+function legacyStageTwoTemplate(manifest, stageOneHash) {
   return {
     version: "1.0.0",
     run_id: manifest.run_id,
@@ -483,7 +614,7 @@ function stageTwoTemplate(manifest, stageOneHash) {
   };
 }
 
-function validateStageTwo(stageTwo, manifest, stageOneHash) {
+function validateLegacyStageTwo(stageTwo, manifest, stageOneHash) {
   if (stageTwo.status !== "COMPLETE") {
     throw new Error("Stage 2 status must be COMPLETE before scoring");
   }
@@ -529,6 +660,248 @@ function validateStageTwo(stageTwo, manifest, stageOneHash) {
   }
 }
 
+function renderFindingPackage(manifest, stageOne) {
+  const decisions = new Map(
+    stageOne.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  const sections = manifest.comparisons.flatMap((comparison) => {
+    const decision = decisions.get(comparison.comparison_id);
+    return [
+      `## ${comparison.comparison_id}`,
+      "",
+      `- Meaningful blind difference: ${decision.meaningful_difference}`,
+      `- Predicate: ${comparison.finding.predicate}`,
+      `- Evidence: ${comparison.finding.evidence}`,
+      `- Question: ${comparison.finding.question}`,
+      "",
+      "Judge the finding without opening role-reveal material. Record the decision in `stage-2a-decisions.json`.",
+      "",
+    ];
+  });
+
+  return `# Blind Finding Adjudication: ${manifest.title}
+
+Stage 1 was locked before this file was generated. Source roles remain hidden
+until Stage 2A is complete.
+
+${sections.join("\n")}`;
+}
+
+function stageTwoATemplate(
+  manifest,
+  stageOneHash,
+  findingPackageHash,
+) {
+  return {
+    version: PROTOCOL_V2,
+    run_id: manifest.run_id,
+    stage: "blind_finding_adjudication",
+    status: "AWAITING_WRITER",
+    stage_1_sha256: stageOneHash,
+    finding_package_sha256: findingPackageHash,
+    reviewer: {
+      id: null,
+      started_at: null,
+      completed_at: null,
+    },
+    comparisons: manifest.comparisons.map((comparison) => ({
+      comparison_id: comparison.comparison_id,
+      finding_disposition: null,
+      rationale: "",
+      blind_difference_reconciliation: "",
+    })),
+    overall_notes: "",
+  };
+}
+
+function validateStageTwoA(stageTwoA, manifest, stageOne, stageOneHash) {
+  if (stageTwoA.status !== "COMPLETE") {
+    throw new Error("Stage 2A status must be COMPLETE before role reveal");
+  }
+  if (stageTwoA.run_id !== manifest.run_id) {
+    throw new Error("Stage 2A run_id does not match the sealed manifest");
+  }
+  if (stageTwoA.stage_1_sha256 !== stageOneHash) {
+    throw new Error("Stage 2A is not bound to the supplied Stage 1 decisions");
+  }
+  assertNonEmptyString(
+    stageTwoA.finding_package_sha256,
+    "stage_2a.finding_package_sha256",
+  );
+  assertNonEmptyString(stageTwoA.reviewer?.id, "stage_2a.reviewer.id");
+  durationMinutes(stageTwoA.reviewer, "stage_2a.reviewer");
+
+  const expectedIds = manifest.comparisons.map(
+    (comparison) => comparison.comparison_id,
+  );
+  const actualIds = stageTwoA.comparisons?.map(
+    (comparison) => comparison.comparison_id,
+  );
+  if (JSON.stringify(actualIds) !== JSON.stringify(expectedIds)) {
+    throw new Error("Stage 2A comparisons do not match the sealed manifest");
+  }
+  const stageOneById = new Map(
+    stageOne.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  for (const decision of stageTwoA.comparisons) {
+    if (!FINDING_VALUES.has(decision.finding_disposition)) {
+      throw new Error(
+        `${decision.comparison_id}.finding_disposition must be accept, reject, or uncertain`,
+      );
+    }
+    assertNonEmptyString(
+      decision.rationale,
+      `${decision.comparison_id}.rationale`,
+    );
+    const blindDecision = stageOneById.get(decision.comparison_id);
+    if (
+      decision.finding_disposition === "accept" &&
+      blindDecision.meaningful_difference === "no"
+    ) {
+      assertNonEmptyString(
+        decision.blind_difference_reconciliation,
+        `${decision.comparison_id}.blind_difference_reconciliation must explain acceptance after no meaningful blind difference`,
+      );
+    }
+  }
+}
+
+function renderRoleRevealPackage(manifest, stageOne, stageTwoA) {
+  const stageOneById = new Map(
+    stageOne.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  const stageTwoAById = new Map(
+    stageTwoA.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  const sections = manifest.comparisons.flatMap((comparison) => {
+    const blindDecision = stageOneById.get(comparison.comparison_id);
+    const findingDecision = stageTwoAById.get(comparison.comparison_id);
+    const baselineVariant = Object.entries(comparison.variant_roles).find(
+      ([, role]) => role === "baseline",
+    )[0];
+    const challengerVariant = baselineVariant === "A" ? "B" : "A";
+    return [
+      `## ${comparison.comparison_id}`,
+      "",
+      `- Blind preference: ${blindDecision.preferred_variant}`,
+      `- Baseline variant: ${baselineVariant}`,
+      `- Challenger variant: ${challengerVariant}`,
+      `- Finding disposition locked in Stage 2A: ${findingDecision.finding_disposition}`,
+      `- Source reference: ${comparison.source_ref}`,
+      "",
+      "Choose `keep_baseline`, `adopt_challenger`, or `defer` in `stage-2b-decisions.json`.",
+      "",
+    ];
+  });
+
+  return `# Source-Role Reveal: ${manifest.title}
+
+Stage 1 preference and Stage 2A finding judgment were locked before source
+roles were revealed. Calibration control labels remain sealed until scoring.
+
+${sections.join("\n")}`;
+}
+
+function stageTwoBTemplate(
+  manifest,
+  stageOneHash,
+  stageTwoAHash,
+  roleRevealPackageHash,
+) {
+  return {
+    version: PROTOCOL_V2,
+    run_id: manifest.run_id,
+    stage: "role_reveal_disposition",
+    status: "AWAITING_WRITER",
+    stage_1_sha256: stageOneHash,
+    stage_2a_sha256: stageTwoAHash,
+    role_reveal_package_sha256: roleRevealPackageHash,
+    reviewer: {
+      id: null,
+      started_at: null,
+      completed_at: null,
+    },
+    comparisons: manifest.comparisons.map((comparison) => ({
+      comparison_id: comparison.comparison_id,
+      variant_disposition: null,
+      rationale: "",
+    })),
+    batch_effect: {
+      cross_scene_repetition: null,
+      notes: "",
+    },
+    overall_notes: "",
+  };
+}
+
+function validateStageTwoB(
+  stageTwoB,
+  manifest,
+  stageOneHash,
+  stageTwoAHash,
+) {
+  if (stageTwoB.status !== "COMPLETE") {
+    throw new Error("Stage 2B status must be COMPLETE before scoring");
+  }
+  if (stageTwoB.run_id !== manifest.run_id) {
+    throw new Error("Stage 2B run_id does not match the sealed manifest");
+  }
+  if (stageTwoB.stage_1_sha256 !== stageOneHash) {
+    throw new Error("Stage 2B is not bound to the supplied Stage 1 decisions");
+  }
+  if (stageTwoB.stage_2a_sha256 !== stageTwoAHash) {
+    throw new Error("Stage 2B is not bound to the supplied Stage 2A decisions");
+  }
+  assertNonEmptyString(
+    stageTwoB.role_reveal_package_sha256,
+    "stage_2b.role_reveal_package_sha256",
+  );
+  assertNonEmptyString(stageTwoB.reviewer?.id, "stage_2b.reviewer.id");
+  durationMinutes(stageTwoB.reviewer, "stage_2b.reviewer");
+  if (
+    !REPETITION_VALUES.has(
+      stageTwoB.batch_effect?.cross_scene_repetition,
+    )
+  ) {
+    throw new Error(
+      "batch_effect.cross_scene_repetition must be reduced, unchanged, increased, or uncertain",
+    );
+  }
+
+  const expectedIds = manifest.comparisons.map(
+    (comparison) => comparison.comparison_id,
+  );
+  const actualIds = stageTwoB.comparisons?.map(
+    (comparison) => comparison.comparison_id,
+  );
+  if (JSON.stringify(actualIds) !== JSON.stringify(expectedIds)) {
+    throw new Error("Stage 2B comparisons do not match the sealed manifest");
+  }
+  for (const decision of stageTwoB.comparisons) {
+    if (!VARIANT_DISPOSITION_VALUES.has(decision.variant_disposition)) {
+      throw new Error(
+        `${decision.comparison_id}.variant_disposition must be keep_baseline, adopt_challenger, or defer`,
+      );
+    }
+    assertNonEmptyString(
+      decision.rationale,
+      `${decision.comparison_id}.rationale`,
+    );
+  }
+}
+
 function percentage(numerator, denominator) {
   return denominator === 0
     ? 0
@@ -540,11 +913,14 @@ function calibrationMetrics(comparisons, manifestCalibration) {
     return null;
   }
 
-  const controls = comparisons.filter(
+  const weakChallengerControls = comparisons.filter(
     (comparison) => comparison.control_type === "weak_challenger",
   );
+  const unsupportedFindingControls = comparisons.filter(
+    (comparison) => comparison.control_type === "unsupported_finding",
+  );
   const nonControls = comparisons.filter(
-    (comparison) => comparison.control_type !== "weak_challenger",
+    (comparison) => comparison.control_type === "none",
   );
   const byCategory = {};
   for (const comparison of comparisons) {
@@ -576,37 +952,59 @@ function calibrationMetrics(comparisons, manifestCalibration) {
     byCategory[category] = current;
   }
 
-  const controlBaselinePreferred = controls.filter(
+  const controlBaselinePreferred = weakChallengerControls.filter(
     (comparison) => comparison.preferred_role === "baseline",
   ).length;
-  const controlTies = controls.filter(
+  const controlTies = weakChallengerControls.filter(
     (comparison) => comparison.preferred_role === "tie",
   ).length;
-  const controlChallengerPreferred = controls.filter(
+  const controlChallengerPreferred = weakChallengerControls.filter(
     (comparison) => comparison.preferred_role === "challenger",
   ).length;
-
-  return {
+  const weakChallengerResistanceRate = percentage(
+    controlBaselinePreferred + controlTies,
+    weakChallengerControls.length,
+  );
+  const unsupportedFindingsAccepted = unsupportedFindingControls.filter(
+    (comparison) => comparison.finding_disposition === "accept",
+  ).length;
+  const acceptancesWithoutMeaningfulDifference = comparisons.filter(
+    (comparison) =>
+      comparison.finding_disposition === "accept" &&
+      comparison.meaningful_difference === "no",
+  ).length;
+  const metrics = {
     mode: manifestCalibration.mode,
     pilot_id: manifestCalibration.pilot_id,
     distinct_scenes: manifestCalibration.distinct_scenes,
-    control_count: controls.length,
+    control_count: weakChallengerControls.length,
     control_baseline_preferred: controlBaselinePreferred,
     control_ties: controlTies,
     control_challenger_preferred: controlChallengerPreferred,
     control_warning: controlChallengerPreferred > 0,
-    control_resistance_rate_percent: percentage(
-      controlBaselinePreferred + controlTies,
-      controls.length,
-    ),
-    control_findings_accepted: controls.filter(
+    control_resistance_rate_percent: weakChallengerResistanceRate,
+    control_findings_accepted: weakChallengerControls.filter(
       (comparison) => comparison.finding_disposition === "accept",
     ).length,
-    control_findings_rejected: controls.filter(
+    control_findings_rejected: weakChallengerControls.filter(
       (comparison) => comparison.finding_disposition === "reject",
     ).length,
-    control_preferred_variants_adopted: controls.filter(
+    control_preferred_variants_adopted: weakChallengerControls.filter(
       (comparison) => comparison.adopt_preferred_variant === "yes",
+    ).length,
+    weak_challenger_variants_adopted: weakChallengerControls.filter(
+      (comparison) =>
+        comparison.variant_disposition === "adopt_challenger" ||
+        (comparison.preferred_role === "challenger" &&
+          comparison.adopt_preferred_variant === "yes"),
+    ).length,
+    weak_challenger_control_count: weakChallengerControls.length,
+    weak_challenger_resistance_rate_percent:
+      weakChallengerResistanceRate,
+    unsupported_finding_control_count: unsupportedFindingControls.length,
+    unsupported_findings_accepted: unsupportedFindingsAccepted,
+    unsupported_findings_rejected: unsupportedFindingControls.filter(
+      (comparison) => comparison.finding_disposition === "reject",
     ).length,
     non_control_comparisons: nonControls.length,
     non_control_challenger_preferred: nonControls.filter(
@@ -614,6 +1012,38 @@ function calibrationMetrics(comparisons, manifestCalibration) {
     ).length,
     by_category: byCategory,
   };
+  if (manifestCalibration.success_gates) {
+    const gates = manifestCalibration.success_gates;
+    const weakChallengerGatePassed =
+      weakChallengerResistanceRate >=
+      gates.minimum_weak_challenger_resistance_percent;
+    const unsupportedFindingGatePassed =
+      unsupportedFindingsAccepted <=
+      gates.maximum_unsupported_findings_accepted;
+    const blindDifferenceGatePassed =
+      acceptancesWithoutMeaningfulDifference <=
+      gates.maximum_acceptances_without_meaningful_difference;
+    metrics.gates = {
+      minimum_weak_challenger_resistance_percent:
+        gates.minimum_weak_challenger_resistance_percent,
+      weak_challenger_resistance_passed: weakChallengerGatePassed,
+      maximum_unsupported_findings_accepted:
+        gates.maximum_unsupported_findings_accepted,
+      unsupported_finding_acceptance_passed:
+        unsupportedFindingGatePassed,
+      maximum_acceptances_without_meaningful_difference:
+        gates.maximum_acceptances_without_meaningful_difference,
+      blind_difference_consistency_passed: blindDifferenceGatePassed,
+    };
+    metrics.status =
+      !unsupportedFindingGatePassed || !blindDifferenceGatePassed
+        ? "FAIL"
+        : weakChallengerGatePassed
+          ? "PASS"
+          : "WARN";
+    metrics.gate_passed = metrics.status === "PASS";
+  }
+  return metrics;
 }
 
 function renderCalibrationMetrics(calibration) {
@@ -626,6 +1056,7 @@ function renderCalibrationMetrics(calibration) {
 | Metric | Result |
 |---|---:|
 | Pilot | ${calibration.pilot_id} |
+${calibration.status ? `| Calibration status | ${calibration.status} |` : ""}
 | Distinct scenes | ${calibration.distinct_scenes} |
 | Weak challenger controls | ${calibration.control_count} |
 | Control baseline preferred | ${calibration.control_baseline_preferred} |
@@ -636,6 +1067,10 @@ function renderCalibrationMetrics(calibration) {
 | Control findings accepted | ${calibration.control_findings_accepted} |
 | Control findings rejected | ${calibration.control_findings_rejected} |
 | Control preferred variants adopted | ${calibration.control_preferred_variants_adopted} |
+${calibration.weak_challenger_variants_adopted != null ? `| Weak challenger variants adopted | ${calibration.weak_challenger_variants_adopted} |` : ""}
+${calibration.unsupported_finding_control_count != null ? `| Unsupported finding controls | ${calibration.unsupported_finding_control_count} |
+| Unsupported findings accepted | ${calibration.unsupported_findings_accepted} |
+| Calibration gate passed | ${calibration.gate_passed ? "yes" : "no"} |` : ""}
 | Non-control challenger preferred | ${calibration.non_control_challenger_preferred}/${calibration.non_control_comparisons} |
 `;
 }
@@ -660,6 +1095,9 @@ Status: ${report.status}
 | Findings accepted without meaningful blind difference | ${report.metrics.findings_accepted_without_meaningful_blind_difference} |
 | Writer-rejected finding rate | ${report.metrics.writer_rejected_finding_rate_percent}% |
 | Preferred variants adopted | ${report.metrics.preferred_variants_adopted} |
+${report.metrics.challenger_variants_adopted != null ? `| Challenger variants adopted | ${report.metrics.challenger_variants_adopted} |
+| Baselines kept | ${report.metrics.baselines_kept} |
+| Post-reveal preference reversals | ${report.metrics.post_reveal_preference_reversals} |` : ""}
 | Writer review time | ${report.metrics.writer_review_minutes} minutes |
 | Critic agent calls | ${report.metrics.critic_agent_calls ?? "not recorded"} |
 | Variant-generation agent calls | ${report.metrics.variant_generation_agent_calls ?? "not recorded"} |
@@ -671,7 +1109,7 @@ ${renderCalibrationMetrics(report.calibration)}
 ${report.comparisons
   .map(
     (comparison) =>
-      `- ${comparison.comparison_id} / ${comparison.source_ref}: blind preference ${comparison.preferred_variant} (${comparison.preferred_role}); finding ${comparison.finding_disposition}; adoption ${comparison.adopt_preferred_variant}; rationale: ${comparison.finding_rationale || "none"}`,
+      `- ${comparison.comparison_id} / ${comparison.source_ref}: blind preference ${comparison.preferred_variant} (${comparison.preferred_role}); finding ${comparison.finding_disposition}; disposition ${comparison.variant_disposition ?? comparison.adopt_preferred_variant}; rationale: ${comparison.finding_rationale || "none"}`,
   )
   .join("\n")}
 `;
@@ -774,7 +1212,7 @@ export function prepareAdjudicationInput({
     };
   });
   const prepared = {
-    version: "1.0.0",
+    version: variantsSource.version ?? PROTOCOL_V2,
     run_id: runId,
     title,
     created_at: createdAt,
@@ -794,6 +1232,7 @@ export function prepareAdjudicationInput({
 export function createAdjudicationRun({ inputPath, outputDir, seed }) {
   const input = readJson(inputPath);
   const calibration = validateInput(input);
+  const adjudicationProtocol = protocolVersion(input.version);
   assertNonEmptyString(seed, "seed");
   const inputHash = sha256(fs.readFileSync(inputPath));
   const metadataPath = path.join(outputDir, "run-metadata.json");
@@ -841,7 +1280,8 @@ export function createAdjudicationRun({ inputPath, outputDir, seed }) {
   const blindPackage = renderBlindPackage(input, assignments);
   const packageHash = sha256(blindPackage);
   const manifest = {
-    version: "1.0.0",
+    version: adjudicationProtocol,
+    protocol_version: adjudicationProtocol,
     run_id: input.run_id,
     title: input.title,
     created_at: input.created_at ?? null,
@@ -872,7 +1312,8 @@ export function createAdjudicationRun({ inputPath, outputDir, seed }) {
     })),
   };
   const metadata = {
-    version: "1.0.0",
+    version: adjudicationProtocol,
+    protocol_version: adjudicationProtocol,
     run_id: input.run_id,
     title: input.title,
     status: "AWAITING_BLIND_REVIEW",
@@ -905,11 +1346,88 @@ export function revealAdjudicationRun({ outputDir, stageOnePath }) {
   const stageOne = readJson(stageOnePath);
   validateStageOne(stageOne, manifest);
   const stageOneHash = sha256(fs.readFileSync(stageOnePath));
-  const stageTwoPath = path.join(outputDir, "stage-2-decisions.json");
   const metadataPath = path.join(outputDir, "run-metadata.json");
+  const metadata = readJson(metadataPath);
+
+  if (isProtocolV2(manifest)) {
+    const stageTwoAPath = path.join(outputDir, "stage-2a-decisions.json");
+    const findingPackagePath = path.join(outputDir, "finding-package.md");
+    const findingPackage = renderFindingPackage(manifest, stageOne);
+    const findingPackageHash = sha256(findingPackage);
+    if (fs.existsSync(stageTwoAPath)) {
+      const stageTwoA = readJson(stageTwoAPath);
+      if (stageTwoA.stage_1_sha256 !== stageOneHash) {
+        throw new Error(
+          "Existing Stage 2A decisions belong to different Stage 1 content",
+        );
+      }
+      if (
+        metadata.stage_1_sha256 &&
+        metadata.stage_1_sha256 !== stageOneHash
+      ) {
+        throw new Error(
+          "Run metadata belongs to different Stage 1 content",
+        );
+      }
+      if (!fs.existsSync(findingPackagePath)) {
+        writeText(findingPackagePath, findingPackage);
+      }
+      validateGeneratedPackage(
+        outputDir,
+        "finding-package.md",
+        stageTwoA.finding_package_sha256,
+        "Stage 2A decisions",
+      );
+      if (stageTwoA.finding_package_sha256 !== findingPackageHash) {
+        throw new Error(
+          "Existing Stage 2A decisions belong to different finding package content",
+        );
+      }
+      const status =
+        metadata.status === "COMPLETE"
+          ? "COMPLETE"
+          : metadata.status === "AWAITING_ROLE_REVEAL_DECISION"
+            ? "AWAITING_ROLE_REVEAL_DECISION"
+            : "AWAITING_BLIND_FINDING_ADJUDICATION";
+      if (
+        metadata.status !== status ||
+        metadata.stage_1_sha256 !== stageOneHash
+      ) {
+        writeJson(metadataPath, {
+          ...metadata,
+          status,
+          stage_1_sha256: stageOneHash,
+        });
+      }
+      return {
+        status,
+        stage_1_sha256: stageOneHash,
+      };
+    }
+
+    writeText(findingPackagePath, findingPackage);
+    writeJson(
+      stageTwoAPath,
+      stageTwoATemplate(
+        manifest,
+        stageOneHash,
+        findingPackageHash,
+      ),
+    );
+    writeJson(metadataPath, {
+      ...metadata,
+      status: "AWAITING_BLIND_FINDING_ADJUDICATION",
+      stage_1_sha256: stageOneHash,
+    });
+    return {
+      status: "AWAITING_BLIND_FINDING_ADJUDICATION",
+      stage_1_sha256: stageOneHash,
+    };
+  }
+
+  const stageTwoPath = path.join(outputDir, "stage-2-decisions.json");
 
   if (fs.existsSync(stageTwoPath)) {
-    const metadata = readJson(metadataPath);
     const stageTwo = readJson(stageTwoPath);
     if (stageTwo.stage_1_sha256 !== stageOneHash) {
       throw new Error(
@@ -926,7 +1444,10 @@ export function revealAdjudicationRun({ outputDir, stageOnePath }) {
     }
     const revealPath = path.join(outputDir, "reveal-package.md");
     if (!fs.existsSync(revealPath)) {
-      writeText(revealPath, renderRevealPackage(manifest, stageOne));
+      writeText(
+        revealPath,
+        renderLegacyRevealPackage(manifest, stageOne),
+      );
     }
     const status =
       metadata.status === "COMPLETE"
@@ -950,13 +1471,12 @@ export function revealAdjudicationRun({ outputDir, stageOnePath }) {
 
   writeText(
     path.join(outputDir, "reveal-package.md"),
-    renderRevealPackage(manifest, stageOne),
+    renderLegacyRevealPackage(manifest, stageOne),
   );
   writeJson(
     stageTwoPath,
-    stageTwoTemplate(manifest, stageOneHash),
+    legacyStageTwoTemplate(manifest, stageOneHash),
   );
-  const metadata = readJson(metadataPath);
   writeJson(metadataPath, {
     ...metadata,
     status: "AWAITING_FINDING_ADJUDICATION",
@@ -968,18 +1488,377 @@ export function revealAdjudicationRun({ outputDir, stageOnePath }) {
   };
 }
 
+export function revealRolesAdjudicationRun({
+  outputDir,
+  stageOnePath,
+  stageTwoAPath,
+}) {
+  const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
+  if (!isProtocolV2(manifest)) {
+    throw new Error("Role reveal is available only for protocol V2 runs");
+  }
+  validateBlindPackage(outputDir, manifest);
+  const stageOne = readJson(stageOnePath);
+  validateStageOne(stageOne, manifest);
+  const stageOneHash = sha256(fs.readFileSync(stageOnePath));
+  const stageTwoA = readJson(stageTwoAPath);
+  validateStageTwoA(stageTwoA, manifest, stageOne, stageOneHash);
+  validateGeneratedPackage(
+    outputDir,
+    "finding-package.md",
+    stageTwoA.finding_package_sha256,
+    "Stage 2A decisions",
+  );
+  if (
+    Date.parse(stageTwoA.reviewer.started_at) <
+    Date.parse(stageOne.reviewer.completed_at)
+  ) {
+    throw new Error(
+      "Stage 2A reviewer.started_at must not precede Stage 1 completion",
+    );
+  }
+  const stageTwoAHash = sha256(fs.readFileSync(stageTwoAPath));
+  const stageTwoBPath = path.join(outputDir, "stage-2b-decisions.json");
+  const roleRevealPath = path.join(outputDir, "role-reveal-package.md");
+  const roleRevealPackage = renderRoleRevealPackage(
+    manifest,
+    stageOne,
+    stageTwoA,
+  );
+  const roleRevealPackageHash = sha256(roleRevealPackage);
+  const metadataPath = path.join(outputDir, "run-metadata.json");
+  const metadata = readJson(metadataPath);
+
+  if (fs.existsSync(stageTwoBPath)) {
+    const stageTwoB = readJson(stageTwoBPath);
+    if (
+      stageTwoB.stage_1_sha256 !== stageOneHash ||
+      stageTwoB.stage_2a_sha256 !== stageTwoAHash
+    ) {
+      throw new Error(
+        "Existing Stage 2B decisions belong to different prior-stage content",
+      );
+    }
+    if (!fs.existsSync(roleRevealPath)) {
+      writeText(roleRevealPath, roleRevealPackage);
+    }
+    validateGeneratedPackage(
+      outputDir,
+      "role-reveal-package.md",
+      stageTwoB.role_reveal_package_sha256,
+      "Stage 2B decisions",
+    );
+    if (
+      stageTwoB.role_reveal_package_sha256 !== roleRevealPackageHash
+    ) {
+      throw new Error(
+        "Existing Stage 2B decisions belong to different role reveal content",
+      );
+    }
+    const status =
+      metadata.status === "COMPLETE"
+        ? "COMPLETE"
+        : "AWAITING_ROLE_REVEAL_DECISION";
+    writeJson(metadataPath, {
+      ...metadata,
+      status,
+      stage_1_sha256: stageOneHash,
+      stage_2a_sha256: stageTwoAHash,
+    });
+    return {
+      status,
+      stage_1_sha256: stageOneHash,
+      stage_2a_sha256: stageTwoAHash,
+    };
+  }
+
+  writeText(roleRevealPath, roleRevealPackage);
+  writeJson(
+    stageTwoBPath,
+    stageTwoBTemplate(
+      manifest,
+      stageOneHash,
+      stageTwoAHash,
+      roleRevealPackageHash,
+    ),
+  );
+  writeJson(metadataPath, {
+    ...metadata,
+    status: "AWAITING_ROLE_REVEAL_DECISION",
+    stage_1_sha256: stageOneHash,
+    stage_2a_sha256: stageTwoAHash,
+  });
+  return {
+    status: "AWAITING_ROLE_REVEAL_DECISION",
+    stage_1_sha256: stageOneHash,
+    stage_2a_sha256: stageTwoAHash,
+  };
+}
+
+function scoreProtocolV2({
+  outputDir,
+  manifest,
+  stageOne,
+  stageOneHash,
+  stageTwoAPath,
+  stageTwoBPath,
+}) {
+  if (!stageTwoAPath || !stageTwoBPath) {
+    throw new Error(
+      "Protocol V2 scoring requires stageTwoAPath and stageTwoBPath",
+    );
+  }
+  const stageTwoA = readJson(stageTwoAPath);
+  validateStageTwoA(stageTwoA, manifest, stageOne, stageOneHash);
+  validateGeneratedPackage(
+    outputDir,
+    "finding-package.md",
+    stageTwoA.finding_package_sha256,
+    "Stage 2A decisions",
+  );
+  const stageTwoAHash = sha256(fs.readFileSync(stageTwoAPath));
+  const stageTwoB = readJson(stageTwoBPath);
+  validateStageTwoB(
+    stageTwoB,
+    manifest,
+    stageOneHash,
+    stageTwoAHash,
+  );
+  validateGeneratedPackage(
+    outputDir,
+    "role-reveal-package.md",
+    stageTwoB.role_reveal_package_sha256,
+    "Stage 2B decisions",
+  );
+  const stageOneMinutes = durationMinutes(
+    stageOne.reviewer,
+    "stage_1.reviewer",
+  );
+  const stageTwoAMinutes = durationMinutes(
+    stageTwoA.reviewer,
+    "stage_2a.reviewer",
+  );
+  const stageTwoBMinutes = durationMinutes(
+    stageTwoB.reviewer,
+    "stage_2b.reviewer",
+  );
+  if (
+    Date.parse(stageTwoA.reviewer.started_at) <
+    Date.parse(stageOne.reviewer.completed_at)
+  ) {
+    throw new Error(
+      "Stage 2A reviewer.started_at must not precede Stage 1 completion",
+    );
+  }
+  if (
+    Date.parse(stageTwoB.reviewer.started_at) <
+    Date.parse(stageTwoA.reviewer.completed_at)
+  ) {
+    throw new Error(
+      "Stage 2B reviewer.started_at must not precede Stage 2A completion",
+    );
+  }
+
+  const manifestById = new Map(
+    manifest.comparisons.map((comparison) => [
+      comparison.comparison_id,
+      comparison,
+    ]),
+  );
+  const stageTwoAById = new Map(
+    stageTwoA.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  const stageTwoBById = new Map(
+    stageTwoB.comparisons.map((decision) => [
+      decision.comparison_id,
+      decision,
+    ]),
+  );
+  const comparisons = stageOne.comparisons.map((blindDecision) => {
+    const mapping = manifestById.get(blindDecision.comparison_id);
+    const findingDecision = stageTwoAById.get(
+      blindDecision.comparison_id,
+    );
+    const variantDecision = stageTwoBById.get(
+      blindDecision.comparison_id,
+    );
+    const preferredRole =
+      blindDecision.preferred_variant === "tie"
+        ? "tie"
+        : mapping.variant_roles[blindDecision.preferred_variant];
+    const adoptPreferredVariant =
+      variantDecision.variant_disposition === "defer"
+        ? "defer"
+        : variantDecision.variant_disposition === "adopt_challenger" &&
+            preferredRole === "challenger"
+          ? "yes"
+          : "no";
+    return {
+      comparison_id: blindDecision.comparison_id,
+      source_id: mapping.source_id,
+      source_ref: mapping.source_ref,
+      scene_ref: mapping.scene_ref,
+      calibration_category: mapping.calibration?.category ?? null,
+      control_type: mapping.calibration?.control_type ?? "none",
+      preferred_variant: blindDecision.preferred_variant,
+      preferred_role: preferredRole,
+      confidence: blindDecision.confidence,
+      meaningful_difference: blindDecision.meaningful_difference,
+      blind_reasons: blindDecision.reasons,
+      blind_notes: blindDecision.notes,
+      finding_disposition: findingDecision.finding_disposition,
+      finding_rationale: findingDecision.rationale,
+      blind_difference_reconciliation:
+        findingDecision.blind_difference_reconciliation,
+      variant_disposition: variantDecision.variant_disposition,
+      variant_rationale: variantDecision.rationale,
+      adopt_preferred_variant: adoptPreferredVariant,
+    };
+  });
+  const challengerPreferred = comparisons.filter(
+    (comparison) => comparison.preferred_role === "challenger",
+  ).length;
+  const baselinePreferred = comparisons.filter(
+    (comparison) => comparison.preferred_role === "baseline",
+  ).length;
+  const ties = comparisons.filter(
+    (comparison) => comparison.preferred_role === "tie",
+  ).length;
+  const challengerVariantsAdopted = comparisons.filter(
+    (comparison) =>
+      comparison.variant_disposition === "adopt_challenger",
+  ).length;
+  const baselinesKept = comparisons.filter(
+    (comparison) =>
+      comparison.variant_disposition === "keep_baseline",
+  ).length;
+  const postRevealPreferenceReversals = comparisons.filter(
+    (comparison) =>
+      (comparison.preferred_role === "baseline" &&
+        comparison.variant_disposition === "adopt_challenger") ||
+      (comparison.preferred_role === "challenger" &&
+        comparison.variant_disposition === "keep_baseline"),
+  ).length;
+  const report = {
+    version: PROTOCOL_V2,
+    protocol_version: PROTOCOL_V2,
+    run_id: manifest.run_id,
+    title: manifest.title,
+    status: "COMPLETE",
+    stage_1_sha256: stageOneHash,
+    stage_2a_sha256: stageTwoAHash,
+    stage_2b_sha256: sha256(fs.readFileSync(stageTwoBPath)),
+    metrics: {
+      comparisons: comparisons.length,
+      challenger_preferred: challengerPreferred,
+      baseline_preferred: baselinePreferred,
+      ties,
+      challenger_win_rate_excluding_ties_percent: percentage(
+        challengerPreferred,
+        challengerPreferred + baselinePreferred,
+      ),
+      findings_accepted: comparisons.filter(
+        (comparison) => comparison.finding_disposition === "accept",
+      ).length,
+      findings_rejected: comparisons.filter(
+        (comparison) => comparison.finding_disposition === "reject",
+      ).length,
+      findings_uncertain: comparisons.filter(
+        (comparison) => comparison.finding_disposition === "uncertain",
+      ).length,
+      findings_accepted_without_meaningful_blind_difference:
+        comparisons.filter(
+          (comparison) =>
+            comparison.finding_disposition === "accept" &&
+            comparison.meaningful_difference === "no",
+        ).length,
+      writer_rejected_finding_rate_percent: percentage(
+        comparisons.filter(
+          (comparison) => comparison.finding_disposition === "reject",
+        ).length,
+        comparisons.filter(
+          (comparison) =>
+            comparison.finding_disposition === "accept" ||
+            comparison.finding_disposition === "reject",
+        ).length,
+      ),
+      preferred_variants_adopted: comparisons.filter(
+        (comparison) => comparison.adopt_preferred_variant === "yes",
+      ).length,
+      challenger_variants_adopted: challengerVariantsAdopted,
+      baselines_kept: baselinesKept,
+      post_reveal_preference_reversals: postRevealPreferenceReversals,
+      writer_review_minutes: Number(
+        (
+          stageOneMinutes +
+          stageTwoAMinutes +
+          stageTwoBMinutes
+        ).toFixed(1),
+      ),
+      critic_agent_calls:
+        manifest.process_metrics?.critic_agent_calls ?? null,
+      variant_generation_agent_calls:
+        manifest.process_metrics?.variant_generation_agent_calls ?? null,
+      cross_scene_repetition_effect:
+        stageTwoB.batch_effect.cross_scene_repetition,
+    },
+    batch_assessment: stageOne.batch_assessment,
+    batch_effect: stageTwoB.batch_effect,
+    stage_2a_overall_notes: stageTwoA.overall_notes,
+    overall_notes: stageTwoB.overall_notes,
+    comparisons,
+  };
+  report.calibration = calibrationMetrics(
+    comparisons,
+    manifest.calibration,
+  );
+
+  writeJson(path.join(outputDir, "adjudication-report.json"), report);
+  writeText(
+    path.join(outputDir, "adjudication-report.md"),
+    renderReport(report),
+  );
+  const metadataPath = path.join(outputDir, "run-metadata.json");
+  const metadata = readJson(metadataPath);
+  writeJson(metadataPath, {
+    ...metadata,
+    status: "COMPLETE",
+    human_evidence_recorded: true,
+    stage_1_sha256: report.stage_1_sha256,
+    stage_2a_sha256: report.stage_2a_sha256,
+    stage_2b_sha256: report.stage_2b_sha256,
+    calibration_status: report.calibration?.status ?? null,
+  });
+  return report;
+}
+
 export function scoreAdjudicationRun({
   outputDir,
   stageOnePath,
   stageTwoPath,
+  stageTwoAPath,
+  stageTwoBPath,
 }) {
   const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
   validateBlindPackage(outputDir, manifest);
   const stageOne = readJson(stageOnePath);
   validateStageOne(stageOne, manifest);
   const stageOneHash = sha256(fs.readFileSync(stageOnePath));
+  if (isProtocolV2(manifest)) {
+    return scoreProtocolV2({
+      outputDir,
+      manifest,
+      stageOne,
+      stageOneHash,
+      stageTwoAPath,
+      stageTwoBPath,
+    });
+  }
   const stageTwo = readJson(stageTwoPath);
-  validateStageTwo(stageTwo, manifest, stageOneHash);
+  validateLegacyStageTwo(stageTwo, manifest, stageOneHash);
   const stageOneMinutes = durationMinutes(stageOne.reviewer, "stage_1.reviewer");
   const stageTwoMinutes = durationMinutes(stageTwo.reviewer, "stage_2.reviewer");
   if (
@@ -1136,7 +2015,6 @@ function completedRunArtifacts(outputDir, inputPath) {
   const inputContent = fs.readFileSync(inputPath);
   const inputHash = sha256(inputContent);
   const stageOnePath = path.join(outputDir, "stage-1-decisions.json");
-  const stageTwoPath = path.join(outputDir, "stage-2-decisions.json");
   const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
   if (
     inputHash !== metadata.input_sha256 ||
@@ -1156,15 +2034,66 @@ function completedRunArtifacts(outputDir, inputPath) {
   const stageOne = readJson(stageOnePath);
   validateStageOne(stageOne, manifest);
   const stageOneHash = sha256(fs.readFileSync(stageOnePath));
-  const stageTwo = readJson(stageTwoPath);
-  validateStageTwo(stageTwo, manifest, stageOneHash);
-  if (
-    stageOneHash !== report.stage_1_sha256 ||
-    sha256(fs.readFileSync(stageTwoPath)) !== report.stage_2_sha256
-  ) {
-    throw new Error("Completed adjudication decisions no longer match report");
+  if (isProtocolV2(manifest)) {
+    const stageTwoAPath = path.join(outputDir, "stage-2a-decisions.json");
+    const stageTwoBPath = path.join(outputDir, "stage-2b-decisions.json");
+    const stageTwoA = readJson(stageTwoAPath);
+    validateStageTwoA(stageTwoA, manifest, stageOne, stageOneHash);
+    validateGeneratedPackage(
+      outputDir,
+      "finding-package.md",
+      stageTwoA.finding_package_sha256,
+      "Stage 2A decisions",
+    );
+    const stageTwoAHash = sha256(fs.readFileSync(stageTwoAPath));
+    const stageTwoB = readJson(stageTwoBPath);
+    validateStageTwoB(
+      stageTwoB,
+      manifest,
+      stageOneHash,
+      stageTwoAHash,
+    );
+    validateGeneratedPackage(
+      outputDir,
+      "role-reveal-package.md",
+      stageTwoB.role_reveal_package_sha256,
+      "Stage 2B decisions",
+    );
+    if (
+      stageOneHash !== report.stage_1_sha256 ||
+      stageTwoAHash !== report.stage_2a_sha256 ||
+      sha256(fs.readFileSync(stageTwoBPath)) !== report.stage_2b_sha256
+    ) {
+      throw new Error(
+        "Completed adjudication decisions no longer match report",
+      );
+    }
+    validateReportDecisionBinding({
+      report,
+      manifest,
+      stageOne,
+      stageTwoA,
+      stageTwoB,
+    });
+  } else {
+    const stageTwoPath = path.join(outputDir, "stage-2-decisions.json");
+    const stageTwo = readJson(stageTwoPath);
+    validateLegacyStageTwo(stageTwo, manifest, stageOneHash);
+    if (
+      stageOneHash !== report.stage_1_sha256 ||
+      sha256(fs.readFileSync(stageTwoPath)) !== report.stage_2_sha256
+    ) {
+      throw new Error(
+        "Completed adjudication decisions no longer match report",
+      );
+    }
+    validateReportDecisionBinding({
+      report,
+      manifest,
+      stageOne,
+      stageTwo,
+    });
   }
-  validateReportDecisionBinding({ report, manifest, stageOne, stageTwo });
   return {
     input: JSON.parse(inputContent.toString("utf8")),
     report,
@@ -1176,6 +2105,8 @@ function validateReportDecisionBinding({
   manifest,
   stageOne,
   stageTwo,
+  stageTwoA,
+  stageTwoB,
 }) {
   const manifestById = new Map(
     manifest.comparisons.map((comparison) => [
@@ -1189,12 +2120,30 @@ function validateReportDecisionBinding({
       decision,
     ]),
   );
-  const stageTwoById = new Map(
-    stageTwo.comparisons.map((decision) => [
-      decision.comparison_id,
-      decision,
-    ]),
-  );
+  const stageTwoById = stageTwo
+    ? new Map(
+        stageTwo.comparisons.map((decision) => [
+          decision.comparison_id,
+          decision,
+        ]),
+      )
+    : null;
+  const stageTwoAById = stageTwoA
+    ? new Map(
+        stageTwoA.comparisons.map((decision) => [
+          decision.comparison_id,
+          decision,
+        ]),
+      )
+    : null;
+  const stageTwoBById = stageTwoB
+    ? new Map(
+        stageTwoB.comparisons.map((decision) => [
+          decision.comparison_id,
+          decision,
+        ]),
+      )
+    : null;
   const reportIds = report.comparisons?.map(
     (comparison) => comparison.comparison_id,
   );
@@ -1208,7 +2157,10 @@ function validateReportDecisionBinding({
   for (const comparison of report.comparisons) {
     const mapping = manifestById.get(comparison.comparison_id);
     const blindDecision = stageOneById.get(comparison.comparison_id);
-    const findingDecision = stageTwoById.get(comparison.comparison_id);
+    const findingDecision = (stageTwoAById ?? stageTwoById).get(
+      comparison.comparison_id,
+    );
+    const variantDecision = stageTwoBById?.get(comparison.comparison_id);
     const preferredRole =
       blindDecision.preferred_variant === "tie"
         ? "tie"
@@ -1221,8 +2173,11 @@ function validateReportDecisionBinding({
       comparison.preferred_role !== preferredRole ||
       comparison.finding_disposition !==
         findingDecision.finding_disposition ||
-      comparison.adopt_preferred_variant !==
-        findingDecision.adopt_preferred_variant;
+      (variantDecision
+        ? comparison.variant_disposition !==
+          variantDecision.variant_disposition
+        : comparison.adopt_preferred_variant !==
+          findingDecision.adopt_preferred_variant);
     if (mismatch) {
       throw new Error(
         `Completed report no longer matches decisions: ${comparison.comparison_id}`,
@@ -1273,10 +2228,12 @@ export function applyAdjudicationRun({
   const internalOperations = [];
 
   for (const decision of report.comparisons) {
-    if (
-      decision.adopt_preferred_variant !== "yes" ||
-      decision.preferred_role !== "challenger"
-    ) {
+    const adoptsChallenger =
+      decision.variant_disposition != null
+        ? decision.variant_disposition === "adopt_challenger"
+        : decision.adopt_preferred_variant === "yes" &&
+          decision.preferred_role === "challenger";
+    if (!adoptsChallenger) {
       continue;
     }
     const comparison = resolveSourceComparison(
@@ -1388,7 +2345,7 @@ export function applyAdjudicationRun({
   }
 
   const plan = {
-    version: "1.0.0",
+    version: report.protocol_version ?? PROTOCOL_V1,
     run_id: report.run_id,
     status: write ? "APPLIED" : "DRY_RUN",
     operations: internalOperations.map((operation) => ({
@@ -1442,12 +2399,19 @@ function renderAggregateReport(aggregate) {
 | Findings rejected | ${aggregate.metrics.findings_rejected} |
 | Findings accepted without meaningful blind difference | ${aggregate.metrics.findings_accepted_without_meaningful_blind_difference} |
 | Preferred variants adopted | ${aggregate.metrics.preferred_variants_adopted} |
+| Challenger variants adopted | ${aggregate.metrics.challenger_variants_adopted} |
+| Baselines kept | ${aggregate.metrics.baselines_kept} |
+| Post-reveal preference reversals | ${aggregate.metrics.post_reveal_preference_reversals} |
 | Writer review time | ${aggregate.metrics.writer_review_minutes} minutes |
+| V2 calibration status | ${aggregate.calibration.status} |
 | Weak challenger controls | ${aggregate.calibration.control_count} |
 | Control warning | ${aggregate.calibration.control_warning ? "YES - weak challengers won; do not generalize critic quality" : "no"} |
 | Control resistance rate | ${aggregate.calibration.control_resistance_rate_percent}% |
 | Control findings accepted | ${aggregate.calibration.control_findings_accepted} |
 | Control preferred variants adopted | ${aggregate.calibration.control_preferred_variants_adopted} |
+| Weak challenger variants adopted | ${aggregate.calibration.weak_challenger_variants_adopted} |
+| Unsupported finding controls | ${aggregate.calibration.unsupported_finding_control_count} |
+| Unsupported findings accepted | ${aggregate.calibration.unsupported_findings_accepted} |
 
 ## Runs
 
@@ -1499,6 +2463,9 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
     "findings_uncertain",
     "findings_accepted_without_meaningful_blind_difference",
     "preferred_variants_adopted",
+    "challenger_variants_adopted",
+    "baselines_kept",
+    "post_reveal_preference_reversals",
     "writer_review_minutes",
   ];
   const metrics = { completed_runs: reports.length };
@@ -1534,8 +2501,19 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
       total + aggregateMetric(report, "calibration", "control_ties"),
     0,
   );
+  const calibrationStatusCounts = {
+    PASS: reports.filter(
+      ({ report }) => report.calibration?.status === "PASS",
+    ).length,
+    WARN: reports.filter(
+      ({ report }) => report.calibration?.status === "WARN",
+    ).length,
+    FAIL: reports.filter(
+      ({ report }) => report.calibration?.status === "FAIL",
+    ).length,
+  };
   const aggregate = {
-    version: "1.0.0",
+    version: PROTOCOL_V2,
     status: "COMPLETE",
     metrics,
     calibration: {
@@ -1582,10 +2560,41 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
           ),
         0,
       ),
+      weak_challenger_variants_adopted: reports.reduce(
+        (total, { report }) =>
+          total +
+          aggregateMetric(
+            report,
+            "calibration",
+            "weak_challenger_variants_adopted",
+          ),
+        0,
+      ),
+      unsupported_finding_control_count: reports.reduce(
+        (total, { report }) =>
+          total +
+          aggregateMetric(
+            report,
+            "calibration",
+            "unsupported_finding_control_count",
+          ),
+        0,
+      ),
+      unsupported_findings_accepted: reports.reduce(
+        (total, { report }) =>
+          total +
+          aggregateMetric(
+            report,
+            "calibration",
+            "unsupported_findings_accepted",
+          ),
+        0,
+      ),
       control_resistance_rate_percent: percentage(
         controlBaselinePreferred + controlTies,
         controlCount,
       ),
+      status_counts: calibrationStatusCounts,
     },
     runs: reports.map(({ reportPath, report }) => ({
       run_id: report.run_id,
@@ -1595,6 +2604,14 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
   };
   aggregate.calibration.control_warning =
     aggregate.calibration.control_challenger_preferred > 0;
+  aggregate.calibration.status =
+    calibrationStatusCounts.FAIL > 0
+      ? "FAIL"
+      : calibrationStatusCounts.WARN > 0
+        ? "WARN"
+        : calibrationStatusCounts.PASS > 0
+          ? "PASS"
+          : "LEGACY_ONLY";
 
   if (outputDir) {
     writeJson(path.join(outputDir, "aggregate-report.json"), aggregate);
@@ -1612,7 +2629,8 @@ function usage() {
     "  node scripts/run-writer-adjudication.mjs prepare --findings <file> --variants <file> --output <file> --run-id <id> --title <title> --created-at <date>",
     "  node scripts/run-writer-adjudication.mjs create --input <file> --output <dir> --seed <value>",
     "  node scripts/run-writer-adjudication.mjs reveal --output <dir> --stage-1 <file>",
-    "  node scripts/run-writer-adjudication.mjs score --output <dir> --stage-1 <file> --stage-2 <file>",
+    "  node scripts/run-writer-adjudication.mjs reveal-roles --output <dir> --stage-1 <file> --stage-2a <file>",
+    "  node scripts/run-writer-adjudication.mjs score --output <dir> --stage-1 <file> (--stage-2 <file> | --stage-2a <file> --stage-2b <file>)",
     "  node scripts/run-writer-adjudication.mjs apply --input <file> --output <dir> --root <dir> [--write]",
     "  node scripts/run-writer-adjudication.mjs aggregate --runs <dir> --output <dir>",
   ].join("\n");
@@ -1681,16 +2699,41 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       stageOnePath: path.resolve(process.cwd(), stageOneValue),
     });
     console.log(`Writer adjudication: ${result.status}`);
+  } else if (command === "reveal-roles") {
+    const stageOneValue = option(args, "--stage-1");
+    const stageTwoAValue = option(args, "--stage-2a");
+    if (!stageOneValue || !stageTwoAValue) {
+      throw new Error(usage());
+    }
+    const result = revealRolesAdjudicationRun({
+      outputDir,
+      stageOnePath: path.resolve(process.cwd(), stageOneValue),
+      stageTwoAPath: path.resolve(process.cwd(), stageTwoAValue),
+    });
+    console.log(`Writer adjudication: ${result.status}`);
   } else if (command === "score") {
     const stageOneValue = option(args, "--stage-1");
     const stageTwoValue = option(args, "--stage-2");
-    if (!stageOneValue || !stageTwoValue) {
+    const stageTwoAValue = option(args, "--stage-2a");
+    const stageTwoBValue = option(args, "--stage-2b");
+    if (
+      !stageOneValue ||
+      (!stageTwoValue && (!stageTwoAValue || !stageTwoBValue))
+    ) {
       throw new Error(usage());
     }
     const result = scoreAdjudicationRun({
       outputDir,
       stageOnePath: path.resolve(process.cwd(), stageOneValue),
-      stageTwoPath: path.resolve(process.cwd(), stageTwoValue),
+      stageTwoPath: stageTwoValue
+        ? path.resolve(process.cwd(), stageTwoValue)
+        : null,
+      stageTwoAPath: stageTwoAValue
+        ? path.resolve(process.cwd(), stageTwoAValue)
+        : null,
+      stageTwoBPath: stageTwoBValue
+        ? path.resolve(process.cwd(), stageTwoBValue)
+        : null,
     });
     console.log(
       `Writer adjudication: ${result.status} (${result.metrics.comparisons} comparisons)`,

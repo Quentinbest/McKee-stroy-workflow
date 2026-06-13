@@ -1,6 +1,7 @@
 # Writer Adjudication Benchmark
 
-This benchmark exercises the two-stage blind writer adjudication harness.
+This benchmark retains legacy two-stage evidence and exercises the current
+Writer Adjudication Protocol V2 harness.
 
 To avoid manually copying critic evidence into an input, use `prepare` with an
 unresolved findings file and an explicit catalog based on
@@ -25,11 +26,12 @@ This is real prospective evidence for these two comparisons, but it is still a
 single-writer, two-comparison sample. Do not promote a general critic rule from
 this run alone.
 
-## Prospective calibration V2
+## Retained legacy calibration: Glass Orchard dataset V2
 
-The synthetic Glass Orchard package expands calibration to 12 comparisons
-across four scenes. It covers desire pressure, value direction, closure, and
-cross-scene repetition, with three sealed weak-challenger controls.
+The synthetic Glass Orchard package expanded calibration to 12 comparisons
+across four scenes. It covered desire pressure, value direction, closure, and
+cross-scene repetition, with three sealed weak-challenger controls. Despite
+the dataset name, this retained run used the legacy combined Stage 2 protocol.
 
 ```bash
 node scripts/run-writer-adjudication.mjs create \
@@ -48,6 +50,35 @@ resistance was only 33.3%. C10 was accepted after reveal despite being marked
 as no meaningful difference during blind review. Treat this as evidence that
 the current controls, reveal wording, or Stage 2 decision design do not yet
 reliably resist post-reveal acquiescence.
+
+## Protocol V2
+
+New inputs use `"version": "2.0.0"` and split adjudication into three locked
+human decisions:
+
+```bash
+node scripts/run-writer-adjudication.mjs reveal \
+  --output drafts/{slug}/audit/adjudication/{run-id} \
+  --stage-1 drafts/{slug}/audit/adjudication/{run-id}/stage-1-decisions.json
+
+node scripts/run-writer-adjudication.mjs reveal-roles \
+  --output drafts/{slug}/audit/adjudication/{run-id} \
+  --stage-1 drafts/{slug}/audit/adjudication/{run-id}/stage-1-decisions.json \
+  --stage-2a drafts/{slug}/audit/adjudication/{run-id}/stage-2a-decisions.json
+
+node scripts/run-writer-adjudication.mjs score \
+  --output drafts/{slug}/audit/adjudication/{run-id} \
+  --stage-1 drafts/{slug}/audit/adjudication/{run-id}/stage-1-decisions.json \
+  --stage-2a drafts/{slug}/audit/adjudication/{run-id}/stage-2a-decisions.json \
+  --stage-2b drafts/{slug}/audit/adjudication/{run-id}/stage-2b-decisions.json
+```
+
+Stage 2A exposes the finding but not source roles. Stage 2B reveals source
+roles only after finding judgment is locked. Prospective calibration requires
+both weak-challenger and unsupported-finding controls. Reports emit `FAIL` for
+unsupported acceptance or acceptance after no meaningful blind difference,
+`WARN` for weak-challenger resistance below threshold, and `PASS` only when
+all configured gates pass.
 
 For a real prospective pilot, write output under the story project's private
 `drafts/{slug}/audit/adjudication/` directory. Give the writer only

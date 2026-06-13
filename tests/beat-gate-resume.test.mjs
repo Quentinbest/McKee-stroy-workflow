@@ -8,9 +8,14 @@ const storyScene = fs.readFileSync(new URL("../skills/story-scene/SKILL.md", imp
 
 test("lifecycle template declares beat gate artifact paths and version field", () => {
   assert.equal(lifecycle.workflow_versions.beat_gate, null);
+  assert.equal(lifecycle.workflow_versions.writer_adjudication, null);
   assert.equal(lifecycle.artifacts.beat_gate_policy, "drafts/{{slug}}/beat-gate-policy.json");
   assert.equal(lifecycle.artifacts.beat_gate_audit_dir, "drafts/{{slug}}/audit/beat-gate/");
   assert.equal(lifecycle.artifacts.rolling_audit_dir, "drafts/{{slug}}/audit/rolling/");
+  assert.equal(
+    lifecycle.artifacts.writer_adjudication_audit_dir,
+    "drafts/{{slug}}/audit/adjudication/",
+  );
 });
 
 test("story-status reports beat gate execution state", () => {
@@ -18,6 +23,8 @@ test("story-status reports beat gate execution state", () => {
   assert.match(storyStatus, /Beat Gate:\s+\{current \| stale \| unverified \| absent\}/);
   assert.match(storyStatus, /Pending Gate:/);
   assert.match(storyStatus, /Beat Gate version status/);
+  assert.match(storyStatus, /workflow_versions\.writer_adjudication/);
+  assert.match(storyStatus, /Calibration:\s+\{PASS \| WARN \| FAIL/);
 });
 
 test("story-scene documents artifact-based resume and ledger updates", () => {

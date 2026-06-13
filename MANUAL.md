@@ -751,15 +751,16 @@ From the answers, derives: Truth Library (3–5 specific observations about huma
 contaminate the writer's first preference.
 
 **Stage 1** presents seeded A/B variants and records preference, confidence, and
-whether the difference is meaningful. **Stage 2** reveals which version was the
-baseline, shows the critic finding, and records `accept` / `reject` /
-`uncertain` plus explicit adoption intent.
+whether the difference is meaningful. **Stage 2A** shows the critic finding
+while source roles remain hidden and records `accept` / `reject` / `uncertain`.
+**Stage 2B** then reveals source roles and records `keep_baseline`,
+`adopt_challenger`, or `defer`.
 
-The runner binds both stages with SHA-256 hashes and refuses incomplete or
-altered packages. This is procedural blinding, not cryptographic secrecy.
-The final report also records writer review minutes, known agent-call counts,
-and whether cross-scene repetition was reduced. A writer-rejected finding rate
-is reported separately and is not claimed as an objective false-positive rate.
+The runner binds all stages with SHA-256 hashes and refuses incomplete or
+altered packages. Accepting a finding after reporting no meaningful blind
+difference requires explicit reconciliation. Prospective calibration uses both
+weak-challenger and unsupported-finding controls and reports `PASS`, `WARN`, or
+`FAIL`. This is procedural blinding, not cryptographic secrecy.
 
 It cannot test changes to Premise, character desire, causality, Gap, Turning
 Point, Value Shift, or world core facts. Those must reopen their owning
@@ -1181,7 +1182,7 @@ Expected. Post-publish edits re-open the project to `polished`. `/story-status` 
 | `/story-persona` | V3 | Infrastructure | persona.md |
 | `/story-tournament` | V3 | Infrastructure | ranked candidates + winner |
 | `/story-stop-loss` | V1 | Infrastructure | convergence protocol (internal) |
-| `/story-writer-adjudication` | V1 | Infrastructure | blind preference + structured human adjudication |
+| `/story-writer-adjudication` | V2 | Infrastructure | blind preference + blind finding judgment + source-aware disposition |
 | `/controlling-idea-architect` | V1 | Refactored | controlling-idea.md |
 | `/arc-tracer` | V1 | Refactored | character arc document |
 | `/act-designer` | V1 | Refactored | act structure document |

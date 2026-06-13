@@ -66,9 +66,11 @@ const requiredFiles = [
   "tests/beat-gate-e2e.test.mjs",
   "tests/beat-gate-dogfood.test.mjs",
   "tests/writer-adjudication.test.mjs",
+  "tests/writer-adjudication-v2.test.mjs",
   "tests/writer-adjudication-calibration.test.mjs",
   "tests/writer-adjudication-operations.test.mjs",
-  "tests/writer-adjudication-contract.test.mjs"
+  "tests/writer-adjudication-contract.test.mjs",
+  "tests/fixtures/writer-adjudication/v2-calibration.json"
 ];
 
 const jsonFiles = [
@@ -102,7 +104,8 @@ const jsonFiles = [
   "tests/fixtures/beat-gate/protected-field.json",
   "tests/fixtures/beat-gate/ambiguous.json",
   "tests/fixtures/beat-gate/non-convergent.json",
-  "tests/fixtures/beat-gate/rolling-window.json"
+  "tests/fixtures/beat-gate/rolling-window.json",
+  "tests/fixtures/writer-adjudication/v2-calibration.json"
 ];
 
 const stringChecks = [
@@ -174,6 +177,9 @@ for (const file of jsonFiles) {
 const lifecycle = JSON.parse(fs.readFileSync("templates/lifecycle.json", "utf8"));
 if (!lifecycle.workflow_versions || !Object.prototype.hasOwnProperty.call(lifecycle.workflow_versions, "beat_gate")) {
   fail("templates/lifecycle.json is missing workflow_versions.beat_gate");
+}
+if (!Object.prototype.hasOwnProperty.call(lifecycle.workflow_versions, "writer_adjudication")) {
+  fail("templates/lifecycle.json is missing workflow_versions.writer_adjudication");
 }
 
 for (const { file, needle } of stringChecks) {

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "process_metrics": {
     "critic_agent_calls": null,
     "variant_generation_agent_calls": null,
