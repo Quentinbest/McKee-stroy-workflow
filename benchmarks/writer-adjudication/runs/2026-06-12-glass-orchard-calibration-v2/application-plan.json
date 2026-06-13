@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "run_id": "2026-06-12-glass-orchard-calibration-v2",
+  "status": "DRY_RUN",
+  "operations": [
+    {
+      "comparison_id": "C01",
+      "source_id": "glass-orchard-1-1-desire-pressure",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C02",
+      "source_id": "glass-orchard-1-4-repetition",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C03",
+      "source_id": "glass-orchard-1-4-closure",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C05",
+      "source_id": "glass-orchard-1-3-desire-pressure",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C06",
+      "source_id": "glass-orchard-1-3-closure",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C07",
+      "source_id": "glass-orchard-1-2-repetition",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C10",
+      "source_id": "glass-orchard-1-1-explanation-control",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C11",
+      "source_id": "glass-orchard-1-4-voice-control",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    },
+    {
+      "comparison_id": "C12",
+      "source_id": "glass-orchard-1-3-value-direction",
+      "target_file": null,
+      "status": "SKIPPED_NO_TARGET",
+      "baseline_occurrences": null,
+      "baseline_sha256": null,
+      "challenger_sha256": null
+    }
+  ]
+}

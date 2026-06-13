@@ -225,12 +225,12 @@ The retained Memory Tide pilot completed two comparisons: both challengers won
 blind, both findings were accepted, and both revisions were adopted. Treat this
 as narrow prospective evidence, not a general critic accuracy claim.
 
-The prepared Glass Orchard V2 calibration contains 12 comparisons across four
-synthetic scenes, including three sealed weak-challenger controls. It remains
-`AWAITING_BLIND_REVIEW`; no quality result is claimed until a writer completes
-both stages. Completed runs can be aggregated, and explicitly adopted
-challengers can be previewed with the exact-match `apply` dry-run before any
-prose is changed.
+The completed Glass Orchard V2 calibration contains 12 comparisons across four
+synthetic scenes, including three sealed weak-challenger controls. Challengers
+won 9/12 overall, but two weak controls also won and control resistance was
+only 33.3%. This is a warning against generalizing critic quality and suggests
+the reveal/Stage 2 design may permit acquiescence. The dry-run application
+plan changed no prose because the synthetic fixture declares no targets.
 
 ---
 

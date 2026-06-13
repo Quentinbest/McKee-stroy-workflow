@@ -2,107 +2,107 @@
   "version": "1.0.0",
   "run_id": "2026-06-12-glass-orchard-calibration-v2",
   "stage": "blind_preference",
-  "status": "AWAITING_WRITER",
+  "status": "COMPLETE",
   "package_sha256": "cc146765b586b4afe4d79c65e30f4ac7c37114cf81a0e31e42cfcf06a7164b08",
   "reviewer": {
-    "id": null,
-    "started_at": null,
-    "completed_at": null
+    "id": "human-writer",
+    "started_at": "2026-06-13T03:12:47Z",
+    "completed_at": "2026-06-13T03:12:47Z"
   },
   "comparisons": [
     {
       "comparison_id": "C01",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C02",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "B",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C03",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 5,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C04",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 3,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C05",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C06",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "B",
+      "confidence": 5,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C07",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C08",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 3,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C09",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "B",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C10",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "B",
+      "confidence": 3,
+      "meaningful_difference": "no",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C11",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "A",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     },
     {
       "comparison_id": "C12",
-      "preferred_variant": null,
-      "confidence": null,
-      "meaningful_difference": null,
+      "preferred_variant": "B",
+      "confidence": 4,
+      "meaningful_difference": "yes",
       "reasons": [],
       "notes": ""
     }
@@ -110,6 +110,6 @@
   "batch_assessment": {
     "overall_homogeneity": null,
     "repeated_patterns_noticed": [],
-    "notes": ""
+    "notes": "Review start was not instrumented; reviewer timestamps record the decision submission time."
   }
 }

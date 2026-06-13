@@ -124,7 +124,10 @@ test("calibration scoring reports control resistance separately", () => {
         comparison.variant_roles,
       ).find(([, role]) => role === (isControl ? "baseline" : "challenger"))[0];
       decision.confidence = 4;
-      decision.meaningful_difference = "yes";
+      decision.meaningful_difference =
+        comparison.source_id === "glass-orchard-1-1-desire-pressure"
+          ? "no"
+          : "yes";
       decision.reasons = [
         isControl ? "baseline is more precise" : "challenger is more effective",
       ];
@@ -173,28 +176,61 @@ test("calibration scoring reports control resistance separately", () => {
     assert.equal(report.calibration.control_count, 3);
     assert.equal(report.calibration.control_baseline_preferred, 3);
     assert.equal(report.calibration.control_challenger_preferred, 0);
+    assert.equal(report.calibration.control_warning, false);
     assert.equal(report.calibration.control_resistance_rate_percent, 100);
+    assert.equal(report.calibration.control_findings_accepted, 0);
+    assert.equal(report.calibration.control_preferred_variants_adopted, 0);
     assert.equal(report.calibration.non_control_challenger_preferred, 9);
     assert.equal(report.calibration.by_category.closure.comparisons, 2);
+    assert.equal(
+      report.metrics.findings_accepted_without_meaningful_blind_difference,
+      1,
+    );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
   }
 });
 
-test("retained prospective calibration is pending without human evidence", () => {
+test("retained prospective calibration preserves completed human evidence", () => {
   const runRoot = new URL(
     "../benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/",
     import.meta.url,
   );
   const metadata = readJson(new URL("run-metadata.json", runRoot));
   const stageOne = readJson(new URL("stage-1-decisions.json", runRoot));
+  const stageTwo = readJson(new URL("stage-2-decisions.json", runRoot));
+  const report = readJson(new URL("adjudication-report.json", runRoot));
+  const application = readJson(new URL("application-plan.json", runRoot));
   const manifest = readJson(new URL("sealed-manifest.json", runRoot));
 
-  assert.equal(metadata.status, "AWAITING_BLIND_REVIEW");
-  assert.equal(metadata.human_evidence_recorded, false);
+  assert.equal(metadata.status, "COMPLETE");
+  assert.equal(metadata.human_evidence_recorded, true);
   assert.equal(metadata.comparison_count, 12);
   assert.equal(metadata.calibration.distinct_scenes, 4);
   assert.equal(metadata.calibration.control_count, 3);
-  assert.equal(stageOne.status, "AWAITING_WRITER");
+  assert.equal(stageOne.status, "COMPLETE");
+  assert.equal(stageTwo.status, "COMPLETE");
+  assert.equal(report.metrics.challenger_preferred, 9);
+  assert.equal(report.metrics.baseline_preferred, 3);
+  assert.equal(report.metrics.findings_accepted, 12);
+  assert.equal(report.metrics.preferred_variants_adopted, 12);
+  assert.equal(
+    report.metrics.findings_accepted_without_meaningful_blind_difference,
+    1,
+  );
+  assert.equal(report.calibration.control_challenger_preferred, 2);
+  assert.equal(report.calibration.control_warning, true);
+  assert.equal(report.calibration.control_resistance_rate_percent, 33.3);
+  assert.equal(report.calibration.control_findings_accepted, 3);
+  assert.equal(report.calibration.control_preferred_variants_adopted, 3);
+  assert.equal(report.metrics.cross_scene_repetition_effect, "reduced");
+  assert.equal(application.status, "DRY_RUN");
+  assert.equal(application.operations.length, 9);
+  assert.equal(
+    application.operations.every(
+      (operation) => operation.status === "SKIPPED_NO_TARGET",
+    ),
+    true,
+  );
   assert.equal(manifest.comparisons.length, 12);
 });

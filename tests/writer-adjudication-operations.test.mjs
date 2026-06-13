@@ -190,6 +190,7 @@ test("aggregate report combines completed runs and calibration controls", () => 
         findings_accepted: 2,
         findings_rejected: 0,
         findings_uncertain: 0,
+        findings_accepted_without_meaningful_blind_difference: 0,
         preferred_variants_adopted: 2,
         writer_review_minutes: 10,
       },
@@ -206,6 +207,7 @@ test("aggregate report combines completed runs and calibration controls", () => 
         findings_accepted: 9,
         findings_rejected: 3,
         findings_uncertain: 0,
+        findings_accepted_without_meaningful_blind_difference: 1,
         preferred_variants_adopted: 9,
         writer_review_minutes: 30,
       },
@@ -214,7 +216,9 @@ test("aggregate report combines completed runs and calibration controls", () => 
         control_baseline_preferred: 3,
         control_ties: 0,
         control_challenger_preferred: 0,
+        control_findings_accepted: 0,
         control_findings_rejected: 3,
+        control_preferred_variants_adopted: 0,
         non_control_comparisons: 9,
         non_control_challenger_preferred: 9,
       },
@@ -225,7 +229,12 @@ test("aggregate report combines completed runs and calibration controls", () => 
     assert.equal(aggregate.metrics.comparisons, 14);
     assert.equal(aggregate.metrics.challenger_preferred, 11);
     assert.equal(aggregate.metrics.writer_review_minutes, 40);
+    assert.equal(
+      aggregate.metrics.findings_accepted_without_meaningful_blind_difference,
+      1,
+    );
     assert.equal(aggregate.calibration.control_count, 3);
+    assert.equal(aggregate.calibration.control_warning, false);
     assert.equal(aggregate.calibration.control_resistance_rate_percent, 100);
 
     writeJson(path.join(runsDir, "run-c", "adjudication-report.json"), {
