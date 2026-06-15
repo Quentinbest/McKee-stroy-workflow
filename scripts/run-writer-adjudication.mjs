@@ -683,6 +683,9 @@ function renderFindingPackage(manifest, stageOne) {
       decision,
     ]),
   );
+  const instruction = usesEvidenceGate(manifest)
+    ? "Judge whether the evidence supports the predicate before choosing a disposition. Record `evidence_support` as `supported`, `contradicted`, or `insufficient`. Check contrary or weakening textual evidence and record what you checked. Then choose `accept`, `reject`, or `uncertain` using the allowed evidence matrix."
+    : "Judge the finding without opening role-reveal material.";
   const sections = manifest.comparisons.flatMap((comparison) => {
     const decision = decisions.get(comparison.comparison_id);
     return [
@@ -693,7 +696,7 @@ function renderFindingPackage(manifest, stageOne) {
       `- Evidence: ${comparison.finding.evidence}`,
       `- Question: ${comparison.finding.question}`,
       "",
-      "Judge the finding without opening role-reveal material. Record the decision in `stage-2a-decisions.json`.",
+      `${instruction} Record the decision in \`stage-2a-decisions.json\`.`,
       "",
     ];
   });
@@ -711,8 +714,15 @@ function stageTwoATemplate(
   stageOneHash,
   findingPackageHash,
 ) {
+  const evidenceFields = usesEvidenceGate(manifest)
+    ? {
+        evidence_support: null,
+        evidence_basis: "",
+        counterevidence_checked: "",
+      }
+    : {};
   return {
-    version: PROTOCOL_V2,
+    version: manifestProtocolVersion(manifest),
     run_id: manifest.run_id,
     stage: "blind_finding_adjudication",
     status: "AWAITING_WRITER",
@@ -725,6 +735,7 @@ function stageTwoATemplate(
     },
     comparisons: manifest.comparisons.map((comparison) => ({
       comparison_id: comparison.comparison_id,
+      ...evidenceFields,
       finding_disposition: null,
       rationale: "",
       blind_difference_reconciliation: "",

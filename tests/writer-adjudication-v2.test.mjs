@@ -180,6 +180,15 @@ test("V2 keeps roles hidden through blind finding adjudication", () => {
       /^[a-f0-9]{64}$/,
     );
     assert.equal(
+      readJson(path.join(outputDir, "stage-2a-decisions.json")).version,
+      "2.0.0",
+    );
+    assert.equal(
+      "evidence_support" in
+        readJson(path.join(outputDir, "stage-2a-decisions.json")).comparisons[0],
+      false,
+    );
+    assert.equal(
       fs.existsSync(path.join(outputDir, "role-reveal-package.md")),
       false,
     );
@@ -233,6 +242,60 @@ test("V2.1 preserves its exact version while V2.0 remains replayable", () => {
   } finally {
     fs.rmSync(v21Dir, { recursive: true, force: true });
     fs.rmSync(v20Dir, { recursive: true, force: true });
+  }
+});
+
+test("V2.1 creates an evidence-first Stage 2A package without role leakage", () => {
+  const outputDir = tempDir("writer-adjudication-v2.1-template-");
+
+  try {
+    createAdjudicationRun({
+      inputPath: evidenceGateFixturePath,
+      outputDir,
+      seed: "protocol-v2.1-template",
+    });
+    const stageOnePath = completeStageOne(outputDir);
+    revealAdjudicationRun({ outputDir, stageOnePath });
+
+    const stageTwoA = readJson(
+      path.join(outputDir, "stage-2a-decisions.json"),
+    );
+    assert.equal(stageTwoA.version, "2.1.0");
+    assert.deepEqual(Object.keys(stageTwoA.comparisons[0]), [
+      "comparison_id",
+      "evidence_support",
+      "evidence_basis",
+      "counterevidence_checked",
+      "finding_disposition",
+      "rationale",
+      "blind_difference_reconciliation",
+    ]);
+    assert.equal(stageTwoA.comparisons[0].evidence_support, null);
+    assert.equal(stageTwoA.comparisons[0].evidence_basis, "");
+    assert.equal(stageTwoA.comparisons[0].counterevidence_checked, "");
+
+    const findingPackage = fs.readFileSync(
+      path.join(outputDir, "finding-package.md"),
+      "utf8",
+    );
+    assert.match(
+      findingPackage,
+      /Judge whether the evidence supports the predicate before choosing a disposition\./,
+    );
+    assert.match(
+      findingPackage,
+      /`supported`, `contradicted`, or `insufficient`/,
+    );
+    assert.match(
+      findingPackage,
+      /Check contrary or weakening textual evidence and record what you checked\./,
+    );
+    assert.doesNotMatch(
+      findingPackage,
+      /\bbaseline\b|\bchallenger\b|weak_challenger|unsupported_finding/i,
+    );
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
   }
 });
 
