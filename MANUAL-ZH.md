@@ -740,6 +740,11 @@ done（完成）
 同时使用弱挑战版本和无依据 finding 两类对照，并输出 `PASS`、`WARN` 或
 `FAIL`。这是程序性盲测，不是密码学保密。
 
+新的 `2.1.0` 运行会把第二阶段 A 强化为“证据优先”闸门：作家必须记录
+finding 是 `supported`、`contradicted` 还是 `insufficient`，写清具体证据，
+并说明检查过哪些反证或削弱证据。只有 `supported` 才允许 `accept`。
+保留的 `2.0.0` 运行仍按较早的分阶段协议回放，不包含这些证据字段。
+
 它不能测试对 Premise、人物欲望、因果、Gap、Turning Point、Value Shift
 或世界核心事实的修改；这些修改必须重新开启对应的上游工作流。盲选偏好
 不会自动改写已接受的散文。
@@ -1158,7 +1163,7 @@ V3功能适用于任何项目。需要先锻造人格（`persona.md` 必须存�
 | `/story-persona` | V3 | 基础设施 | persona.md |
 | `/story-tournament` | V3 | 基础设施 | 候选排名 + 赢家 |
 | `/story-stop-loss` | V1 | 基础设施 | 收敛协议（内部） |
-| `/story-writer-adjudication` | V2 | 基础设施 | 盲选偏好 + 盲判 finding + 来源揭晓后处置 |
+| `/story-writer-adjudication` | V2 | 基础设施 | 盲选偏好 + 证据优先的 finding 裁决 + 来源揭晓后处置 |
 | `/controlling-idea-architect` | V1 | 重构技能 | controlling-idea.md |
 | `/arc-tracer` | V1 | 重构技能 | 人物弧光文件 |
 | `/act-designer` | V1 | 重构技能 | 幕结构文件 |

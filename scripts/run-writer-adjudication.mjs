@@ -1043,6 +1043,40 @@ function percentage(numerator, denominator) {
     : Number(((numerator / denominator) * 100).toFixed(1));
 }
 
+function evidenceGateMetrics(comparisons, manifest) {
+  if (!usesEvidenceGate(manifest)) {
+    return null;
+  }
+  const supportValues = ["supported", "contradicted", "insufficient"];
+  const dispositions = ["accept", "reject", "uncertain"];
+  return {
+    protocol_version: manifestProtocolVersion(manifest),
+    support_counts: Object.fromEntries(
+      supportValues.map((support) => [
+        support,
+        comparisons.filter(
+          (comparison) => comparison.evidence_support === support,
+        ).length,
+      ]),
+    ),
+    by_disposition: Object.fromEntries(
+      dispositions.map((disposition) => [
+        disposition,
+        Object.fromEntries(
+          supportValues.map((support) => [
+            support,
+            comparisons.filter(
+              (comparison) =>
+                comparison.finding_disposition === disposition &&
+                comparison.evidence_support === support,
+            ).length,
+          ]),
+        ),
+      ]),
+    ),
+  };
+}
+
 function calibrationMetrics(comparisons, manifestCalibration) {
   if (!manifestCalibration) {
     return null;
@@ -1210,6 +1244,29 @@ ${calibration.unsupported_finding_control_count != null ? `| Unsupported finding
 `;
 }
 
+function renderEvidenceGateMetrics(evidenceGate) {
+  if (!evidenceGate) {
+    return `
+## Evidence Gate
+
+Evidence support: not recorded for this protocol version.
+`;
+  }
+  return `
+## Evidence Gate
+
+| Metric | Result |
+|---|---:|
+| Evidence gate protocol | ${evidenceGate.protocol_version} |
+| Supported | ${evidenceGate.support_counts.supported} |
+| Contradicted | ${evidenceGate.support_counts.contradicted} |
+| Insufficient | ${evidenceGate.support_counts.insufficient} |
+| Supported / accept | ${evidenceGate.by_disposition.accept.supported} |
+| Contradicted / reject | ${evidenceGate.by_disposition.reject.contradicted} |
+| Insufficient / uncertain | ${evidenceGate.by_disposition.uncertain.insufficient} |
+`;
+}
+
 function renderReport(report) {
   return `# Writer Adjudication Report: ${report.title}
 
@@ -1238,6 +1295,7 @@ ${report.metrics.challenger_variants_adopted != null ? `| Challenger variants ad
 | Variant-generation agent calls | ${report.metrics.variant_generation_agent_calls ?? "not recorded"} |
 | Cross-scene repetition after reveal | ${report.metrics.cross_scene_repetition_effect} |
 
+${renderEvidenceGateMetrics(report.evidence_gate)}
 ${renderCalibrationMetrics(report.calibration)}
 ## Decisions
 
@@ -1844,6 +1902,14 @@ function scoreProtocolV2({
       meaningful_difference: blindDecision.meaningful_difference,
       blind_reasons: blindDecision.reasons,
       blind_notes: blindDecision.notes,
+      ...(usesEvidenceGate(manifest)
+        ? {
+            evidence_support: findingDecision.evidence_support,
+            evidence_basis: findingDecision.evidence_basis,
+            counterevidence_checked:
+              findingDecision.counterevidence_checked,
+          }
+        : {}),
       finding_disposition: findingDecision.finding_disposition,
       finding_rationale: findingDecision.rationale,
       blind_difference_reconciliation:
@@ -1878,8 +1944,8 @@ function scoreProtocolV2({
         comparison.variant_disposition === "keep_baseline"),
   ).length;
   const report = {
-    version: PROTOCOL_V2,
-    protocol_version: PROTOCOL_V2,
+    version: manifestProtocolVersion(manifest),
+    protocol_version: manifestProtocolVersion(manifest),
     run_id: manifest.run_id,
     title: manifest.title,
     status: "COMPLETE",
@@ -1946,6 +2012,7 @@ function scoreProtocolV2({
     overall_notes: stageTwoB.overall_notes,
     comparisons,
   };
+  report.evidence_gate = evidenceGateMetrics(comparisons, manifest);
   report.calibration = calibrationMetrics(
     comparisons,
     manifest.calibration,

@@ -762,6 +762,12 @@ difference requires explicit reconciliation. Prospective calibration uses both
 weak-challenger and unsupported-finding controls and reports `PASS`, `WARN`, or
 `FAIL`. This is procedural blinding, not cryptographic secrecy.
 
+On new `2.1.0` runs, Stage 2A is evidence-first: the writer must record whether
+the finding is `supported`, `contradicted`, or `insufficient`, cite specific
+evidence, and note what counterevidence was checked. Only `supported` may be
+accepted. Retained `2.0.0` runs replay the earlier split-stage protocol without
+these evidence fields.
+
 It cannot test changes to Premise, character desire, causality, Gap, Turning
 Point, Value Shift, or world core facts. Those must reopen their owning
 workflow. A blind preference never auto-edits accepted prose.
@@ -1182,7 +1188,7 @@ Expected. Post-publish edits re-open the project to `polished`. `/story-status` 
 | `/story-persona` | V3 | Infrastructure | persona.md |
 | `/story-tournament` | V3 | Infrastructure | ranked candidates + winner |
 | `/story-stop-loss` | V1 | Infrastructure | convergence protocol (internal) |
-| `/story-writer-adjudication` | V2 | Infrastructure | blind preference + blind finding judgment + source-aware disposition |
+| `/story-writer-adjudication` | V2 | Infrastructure | blind preference + evidence-first finding judgment + source-aware disposition |
 | `/controlling-idea-architect` | V1 | Refactored | controlling-idea.md |
 | `/arc-tracer` | V1 | Refactored | character arc document |
 | `/act-designer` | V1 | Refactored | act structure document |

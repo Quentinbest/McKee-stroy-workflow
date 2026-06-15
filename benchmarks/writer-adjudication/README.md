@@ -53,8 +53,9 @@ reliably resist post-reveal acquiescence.
 
 ## Protocol V2
 
-New inputs use `"version": "2.0.0"` and split adjudication into three locked
-human decisions:
+New inputs use `"version": "2.1.0"` and split adjudication into three locked
+human decisions. Retained `"2.0.0"` runs remain valid for replay, but new runs
+add an evidence-first Stage 2A:
 
 ```bash
 node scripts/run-writer-adjudication.mjs reveal \
@@ -73,12 +74,15 @@ node scripts/run-writer-adjudication.mjs score \
   --stage-2b drafts/{slug}/audit/adjudication/{run-id}/stage-2b-decisions.json
 ```
 
-Stage 2A exposes the finding but not source roles. Stage 2B reveals source
-roles only after finding judgment is locked. Prospective calibration requires
-both weak-challenger and unsupported-finding controls. Reports emit `FAIL` for
-unsupported acceptance or acceptance after no meaningful blind difference,
-`WARN` for weak-challenger resistance below threshold, and `PASS` only when
-all configured gates pass.
+Stage 2A exposes the finding but not source roles. On `2.1.0` runs the writer
+must also record `evidence_support`, `evidence_basis`, and
+`counterevidence_checked`; only `supported` may be accepted, `contradicted`
+must be rejected, and generic or duplicated evidence judgments fail closed
+before Stage 2B. Stage 2B reveals source roles only after finding judgment is
+locked. Prospective calibration requires both weak-challenger and
+unsupported-finding controls. Reports emit `FAIL` for unsupported acceptance or
+acceptance after no meaningful blind difference, `WARN` for weak-challenger
+resistance below threshold, and `PASS` only when all configured gates pass.
 
 For a real prospective pilot, write output under the story project's private
 `drafts/{slug}/audit/adjudication/` directory. Give the writer only

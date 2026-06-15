@@ -623,6 +623,125 @@ test("V2 rejects tampered finding and role-reveal packages", () => {
   }
 });
 
+test("V2.1 reports evidence support without inventing V2.0 data", () => {
+  const v21Dir = tempDir("writer-adjudication-v2.1-report-");
+  const v20Dir = tempDir("writer-adjudication-v2.0-report-");
+
+  try {
+    createAdjudicationRun({
+      inputPath: evidenceGateFixturePath,
+      outputDir: v21Dir,
+      seed: "protocol-v2.1-report",
+    });
+    const v21StageOne = completeStageOne(v21Dir);
+    revealAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOne,
+    });
+    const v21StageTwoA = completeEvidenceGateStageTwoA(v21Dir);
+    revealRolesAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOne,
+      stageTwoAPath: v21StageTwoA,
+    });
+    const v21StageTwoB = completeStageTwoB(v21Dir);
+    const v21Report = scoreAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOne,
+      stageTwoAPath: v21StageTwoA,
+      stageTwoBPath: v21StageTwoB,
+    });
+    assert.deepEqual(v21Report.evidence_gate, {
+      protocol_version: "2.1.0",
+      support_counts: {
+        supported: 3,
+        contradicted: 1,
+        insufficient: 0,
+      },
+      by_disposition: {
+        accept: { supported: 3, contradicted: 0, insufficient: 0 },
+        reject: { supported: 0, contradicted: 1, insufficient: 0 },
+        uncertain: { supported: 0, contradicted: 0, insufficient: 0 },
+      },
+    });
+    assert.match(
+      fs.readFileSync(path.join(v21Dir, "adjudication-report.md"), "utf8"),
+      /Evidence gate protocol \| 2\.1\.0 \|/,
+    );
+
+    createAdjudicationRun({
+      inputPath: fixturePath,
+      outputDir: v20Dir,
+      seed: "protocol-v2.0-report",
+    });
+    const v20StageOne = completeStageOne(v20Dir);
+    revealAdjudicationRun({
+      outputDir: v20Dir,
+      stageOnePath: v20StageOne,
+    });
+    const v20StageTwoA = completeStageTwoA(v20Dir);
+    revealRolesAdjudicationRun({
+      outputDir: v20Dir,
+      stageOnePath: v20StageOne,
+      stageTwoAPath: v20StageTwoA,
+    });
+    const v20StageTwoB = completeStageTwoB(v20Dir);
+    const v20Report = scoreAdjudicationRun({
+      outputDir: v20Dir,
+      stageOnePath: v20StageOne,
+      stageTwoAPath: v20StageTwoA,
+      stageTwoBPath: v20StageTwoB,
+    });
+    assert.equal(v20Report.evidence_gate, null);
+  } finally {
+    fs.rmSync(v21Dir, { recursive: true, force: true });
+    fs.rmSync(v20Dir, { recursive: true, force: true });
+  }
+});
+
+test("V2.0 retained decisions replay without evidence-first fields", () => {
+  const outputDir = tempDir("writer-adjudication-v2.0-replay-");
+
+  try {
+    createAdjudicationRun({
+      inputPath: fixturePath,
+      outputDir,
+      seed: "protocol-v2.0-replay",
+    });
+    const stageOnePath = completeStageOne(outputDir);
+    revealAdjudicationRun({
+      outputDir,
+      stageOnePath,
+    });
+    const stageTwoAPath = completeStageTwoA(outputDir);
+    const stageTwoA = readJson(stageTwoAPath);
+    assert.equal("evidence_support" in stageTwoA.comparisons[0], false);
+    revealRolesAdjudicationRun({
+      outputDir,
+      stageOnePath,
+      stageTwoAPath,
+    });
+    const stageTwoBPath = completeStageTwoB(outputDir);
+    const report = scoreAdjudicationRun({
+      outputDir,
+      stageOnePath,
+      stageTwoAPath,
+      stageTwoBPath,
+    });
+
+    assert.equal(report.protocol_version, "2.0.0");
+    assert.equal(report.evidence_gate, null);
+    assert.equal(
+      report.comparisons.some(
+        (comparison) => "evidence_support" in comparison,
+      ),
+      false,
+    );
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
 test("V2 scores clean controls as PASS and keeps baseline distinct from adoption", () => {
   const outputDir = tempDir("writer-adjudication-v2-pass-");
 
@@ -783,7 +902,7 @@ test("V2 CLI runs create, both reveals, and score end to end", () => {
       runCli([
         "create",
         "--input",
-        fixtureFilePath,
+        fileURLToPath(evidenceGateFixturePath),
         "--output",
         outputDir,
         "--seed",
@@ -802,7 +921,7 @@ test("V2 CLI runs create, both reveals, and score end to end", () => {
       ]),
       /AWAITING_BLIND_FINDING_ADJUDICATION/,
     );
-    const stageTwoAPath = completeStageTwoA(outputDir);
+    const stageTwoAPath = completeEvidenceGateStageTwoA(outputDir);
     assert.match(
       runCli([
         "reveal-roles",
@@ -834,6 +953,11 @@ test("V2 CLI runs create, both reveals, and score end to end", () => {
       readJson(path.join(outputDir, "adjudication-report.json"))
         .calibration.status,
       "PASS",
+    );
+    assert.equal(
+      readJson(path.join(outputDir, "adjudication-report.json")).evidence_gate
+        .protocol_version,
+      "2.1.0",
     );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
