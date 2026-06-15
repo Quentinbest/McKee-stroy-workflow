@@ -25,6 +25,11 @@ const CALIBRATION_CONTROL_VALUES = new Set([
 ]);
 const PROTOCOL_V1 = "1.0.0";
 const PROTOCOL_V2 = "2.0.0";
+const PROTOCOL_V2_1 = "2.1.0";
+const SUPPORTED_V2_PROTOCOLS = new Set([
+  PROTOCOL_V2,
+  PROTOCOL_V2_1,
+]);
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -90,14 +95,23 @@ function durationMinutes(reviewer, label) {
 
 function protocolVersion(value) {
   assertNonEmptyString(value, "version");
-  const major = Number.parseInt(value.split(".")[0], 10);
-  if (major === 1) {
+  const match = /^(\d+)\.(\d+)\.(\d+)$/.exec(value);
+  if (!match) {
+    throw new Error("version must use semantic version format");
+  }
+  if (Number.parseInt(match[1], 10) === 1) {
     return PROTOCOL_V1;
   }
-  if (major === 2) {
-    return PROTOCOL_V2;
+  if (SUPPORTED_V2_PROTOCOLS.has(value)) {
+    return value;
   }
-  throw new Error("version must use supported protocol major 1 or 2");
+  throw new Error(
+    `version must use legacy major 1 or one of ${[...SUPPORTED_V2_PROTOCOLS].join(", ")}`,
+  );
+}
+
+function protocolMajor(value) {
+  return Number.parseInt(protocolVersion(value).split(".")[0], 10);
 }
 
 function manifestProtocolVersion(manifest) {
@@ -105,7 +119,11 @@ function manifestProtocolVersion(manifest) {
 }
 
 function isProtocolV2(manifest) {
-  return manifestProtocolVersion(manifest) === PROTOCOL_V2;
+  return protocolMajor(manifestProtocolVersion(manifest)) === 2;
+}
+
+function usesEvidenceGate(manifest) {
+  return manifestProtocolVersion(manifest) === PROTOCOL_V2_1;
 }
 
 function leaksSealedRole(value) {
@@ -119,12 +137,10 @@ function leaksSealedRole(value) {
 
 function validateInput(input) {
   const adjudicationProtocol = protocolVersion(input.version);
+  const isV2 = protocolMajor(adjudicationProtocol) === 2;
   assertNonEmptyString(input.run_id, "run_id");
   assertNonEmptyString(input.title, "title");
-  if (
-    adjudicationProtocol === PROTOCOL_V2 &&
-    leaksSealedRole(input.title)
-  ) {
+  if (isV2 && leaksSealedRole(input.title)) {
     throw new Error(
       "title must not leak source roles or calibration controls in protocol V2",
     );
@@ -177,7 +193,7 @@ function validateInput(input) {
       `${label}.finding.question`,
     );
     if (
-      adjudicationProtocol === PROTOCOL_V2 &&
+      isV2 &&
       [
         comparison.context,
         comparison.finding.predicate,
@@ -251,7 +267,7 @@ function validateCalibration(input, adjudicationProtocol) {
       `calibration.required_categories[${index}]`,
     );
   }
-  const isV2 = adjudicationProtocol === PROTOCOL_V2;
+  const isV2 = protocolMajor(adjudicationProtocol) === 2;
   if (isV2) {
     validatePositiveInteger(
       calibration.control_policies?.weak_challenger?.minimum_count,
@@ -1212,7 +1228,7 @@ export function prepareAdjudicationInput({
     };
   });
   const prepared = {
-    version: variantsSource.version ?? PROTOCOL_V2,
+    version: variantsSource.version ?? PROTOCOL_V2_1,
     run_id: runId,
     title,
     created_at: createdAt,

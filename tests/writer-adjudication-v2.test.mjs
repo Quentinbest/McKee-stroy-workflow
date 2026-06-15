@@ -18,6 +18,10 @@ const fixturePath = new URL(
   "./fixtures/writer-adjudication/v2-calibration.json",
   import.meta.url,
 );
+const evidenceGateFixturePath = new URL(
+  "./fixtures/writer-adjudication/v2.1-calibration.json",
+  import.meta.url,
+);
 const fixtureFilePath = fileURLToPath(fixturePath);
 const runnerPath = fileURLToPath(
   new URL("../scripts/run-writer-adjudication.mjs", import.meta.url),
@@ -199,6 +203,36 @@ test("V2 keeps roles hidden through blind finding adjudication", () => {
     );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test("V2.1 preserves its exact version while V2.0 remains replayable", () => {
+  const v21Dir = tempDir("writer-adjudication-v2.1-version-");
+  const v20Dir = tempDir("writer-adjudication-v2.0-version-");
+
+  try {
+    const v21Metadata = createAdjudicationRun({
+      inputPath: evidenceGateFixturePath,
+      outputDir: v21Dir,
+      seed: "protocol-v2.1-version",
+    });
+    assert.equal(v21Metadata.version, "2.1.0");
+    assert.equal(v21Metadata.protocol_version, "2.1.0");
+    assert.equal(
+      readJson(path.join(v21Dir, "sealed-manifest.json")).protocol_version,
+      "2.1.0",
+    );
+
+    const v20Metadata = createAdjudicationRun({
+      inputPath: fixturePath,
+      outputDir: v20Dir,
+      seed: "protocol-v2.0-version",
+    });
+    assert.equal(v20Metadata.version, "2.0.0");
+    assert.equal(v20Metadata.protocol_version, "2.0.0");
+  } finally {
+    fs.rmSync(v21Dir, { recursive: true, force: true });
+    fs.rmSync(v20Dir, { recursive: true, force: true });
   }
 });
 
