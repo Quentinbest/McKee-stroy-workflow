@@ -123,6 +123,42 @@ function completeStageTwoA(
   return stageTwoAPath;
 }
 
+function completeEvidenceGateStageTwoA(outputDir) {
+  const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
+  const manifestById = new Map(
+    manifest.comparisons.map((comparison) => [
+      comparison.comparison_id,
+      comparison,
+    ]),
+  );
+  const stageTwoAPath = path.join(outputDir, "stage-2a-decisions.json");
+  const stageTwoA = readJson(stageTwoAPath);
+  stageTwoA.status = "COMPLETE";
+  stageTwoA.reviewer = {
+    id: "test-writer",
+    started_at: "2026-06-13T04:10:00Z",
+    completed_at: "2026-06-13T04:16:00Z",
+  };
+  for (const decision of stageTwoA.comparisons) {
+    const comparison = manifestById.get(decision.comparison_id);
+    const unsupported =
+      comparison.calibration.control_type === "unsupported_finding";
+    decision.evidence_support = unsupported ? "contradicted" : "supported";
+    decision.evidence_basis = unsupported
+      ? `${decision.comparison_id}: the displayed prose already states the event the finding claims is absent.`
+      : `${decision.comparison_id}: the displayed evidence identifies a concrete missing or repeated prose effect.`;
+    decision.counterevidence_checked =
+      `${decision.comparison_id}: checked the displayed context and both prose variants for facts weakening that diagnosis.`;
+    decision.finding_disposition = unsupported ? "reject" : "accept";
+    decision.rationale = unsupported
+      ? `${decision.comparison_id}: the diagnostic claim conflicts with the explicit textual fact.`
+      : `${decision.comparison_id}: the specific evidence supports the bounded diagnostic claim.`;
+    decision.blind_difference_reconciliation = "";
+  }
+  writeJson(stageTwoAPath, stageTwoA);
+  return stageTwoAPath;
+}
+
 function completeStageTwoB(outputDir) {
   const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
   const manifestById = new Map(
@@ -296,6 +332,142 @@ test("V2.1 creates an evidence-first Stage 2A package without role leakage", () 
     );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test("V2.1 enforces the evidence-support disposition matrix", () => {
+  const cases = [
+    ["supported", "accept", true],
+    ["supported", "uncertain", true],
+    ["contradicted", "reject", true],
+    ["insufficient", "reject", true],
+    ["insufficient", "uncertain", true],
+    ["contradicted", "accept", false],
+    ["insufficient", "accept", false],
+    ["supported", "reject", false],
+  ];
+
+  for (const [support, disposition, allowed] of cases) {
+    const outputDir = tempDir(`writer-adjudication-v2.1-${support}-`);
+    try {
+      createAdjudicationRun({
+        inputPath: evidenceGateFixturePath,
+        outputDir,
+        seed: `protocol-v2.1-${support}-${disposition}`,
+      });
+      const stageOnePath = completeStageOne(outputDir);
+      revealAdjudicationRun({ outputDir, stageOnePath });
+      const stageTwoAPath = completeEvidenceGateStageTwoA(outputDir);
+      const stageTwoA = readJson(stageTwoAPath);
+      stageTwoA.comparisons[0].evidence_support = support;
+      stageTwoA.comparisons[0].finding_disposition = disposition;
+      if (disposition === "accept") {
+        stageTwoA.comparisons[0].blind_difference_reconciliation =
+          "The evidence judgment remains the basis for this acceptance.";
+      }
+      writeJson(stageTwoAPath, stageTwoA);
+
+      const run = () =>
+        revealRolesAdjudicationRun({
+          outputDir,
+          stageOnePath,
+          stageTwoAPath,
+        });
+      if (allowed) {
+        assert.equal(run().status, "AWAITING_ROLE_REVEAL_DECISION");
+      } else {
+        assert.throws(
+          run,
+          /evidence_support=.*does not allow finding_disposition=/,
+        );
+        assert.equal(
+          fs.existsSync(path.join(outputDir, "role-reveal-package.md")),
+          false,
+        );
+        assert.equal(
+          fs.existsSync(path.join(outputDir, "stage-2b-decisions.json")),
+          false,
+        );
+      }
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
+  }
+});
+
+test("V2.1 rejects missing, generic, and duplicated evidence judgments", () => {
+  const mutations = [
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[0].evidence_basis = "";
+      },
+      error: /C01\.evidence_basis must contain at least 12/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[0].rationale =
+          "Writer explicitly confirmed acceptance of this finding.";
+      },
+      error: /C01\.rationale must contain a specific evidence judgment/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[0].counterevidence_checked =
+          "No contrary evidence found";
+      },
+      error: /C01\.counterevidence_checked must identify what was checked/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[1].evidence_basis =
+          stageTwoA.comparisons[0].evidence_basis;
+      },
+      error: /C02\.evidence_basis duplicates C01\.evidence_basis/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[1].rationale =
+          `  ${stageTwoA.comparisons[0].rationale.toUpperCase()}  `;
+      },
+      error: /C02\.rationale duplicates C01\.rationale/,
+    },
+  ];
+
+  for (const mutation of mutations) {
+    const outputDir = tempDir("writer-adjudication-v2.1-specificity-");
+    try {
+      createAdjudicationRun({
+        inputPath: evidenceGateFixturePath,
+        outputDir,
+        seed: "protocol-v2.1-specificity",
+      });
+      const stageOnePath = completeStageOne(outputDir);
+      revealAdjudicationRun({ outputDir, stageOnePath });
+      const stageTwoAPath = completeEvidenceGateStageTwoA(outputDir);
+      const stageTwoA = readJson(stageTwoAPath);
+      mutation.apply(stageTwoA);
+      writeJson(stageTwoAPath, stageTwoA);
+
+      assert.throws(
+        () =>
+          revealRolesAdjudicationRun({
+            outputDir,
+            stageOnePath,
+            stageTwoAPath,
+          }),
+        mutation.error,
+      );
+      assert.equal(
+        fs.existsSync(path.join(outputDir, "role-reveal-package.md")),
+        false,
+      );
+      assert.equal(
+        fs.existsSync(path.join(outputDir, "stage-2b-decisions.json")),
+        false,
+      );
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
   }
 });
 

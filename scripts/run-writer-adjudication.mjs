@@ -6,6 +6,11 @@ import process from "node:process";
 const PREFERENCE_VALUES = new Set(["A", "B", "tie"]);
 const DIFFERENCE_VALUES = new Set(["yes", "no", "uncertain"]);
 const FINDING_VALUES = new Set(["accept", "reject", "uncertain"]);
+const EVIDENCE_SUPPORT_VALUES = new Set([
+  "supported",
+  "contradicted",
+  "insufficient",
+]);
 const ADOPTION_VALUES = new Set(["yes", "no", "defer"]);
 const VARIANT_DISPOSITION_VALUES = new Set([
   "keep_baseline",
@@ -26,9 +31,34 @@ const CALIBRATION_CONTROL_VALUES = new Set([
 const PROTOCOL_V1 = "1.0.0";
 const PROTOCOL_V2 = "2.0.0";
 const PROTOCOL_V2_1 = "2.1.0";
+const MIN_EVIDENCE_TEXT_LENGTH = 12;
 const SUPPORTED_V2_PROTOCOLS = new Set([
   PROTOCOL_V2,
   PROTOCOL_V2_1,
+]);
+const GENERIC_EVIDENCE_VALUES = new Set([
+  "yes",
+  "confirmed",
+  "accepted",
+  "looks right",
+  "是",
+  "确认",
+  "接受",
+  "看起来正确",
+]);
+const GENERIC_EVIDENCE_PREFIXES = [
+  "writer explicitly confirmed",
+  "author explicitly confirmed",
+  "follow blind preference",
+  "用户明确确认",
+  "作者明确确认",
+  "遵循盲选",
+];
+const GENERIC_COUNTEREVIDENCE_VALUES = new Set([
+  "none",
+  "no contrary evidence found",
+  "未发现反证",
+  "没有反证",
 ]);
 
 function readJson(filePath) {
@@ -91,6 +121,38 @@ function durationMinutes(reviewer, label) {
     throw new Error(`${label}.completed_at must not precede started_at`);
   }
   return Number(((completedAt - startedAt) / 60000).toFixed(1));
+}
+
+function normalizeEvidenceText(value) {
+  return value.normalize("NFKC").trim().replace(/\s+/gu, " ").toLowerCase();
+}
+
+function evidenceTextLength(value) {
+  return [...normalizeEvidenceText(value).replace(/\s/gu, "")].length;
+}
+
+function validateSpecificEvidenceText(value, label, { counter = false } = {}) {
+  if (typeof value !== "string") {
+    throw new Error(
+      `${label} must contain at least ${MIN_EVIDENCE_TEXT_LENGTH} non-whitespace characters`,
+    );
+  }
+  const normalized = normalizeEvidenceText(value);
+  if (evidenceTextLength(value) < MIN_EVIDENCE_TEXT_LENGTH) {
+    throw new Error(
+      `${label} must contain at least ${MIN_EVIDENCE_TEXT_LENGTH} non-whitespace characters`,
+    );
+  }
+  if (
+    GENERIC_EVIDENCE_VALUES.has(normalized) ||
+    GENERIC_EVIDENCE_PREFIXES.some((prefix) => normalized.startsWith(prefix))
+  ) {
+    throw new Error(`${label} must contain a specific evidence judgment`);
+  }
+  if (counter && GENERIC_COUNTEREVIDENCE_VALUES.has(normalized)) {
+    throw new Error(`${label} must identify what was checked`);
+  }
+  return normalized;
 }
 
 function protocolVersion(value) {
@@ -776,16 +838,62 @@ function validateStageTwoA(stageTwoA, manifest, stageOne, stageOneHash) {
       decision,
     ]),
   );
+  const evidenceBasisByText = new Map();
+  const rationaleByText = new Map();
   for (const decision of stageTwoA.comparisons) {
     if (!FINDING_VALUES.has(decision.finding_disposition)) {
       throw new Error(
         `${decision.comparison_id}.finding_disposition must be accept, reject, or uncertain`,
       );
     }
-    assertNonEmptyString(
-      decision.rationale,
-      `${decision.comparison_id}.rationale`,
-    );
+    if (usesEvidenceGate(manifest)) {
+      if (!EVIDENCE_SUPPORT_VALUES.has(decision.evidence_support)) {
+        throw new Error(
+          `${decision.comparison_id}.evidence_support must be supported, contradicted, or insufficient`,
+        );
+      }
+      const allowedDispositions =
+        decision.evidence_support === "supported"
+          ? new Set(["accept", "uncertain"])
+          : decision.evidence_support === "contradicted"
+            ? new Set(["reject"])
+            : new Set(["reject", "uncertain"]);
+      if (!allowedDispositions.has(decision.finding_disposition)) {
+        throw new Error(
+          `${decision.comparison_id}.evidence_support=${decision.evidence_support} does not allow finding_disposition=${decision.finding_disposition}`,
+        );
+      }
+      const evidenceBasis = validateSpecificEvidenceText(
+        decision.evidence_basis,
+        `${decision.comparison_id}.evidence_basis`,
+      );
+      validateSpecificEvidenceText(
+        decision.counterevidence_checked,
+        `${decision.comparison_id}.counterevidence_checked`,
+        { counter: true },
+      );
+      const rationale = validateSpecificEvidenceText(
+        decision.rationale,
+        `${decision.comparison_id}.rationale`,
+      );
+      for (const [field, value, seen] of [
+        ["evidence_basis", evidenceBasis, evidenceBasisByText],
+        ["rationale", rationale, rationaleByText],
+      ]) {
+        const previous = seen.get(value);
+        if (previous) {
+          throw new Error(
+            `${decision.comparison_id}.${field} duplicates ${previous}.${field}`,
+          );
+        }
+        seen.set(value, decision.comparison_id);
+      }
+    } else {
+      assertNonEmptyString(
+        decision.rationale,
+        `${decision.comparison_id}.rationale`,
+      );
+    }
     const blindDecision = stageOneById.get(decision.comparison_id);
     if (
       decision.finding_disposition === "accept" &&
