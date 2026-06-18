@@ -74,8 +74,10 @@ node scripts/run-writer-adjudication.mjs score \
   --stage-2b drafts/{slug}/audit/adjudication/{run-id}/stage-2b-decisions.json
 ```
 
-Stage 2A exposes the finding but not source roles. On `2.1.0` runs the writer
-must also record `evidence_support`, `evidence_basis`, and
+Stage 2A exposes the finding, context, and both blinded variants, but not source
+roles. Keeping the text visible prevents the evidence judgment from depending
+on Stage 1 memory. On `2.1.0` runs the writer must also record
+`evidence_support`, `evidence_basis`, and
 `counterevidence_checked`; only `supported` may be accepted, `contradicted`
 must be rejected, and generic or duplicated evidence judgments fail closed
 before Stage 2B. Stage 2B reveals source roles only after finding judgment is
@@ -83,6 +85,19 @@ locked. Prospective calibration requires both weak-challenger and
 unsupported-finding controls. Reports emit `FAIL` for unsupported acceptance or
 acceptance after no meaningful blind difference, `WARN` for weak-challenger
 resistance below threshold, and `PASS` only when all configured gates pass.
+
+## Retained Protocol V2.1 Stage 2A operator pilot
+
+`runs/2026-06-18-protocol-v2.1-stage-2a-pilot/` retains a complete four-item
+run with one weak-challenger control and one unsupported-finding control. The
+pilot first exposed that a finding-only Stage 2A package forced memory-based
+review; the runner was corrected to repeat the blinded text before the retained
+run was recreated. It then passed with 100% weak-control resistance, zero
+unsupported findings accepted, and no post-reveal reversals.
+
+The reviewer was an AI operator and the prose is synthetic. This run validates
+workflow usability and fail-closed behavior only; it is not human evidence of
+critic accuracy or story quality.
 
 For a real prospective pilot, write output under the story project's private
 `drafts/{slug}/audit/adjudication/` directory. Give the writer only

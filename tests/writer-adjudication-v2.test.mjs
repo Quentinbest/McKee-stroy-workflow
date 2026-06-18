@@ -267,6 +267,21 @@ test("V2.1 preserves its exact version while V2.0 remains replayable", () => {
       readJson(path.join(v21Dir, "sealed-manifest.json")).protocol_version,
       "2.1.0",
     );
+    const v21StageOnePath = completeStageOne(v21Dir);
+    revealAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOnePath,
+    });
+    const v21StageTwoAPath = completeEvidenceGateStageTwoA(v21Dir);
+    revealRolesAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOnePath,
+      stageTwoAPath: v21StageTwoAPath,
+    });
+    assert.equal(
+      readJson(path.join(v21Dir, "stage-2b-decisions.json")).version,
+      "2.1.0",
+    );
 
     const v20Metadata = createAdjudicationRun({
       inputPath: fixturePath,
@@ -325,6 +340,15 @@ test("V2.1 creates an evidence-first Stage 2A package without role leakage", () 
     assert.match(
       findingPackage,
       /Check contrary or weakening textual evidence and record what you checked\./,
+    );
+    assert.match(findingPackage, /### Context/);
+    assert.match(findingPackage, /### Variant A/);
+    assert.match(findingPackage, /### Variant B/);
+    assert.match(findingPackage, /A courier hears the lock turn behind her\./);
+    assert.match(findingPackage, /She hurried away\./);
+    assert.match(
+      findingPackage,
+      /The lock clicked; she took the stairs three at a time\./,
     );
     assert.doesNotMatch(
       findingPackage,

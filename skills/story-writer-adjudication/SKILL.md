@@ -158,8 +158,9 @@ node scripts/run-writer-adjudication.mjs reveal \
 ```
 
 The runner refuses incomplete decisions, package tampering, or a mismatched
-hash. Protocol V2 creates `finding-package.md` and
-`stage-2a-decisions.json`. Source roles and calibration labels remain hidden.
+hash. Protocol V2 creates `finding-package.md`, repeating the context and both
+blinded variants, plus `stage-2a-decisions.json`. Source roles and calibration
+labels remain hidden.
 The writer records:
 
 - `evidence_support`: `supported`, `contradicted`, or `insufficient` for

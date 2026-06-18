@@ -225,8 +225,15 @@ records `keep_baseline` separately from `adopt_challenger`, and never applies a
 variant automatically. New `2.1.0` runs strengthen Stage 2A with an
 evidence-first gate: only findings marked `supported` may be accepted,
 `contradicted` findings must be rejected, and generic or duplicated evidence
-judgments fail before role reveal. Retained `2.0.0` runs still replay without
-those fields so prior evidence stays reproducible.
+judgments fail before role reveal. The Stage 2A package repeats the context and
+both blinded variants so the judgment is grounded in visible text rather than
+reviewer memory. Retained `2.0.0` runs still replay without those fields so
+prior evidence stays reproducible.
+
+The retained Protocol V2.1 Stage 2A operator pilot completed four synthetic
+comparisons with 100% weak-challenger resistance, zero unsupported findings
+accepted, and no post-reveal reversals. It is an AI-operated workflow check,
+not human quality evidence.
 
 The retained Memory Tide pilot completed two comparisons: both challengers won
 blind, both findings were accepted, and both revisions were adopted. Treat this

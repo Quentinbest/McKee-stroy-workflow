@@ -1,0 +1,41 @@
+{
+  "version": "2.1.0",
+  "run_id": "2026-06-18-protocol-v2.1-stage-2a-pilot",
+  "stage": "role_reveal_disposition",
+  "status": "COMPLETE",
+  "stage_1_sha256": "30f97defd3f5aa3111c39acf0bb86e1c5aaf274f4bee4faac6377317f7345ed3",
+  "stage_2a_sha256": "cc968bbafd9d389b84a84dcf1046be1895a95a478cd66d3242dd164d91aaf5e4",
+  "role_reveal_package_sha256": "2b6e1031579d9387492b43acdc0852dfae50155d1fc2f78a75628b86ff151b01",
+  "reviewer": {
+    "id": "codex-ai-operator",
+    "started_at": "2026-06-18T08:18:00Z",
+    "completed_at": "2026-06-18T08:22:00Z"
+  },
+  "comparisons": [
+    {
+      "comparison_id": "C01",
+      "variant_disposition": "adopt_challenger",
+      "rationale": "The challenger enacts urgency physically and matches both the blind preference and accepted finding."
+    },
+    {
+      "comparison_id": "C02",
+      "variant_disposition": "keep_baseline",
+      "rationale": "The baseline was preferred blind and preserves the useful subtext identified during Stage 2A."
+    },
+    {
+      "comparison_id": "C03",
+      "variant_disposition": "adopt_challenger",
+      "rationale": "The challenger gives the package a concrete final placement and matches the accepted closure finding."
+    },
+    {
+      "comparison_id": "C04",
+      "variant_disposition": "keep_baseline",
+      "rationale": "The baseline was preferred blind; Stage 2A also found that the added sound did not repair a real closure problem."
+    }
+  ],
+  "batch_effect": {
+    "cross_scene_repetition": "unchanged",
+    "notes": "The accepted revisions use different concrete actions, but four snippets do not establish a reliable cross-scene trend."
+  },
+  "overall_notes": "Role reveal did not reverse either blind preference or either Stage 2A finding judgment."
+}

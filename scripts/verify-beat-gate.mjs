@@ -17,6 +17,17 @@ const requiredFiles = [
   "benchmarks/writer-adjudication/README.md",
   "benchmarks/writer-adjudication/memory-tide-pilot.json",
   "benchmarks/writer-adjudication/glass-orchard-calibration-v2.json",
+  "benchmarks/writer-adjudication/protocol-v2.1-stage-2a-pilot.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/blind-package.md",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/stage-1-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/finding-package.md",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/stage-2a-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/role-reveal-package.md",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/stage-2b-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/adjudication-report.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/adjudication-report.md",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/sealed-manifest.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/run-metadata.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/blind-package.md",
   "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/stage-1-decisions.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/reveal-package.md",
@@ -70,7 +81,8 @@ const requiredFiles = [
   "tests/writer-adjudication-calibration.test.mjs",
   "tests/writer-adjudication-operations.test.mjs",
   "tests/writer-adjudication-contract.test.mjs",
-  "tests/fixtures/writer-adjudication/v2-calibration.json"
+  "tests/fixtures/writer-adjudication/v2-calibration.json",
+  "tests/fixtures/writer-adjudication/v2.1-calibration.json"
 ];
 
 const jsonFiles = [
@@ -81,6 +93,13 @@ const jsonFiles = [
   "templates/lifecycle.json",
   "benchmarks/writer-adjudication/memory-tide-pilot.json",
   "benchmarks/writer-adjudication/glass-orchard-calibration-v2.json",
+  "benchmarks/writer-adjudication/protocol-v2.1-stage-2a-pilot.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/stage-1-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/stage-2a-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/stage-2b-decisions.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/adjudication-report.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/sealed-manifest.json",
+  "benchmarks/writer-adjudication/runs/2026-06-18-protocol-v2.1-stage-2a-pilot/run-metadata.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/stage-1-decisions.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/stage-2-decisions.json",
   "benchmarks/writer-adjudication/runs/2026-06-12-glass-orchard-calibration-v2/adjudication-report.json",
@@ -105,7 +124,8 @@ const jsonFiles = [
   "tests/fixtures/beat-gate/ambiguous.json",
   "tests/fixtures/beat-gate/non-convergent.json",
   "tests/fixtures/beat-gate/rolling-window.json",
-  "tests/fixtures/writer-adjudication/v2-calibration.json"
+  "tests/fixtures/writer-adjudication/v2-calibration.json",
+  "tests/fixtures/writer-adjudication/v2.1-calibration.json"
 ];
 
 const stringChecks = [

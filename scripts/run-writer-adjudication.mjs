@@ -750,9 +750,30 @@ function renderFindingPackage(manifest, stageOne) {
     : "Judge the finding without opening role-reveal material.";
   const sections = manifest.comparisons.flatMap((comparison) => {
     const decision = decisions.get(comparison.comparison_id);
+    const blindedText = comparison.blind_variants
+      ? [
+          ...(comparison.blind_context
+            ? [
+                "### Context",
+                "",
+                comparison.blind_context,
+                "",
+              ]
+            : []),
+          "### Variant A",
+          "",
+          comparison.blind_variants.A,
+          "",
+          "### Variant B",
+          "",
+          comparison.blind_variants.B,
+          "",
+        ]
+      : [];
     return [
       `## ${comparison.comparison_id}`,
       "",
+      ...blindedText,
       `- Meaningful blind difference: ${decision.meaningful_difference}`,
       `- Predicate: ${comparison.finding.predicate}`,
       `- Evidence: ${comparison.finding.evidence}`,
@@ -956,7 +977,7 @@ function stageTwoBTemplate(
   roleRevealPackageHash,
 ) {
   return {
-    version: PROTOCOL_V2,
+    version: manifestProtocolVersion(manifest),
     run_id: manifest.run_id,
     stage: "role_reveal_disposition",
     status: "AWAITING_WRITER",
@@ -1497,6 +1518,12 @@ export function createAdjudicationRun({ inputPath, outputDir, seed }) {
       authority_attestation: assignment.comparison.authority_attestation,
       calibration: assignment.comparison.calibration ?? null,
       application: assignment.comparison.application ?? null,
+      ...(adjudicationProtocol === PROTOCOL_V2_1
+        ? {
+            blind_context: assignment.comparison.context ?? null,
+            blind_variants: assignment.variants,
+          }
+        : {}),
       variant_roles: {
         [assignment.baseline_label]: "baseline",
         [assignment.challenger_label]: "challenger",

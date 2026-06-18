@@ -1,0 +1,125 @@
+{
+  "version": "2.1.0",
+  "run_id": "2026-06-18-protocol-v2.1-stage-2a-pilot",
+  "title": "Protocol V2.1 Stage 2A operator pilot",
+  "created_at": "2026-06-18",
+  "process_metrics": {
+    "critic_agent_calls": 0,
+    "variant_generation_agent_calls": 0,
+    "notes": "Synthetic AI-operated usability pilot; not human evidence. Decisions are retained to test the public workflow and evidence gate."
+  },
+  "calibration": {
+    "mode": "prospective",
+    "pilot_id": "protocol-v2.1-stage-2a-operator-pilot",
+    "minimum_comparisons": 4,
+    "minimum_distinct_scenes": 2,
+    "required_categories": [
+      "specificity",
+      "closure"
+    ],
+    "control_policies": {
+      "weak_challenger": {
+        "minimum_count": 1
+      },
+      "unsupported_finding": {
+        "minimum_count": 1
+      }
+    },
+    "success_gates": {
+      "minimum_weak_challenger_resistance_percent": 80,
+      "maximum_unsupported_findings_accepted": 0,
+      "maximum_acceptances_without_meaningful_difference": 0
+    },
+    "notes": "Control labels remain sealed until scoring."
+  },
+  "comparisons": [
+    {
+      "id": "pilot-normal-specificity",
+      "scene_ref": "1-1",
+      "source_ref": "pilot/1-1/beat-1",
+      "authority_attestation": {
+        "protected_fields_unchanged": true,
+        "notes": "The action and desire are unchanged."
+      },
+      "context": "A courier hears the lock turn behind her.",
+      "baseline_text": "She hurried away.",
+      "challenger_text": "The lock clicked; she took the stairs three at a time.",
+      "calibration": {
+        "category": "specificity",
+        "control_type": "none"
+      },
+      "application": null,
+      "finding": {
+        "predicate": "specificity",
+        "evidence": "The current wording summarizes urgency without a physical consequence.",
+        "question": "Does a concrete sound and movement sharpen the pressure?"
+      }
+    },
+    {
+      "id": "pilot-weak-challenger",
+      "scene_ref": "1-1",
+      "source_ref": "pilot/1-1/beat-2",
+      "authority_attestation": {
+        "protected_fields_unchanged": true,
+        "notes": "The control changes only explanatory density."
+      },
+      "context": "The courier refuses to name the person she protects.",
+      "baseline_text": "She folded the photograph before answering.",
+      "challenger_text": "She felt protective and therefore folded the photograph before answering.",
+      "calibration": {
+        "category": "specificity",
+        "control_type": "weak_challenger"
+      },
+      "application": null,
+      "finding": {
+        "predicate": "specificity",
+        "evidence": "The motive may be too implicit.",
+        "question": "Does naming the motive improve the beat?"
+      }
+    },
+    {
+      "id": "pilot-unsupported-finding",
+      "scene_ref": "1-2",
+      "source_ref": "pilot/1-2/beat-1",
+      "authority_attestation": {
+        "protected_fields_unchanged": true,
+        "notes": "Both variants preserve the scene outcome."
+      },
+      "context": "The door has already closed and trapped the courier outside.",
+      "baseline_text": "The deadbolt settled. She was outside.",
+      "challenger_text": "The deadbolt settled with a hard metallic click. She was outside.",
+      "calibration": {
+        "category": "closure",
+        "control_type": "unsupported_finding"
+      },
+      "application": null,
+      "finding": {
+        "predicate": "closure",
+        "evidence": "The current wording does not establish whether the door closed.",
+        "question": "Should the beat explicitly establish that the door closed?"
+      }
+    },
+    {
+      "id": "pilot-normal-closure",
+      "scene_ref": "1-2",
+      "source_ref": "pilot/1-2/beat-2",
+      "authority_attestation": {
+        "protected_fields_unchanged": true,
+        "notes": "Both variants preserve the courier's refusal."
+      },
+      "context": "The courier must leave without the package.",
+      "baseline_text": "She left the package and went downstairs.",
+      "challenger_text": "She set the package under the red lamp and descended without looking back.",
+      "calibration": {
+        "category": "closure",
+        "control_type": "none"
+      },
+      "application": null,
+      "finding": {
+        "predicate": "closure",
+        "evidence": "The exit lacks a specific irreversible action.",
+        "question": "Does placing the package before leaving give the beat firmer closure?"
+      }
+    }
+  ]
+}
