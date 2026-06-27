@@ -29,6 +29,9 @@ test("writer adjudication separates preference, finding, and source-aware dispos
   assert.match(adjudication, /Aggregate completed runs/);
   assert.match(adjudication, /run-writer-adjudication\.mjs prepare/);
   assert.match(adjudication, /never\s+generates a challenger/);
+  assert.match(adjudication, /New runs must use input version `2\.1\.0`/);
+  assert.match(adjudication, /only `supported` may be accepted/);
+  assert.match(adjudication, /duplicated evidence judgments fail closed/i);
 });
 
 test("writer adjudication preserves protected authority", () => {

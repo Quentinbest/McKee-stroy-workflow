@@ -6,6 +6,11 @@ import process from "node:process";
 const PREFERENCE_VALUES = new Set(["A", "B", "tie"]);
 const DIFFERENCE_VALUES = new Set(["yes", "no", "uncertain"]);
 const FINDING_VALUES = new Set(["accept", "reject", "uncertain"]);
+const EVIDENCE_SUPPORT_VALUES = new Set([
+  "supported",
+  "contradicted",
+  "insufficient",
+]);
 const ADOPTION_VALUES = new Set(["yes", "no", "defer"]);
 const VARIANT_DISPOSITION_VALUES = new Set([
   "keep_baseline",
@@ -25,6 +30,36 @@ const CALIBRATION_CONTROL_VALUES = new Set([
 ]);
 const PROTOCOL_V1 = "1.0.0";
 const PROTOCOL_V2 = "2.0.0";
+const PROTOCOL_V2_1 = "2.1.0";
+const MIN_EVIDENCE_TEXT_LENGTH = 12;
+const SUPPORTED_V2_PROTOCOLS = new Set([
+  PROTOCOL_V2,
+  PROTOCOL_V2_1,
+]);
+const GENERIC_EVIDENCE_VALUES = new Set([
+  "yes",
+  "confirmed",
+  "accepted",
+  "looks right",
+  "是",
+  "确认",
+  "接受",
+  "看起来正确",
+]);
+const GENERIC_EVIDENCE_PREFIXES = [
+  "writer explicitly confirmed",
+  "author explicitly confirmed",
+  "follow blind preference",
+  "用户明确确认",
+  "作者明确确认",
+  "遵循盲选",
+];
+const GENERIC_COUNTEREVIDENCE_VALUES = new Set([
+  "none",
+  "no contrary evidence found",
+  "未发现反证",
+  "没有反证",
+]);
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -88,16 +123,57 @@ function durationMinutes(reviewer, label) {
   return Number(((completedAt - startedAt) / 60000).toFixed(1));
 }
 
+function normalizeEvidenceText(value) {
+  return value.normalize("NFKC").trim().replace(/\s+/gu, " ").toLowerCase();
+}
+
+function evidenceTextLength(value) {
+  return [...normalizeEvidenceText(value).replace(/\s/gu, "")].length;
+}
+
+function validateSpecificEvidenceText(value, label, { counter = false } = {}) {
+  if (typeof value !== "string") {
+    throw new Error(
+      `${label} must contain at least ${MIN_EVIDENCE_TEXT_LENGTH} non-whitespace characters`,
+    );
+  }
+  const normalized = normalizeEvidenceText(value);
+  if (evidenceTextLength(value) < MIN_EVIDENCE_TEXT_LENGTH) {
+    throw new Error(
+      `${label} must contain at least ${MIN_EVIDENCE_TEXT_LENGTH} non-whitespace characters`,
+    );
+  }
+  if (
+    GENERIC_EVIDENCE_VALUES.has(normalized) ||
+    GENERIC_EVIDENCE_PREFIXES.some((prefix) => normalized.startsWith(prefix))
+  ) {
+    throw new Error(`${label} must contain a specific evidence judgment`);
+  }
+  if (counter && GENERIC_COUNTEREVIDENCE_VALUES.has(normalized)) {
+    throw new Error(`${label} must identify what was checked`);
+  }
+  return normalized;
+}
+
 function protocolVersion(value) {
   assertNonEmptyString(value, "version");
-  const major = Number.parseInt(value.split(".")[0], 10);
-  if (major === 1) {
+  const match = /^(\d+)\.(\d+)\.(\d+)$/.exec(value);
+  if (!match) {
+    throw new Error("version must use semantic version format");
+  }
+  if (Number.parseInt(match[1], 10) === 1) {
     return PROTOCOL_V1;
   }
-  if (major === 2) {
-    return PROTOCOL_V2;
+  if (SUPPORTED_V2_PROTOCOLS.has(value)) {
+    return value;
   }
-  throw new Error("version must use supported protocol major 1 or 2");
+  throw new Error(
+    `version must use legacy major 1 or one of ${[...SUPPORTED_V2_PROTOCOLS].join(", ")}`,
+  );
+}
+
+function protocolMajor(value) {
+  return Number.parseInt(protocolVersion(value).split(".")[0], 10);
 }
 
 function manifestProtocolVersion(manifest) {
@@ -105,7 +181,11 @@ function manifestProtocolVersion(manifest) {
 }
 
 function isProtocolV2(manifest) {
-  return manifestProtocolVersion(manifest) === PROTOCOL_V2;
+  return protocolMajor(manifestProtocolVersion(manifest)) === 2;
+}
+
+function usesEvidenceGate(manifest) {
+  return manifestProtocolVersion(manifest) === PROTOCOL_V2_1;
 }
 
 function leaksSealedRole(value) {
@@ -119,12 +199,10 @@ function leaksSealedRole(value) {
 
 function validateInput(input) {
   const adjudicationProtocol = protocolVersion(input.version);
+  const isV2 = protocolMajor(adjudicationProtocol) === 2;
   assertNonEmptyString(input.run_id, "run_id");
   assertNonEmptyString(input.title, "title");
-  if (
-    adjudicationProtocol === PROTOCOL_V2 &&
-    leaksSealedRole(input.title)
-  ) {
+  if (isV2 && leaksSealedRole(input.title)) {
     throw new Error(
       "title must not leak source roles or calibration controls in protocol V2",
     );
@@ -177,7 +255,7 @@ function validateInput(input) {
       `${label}.finding.question`,
     );
     if (
-      adjudicationProtocol === PROTOCOL_V2 &&
+      isV2 &&
       [
         comparison.context,
         comparison.finding.predicate,
@@ -251,7 +329,7 @@ function validateCalibration(input, adjudicationProtocol) {
       `calibration.required_categories[${index}]`,
     );
   }
-  const isV2 = adjudicationProtocol === PROTOCOL_V2;
+  const isV2 = protocolMajor(adjudicationProtocol) === 2;
   if (isV2) {
     validatePositiveInteger(
       calibration.control_policies?.weak_challenger?.minimum_count,
@@ -667,17 +745,41 @@ function renderFindingPackage(manifest, stageOne) {
       decision,
     ]),
   );
+  const instruction = usesEvidenceGate(manifest)
+    ? "Judge whether the evidence supports the predicate before choosing a disposition. Record `evidence_support` as `supported`, `contradicted`, or `insufficient`. Check contrary or weakening textual evidence and record what you checked. Then choose `accept`, `reject`, or `uncertain` using the allowed evidence matrix."
+    : "Judge the finding without opening role-reveal material.";
   const sections = manifest.comparisons.flatMap((comparison) => {
     const decision = decisions.get(comparison.comparison_id);
+    const blindedText = comparison.blind_variants
+      ? [
+          ...(comparison.blind_context
+            ? [
+                "### Context",
+                "",
+                comparison.blind_context,
+                "",
+              ]
+            : []),
+          "### Variant A",
+          "",
+          comparison.blind_variants.A,
+          "",
+          "### Variant B",
+          "",
+          comparison.blind_variants.B,
+          "",
+        ]
+      : [];
     return [
       `## ${comparison.comparison_id}`,
       "",
+      ...blindedText,
       `- Meaningful blind difference: ${decision.meaningful_difference}`,
       `- Predicate: ${comparison.finding.predicate}`,
       `- Evidence: ${comparison.finding.evidence}`,
       `- Question: ${comparison.finding.question}`,
       "",
-      "Judge the finding without opening role-reveal material. Record the decision in `stage-2a-decisions.json`.",
+      `${instruction} Record the decision in \`stage-2a-decisions.json\`.`,
       "",
     ];
   });
@@ -695,8 +797,15 @@ function stageTwoATemplate(
   stageOneHash,
   findingPackageHash,
 ) {
+  const evidenceFields = usesEvidenceGate(manifest)
+    ? {
+        evidence_support: null,
+        evidence_basis: "",
+        counterevidence_checked: "",
+      }
+    : {};
   return {
-    version: PROTOCOL_V2,
+    version: manifestProtocolVersion(manifest),
     run_id: manifest.run_id,
     stage: "blind_finding_adjudication",
     status: "AWAITING_WRITER",
@@ -709,6 +818,7 @@ function stageTwoATemplate(
     },
     comparisons: manifest.comparisons.map((comparison) => ({
       comparison_id: comparison.comparison_id,
+      ...evidenceFields,
       finding_disposition: null,
       rationale: "",
       blind_difference_reconciliation: "",
@@ -749,16 +859,62 @@ function validateStageTwoA(stageTwoA, manifest, stageOne, stageOneHash) {
       decision,
     ]),
   );
+  const evidenceBasisByText = new Map();
+  const rationaleByText = new Map();
   for (const decision of stageTwoA.comparisons) {
     if (!FINDING_VALUES.has(decision.finding_disposition)) {
       throw new Error(
         `${decision.comparison_id}.finding_disposition must be accept, reject, or uncertain`,
       );
     }
-    assertNonEmptyString(
-      decision.rationale,
-      `${decision.comparison_id}.rationale`,
-    );
+    if (usesEvidenceGate(manifest)) {
+      if (!EVIDENCE_SUPPORT_VALUES.has(decision.evidence_support)) {
+        throw new Error(
+          `${decision.comparison_id}.evidence_support must be supported, contradicted, or insufficient`,
+        );
+      }
+      const allowedDispositions =
+        decision.evidence_support === "supported"
+          ? new Set(["accept", "uncertain"])
+          : decision.evidence_support === "contradicted"
+            ? new Set(["reject"])
+            : new Set(["reject", "uncertain"]);
+      if (!allowedDispositions.has(decision.finding_disposition)) {
+        throw new Error(
+          `${decision.comparison_id}.evidence_support=${decision.evidence_support} does not allow finding_disposition=${decision.finding_disposition}`,
+        );
+      }
+      const evidenceBasis = validateSpecificEvidenceText(
+        decision.evidence_basis,
+        `${decision.comparison_id}.evidence_basis`,
+      );
+      validateSpecificEvidenceText(
+        decision.counterevidence_checked,
+        `${decision.comparison_id}.counterevidence_checked`,
+        { counter: true },
+      );
+      const rationale = validateSpecificEvidenceText(
+        decision.rationale,
+        `${decision.comparison_id}.rationale`,
+      );
+      for (const [field, value, seen] of [
+        ["evidence_basis", evidenceBasis, evidenceBasisByText],
+        ["rationale", rationale, rationaleByText],
+      ]) {
+        const previous = seen.get(value);
+        if (previous) {
+          throw new Error(
+            `${decision.comparison_id}.${field} duplicates ${previous}.${field}`,
+          );
+        }
+        seen.set(value, decision.comparison_id);
+      }
+    } else {
+      assertNonEmptyString(
+        decision.rationale,
+        `${decision.comparison_id}.rationale`,
+      );
+    }
     const blindDecision = stageOneById.get(decision.comparison_id);
     if (
       decision.finding_disposition === "accept" &&
@@ -821,7 +977,7 @@ function stageTwoBTemplate(
   roleRevealPackageHash,
 ) {
   return {
-    version: PROTOCOL_V2,
+    version: manifestProtocolVersion(manifest),
     run_id: manifest.run_id,
     stage: "role_reveal_disposition",
     status: "AWAITING_WRITER",
@@ -906,6 +1062,40 @@ function percentage(numerator, denominator) {
   return denominator === 0
     ? 0
     : Number(((numerator / denominator) * 100).toFixed(1));
+}
+
+function evidenceGateMetrics(comparisons, manifest) {
+  if (!usesEvidenceGate(manifest)) {
+    return null;
+  }
+  const supportValues = ["supported", "contradicted", "insufficient"];
+  const dispositions = ["accept", "reject", "uncertain"];
+  return {
+    protocol_version: manifestProtocolVersion(manifest),
+    support_counts: Object.fromEntries(
+      supportValues.map((support) => [
+        support,
+        comparisons.filter(
+          (comparison) => comparison.evidence_support === support,
+        ).length,
+      ]),
+    ),
+    by_disposition: Object.fromEntries(
+      dispositions.map((disposition) => [
+        disposition,
+        Object.fromEntries(
+          supportValues.map((support) => [
+            support,
+            comparisons.filter(
+              (comparison) =>
+                comparison.finding_disposition === disposition &&
+                comparison.evidence_support === support,
+            ).length,
+          ]),
+        ),
+      ]),
+    ),
+  };
 }
 
 function calibrationMetrics(comparisons, manifestCalibration) {
@@ -1075,6 +1265,29 @@ ${calibration.unsupported_finding_control_count != null ? `| Unsupported finding
 `;
 }
 
+function renderEvidenceGateMetrics(evidenceGate) {
+  if (!evidenceGate) {
+    return `
+## Evidence Gate
+
+Evidence support: not recorded for this protocol version.
+`;
+  }
+  return `
+## Evidence Gate
+
+| Metric | Result |
+|---|---:|
+| Evidence gate protocol | ${evidenceGate.protocol_version} |
+| Supported | ${evidenceGate.support_counts.supported} |
+| Contradicted | ${evidenceGate.support_counts.contradicted} |
+| Insufficient | ${evidenceGate.support_counts.insufficient} |
+| Supported / accept | ${evidenceGate.by_disposition.accept.supported} |
+| Contradicted / reject | ${evidenceGate.by_disposition.reject.contradicted} |
+| Insufficient / uncertain | ${evidenceGate.by_disposition.uncertain.insufficient} |
+`;
+}
+
 function renderReport(report) {
   return `# Writer Adjudication Report: ${report.title}
 
@@ -1103,6 +1316,7 @@ ${report.metrics.challenger_variants_adopted != null ? `| Challenger variants ad
 | Variant-generation agent calls | ${report.metrics.variant_generation_agent_calls ?? "not recorded"} |
 | Cross-scene repetition after reveal | ${report.metrics.cross_scene_repetition_effect} |
 
+${renderEvidenceGateMetrics(report.evidence_gate)}
 ${renderCalibrationMetrics(report.calibration)}
 ## Decisions
 
@@ -1212,7 +1426,7 @@ export function prepareAdjudicationInput({
     };
   });
   const prepared = {
-    version: variantsSource.version ?? PROTOCOL_V2,
+    version: variantsSource.version ?? PROTOCOL_V2_1,
     run_id: runId,
     title,
     created_at: createdAt,
@@ -1304,6 +1518,12 @@ export function createAdjudicationRun({ inputPath, outputDir, seed }) {
       authority_attestation: assignment.comparison.authority_attestation,
       calibration: assignment.comparison.calibration ?? null,
       application: assignment.comparison.application ?? null,
+      ...(adjudicationProtocol === PROTOCOL_V2_1
+        ? {
+            blind_context: assignment.comparison.context ?? null,
+            blind_variants: assignment.variants,
+          }
+        : {}),
       variant_roles: {
         [assignment.baseline_label]: "baseline",
         [assignment.challenger_label]: "challenger",
@@ -1709,6 +1929,14 @@ function scoreProtocolV2({
       meaningful_difference: blindDecision.meaningful_difference,
       blind_reasons: blindDecision.reasons,
       blind_notes: blindDecision.notes,
+      ...(usesEvidenceGate(manifest)
+        ? {
+            evidence_support: findingDecision.evidence_support,
+            evidence_basis: findingDecision.evidence_basis,
+            counterevidence_checked:
+              findingDecision.counterevidence_checked,
+          }
+        : {}),
       finding_disposition: findingDecision.finding_disposition,
       finding_rationale: findingDecision.rationale,
       blind_difference_reconciliation:
@@ -1743,8 +1971,8 @@ function scoreProtocolV2({
         comparison.variant_disposition === "keep_baseline"),
   ).length;
   const report = {
-    version: PROTOCOL_V2,
-    protocol_version: PROTOCOL_V2,
+    version: manifestProtocolVersion(manifest),
+    protocol_version: manifestProtocolVersion(manifest),
     run_id: manifest.run_id,
     title: manifest.title,
     status: "COMPLETE",
@@ -1811,6 +2039,7 @@ function scoreProtocolV2({
     overall_notes: stageTwoB.overall_notes,
     comparisons,
   };
+  report.evidence_gate = evidenceGateMetrics(comparisons, manifest);
   report.calibration = calibrationMetrics(
     comparisons,
     manifest.calibration,

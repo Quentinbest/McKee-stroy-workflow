@@ -1,0 +1,52 @@
+{
+  "version": "2.1.0",
+  "run_id": "2026-06-18-protocol-v2.1-stage-2a-pilot",
+  "stage": "blind_finding_adjudication",
+  "status": "COMPLETE",
+  "stage_1_sha256": "30f97defd3f5aa3111c39acf0bb86e1c5aaf274f4bee4faac6377317f7345ed3",
+  "finding_package_sha256": "b7342d7df73168aced81f52aa6f279fe2231f23bb991b618e21641ae329a62b2",
+  "reviewer": {
+    "id": "codex-ai-operator",
+    "started_at": "2026-06-18T08:09:00Z",
+    "completed_at": "2026-06-18T08:17:00Z"
+  },
+  "comparisons": [
+    {
+      "comparison_id": "C01",
+      "evidence_support": "supported",
+      "evidence_basis": "C01: one displayed variant says only that she hurried, while the other supplies the lock sound and a three-at-a-time physical response.",
+      "counterevidence_checked": "C01: checked whether the context alone supplied a bodily consequence; it supplies the trigger but no visible response.",
+      "finding_disposition": "accept",
+      "rationale": "C01: the contrast directly demonstrates summarized urgency versus enacted urgency.",
+      "blind_difference_reconciliation": ""
+    },
+    {
+      "comparison_id": "C02",
+      "evidence_support": "contradicted",
+      "evidence_basis": "C02: folding the protected person's photograph before refusing to answer already makes the protective motive legible through action.",
+      "counterevidence_checked": "C02: checked whether the action could read as unrelated business; the explicit protection context narrows its meaning sufficiently.",
+      "finding_disposition": "reject",
+      "rationale": "C02: naming the emotion removes useful subtext instead of repairing missing specificity.",
+      "blind_difference_reconciliation": ""
+    },
+    {
+      "comparison_id": "C03",
+      "evidence_support": "supported",
+      "evidence_basis": "C03: leaving and going downstairs is generic, whereas placing the package under the red lamp fixes the abandoned object in a final location.",
+      "counterevidence_checked": "C03: checked whether going downstairs alone created equivalent finality; it ends movement but leaves the package staging abstract.",
+      "finding_disposition": "accept",
+      "rationale": "C03: the specific placement gives the exit a concrete irreversible action.",
+      "blind_difference_reconciliation": ""
+    },
+    {
+      "comparison_id": "C04",
+      "evidence_support": "contradicted",
+      "evidence_basis": "C04: both displayed variants state that the deadbolt settled and that the courier was outside, already establishing closure.",
+      "counterevidence_checked": "C04: checked whether only the added metallic click established closure; the shared deadbolt and outside facts do so without it.",
+      "finding_disposition": "reject",
+      "rationale": "C04: the diagnostic claim conflicts with explicit facts present in both variants.",
+      "blind_difference_reconciliation": ""
+    }
+  ],
+  "overall_notes": "The visible blinded prose was necessary to distinguish supported findings from plausible-sounding but contradicted claims."
+}

@@ -1,0 +1,222 @@
+{
+  "version": "2.1.0",
+  "protocol_version": "2.1.0",
+  "run_id": "2026-06-18-protocol-v2.1-stage-2a-pilot",
+  "title": "Protocol V2.1 Stage 2A operator pilot",
+  "status": "COMPLETE",
+  "stage_1_sha256": "30f97defd3f5aa3111c39acf0bb86e1c5aaf274f4bee4faac6377317f7345ed3",
+  "stage_2a_sha256": "cc968bbafd9d389b84a84dcf1046be1895a95a478cd66d3242dd164d91aaf5e4",
+  "stage_2b_sha256": "4b5b177d500db22500ba34a6606536fa3d798f83f9ffb806953f48b11058857b",
+  "metrics": {
+    "comparisons": 4,
+    "challenger_preferred": 2,
+    "baseline_preferred": 2,
+    "ties": 0,
+    "challenger_win_rate_excluding_ties_percent": 50,
+    "findings_accepted": 2,
+    "findings_rejected": 2,
+    "findings_uncertain": 0,
+    "findings_accepted_without_meaningful_blind_difference": 0,
+    "writer_rejected_finding_rate_percent": 50,
+    "preferred_variants_adopted": 2,
+    "challenger_variants_adopted": 2,
+    "baselines_kept": 2,
+    "post_reveal_preference_reversals": 0,
+    "writer_review_minutes": 20,
+    "critic_agent_calls": 0,
+    "variant_generation_agent_calls": 0,
+    "cross_scene_repetition_effect": "unchanged"
+  },
+  "batch_assessment": {
+    "overall_homogeneity": "moderate",
+    "repeated_patterns_noticed": [
+      "Several variants sharpen prose through concrete object placement or sound."
+    ],
+    "notes": "The four snippets are too small a sample for a strong batch-level conclusion."
+  },
+  "batch_effect": {
+    "cross_scene_repetition": "unchanged",
+    "notes": "The accepted revisions use different concrete actions, but four snippets do not establish a reliable cross-scene trend."
+  },
+  "stage_2a_overall_notes": "The visible blinded prose was necessary to distinguish supported findings from plausible-sounding but contradicted claims.",
+  "overall_notes": "Role reveal did not reverse either blind preference or either Stage 2A finding judgment.",
+  "comparisons": [
+    {
+      "comparison_id": "C01",
+      "source_id": "pilot-normal-specificity",
+      "source_ref": "pilot/1-1/beat-1",
+      "scene_ref": "1-1",
+      "calibration_category": "specificity",
+      "control_type": "none",
+      "preferred_variant": "B",
+      "preferred_role": "challenger",
+      "confidence": 5,
+      "meaningful_difference": "yes",
+      "blind_reasons": [
+        "Turns summarized urgency into an audible trigger and visible physical action."
+      ],
+      "blind_notes": "The movement earns the urgency without changing the beat outcome.",
+      "evidence_support": "supported",
+      "evidence_basis": "C01: one displayed variant says only that she hurried, while the other supplies the lock sound and a three-at-a-time physical response.",
+      "counterevidence_checked": "C01: checked whether the context alone supplied a bodily consequence; it supplies the trigger but no visible response.",
+      "finding_disposition": "accept",
+      "finding_rationale": "C01: the contrast directly demonstrates summarized urgency versus enacted urgency.",
+      "blind_difference_reconciliation": "",
+      "variant_disposition": "adopt_challenger",
+      "variant_rationale": "The challenger enacts urgency physically and matches both the blind preference and accepted finding.",
+      "adopt_preferred_variant": "yes"
+    },
+    {
+      "comparison_id": "C02",
+      "source_id": "pilot-weak-challenger",
+      "source_ref": "pilot/1-1/beat-2",
+      "scene_ref": "1-1",
+      "calibration_category": "specificity",
+      "control_type": "weak_challenger",
+      "preferred_variant": "B",
+      "preferred_role": "baseline",
+      "confidence": 5,
+      "meaningful_difference": "yes",
+      "blind_reasons": [
+        "Lets the folded photograph carry the protective motive as subtext."
+      ],
+      "blind_notes": "Variant A explains the emotion already implied by the action.",
+      "evidence_support": "contradicted",
+      "evidence_basis": "C02: folding the protected person's photograph before refusing to answer already makes the protective motive legible through action.",
+      "counterevidence_checked": "C02: checked whether the action could read as unrelated business; the explicit protection context narrows its meaning sufficiently.",
+      "finding_disposition": "reject",
+      "finding_rationale": "C02: naming the emotion removes useful subtext instead of repairing missing specificity.",
+      "blind_difference_reconciliation": "",
+      "variant_disposition": "keep_baseline",
+      "variant_rationale": "The baseline was preferred blind and preserves the useful subtext identified during Stage 2A.",
+      "adopt_preferred_variant": "no"
+    },
+    {
+      "comparison_id": "C03",
+      "source_id": "pilot-normal-closure",
+      "source_ref": "pilot/1-2/beat-2",
+      "scene_ref": "1-2",
+      "calibration_category": "closure",
+      "control_type": "none",
+      "preferred_variant": "B",
+      "preferred_role": "challenger",
+      "confidence": 4,
+      "meaningful_difference": "yes",
+      "blind_reasons": [
+        "The red lamp placement makes abandoning the package concrete and irreversible."
+      ],
+      "blind_notes": "The specific staging adds closure without explaining her feeling.",
+      "evidence_support": "supported",
+      "evidence_basis": "C03: leaving and going downstairs is generic, whereas placing the package under the red lamp fixes the abandoned object in a final location.",
+      "counterevidence_checked": "C03: checked whether going downstairs alone created equivalent finality; it ends movement but leaves the package staging abstract.",
+      "finding_disposition": "accept",
+      "finding_rationale": "C03: the specific placement gives the exit a concrete irreversible action.",
+      "blind_difference_reconciliation": "",
+      "variant_disposition": "adopt_challenger",
+      "variant_rationale": "The challenger gives the package a concrete final placement and matches the accepted closure finding.",
+      "adopt_preferred_variant": "yes"
+    },
+    {
+      "comparison_id": "C04",
+      "source_id": "pilot-unsupported-finding",
+      "source_ref": "pilot/1-2/beat-1",
+      "scene_ref": "1-2",
+      "calibration_category": "closure",
+      "control_type": "unsupported_finding",
+      "preferred_variant": "B",
+      "preferred_role": "baseline",
+      "confidence": 3,
+      "meaningful_difference": "yes",
+      "blind_reasons": [
+        "The shorter sentence preserves the closed-door fact without redundant sound emphasis."
+      ],
+      "blind_notes": "Both variants work; Variant B is more economical.",
+      "evidence_support": "contradicted",
+      "evidence_basis": "C04: both displayed variants state that the deadbolt settled and that the courier was outside, already establishing closure.",
+      "counterevidence_checked": "C04: checked whether only the added metallic click established closure; the shared deadbolt and outside facts do so without it.",
+      "finding_disposition": "reject",
+      "finding_rationale": "C04: the diagnostic claim conflicts with explicit facts present in both variants.",
+      "blind_difference_reconciliation": "",
+      "variant_disposition": "keep_baseline",
+      "variant_rationale": "The baseline was preferred blind; Stage 2A also found that the added sound did not repair a real closure problem.",
+      "adopt_preferred_variant": "no"
+    }
+  ],
+  "evidence_gate": {
+    "protocol_version": "2.1.0",
+    "support_counts": {
+      "supported": 2,
+      "contradicted": 2,
+      "insufficient": 0
+    },
+    "by_disposition": {
+      "accept": {
+        "supported": 2,
+        "contradicted": 0,
+        "insufficient": 0
+      },
+      "reject": {
+        "supported": 0,
+        "contradicted": 2,
+        "insufficient": 0
+      },
+      "uncertain": {
+        "supported": 0,
+        "contradicted": 0,
+        "insufficient": 0
+      }
+    }
+  },
+  "calibration": {
+    "mode": "prospective",
+    "pilot_id": "protocol-v2.1-stage-2a-operator-pilot",
+    "distinct_scenes": 2,
+    "control_count": 1,
+    "control_baseline_preferred": 1,
+    "control_ties": 0,
+    "control_challenger_preferred": 0,
+    "control_warning": false,
+    "control_resistance_rate_percent": 100,
+    "control_findings_accepted": 0,
+    "control_findings_rejected": 1,
+    "control_preferred_variants_adopted": 0,
+    "weak_challenger_variants_adopted": 0,
+    "weak_challenger_control_count": 1,
+    "weak_challenger_resistance_rate_percent": 100,
+    "unsupported_finding_control_count": 1,
+    "unsupported_findings_accepted": 0,
+    "unsupported_findings_rejected": 1,
+    "non_control_comparisons": 2,
+    "non_control_challenger_preferred": 2,
+    "by_category": {
+      "specificity": {
+        "comparisons": 2,
+        "challenger_preferred": 1,
+        "baseline_preferred": 1,
+        "ties": 0,
+        "findings_accepted": 1,
+        "findings_rejected": 1,
+        "findings_uncertain": 0
+      },
+      "closure": {
+        "comparisons": 2,
+        "challenger_preferred": 1,
+        "baseline_preferred": 1,
+        "ties": 0,
+        "findings_accepted": 1,
+        "findings_rejected": 1,
+        "findings_uncertain": 0
+      }
+    },
+    "gates": {
+      "minimum_weak_challenger_resistance_percent": 80,
+      "weak_challenger_resistance_passed": true,
+      "maximum_unsupported_findings_accepted": 0,
+      "unsupported_finding_acceptance_passed": true,
+      "maximum_acceptances_without_meaningful_difference": 0,
+      "blind_difference_consistency_passed": true
+    },
+    "status": "PASS",
+    "gate_passed": true
+  }
+}

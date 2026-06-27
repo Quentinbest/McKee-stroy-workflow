@@ -18,6 +18,10 @@ const fixturePath = new URL(
   "./fixtures/writer-adjudication/v2-calibration.json",
   import.meta.url,
 );
+const evidenceGateFixturePath = new URL(
+  "./fixtures/writer-adjudication/v2.1-calibration.json",
+  import.meta.url,
+);
 const fixtureFilePath = fileURLToPath(fixturePath);
 const runnerPath = fileURLToPath(
   new URL("../scripts/run-writer-adjudication.mjs", import.meta.url),
@@ -119,6 +123,42 @@ function completeStageTwoA(
   return stageTwoAPath;
 }
 
+function completeEvidenceGateStageTwoA(outputDir) {
+  const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
+  const manifestById = new Map(
+    manifest.comparisons.map((comparison) => [
+      comparison.comparison_id,
+      comparison,
+    ]),
+  );
+  const stageTwoAPath = path.join(outputDir, "stage-2a-decisions.json");
+  const stageTwoA = readJson(stageTwoAPath);
+  stageTwoA.status = "COMPLETE";
+  stageTwoA.reviewer = {
+    id: "test-writer",
+    started_at: "2026-06-13T04:10:00Z",
+    completed_at: "2026-06-13T04:16:00Z",
+  };
+  for (const decision of stageTwoA.comparisons) {
+    const comparison = manifestById.get(decision.comparison_id);
+    const unsupported =
+      comparison.calibration.control_type === "unsupported_finding";
+    decision.evidence_support = unsupported ? "contradicted" : "supported";
+    decision.evidence_basis = unsupported
+      ? `${decision.comparison_id}: the displayed prose already states the event the finding claims is absent.`
+      : `${decision.comparison_id}: the displayed evidence identifies a concrete missing or repeated prose effect.`;
+    decision.counterevidence_checked =
+      `${decision.comparison_id}: checked the displayed context and both prose variants for facts weakening that diagnosis.`;
+    decision.finding_disposition = unsupported ? "reject" : "accept";
+    decision.rationale = unsupported
+      ? `${decision.comparison_id}: the diagnostic claim conflicts with the explicit textual fact.`
+      : `${decision.comparison_id}: the specific evidence supports the bounded diagnostic claim.`;
+    decision.blind_difference_reconciliation = "";
+  }
+  writeJson(stageTwoAPath, stageTwoA);
+  return stageTwoAPath;
+}
+
 function completeStageTwoB(outputDir) {
   const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
   const manifestById = new Map(
@@ -176,6 +216,15 @@ test("V2 keeps roles hidden through blind finding adjudication", () => {
       /^[a-f0-9]{64}$/,
     );
     assert.equal(
+      readJson(path.join(outputDir, "stage-2a-decisions.json")).version,
+      "2.0.0",
+    );
+    assert.equal(
+      "evidence_support" in
+        readJson(path.join(outputDir, "stage-2a-decisions.json")).comparisons[0],
+      false,
+    );
+    assert.equal(
       fs.existsSync(path.join(outputDir, "role-reveal-package.md")),
       false,
     );
@@ -199,6 +248,250 @@ test("V2 keeps roles hidden through blind finding adjudication", () => {
     );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test("V2.1 preserves its exact version while V2.0 remains replayable", () => {
+  const v21Dir = tempDir("writer-adjudication-v2.1-version-");
+  const v20Dir = tempDir("writer-adjudication-v2.0-version-");
+
+  try {
+    const v21Metadata = createAdjudicationRun({
+      inputPath: evidenceGateFixturePath,
+      outputDir: v21Dir,
+      seed: "protocol-v2.1-version",
+    });
+    assert.equal(v21Metadata.version, "2.1.0");
+    assert.equal(v21Metadata.protocol_version, "2.1.0");
+    assert.equal(
+      readJson(path.join(v21Dir, "sealed-manifest.json")).protocol_version,
+      "2.1.0",
+    );
+    const v21StageOnePath = completeStageOne(v21Dir);
+    revealAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOnePath,
+    });
+    const v21StageTwoAPath = completeEvidenceGateStageTwoA(v21Dir);
+    revealRolesAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOnePath,
+      stageTwoAPath: v21StageTwoAPath,
+    });
+    assert.equal(
+      readJson(path.join(v21Dir, "stage-2b-decisions.json")).version,
+      "2.1.0",
+    );
+
+    const v20Metadata = createAdjudicationRun({
+      inputPath: fixturePath,
+      outputDir: v20Dir,
+      seed: "protocol-v2.0-version",
+    });
+    assert.equal(v20Metadata.version, "2.0.0");
+    assert.equal(v20Metadata.protocol_version, "2.0.0");
+  } finally {
+    fs.rmSync(v21Dir, { recursive: true, force: true });
+    fs.rmSync(v20Dir, { recursive: true, force: true });
+  }
+});
+
+test("V2.1 creates an evidence-first Stage 2A package without role leakage", () => {
+  const outputDir = tempDir("writer-adjudication-v2.1-template-");
+
+  try {
+    createAdjudicationRun({
+      inputPath: evidenceGateFixturePath,
+      outputDir,
+      seed: "protocol-v2.1-template",
+    });
+    const stageOnePath = completeStageOne(outputDir);
+    revealAdjudicationRun({ outputDir, stageOnePath });
+
+    const stageTwoA = readJson(
+      path.join(outputDir, "stage-2a-decisions.json"),
+    );
+    assert.equal(stageTwoA.version, "2.1.0");
+    assert.deepEqual(Object.keys(stageTwoA.comparisons[0]), [
+      "comparison_id",
+      "evidence_support",
+      "evidence_basis",
+      "counterevidence_checked",
+      "finding_disposition",
+      "rationale",
+      "blind_difference_reconciliation",
+    ]);
+    assert.equal(stageTwoA.comparisons[0].evidence_support, null);
+    assert.equal(stageTwoA.comparisons[0].evidence_basis, "");
+    assert.equal(stageTwoA.comparisons[0].counterevidence_checked, "");
+
+    const findingPackage = fs.readFileSync(
+      path.join(outputDir, "finding-package.md"),
+      "utf8",
+    );
+    assert.match(
+      findingPackage,
+      /Judge whether the evidence supports the predicate before choosing a disposition\./,
+    );
+    assert.match(
+      findingPackage,
+      /`supported`, `contradicted`, or `insufficient`/,
+    );
+    assert.match(
+      findingPackage,
+      /Check contrary or weakening textual evidence and record what you checked\./,
+    );
+    assert.match(findingPackage, /### Context/);
+    assert.match(findingPackage, /### Variant A/);
+    assert.match(findingPackage, /### Variant B/);
+    assert.match(findingPackage, /A courier hears the lock turn behind her\./);
+    assert.match(findingPackage, /She hurried away\./);
+    assert.match(
+      findingPackage,
+      /The lock clicked; she took the stairs three at a time\./,
+    );
+    assert.doesNotMatch(
+      findingPackage,
+      /\bbaseline\b|\bchallenger\b|weak_challenger|unsupported_finding/i,
+    );
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test("V2.1 enforces the evidence-support disposition matrix", () => {
+  const cases = [
+    ["supported", "accept", true],
+    ["supported", "uncertain", true],
+    ["contradicted", "reject", true],
+    ["insufficient", "reject", true],
+    ["insufficient", "uncertain", true],
+    ["contradicted", "accept", false],
+    ["insufficient", "accept", false],
+    ["supported", "reject", false],
+  ];
+
+  for (const [support, disposition, allowed] of cases) {
+    const outputDir = tempDir(`writer-adjudication-v2.1-${support}-`);
+    try {
+      createAdjudicationRun({
+        inputPath: evidenceGateFixturePath,
+        outputDir,
+        seed: `protocol-v2.1-${support}-${disposition}`,
+      });
+      const stageOnePath = completeStageOne(outputDir);
+      revealAdjudicationRun({ outputDir, stageOnePath });
+      const stageTwoAPath = completeEvidenceGateStageTwoA(outputDir);
+      const stageTwoA = readJson(stageTwoAPath);
+      stageTwoA.comparisons[0].evidence_support = support;
+      stageTwoA.comparisons[0].finding_disposition = disposition;
+      if (disposition === "accept") {
+        stageTwoA.comparisons[0].blind_difference_reconciliation =
+          "The evidence judgment remains the basis for this acceptance.";
+      }
+      writeJson(stageTwoAPath, stageTwoA);
+
+      const run = () =>
+        revealRolesAdjudicationRun({
+          outputDir,
+          stageOnePath,
+          stageTwoAPath,
+        });
+      if (allowed) {
+        assert.equal(run().status, "AWAITING_ROLE_REVEAL_DECISION");
+      } else {
+        assert.throws(
+          run,
+          /evidence_support=.*does not allow finding_disposition=/,
+        );
+        assert.equal(
+          fs.existsSync(path.join(outputDir, "role-reveal-package.md")),
+          false,
+        );
+        assert.equal(
+          fs.existsSync(path.join(outputDir, "stage-2b-decisions.json")),
+          false,
+        );
+      }
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
+  }
+});
+
+test("V2.1 rejects missing, generic, and duplicated evidence judgments", () => {
+  const mutations = [
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[0].evidence_basis = "";
+      },
+      error: /C01\.evidence_basis must contain at least 12/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[0].rationale =
+          "Writer explicitly confirmed acceptance of this finding.";
+      },
+      error: /C01\.rationale must contain a specific evidence judgment/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[0].counterevidence_checked =
+          "No contrary evidence found";
+      },
+      error: /C01\.counterevidence_checked must identify what was checked/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[1].evidence_basis =
+          stageTwoA.comparisons[0].evidence_basis;
+      },
+      error: /C02\.evidence_basis duplicates C01\.evidence_basis/,
+    },
+    {
+      apply(stageTwoA) {
+        stageTwoA.comparisons[1].rationale =
+          `  ${stageTwoA.comparisons[0].rationale.toUpperCase()}  `;
+      },
+      error: /C02\.rationale duplicates C01\.rationale/,
+    },
+  ];
+
+  for (const mutation of mutations) {
+    const outputDir = tempDir("writer-adjudication-v2.1-specificity-");
+    try {
+      createAdjudicationRun({
+        inputPath: evidenceGateFixturePath,
+        outputDir,
+        seed: "protocol-v2.1-specificity",
+      });
+      const stageOnePath = completeStageOne(outputDir);
+      revealAdjudicationRun({ outputDir, stageOnePath });
+      const stageTwoAPath = completeEvidenceGateStageTwoA(outputDir);
+      const stageTwoA = readJson(stageTwoAPath);
+      mutation.apply(stageTwoA);
+      writeJson(stageTwoAPath, stageTwoA);
+
+      assert.throws(
+        () =>
+          revealRolesAdjudicationRun({
+            outputDir,
+            stageOnePath,
+            stageTwoAPath,
+          }),
+        mutation.error,
+      );
+      assert.equal(
+        fs.existsSync(path.join(outputDir, "role-reveal-package.md")),
+        false,
+      );
+      assert.equal(
+        fs.existsSync(path.join(outputDir, "stage-2b-decisions.json")),
+        false,
+      );
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
   }
 });
 
@@ -351,6 +644,125 @@ test("V2 rejects tampered finding and role-reveal packages", () => {
   } finally {
     fs.rmSync(findingDir, { recursive: true, force: true });
     fs.rmSync(roleDir, { recursive: true, force: true });
+  }
+});
+
+test("V2.1 reports evidence support without inventing V2.0 data", () => {
+  const v21Dir = tempDir("writer-adjudication-v2.1-report-");
+  const v20Dir = tempDir("writer-adjudication-v2.0-report-");
+
+  try {
+    createAdjudicationRun({
+      inputPath: evidenceGateFixturePath,
+      outputDir: v21Dir,
+      seed: "protocol-v2.1-report",
+    });
+    const v21StageOne = completeStageOne(v21Dir);
+    revealAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOne,
+    });
+    const v21StageTwoA = completeEvidenceGateStageTwoA(v21Dir);
+    revealRolesAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOne,
+      stageTwoAPath: v21StageTwoA,
+    });
+    const v21StageTwoB = completeStageTwoB(v21Dir);
+    const v21Report = scoreAdjudicationRun({
+      outputDir: v21Dir,
+      stageOnePath: v21StageOne,
+      stageTwoAPath: v21StageTwoA,
+      stageTwoBPath: v21StageTwoB,
+    });
+    assert.deepEqual(v21Report.evidence_gate, {
+      protocol_version: "2.1.0",
+      support_counts: {
+        supported: 3,
+        contradicted: 1,
+        insufficient: 0,
+      },
+      by_disposition: {
+        accept: { supported: 3, contradicted: 0, insufficient: 0 },
+        reject: { supported: 0, contradicted: 1, insufficient: 0 },
+        uncertain: { supported: 0, contradicted: 0, insufficient: 0 },
+      },
+    });
+    assert.match(
+      fs.readFileSync(path.join(v21Dir, "adjudication-report.md"), "utf8"),
+      /Evidence gate protocol \| 2\.1\.0 \|/,
+    );
+
+    createAdjudicationRun({
+      inputPath: fixturePath,
+      outputDir: v20Dir,
+      seed: "protocol-v2.0-report",
+    });
+    const v20StageOne = completeStageOne(v20Dir);
+    revealAdjudicationRun({
+      outputDir: v20Dir,
+      stageOnePath: v20StageOne,
+    });
+    const v20StageTwoA = completeStageTwoA(v20Dir);
+    revealRolesAdjudicationRun({
+      outputDir: v20Dir,
+      stageOnePath: v20StageOne,
+      stageTwoAPath: v20StageTwoA,
+    });
+    const v20StageTwoB = completeStageTwoB(v20Dir);
+    const v20Report = scoreAdjudicationRun({
+      outputDir: v20Dir,
+      stageOnePath: v20StageOne,
+      stageTwoAPath: v20StageTwoA,
+      stageTwoBPath: v20StageTwoB,
+    });
+    assert.equal(v20Report.evidence_gate, null);
+  } finally {
+    fs.rmSync(v21Dir, { recursive: true, force: true });
+    fs.rmSync(v20Dir, { recursive: true, force: true });
+  }
+});
+
+test("V2.0 retained decisions replay without evidence-first fields", () => {
+  const outputDir = tempDir("writer-adjudication-v2.0-replay-");
+
+  try {
+    createAdjudicationRun({
+      inputPath: fixturePath,
+      outputDir,
+      seed: "protocol-v2.0-replay",
+    });
+    const stageOnePath = completeStageOne(outputDir);
+    revealAdjudicationRun({
+      outputDir,
+      stageOnePath,
+    });
+    const stageTwoAPath = completeStageTwoA(outputDir);
+    const stageTwoA = readJson(stageTwoAPath);
+    assert.equal("evidence_support" in stageTwoA.comparisons[0], false);
+    revealRolesAdjudicationRun({
+      outputDir,
+      stageOnePath,
+      stageTwoAPath,
+    });
+    const stageTwoBPath = completeStageTwoB(outputDir);
+    const report = scoreAdjudicationRun({
+      outputDir,
+      stageOnePath,
+      stageTwoAPath,
+      stageTwoBPath,
+    });
+
+    assert.equal(report.protocol_version, "2.0.0");
+    assert.equal(report.evidence_gate, null);
+    assert.equal(
+      report.comparisons.some(
+        (comparison) => "evidence_support" in comparison,
+      ),
+      false,
+    );
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
   }
 });
 
@@ -514,7 +926,7 @@ test("V2 CLI runs create, both reveals, and score end to end", () => {
       runCli([
         "create",
         "--input",
-        fixtureFilePath,
+        fileURLToPath(evidenceGateFixturePath),
         "--output",
         outputDir,
         "--seed",
@@ -533,7 +945,7 @@ test("V2 CLI runs create, both reveals, and score end to end", () => {
       ]),
       /AWAITING_BLIND_FINDING_ADJUDICATION/,
     );
-    const stageTwoAPath = completeStageTwoA(outputDir);
+    const stageTwoAPath = completeEvidenceGateStageTwoA(outputDir);
     assert.match(
       runCli([
         "reveal-roles",
@@ -565,6 +977,11 @@ test("V2 CLI runs create, both reveals, and score end to end", () => {
       readJson(path.join(outputDir, "adjudication-report.json"))
         .calibration.status,
       "PASS",
+    );
+    assert.equal(
+      readJson(path.join(outputDir, "adjudication-report.json")).evidence_gate
+        .protocol_version,
+      "2.1.0",
     );
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });

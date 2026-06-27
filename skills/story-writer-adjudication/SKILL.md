@@ -3,7 +3,8 @@ name: story-writer-adjudication
 description: |
   Protocol V2 writer adjudication for unresolved prose findings. Separately
   locks blind prose preference, blind finding judgment, and source-aware
-  variant disposition. Trigger:
+  variant disposition. Protocol `2.1.0` adds an evidence-first Stage 2A.
+  Trigger:
   /story-writer-adjudication, "blind adjudication", "compare revisions blind",
   "resolve critic disagreement".
 allowed-tools:
@@ -157,14 +158,25 @@ node scripts/run-writer-adjudication.mjs reveal \
 ```
 
 The runner refuses incomplete decisions, package tampering, or a mismatched
-hash. Protocol V2 creates `finding-package.md` and
-`stage-2a-decisions.json`. Source roles and calibration labels remain hidden.
+hash. Protocol V2 creates `finding-package.md`, repeating the context and both
+blinded variants, plus `stage-2a-decisions.json`. Source roles and calibration
+labels remain hidden.
 The writer records:
 
+- `evidence_support`: `supported`, `contradicted`, or `insufficient` for
+  new `2.1.0` runs
+- `evidence_basis`: the specific textual basis for that judgment on `2.1.0`
+  runs
+- `counterevidence_checked`: what contrary or weakening evidence was checked on
+  `2.1.0` runs
 - `finding_disposition`: `accept`, `reject`, or `uncertain`
 - rationale
 - `blind_difference_reconciliation` when accepting a finding after Stage 1
   recorded `meaningful_difference: no`
+
+For new `2.1.0` runs, only `supported` may be accepted, `contradicted` must be
+rejected, and `insufficient` may only end as `reject` or `uncertain`. Generic
+or duplicated evidence judgments fail closed before source-role reveal.
 
 Set `status` to `COMPLETE` only when every finding is decided.
 
@@ -201,6 +213,7 @@ The report separates:
 
 - baseline/challenger blind preference
 - accepted/rejected/uncertain findings
+- evidence-gate support counts for `2.1.0` runs
 - explicit baseline/challenger disposition and post-reveal reversals
 - writer review minutes, recorded agent calls, and cross-scene repetition effect
 - weak-challenger resistance and unsupported-finding acceptance
@@ -257,6 +270,7 @@ critic score.
 - A retained example with no completed human decision is a harness
   demonstration, not quality evidence.
 - Runs created with input version `1.x` retain the legacy combined Stage 2 for
-  reproducibility. New runs must use input version `2.0.0`.
+  reproducibility. Retained `2.0.0` runs replay the earlier split Stage 2
+  without evidence-first fields. New runs must use input version `2.1.0`.
 - Do not calibrate a general rule from one story or one writer. Require repeated
   adjudications across distinct material.

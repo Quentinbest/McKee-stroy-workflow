@@ -1,0 +1,49 @@
+{
+  "version": "2.1.0",
+  "protocol_version": "2.1.0",
+  "run_id": "2026-06-18-protocol-v2.1-stage-2a-pilot",
+  "title": "Protocol V2.1 Stage 2A operator pilot",
+  "status": "COMPLETE",
+  "comparison_count": 4,
+  "seed": "20260618-stage-2a",
+  "package_sha256": "2014029af4c3f6c9551e2f2b1503d5b63cf00e5a6ad40207c22ece6dd239fe69",
+  "input_sha256": "540fc5925ebce18a8dd9a6bec4545d54c727287b36966badfb225dc8960c8c62",
+  "process_metrics": {
+    "critic_agent_calls": 0,
+    "variant_generation_agent_calls": 0,
+    "notes": "Synthetic AI-operated usability pilot; not human evidence. Decisions are retained to test the public workflow and evidence gate."
+  },
+  "calibration": {
+    "mode": "prospective",
+    "pilot_id": "protocol-v2.1-stage-2a-operator-pilot",
+    "minimum_comparisons": 4,
+    "minimum_distinct_scenes": 2,
+    "required_categories": [
+      "specificity",
+      "closure"
+    ],
+    "control_policies": {
+      "weak_challenger": {
+        "minimum_count": 1
+      },
+      "unsupported_finding": {
+        "minimum_count": 1
+      }
+    },
+    "success_gates": {
+      "minimum_weak_challenger_resistance_percent": 80,
+      "maximum_unsupported_findings_accepted": 0,
+      "maximum_acceptances_without_meaningful_difference": 0
+    },
+    "notes": "Control labels remain sealed until scoring.",
+    "distinct_scenes": 2,
+    "control_count": 1,
+    "weak_challenger_control_count": 1,
+    "unsupported_finding_control_count": 1
+  },
+  "human_evidence_recorded": true,
+  "stage_1_sha256": "30f97defd3f5aa3111c39acf0bb86e1c5aaf274f4bee4faac6377317f7345ed3",
+  "stage_2a_sha256": "cc968bbafd9d389b84a84dcf1046be1895a95a478cd66d3242dd164d91aaf5e4",
+  "stage_2b_sha256": "4b5b177d500db22500ba34a6606536fa3d798f83f9ffb806953f48b11058857b",
+  "calibration_status": "PASS"
+}
