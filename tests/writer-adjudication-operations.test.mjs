@@ -81,6 +81,61 @@ function completeSingleComparisonRun({ inputPath, outputDir }) {
   });
 }
 
+function completeApprovedRun({ inputPath, outputDir }) {
+  createAdjudicationRun({
+    inputPath,
+    outputDir,
+    seed: "operations-multi-seed",
+  });
+  const manifest = readJson(path.join(outputDir, "sealed-manifest.json"));
+  const stageOnePath = path.join(outputDir, "stage-1-decisions.json");
+  const stageOne = readJson(stageOnePath);
+  stageOne.status = "COMPLETE";
+  stageOne.reviewer = {
+    id: "test-writer",
+    started_at: "2026-06-12T15:00:00Z",
+    completed_at: "2026-06-12T15:02:00Z",
+  };
+  stageOne.comparisons = stageOne.comparisons.map((decision) => {
+    const comparison = manifest.comparisons.find(
+      (candidate) => candidate.comparison_id === decision.comparison_id,
+    );
+    const challengerLabel = Object.entries(comparison.variant_roles).find(
+      ([, role]) => role === "challenger",
+    )[0];
+    return {
+      ...decision,
+      preferred_variant: challengerLabel,
+      confidence: 4,
+      meaningful_difference: "yes",
+      reasons: ["more precise"],
+    };
+  });
+  writeJson(stageOnePath, stageOne);
+
+  revealAdjudicationRun({ outputDir, stageOnePath });
+  const stageTwoPath = path.join(outputDir, "stage-2-decisions.json");
+  const stageTwo = readJson(stageTwoPath);
+  stageTwo.status = "COMPLETE";
+  stageTwo.reviewer = {
+    id: "test-writer",
+    started_at: "2026-06-12T15:02:00Z",
+    completed_at: "2026-06-12T15:03:00Z",
+  };
+  stageTwo.comparisons = stageTwo.comparisons.map((decision) => ({
+    ...decision,
+    finding_disposition: "accept",
+    adopt_preferred_variant: "yes",
+    rationale: "Use the selected revision.",
+  }));
+  stageTwo.batch_effect = {
+    cross_scene_repetition: "unchanged",
+    notes: "",
+  };
+  writeJson(stageTwoPath, stageTwo);
+  scoreAdjudicationRun({ outputDir, stageOnePath, stageTwoPath });
+}
+
 test("approved variant application is dry-run by default and exact-match only", () => {
   const rootDir = tempDir("writer-adjudication-apply-root-");
   const outputDir = tempDir("writer-adjudication-apply-run-");
@@ -148,6 +203,7 @@ test("approved variant application is dry-run by default and exact-match only", 
     assert.equal(dryRun.status, "DRY_RUN");
     assert.equal(dryRun.operations[0].status, "READY");
     assert.equal(fs.readFileSync(targetPath, "utf8"), `${baseline}\n`);
+    assert.equal(fs.existsSync(path.join(outputDir, "application-journal.json")), false);
 
     const applied = applyAdjudicationRun({
       outputDir,
@@ -169,6 +225,128 @@ test("approved variant application is dry-run by default and exact-match only", 
         }),
       /exactly once/,
     );
+  } finally {
+    fs.rmSync(rootDir, { recursive: true, force: true });
+    fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test("multi-file application commits all targets and records an applied journal", () => {
+  const rootDir = tempDir("writer-adjudication-multi-root-");
+  const outputDir = tempDir("writer-adjudication-multi-run-");
+  const inputPath = path.join(rootDir, "input.json");
+  const targets = [
+    { source: "apply-1", file: "drafts/one.md", baseline: "The gate stayed closed.", challenger: "The gate shuddered once." },
+    { source: "apply-2", file: "drafts/two.md", baseline: "The bell stayed silent.", challenger: "The bell answered once." },
+  ];
+
+  try {
+    for (const target of targets) {
+      const targetPath = path.join(rootDir, target.file);
+      fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+      fs.writeFileSync(targetPath, `${target.baseline}\n`);
+    }
+    writeJson(inputPath, {
+      version: "1.0.0",
+      run_id: "operations-multi",
+      title: "Operations multi",
+      comparisons: targets.map((target) => ({
+        id: target.source,
+        source_ref: target.source,
+        authority_attestation: {
+          protected_fields_unchanged: true,
+          notes: "No protected field changes.",
+        },
+        context: "A physical response is under pressure.",
+        baseline_text: target.baseline,
+        challenger_text: target.challenger,
+        application: { target_file: target.file },
+        finding: {
+          predicate: "specificity",
+          evidence: "The physical response is currently abstract.",
+          question: "Does one concrete response improve the beat?",
+        },
+      })),
+    });
+    completeApprovedRun({ inputPath, outputDir });
+    const applied = applyAdjudicationRun({ outputDir, inputPath, rootDir, write: true });
+    assert.equal(applied.status, "APPLIED");
+    for (const target of targets) {
+      assert.equal(
+        fs.readFileSync(path.join(rootDir, target.file), "utf8"),
+        `${target.challenger}\n`,
+      );
+    }
+    const journal = readJson(path.join(outputDir, "application-journal.json"));
+    assert.equal(journal.status, "APPLIED");
+    assert.equal(journal.operations.every((operation) => operation.status === "COMMITTED"), true);
+  } finally {
+    fs.rmSync(rootDir, { recursive: true, force: true });
+    fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test("a later commit failure restores earlier targets and records rollback", () => {
+  const rootDir = tempDir("writer-adjudication-rollback-root-");
+  const outputDir = tempDir("writer-adjudication-rollback-run-");
+  const inputPath = path.join(rootDir, "input.json");
+  const targets = [
+    { source: "rollback-1", file: "drafts/one.md", baseline: "The gate stayed closed.", challenger: "The gate shuddered once." },
+    { source: "rollback-2", file: "drafts/two.md", baseline: "The bell stayed silent.", challenger: "The bell answered once." },
+  ];
+
+  try {
+    for (const target of targets) {
+      const targetPath = path.join(rootDir, target.file);
+      fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+      fs.writeFileSync(targetPath, `${target.baseline}\n`);
+    }
+    writeJson(inputPath, {
+      version: "1.0.0",
+      run_id: "operations-rollback",
+      title: "Operations rollback",
+      comparisons: targets.map((target) => ({
+        id: target.source,
+        source_ref: target.source,
+        authority_attestation: {
+          protected_fields_unchanged: true,
+          notes: "No protected field changes.",
+        },
+        context: "A physical response is under pressure.",
+        baseline_text: target.baseline,
+        challenger_text: target.challenger,
+        application: { target_file: target.file },
+        finding: {
+          predicate: "specificity",
+          evidence: "The physical response is currently abstract.",
+          question: "Does one concrete response improve the beat?",
+        },
+      })),
+    });
+    completeApprovedRun({ inputPath, outputDir });
+    assert.throws(
+      () => applyAdjudicationRun({ outputDir, inputPath, rootDir, write: true, failAfter: 1 }),
+      /Injected commit failure.*restored/,
+    );
+    for (const target of targets) {
+      assert.equal(
+        fs.readFileSync(path.join(rootDir, target.file), "utf8"),
+        `${target.baseline}\n`,
+      );
+    }
+    const journal = readJson(path.join(outputDir, "application-journal.json"));
+    assert.equal(journal.status, "ROLLED_BACK");
+    assert.ok(journal.error.includes("Injected commit failure"));
+    assert.equal(readJson(path.join(outputDir, "application-plan.json")).status, "ROLLED_BACK");
+
+    const retry = applyAdjudicationRun({ outputDir, inputPath, rootDir, write: true });
+    assert.equal(retry.status, "APPLIED");
+    for (const target of targets) {
+      assert.equal(
+        fs.readFileSync(path.join(rootDir, target.file), "utf8"),
+        `${target.challenger}\n`,
+      );
+    }
   } finally {
     fs.rmSync(rootDir, { recursive: true, force: true });
     fs.rmSync(outputDir, { recursive: true, force: true });

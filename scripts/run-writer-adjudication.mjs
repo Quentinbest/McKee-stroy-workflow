@@ -2442,6 +2442,7 @@ export function applyAdjudicationRun({
   inputPath,
   rootDir,
   write = false,
+  failAfter = null,
 }) {
   const { input, report } = completedRunArtifacts(outputDir, inputPath);
   const inputById = new Map(
@@ -2542,41 +2543,15 @@ export function applyAdjudicationRun({
     );
   }
 
-  if (write) {
-    const plannedFiles = new Map();
-    for (const operation of internalOperations.filter(
-      (candidate) => candidate.status === "READY",
-    )) {
-      const content =
-        plannedFiles.get(operation.target_path) ??
-        fs.readFileSync(operation.target_path, "utf8");
-      if (countOccurrences(content, operation.baseline_text) !== 1) {
-        throw new Error(
-          `Approved baseline must occur exactly once after planned replacements: ${operation.source_id}`,
-        );
-      }
-      plannedFiles.set(
-        operation.target_path,
-        content.replace(
-          operation.baseline_text,
-          operation.challenger_text,
-        ),
-      );
-    }
-    for (const [targetPath, content] of plannedFiles) {
-      fs.writeFileSync(targetPath, content);
-    }
-    for (const operation of internalOperations) {
-      if (operation.status === "READY") {
-        operation.status = "APPLIED";
-      }
-    }
-  }
+  let applicationStatus = write ? "APPLIED" : "DRY_RUN";
+  let applicationJournal = null;
+  let applicationJournalPath = null;
+  let applicationStagePath = null;
 
-  const plan = {
+  const buildPlan = () => ({
     version: report.protocol_version ?? PROTOCOL_V1,
     run_id: report.run_id,
-    status: write ? "APPLIED" : "DRY_RUN",
+    status: applicationStatus,
     operations: internalOperations.map((operation) => ({
       comparison_id: operation.comparison_id,
       source_id: operation.source_id,
@@ -2590,7 +2565,151 @@ export function applyAdjudicationRun({
         ? sha256(operation.challenger_text)
         : null,
     })),
-  };
+  });
+
+  if (write) {
+    const plannedFiles = new Map();
+    const originalFiles = new Map();
+    const readyOperations = internalOperations.filter(
+      (candidate) => candidate.status === "READY",
+    );
+
+    // Build every final file in memory before touching the filesystem. This
+    // preserves the existing exact-match preflight for batches that target the
+    // same file more than once.
+    for (const operation of readyOperations) {
+      if (!plannedFiles.has(operation.target_path)) {
+        const original = fs.readFileSync(operation.target_path, "utf8");
+        originalFiles.set(operation.target_path, original);
+        plannedFiles.set(operation.target_path, original);
+      }
+      const content = plannedFiles.get(operation.target_path);
+      if (countOccurrences(content, operation.baseline_text) !== 1) {
+        throw new Error(
+          `Approved baseline must occur exactly once after planned replacements: ${operation.source_id}`,
+        );
+      }
+      plannedFiles.set(
+        operation.target_path,
+        content.replace(operation.baseline_text, operation.challenger_text),
+      );
+    }
+
+    const stamp = `${Date.now()}-${process.pid}-${crypto.randomBytes(4).toString("hex")}`;
+    applicationStagePath = path.join(
+      outputDir,
+      `.writer-adjudication-application-${stamp}`,
+    );
+    applicationJournalPath = path.join(outputDir, "application-journal.json");
+    const journalOperations = [];
+
+    try {
+      fs.mkdirSync(applicationStagePath, { recursive: true });
+      let index = 0;
+      for (const [targetPath, content] of plannedFiles) {
+        const backupPath = path.join(applicationStagePath, `original-${index}.txt`);
+        const stagedPath = path.join(applicationStagePath, `replacement-${index}.txt`);
+        const original = originalFiles.get(targetPath);
+        fs.writeFileSync(backupPath, original);
+        fs.writeFileSync(stagedPath, content);
+        journalOperations.push({
+          target_path: targetPath,
+          original_sha256: sha256(original),
+          replacement_sha256: sha256(content),
+          backup_path: backupPath,
+          staged_path: stagedPath,
+          status: "STAGED",
+        });
+        index += 1;
+      }
+
+      applicationJournal = {
+        version: "1.0.0",
+        run_id: report.run_id,
+        status: "STAGED",
+        created_at: new Date().toISOString(),
+        operations: journalOperations,
+      };
+      writeJson(applicationJournalPath, applicationJournal);
+
+      let committedCount = 0;
+      for (const journalOperation of journalOperations) {
+        if (failAfter !== null && committedCount >= failAfter) {
+          throw new Error(`Injected commit failure after ${failAfter} file(s)`);
+        }
+        const current = fs.readFileSync(journalOperation.target_path);
+        if (sha256(current) !== journalOperation.original_sha256) {
+          throw new Error(
+            `Target changed during application: ${journalOperation.target_path}`,
+          );
+        }
+        fs.writeFileSync(
+          journalOperation.target_path,
+          fs.readFileSync(journalOperation.staged_path),
+        );
+        journalOperation.status = "COMMITTED";
+        committedCount += 1;
+      }
+
+      for (const operation of internalOperations) {
+        if (operation.status === "READY") {
+          operation.status = "APPLIED";
+        }
+      }
+      applicationJournal.status = "APPLIED";
+      applicationJournal.applied_at = new Date().toISOString();
+      applicationJournal.operations = journalOperations;
+      writeJson(applicationJournalPath, applicationJournal);
+      applicationStatus = "APPLIED";
+      fs.rmSync(applicationStagePath, { recursive: true, force: true });
+    } catch (error) {
+      const rollbackErrors = [];
+      for (const journalOperation of [...journalOperations].reverse()) {
+        try {
+          fs.writeFileSync(
+            journalOperation.target_path,
+            fs.readFileSync(journalOperation.backup_path),
+          );
+          journalOperation.status = "ROLLED_BACK";
+        } catch (rollbackError) {
+          rollbackErrors.push({
+            target_path: journalOperation.target_path,
+            message: rollbackError.message,
+          });
+          journalOperation.status = "ROLLBACK_FAILED";
+        }
+      }
+      applicationStatus = rollbackErrors.length > 0 ? "ROLLBACK_FAILED" : "ROLLED_BACK";
+      applicationJournal = {
+        ...(applicationJournal ?? {
+          version: "1.0.0",
+          run_id: report.run_id,
+          created_at: new Date().toISOString(),
+        }),
+        status: applicationStatus,
+        error: error.message,
+        rollback_errors: rollbackErrors,
+        rolled_back_at: new Date().toISOString(),
+        operations: journalOperations,
+      };
+      if (applicationJournalPath) {
+        writeJson(applicationJournalPath, applicationJournal);
+      }
+      for (const operation of internalOperations) {
+        if (operation.status === "READY") {
+          operation.status = "ROLLED_BACK";
+        }
+      }
+      const rollbackPlan = buildPlan();
+      writeJson(path.join(outputDir, "application-plan.json"), rollbackPlan);
+      const suffix = rollbackErrors.length > 0
+        ? ` Rollback also failed for: ${rollbackErrors.map((item) => item.target_path).join(", ")}`
+        : " All committed targets were restored.";
+      throw new Error(`${error.message}.${suffix}`);
+    }
+  }
+
+  const plan = buildPlan();
   writeJson(path.join(outputDir, "application-plan.json"), plan);
   return plan;
 }

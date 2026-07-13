@@ -248,7 +248,11 @@ baseline occurs exactly once in the declared target.
 
 Inspect `application-plan.json`, then add `--write` to apply all ready
 operations. Any missing or stale target blocks the write before any file is
-changed.
+changed. A write stages every replacement and records original hashes and
+backup paths in `application-journal.json`; all targets commit as one
+journaled batch. If a later target fails, earlier targets are restored and the
+journal records `ROLLED_BACK` (or `ROLLBACK_FAILED`) rather than reporting
+`APPLIED`. A dry run never creates this mutation journal.
 
 ## Aggregate completed runs
 

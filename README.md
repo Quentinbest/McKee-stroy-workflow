@@ -175,12 +175,26 @@ cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 cp McKee-stroy-workflow/templates/beat-gate-policy.json drafts/my-story/beat-gate-policy.json
 ```
 
+These manual copies are for a first install. For upgrades, use `install.sh` so
+managed skill directories are replaced cleanly and existing draft state is
+preserved.
+
 ### Optional: verify
+
+Repository verification is a maintainer task. It requires Node.js 18 or newer
+and the pinned development dependency in `package-lock.json`:
+
+```bash
+npm ci
+```
+
+The installer remains Bash-only and does not install Node dependencies into
+end-user story projects.
 
 ```bash
 # Verify Beat Gate contracts and fixtures
-node scripts/verify-beat-gate.mjs
-node --test tests/*.test.mjs
+npm run verify
+npm test
 node scripts/run-beat-gate-dry-run.mjs
 node scripts/run-beat-gate-dogfood.mjs
 node scripts/compare-beat-gate-critics.mjs \
@@ -246,6 +260,13 @@ but two weak controls also won and control resistance was only 33.3%. That
 failure motivated Protocol V2's separate unsupported-finding controls and
 `PASS` / `WARN` / `FAIL` gates. The retained evidence remains unchanged and
 must not be treated as Protocol V2 validation.
+
+Applying approved challenger variants is still explicit and exact-match only.
+The default preview writes `application-plan.json` without touching draft
+files. A `--write` commit stages replacements and records original hashes and
+backup paths in `application-journal.json`; if any later target fails, earlier
+targets are restored and the journal reports `ROLLED_BACK` rather than a
+partial `APPLIED` result.
 
 ---
 

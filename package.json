@@ -1,0 +1,16 @@
+{
+  "name": "mckee-story-workflow",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "verify": "node scripts/verify-beat-gate.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "yaml": "^2.9.0"
+  }
+}
