@@ -1,6 +1,6 @@
 ---
 name: surprise-auditor
-description: Use this agent after a full prose draft exists to audit the Inevitable-Surprise architecture — whether the planted dual-reading items actually work. Reads the story as a naive reader (no advance knowledge of the misdirection plan), then cross-references against the misdirection plan to verify: (1) the surface misdirection holds through Acts 1–2, (2) each planted item is available for the true reading in retrospect, (3) the Climax delivers the re-read moment. Invoke after /mck-surprise-plant PLANT and after full prose is committed. Hand it the prose files and misdirection-plan.md; it returns drafts/{title}/surprise-audit.md.
+description: "Use this agent after a full prose draft exists to audit the Inevitable-Surprise architecture — whether the planted dual-reading items actually work. Reads the story as a naive reader (no advance knowledge of the misdirection plan), then cross-references against the misdirection plan to verify: (1) the surface misdirection holds through Acts 1–2, (2) each planted item is available for the true reading in retrospect, (3) the Climax delivers the re-read moment. Invoke after /mck-surprise-plant PLANT and after full prose is committed. Hand it the prose files and misdirection-plan.md; it returns drafts/{title}/surprise-audit.md."
 tools: Read, Write, Edit, Grep, Glob
 model: opus
 ---

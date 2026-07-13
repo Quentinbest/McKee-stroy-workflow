@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { discoverPromptFiles, validateFrontmatterFile } from "./frontmatter.mjs";
 
 const requiredFiles = [
   "templates/beat-gate-policy.json",
@@ -206,6 +207,17 @@ for (const { file, needle } of stringChecks) {
   const content = fs.readFileSync(file, "utf8");
   if (!content.includes(needle)) {
     fail(`${file} is missing required text: ${needle}`);
+  }
+}
+
+// Discover prompt files from the repository tree instead of maintaining a
+// second hard-coded list. This catches newly added skills and agents as well
+// as malformed existing prompts.
+for (const { filePath, kind } of discoverPromptFiles(process.cwd())) {
+  try {
+    validateFrontmatterFile(filePath, kind);
+  } catch (error) {
+    fail(`${path.relative(process.cwd(), filePath)}: ${error.message}`);
   }
 }
 
