@@ -219,6 +219,12 @@ verifies deterministic cleanup, protected-field rejection, human decisions,
 non-convergence escalation, and rolling review artifacts without using a real
 manuscript.
 
+Beat Gate core protections (Premise, character desire, relationship stance,
+causality, Gap, Turning Point, Value Shift, and world core facts) are built in.
+Project `protected_fields` only add protection; omitted, empty, or partial
+legacy arrays cannot remove the core set. / Beat Gate 核心保护为内置规则，项目
+策略只能追加，不能通过缺失、空数组或子集配置将其删除。
+
 The dogfood benchmark runs a four-scene synthetic Chinese story through the
 same runner, ledger, critic-fallback, diversity, and human-boundary contracts.
 The default fixture applies the writer's dated choice of ending `A`, commits
@@ -247,7 +253,11 @@ prior evidence stays reproducible.
 The retained Protocol V2.1 Stage 2A operator pilot completed four synthetic
 comparisons with 100% weak-challenger resistance, zero unsupported findings
 accepted, and no post-reveal reversals. It is an AI-operated workflow check,
-not human quality evidence.
+not human quality evidence. New runs record `reviewer.operator_type` at each
+stage and separate decision completion from evidence origin; missing legacy
+origin is `unknown`, never inferred as human from `human_evidence_recorded`.
+The retained AI pilot has an additive provenance-correction sidecar so its
+original evidence files remain unchanged.
 
 The retained Memory Tide pilot completed two comparisons: both challengers won
 blind, both findings were accepted, and both revisions were adopted. Treat this
@@ -265,8 +275,13 @@ Applying approved challenger variants is still explicit and exact-match only.
 The default preview writes `application-plan.json` without touching draft
 files. A `--write` commit stages replacements and records original hashes and
 backup paths in `application-journal.json`; if any later target fails, earlier
-targets are restored and the journal reports `ROLLED_BACK` rather than a
-partial `APPLIED` result.
+targets changed by this operation are restored while untouched staged targets
+are left alone. If a target changed externally, current content and staged
+recovery files are preserved and both the plan and journal report
+`RECOVERY_REQUIRED`, never partial `APPLIED`. The journal records `WRITING`
+before each write, which supports ordinary exception recovery; power loss or a
+forced process kill can still require manual recovery from the retained backup
+and staged files.
 
 ---
 

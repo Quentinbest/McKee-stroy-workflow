@@ -177,6 +177,49 @@ test("protected mappings are rejected before local AUTO application", () => {
   assert.ok(result.reject_items.some((item) => item.code === "protected_contract_overlap"));
 });
 
+test("core protected fields cannot be removed by missing, empty, or partial policy configuration", () => {
+  const basePolicy = readFixture("normal.json").policy;
+  const policyVariants = [
+    Object.fromEntries(Object.entries(basePolicy).filter(([key]) => key !== "protected_fields")),
+    { ...basePolicy, protected_fields: [] },
+    { ...basePolicy, protected_fields: ["custom_story_fact"] },
+  ];
+
+  for (const policy of policyVariants) {
+    policy.term_mappings = [
+      {
+        canonical: "new desire",
+        aliases: ["old desire"],
+        forced_dimension: "character_desire",
+      },
+    ];
+    const result = applyBeatGateRules({
+      policy,
+      candidate_text: "She still follows the old desire.\n",
+    });
+    assert.equal(result.patches.length, 0);
+    assert.ok(result.reject_items.some((item) => item.code === "protected_contract_overlap"));
+  }
+});
+
+test("policy protected fields extend the immutable core set", () => {
+  const policy = readFixture("normal.json").policy;
+  policy.protected_fields = ["custom_story_fact"];
+  policy.term_mappings = [
+    {
+      canonical: "new fact",
+      aliases: ["old fact"],
+      forced_dimension: "custom_story_fact",
+    },
+  ];
+  const result = applyBeatGateRules({
+    policy,
+    candidate_text: "The old fact remains.\n",
+  });
+  assert.equal(result.patches.length, 0);
+  assert.ok(result.reject_items.some((item) => item.code === "protected_contract_overlap"));
+});
+
 test("protected fields cannot be silently accepted in the ledger", () => {
   const ledger = {
     version: "1.0.0",

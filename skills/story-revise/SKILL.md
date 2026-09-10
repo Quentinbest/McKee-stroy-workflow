@@ -13,6 +13,7 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
+  - Bash
   - Agent
 triggers:
   - revise the draft
@@ -123,8 +124,17 @@ Summary: [what was fixed]
 Outstanding: [what wasn't fixed and why]
 ```
 
+Also append a structured `revision_records` entry to `lifecycle.json` with the
+selected pass, exact files changed, timestamp, and completion status. Any prose
+or creative-constraint edit must invalidate affected audit records using the
+same reason and changed paths; a report file remaining on disk does not keep it
+valid. / 每次修订需记录范围；正文或约束变化必须使关联审查失效。
+
 ## After All Passes
 
-Update `lifecycle.json`: `state: "polished"`, `locked.polished: true`
+Set `state: "polished"` and `locked.polished: true` only when every required
+revision pass is represented by a completed, current `revision_records` entry.
+Running only the user-selected pass completes only that pass and must not imply
+all revision work is finished. / 只完成用户选择的一项修订，不代表全部必要修订完成。
 
 Suggest: `/story-publish` to assemble the final manuscript.

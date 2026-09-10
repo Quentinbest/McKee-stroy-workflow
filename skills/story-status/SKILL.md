@@ -10,6 +10,7 @@ allowed-tools:
   - Read
   - Glob
   - Grep
+  - Bash
 triggers:
   - project status
   - where are we
@@ -57,7 +58,20 @@ If Writer Adjudication artifacts are declared:
   `drafts/{slug}/audit/adjudication/`
 - report its protocol version, workflow status, and calibration status
 
-**Stale-manuscript check**: if `manuscript.md` exists, compare its modified time against the newest file in `prose/`. If any prose file is newer than the manuscript, the manuscript is **stale** — prose was edited after the last assembly (a common situation after a post-publish expansion). Flag it as a blocking issue and recommend re-running `/story-publish` to regenerate. Do the same for `colophon.md` word counts if present.
+**Audit validity check**: recompute hashes for current prose and constraints and
+evaluate `lifecycle.audit_records` with
+`skills/story-audit/scripts/audit-state.mjs`. Show local/partial passes as such;
+never infer a global pass from report-file presence. If `state` and any lock
+claim disagree, show a blocking lifecycle conflict and withhold the next-step
+recommendation. / 重新计算输入哈希并执行状态判定；报告文件存在本身不代表通过。
+
+**Stale-manuscript check**: use the newest `export_records` entry and
+`skills/story-publish/scripts/publish-state.mjs` semantics to compare source
+hashes and the recorded manuscript hash. Modified time is advisory only. An
+independently edited manuscript is a blocking, untraceable difference that must
+be shown before any rebuild; changed source prose means rebuild from sources.
+Run its `evaluate --input <evaluation.json> --output <result.json>` command and
+display the returned status.
 
 ## Step 4 — Display Status Report
 
@@ -93,6 +107,9 @@ ARTIFACTS
   Last Rolling: {most recent rolling report or none}
   Adjudication: {protocol version | absent} / {workflow status}
   Calibration:  {PASS | WARN | FAIL | not assessed}
+  Audit scope:  {full story | act | scenes | unverified}
+  Audit input:  {current | stale | unverified}
+  Export:       {current | source-stale | untraceable-edit | absent}
 
 NEXT STEP
   → {suggested next action}
@@ -100,7 +117,9 @@ NEXT STEP
 
 ## Step 5 — Suggest Next
 
-Based on `state`, suggest the next natural action:
+Based on the evaluated effective state (not the raw `state` field alone),
+suggest the next natural action. When lifecycle conflicts exist, stop here and
+recommend resolving them first:
 
 | State | Suggestion |
 |---|---|

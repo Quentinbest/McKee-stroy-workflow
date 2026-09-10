@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   FrontmatterError,
   discoverPromptFiles,
@@ -10,7 +11,7 @@ import {
   validateFrontmatterFile,
 } from '../scripts/frontmatter.mjs';
 
-const repoRoot = path.resolve(import.meta.dirname, '..');
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 test('all repository skills and agents have valid frontmatter', () => {
   const prompts = discoverPromptFiles(repoRoot);

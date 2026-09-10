@@ -8,7 +8,7 @@ export const BUILTIN_RULES = Object.freeze({
   locked_term_alias: "Replace exact literal aliases with canonical locked terms."
 });
 
-const DEFAULT_PROTECTED_FIELDS = new Set([
+export const CORE_PROTECTED_FIELDS = Object.freeze([
   "premise",
   "character_desire",
   "relationship_stance",
@@ -19,6 +19,10 @@ const DEFAULT_PROTECTED_FIELDS = new Set([
   "world_core_fact"
 ]);
 
+function effectiveProtectedFields(configuredFields = []) {
+  return new Set([...CORE_PROTECTED_FIELDS, ...configuredFields]);
+}
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -27,7 +31,10 @@ function literalRegex(text) {
   return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
 }
 
-function hasProtectedDimension(dimensions = [], protectedFields = DEFAULT_PROTECTED_FIELDS) {
+function hasProtectedDimension(
+  dimensions = [],
+  protectedFields = effectiveProtectedFields(),
+) {
   return dimensions.some((dimension) => protectedFields.has(dimension));
 }
 
@@ -84,7 +91,7 @@ export function validatePolicy(policy) {
       }
     }
   }
-  const protectedFields = new Set(
+  const protectedFields = effectiveProtectedFields(
     Array.isArray(policy.protected_fields) ? policy.protected_fields : [],
   );
 
@@ -149,7 +156,7 @@ export function validatePolicy(policy) {
   }
 
   for (const field of protectedFields) {
-    if (DEFAULT_PROTECTED_FIELDS.has(field) && policy.auto_rules.includes(field)) {
+    if (CORE_PROTECTED_FIELDS.includes(field) && policy.auto_rules.includes(field)) {
       errors.push({
         code: "protected_rule_in_auto",
         field,
@@ -382,7 +389,7 @@ export function applyBeatGateRules(input) {
   const rawPolicy = input?.policy;
   const policy = rawPolicy && typeof rawPolicy === "object" ? clone(rawPolicy) : rawPolicy;
   const candidateText = typeof input?.candidate_text === "string" ? input.candidate_text : "";
-  const protectedFields = new Set(
+  const protectedFields = effectiveProtectedFields(
     policy && Array.isArray(policy.protected_fields) ? policy.protected_fields : [],
   );
   const policyValidation = validatePolicy(policy);

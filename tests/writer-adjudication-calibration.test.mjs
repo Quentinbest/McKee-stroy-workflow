@@ -113,6 +113,7 @@ test("calibration scoring reports control resistance separately", () => {
     stageOne.status = "COMPLETE";
     stageOne.reviewer = {
       id: "test-writer",
+      operator_type: "human",
       started_at: "2026-06-12T14:00:00Z",
       completed_at: "2026-06-12T14:20:00Z",
     };
@@ -147,6 +148,7 @@ test("calibration scoring reports control resistance separately", () => {
     stageTwo.status = "COMPLETE";
     stageTwo.reviewer = {
       id: "test-writer",
+      operator_type: "human",
       started_at: "2026-06-12T14:20:00Z",
       completed_at: "2026-06-12T14:30:00Z",
     };
