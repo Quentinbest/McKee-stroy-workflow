@@ -24,8 +24,13 @@
   "target_total": null,
   "workflow_versions": {
     "beat_gate": null,
-    "writer_adjudication": null
+    "writer_adjudication": null,
+    "story_audit": null,
+    "story_publish": null
   },
+  "audit_records": [],
+  "revision_records": [],
+  "export_records": [],
   "artifacts": {
     "premise_card": "drafts/{{slug}}/premise-card.md",
     "controlling_idea": "drafts/{{slug}}/controlling-idea.md",

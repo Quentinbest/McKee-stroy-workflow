@@ -13,6 +13,7 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
+  - Bash
 triggers:
   - publish the story
   - export the manuscript
@@ -29,6 +30,9 @@ triggers:
 Check `lifecycle.json`:
 - `locked.polished` must be `true`
 - If not, warn the user: *"The draft has not completed the revision passes. Do you want to publish anyway, or run `/story-revise` first?"*
+- Evaluate current audit scope/input validity; a stale or partial audit cannot be
+  presented as a current full-story pass. Any explicitly authorized partial
+  export must record its scope and exception. / 发布前重新判断审查有效性；局部导出需记录例外范围。
 
 ## Step 2 — Inventory All Prose Files
 
@@ -52,6 +56,19 @@ If a scan hit encodes reader-needed information (e.g. an age-system tag), it req
 Read `target_total` and per-act budgets from `act-design.md`. Count the realized total and per-act lengths. If the realized draft is well under budget (or density is inverted — setup act fattest, payoff zone thinnest), **flag it before assembling**: a draft that lands at a fraction of its intended size is the most common silent failure, and publish is the last place to catch it. Offer `/story-act {act}` Step 6.5 + `/story-scene` expansion rather than shipping under-built.
 
 ## Step 3 — Assemble the Manuscript
+
+The files in `drafts/{slug}/prose/` are the authoritative source. Before
+overwriting an existing manuscript, compare it with the newest export record.
+If its hash changed independently, stop and report the difference; do not erase
+it. Hash the complete ordered source-file list for this export. / 场景正文是默认权威来源；发现导出稿存在无法追溯的独立修改时，先停止并报告差异。
+
+Write the previous export record, current source snapshot, and current
+manuscript content to a bounded evaluation JSON, then run:
+
+`node skills/story-publish/scripts/publish-state.mjs evaluate --input <evaluation.json> --output <result.json>`
+
+Do not overwrite when the result is
+`BLOCKED_UNTRACEABLE_MANUSCRIPT_EDIT`.
 
 Create the output file `drafts/{slug}/manuscript.md`:
 
@@ -94,7 +111,9 @@ Ensure:
 ## Step 4 — Final Line-Level Polish
 
 Do one final pass reading the assembled manuscript:
-- Fix any prose that reads differently in assembled context vs. isolated
+- For prose that reads differently in assembled context, locate and edit the
+  source scene after approval, invalidate affected audits, then reassemble. Do
+  not polish only the assembled manuscript.
 - Verify the opening paragraph hooks immediately
 - Verify the closing paragraph lands the Key Image and Controlling Idea
 - Check the title — does it resonate with the Key Image?
@@ -124,6 +143,9 @@ Update `lifecycle.json`:
 - `state: "done"`, `locked.published: true`
 - `manuscript_built_at`: today's date (timestamp of this assembly). `/story-status` compares this against prose mtimes to detect a stale manuscript after later edits.
 - Record the realized length (words/CJK) and, if `act-design.md` has a `target_total`, the realized-vs-target ratio in `notes`.
+- Append an `export_records` entry containing an export ID, timestamp, exact
+  source paths and hashes, manuscript hash, workflow version, scope, and any
+  authorized exception. This makes approved source polish survive re-export.
 
 **Re-opening after `done`:** if the user later edits prose (e.g. expands an under-built act), the project is effectively back at `polished` — the manuscript, colophon counts, and notes are stale. Re-running `/story-publish` regenerates them and bumps `manuscript_built_at`. Do not treat `done` as immutable.
 

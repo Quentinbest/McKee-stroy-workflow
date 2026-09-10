@@ -8,7 +8,7 @@ export const BUILTIN_RULES = Object.freeze({
   locked_term_alias: "Replace exact literal aliases with canonical locked terms."
 });
 
-const DEFAULT_PROTECTED_FIELDS = new Set([
+export const CORE_PROTECTED_FIELDS = Object.freeze([
   "premise",
   "character_desire",
   "relationship_stance",
@@ -19,6 +19,10 @@ const DEFAULT_PROTECTED_FIELDS = new Set([
   "world_core_fact"
 ]);
 
+function effectiveProtectedFields(configuredFields = []) {
+  return new Set([...CORE_PROTECTED_FIELDS, ...configuredFields]);
+}
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -27,16 +31,121 @@ function literalRegex(text) {
   return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
 }
 
-function hasProtectedDimension(dimensions = [], protectedFields = DEFAULT_PROTECTED_FIELDS) {
+function hasProtectedDimension(
+  dimensions = [],
+  protectedFields = effectiveProtectedFields(),
+) {
   return dimensions.some((dimension) => protectedFields.has(dimension));
 }
 
 export function validatePolicy(policy) {
   const errors = [];
   const warnings = [];
-  const protectedFields = new Set(policy.protected_fields || []);
+  const addError = (code, field, message) => {
+    errors.push({ code, field, message });
+  };
 
-  for (const ruleId of policy.auto_rules || []) {
+  if (!policy || typeof policy !== "object" || Array.isArray(policy)) {
+    addError("invalid_policy", "policy", "Beat Gate policy must be an object.");
+    return { errors, warnings };
+  }
+
+  if (!Array.isArray(policy.auto_rules)) {
+    addError("invalid_auto_rules", "auto_rules", "auto_rules must be an array.");
+  } else {
+    for (const [index, ruleId] of policy.auto_rules.entries()) {
+      if (typeof ruleId !== "string" || ruleId.trim() === "") {
+        addError(
+          "invalid_rule_id",
+          `auto_rules[${index}]`,
+          "AUTO rule identifiers must be non-empty strings.",
+        );
+      }
+    }
+  }
+
+  if (policy.review_rules !== undefined && !Array.isArray(policy.review_rules)) {
+    addError("invalid_review_rules", "review_rules", "review_rules must be an array.");
+  } else if (Array.isArray(policy.review_rules)) {
+    for (const [index, ruleId] of policy.review_rules.entries()) {
+      if (typeof ruleId !== "string" || ruleId.trim() === "") {
+        addError(
+          "invalid_review_rule_id",
+          `review_rules[${index}]`,
+          "Review rule identifiers must be non-empty strings.",
+        );
+      }
+    }
+  }
+
+  if (policy.protected_fields !== undefined && !Array.isArray(policy.protected_fields)) {
+    addError("invalid_protected_fields", "protected_fields", "protected_fields must be an array.");
+  } else if (Array.isArray(policy.protected_fields)) {
+    for (const [index, field] of policy.protected_fields.entries()) {
+      if (typeof field !== "string" || field.trim() === "") {
+        addError(
+          "invalid_protected_field",
+          `protected_fields[${index}]`,
+          "Protected field identifiers must be non-empty strings.",
+        );
+      }
+    }
+  }
+  const protectedFields = effectiveProtectedFields(
+    Array.isArray(policy.protected_fields) ? policy.protected_fields : [],
+  );
+
+  if (!Array.isArray(policy.term_mappings)) {
+    addError("invalid_term_mappings", "term_mappings", "term_mappings must be an array.");
+  } else {
+    for (const [index, mapping] of policy.term_mappings.entries()) {
+      const prefix = `term_mappings[${index}]`;
+      if (!mapping || typeof mapping !== "object" || Array.isArray(mapping)) {
+        addError("invalid_term_mapping", prefix, "Each term mapping must be an object.");
+        continue;
+      }
+      if (typeof mapping.canonical !== "string" || mapping.canonical.trim() === "") {
+        addError(
+          "invalid_canonical",
+          `${prefix}.canonical`,
+          "Each term mapping canonical must be a non-empty string.",
+        );
+      }
+      if (!Array.isArray(mapping.aliases) || mapping.aliases.length === 0) {
+        addError(
+          "invalid_aliases",
+          `${prefix}.aliases`,
+          "Each term mapping aliases field must be a non-empty array.",
+        );
+      } else {
+        for (const [aliasIndex, alias] of mapping.aliases.entries()) {
+          if (typeof alias !== "string" || alias.trim() === "") {
+            addError(
+              "invalid_alias",
+              `${prefix}.aliases[${aliasIndex}]`,
+              "Term aliases must be non-empty strings.",
+            );
+          }
+        }
+      }
+      if (
+        mapping.forced_dimension !== undefined &&
+        (typeof mapping.forced_dimension !== "string" || mapping.forced_dimension.trim() === "")
+      ) {
+        addError(
+          "invalid_forced_dimension",
+          `${prefix}.forced_dimension`,
+          "forced_dimension must be a non-empty string when provided.",
+        );
+      }
+    }
+  }
+
+  if (errors.length > 0) {
+    return { errors, warnings };
+  }
+
+  for (const ruleId of policy.auto_rules) {
     if (!BUILTIN_RULES[ruleId]) {
       warnings.push({
         code: "unknown_rule",
@@ -47,7 +156,7 @@ export function validatePolicy(policy) {
   }
 
   for (const field of protectedFields) {
-    if (DEFAULT_PROTECTED_FIELDS.has(field) && (policy.auto_rules || []).includes(field)) {
+    if (CORE_PROTECTED_FIELDS.includes(field) && policy.auto_rules.includes(field)) {
       errors.push({
         code: "protected_rule_in_auto",
         field,
@@ -57,8 +166,8 @@ export function validatePolicy(policy) {
   }
 
   const seenAliases = new Map();
-  for (const mapping of policy.term_mappings || []) {
-    for (const alias of mapping.aliases || []) {
+  for (const mapping of policy.term_mappings) {
+    for (const alias of mapping.aliases) {
       const normalized = alias.toLowerCase();
       const existing = seenAliases.get(normalized);
       if (existing && existing !== mapping.canonical) {
@@ -277,10 +386,23 @@ function buildLockedTermPatches(text, policy, protectedFields) {
 }
 
 export function applyBeatGateRules(input) {
-  const policy = clone(input.policy);
-  const candidateText = input.candidate_text || "";
-  const protectedFields = new Set(policy.protected_fields || []);
+  const rawPolicy = input?.policy;
+  const policy = rawPolicy && typeof rawPolicy === "object" ? clone(rawPolicy) : rawPolicy;
+  const candidateText = typeof input?.candidate_text === "string" ? input.candidate_text : "";
+  const protectedFields = effectiveProtectedFields(
+    policy && Array.isArray(policy.protected_fields) ? policy.protected_fields : [],
+  );
   const policyValidation = validatePolicy(policy);
+  if (policyValidation.errors.length > 0) {
+    return {
+      version: policy?.version ?? null,
+      output_text: candidateText,
+      patches: [],
+      review_items: [],
+      reject_items: [],
+      policy_errors: policyValidation.errors,
+    };
+  }
   const detections = [...policyValidation.warnings, ...detectMalformedComments(candidateText)];
   const rejectItems = [];
   const reviewItems = [];

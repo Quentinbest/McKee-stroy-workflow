@@ -26,7 +26,6 @@ triggers:
   - what are my climax options
   - competing premises
   - Agent
-triggers:
   - story tournament
   - run a tournament
   - generate alternatives

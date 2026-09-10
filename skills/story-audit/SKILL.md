@@ -14,6 +14,7 @@ allowed-tools:
   - Edit
   - Glob
   - Grep
+  - Bash
   - Agent
 triggers:
   - audit the story
@@ -58,6 +59,19 @@ Also load:
 - `drafts/{slug}/genre-contract.md`
 - `drafts/{slug}/characters/*.md`
 
+Before any critic runs, create one audit record with a unique `audit_id`, the
+scope type (`full_story`, `act`, or `scenes`), the exact sorted scene list, the
+required and selected dimensions, workflow version, and execution mode. For a
+`full_story` scope, set `planned_complete: true` only when the current prose is
+confirmed to cover the complete planned work; “all prose files that happen to
+exist” is not enough. / 开始前必须记录审查编号、范围、实际场景、维度、版本和执行方式；“检查了所有现存正文”不自动等于“完整作品审查”。
+
+Hash every prose input and every relevant constraint (`spine.md`,
+`controlling-idea.md`, `genre-contract.md`, character and world files) into
+`input_snapshot.files`, tagging each as `prose` or `constraint`. Old reports
+without scope, snapshot, or workflow version are `unverified` and must never be
+upgraded by inference. / 缺少范围、快照或版本的旧报告一律视为未验证。
+
 ## Step 2 — Run the Critic Suite
 
 Run all relevant critics by the rung chosen in Step 0 (parallel agents simultaneously; native tools in any order; in-context one at a time with a fresh-eyes reset between each). Each critic writes `drafts/{slug}/audit/{critic}.md` before returning its summary.
@@ -101,6 +115,14 @@ Merge all findings into a single report at `drafts/{slug}/audit-report.md`:
 ```markdown
 # Story Audit — {title}
 Date: {today}
+Audit ID: {audit_id}
+Scope: {scope type and exact scene list}
+Planned work complete: {true | false}
+Dimensions completed / required: {lists}
+Workflow version: {version}
+Execution mode: {parallel-agents | native-tools | in-context-sequential}
+Input snapshot: {path + kind + sha256 list}
+Invalidation reasons: {none | list}
 
 ## Overall Verdict
 [PASS / NEEDS WORK / MAJOR REVISION] — brief rationale
@@ -159,8 +181,19 @@ Show the user:
 
 ## Step 5 — Update Lifecycle
 
-If overall verdict is PASS (all critical predicates satisfied):
-Update `lifecycle.json`: `state: "critic_passed"`, `locked.critic_passed: true`
+Append the completed audit record to `lifecycle.json.audit_records`. Before
+changing the global gate, build an evaluation input from the current lifecycle,
+records, fresh input hashes, intended full-story scope, and required dimensions,
+then run:
+
+`node skills/story-audit/scripts/audit-state.mjs evaluate --input <evaluation.json> --output <result.json>`
+
+Only when the result says `global_critic_passed: true` may you set
+`state: "critic_passed"` and `locked.critic_passed: true`. Act-only or
+single-critic PASS records stay local. On resume, reuse only records whose
+scope and hashes remain valid, then rerun missing dimensions. If lifecycle
+state and locks conflict, report the conflict and do not recommend a next
+stage. / 只有当前、完整范围、必要维度齐全且输入未变化的通过记录，才能推进全局状态；冲突状态必须先解决。
 
 Suggest next: `/story-revise` for major issues, or `/story-publish` if passing.
 

@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "run_id": "2026-06-18-protocol-v2.1-stage-2a-pilot",
+  "recorded_at": "2026-09-10",
+  "evidence_origin": "ai",
+  "stage_evidence_origins": {
+    "stage_1": "ai",
+    "stage_2a": "ai",
+    "stage_2b": "ai"
+  },
+  "reason": "The retained run was operated by AI on synthetic prose. The legacy human_evidence_recorded flag recorded completion, not human authorship.",
+  "preservation": "Original decisions, metadata, summaries, and reports remain unchanged. Aggregation uses this sidecar as the provenance correction."
+}

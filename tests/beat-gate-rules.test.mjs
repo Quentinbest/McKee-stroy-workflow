@@ -131,9 +131,91 @@ test("policy validation flags unknown AUTO rules without crashing", () => {
   assert.ok(validation.warnings.some((item) => item.code === "unknown_rule"));
 });
 
+test("empty aliases fail closed without entering the zero-width regex loop", () => {
+  const policy = readFixture("normal.json").policy;
+  policy.term_mappings = [{ canonical: "Scene Card", aliases: [""] }];
+  const candidateText = "The scene card remains unchanged.\n";
+  const result = applyBeatGateRules({ policy, candidate_text: candidateText });
+  assert.equal(result.output_text, candidateText);
+  assert.deepEqual(result.patches, []);
+  assert.ok(result.policy_errors.some((error) => error.code === "invalid_alias"));
+});
+
+test("malformed policy shapes return structured errors and never mutate text", () => {
+  const baseline = readFixture("normal.json").policy;
+  const candidateText = "The scene card remains unchanged.\n";
+  const invalidPolicies = [
+    { ...baseline, auto_rules: "locked_term_alias" },
+    { ...baseline, term_mappings: [{ canonical: 42, aliases: ["card"] }] },
+    { ...baseline, term_mappings: [{ canonical: "Card", aliases: [42] }] },
+    { ...baseline, term_mappings: [{ canonical: "Card", aliases: "card" }] },
+    { ...baseline, term_mappings: ["not-a-mapping"] },
+  ];
+
+  for (const policy of invalidPolicies) {
+    const result = applyBeatGateRules({ policy, candidate_text: candidateText });
+    assert.equal(result.output_text, candidateText);
+    assert.deepEqual(result.patches, []);
+    assert.ok(result.policy_errors.length > 0);
+    assert.equal(result.review_items.length, 0);
+    assert.equal(result.reject_items.length, 0);
+  }
+});
+
+test("missing policy is a bounded structured failure", () => {
+  const candidateText = "unchanged\n";
+  const result = applyBeatGateRules({ candidate_text: candidateText });
+  assert.equal(result.output_text, candidateText);
+  assert.deepEqual(result.patches, []);
+  assert.equal(result.policy_errors[0].code, "invalid_policy");
+});
+
 test("protected mappings are rejected before local AUTO application", () => {
   const fixture = readFixture("protected-field.json");
   const result = applyBeatGateRules(fixture);
+  assert.equal(result.patches.length, 0);
+  assert.ok(result.reject_items.some((item) => item.code === "protected_contract_overlap"));
+});
+
+test("core protected fields cannot be removed by missing, empty, or partial policy configuration", () => {
+  const basePolicy = readFixture("normal.json").policy;
+  const policyVariants = [
+    Object.fromEntries(Object.entries(basePolicy).filter(([key]) => key !== "protected_fields")),
+    { ...basePolicy, protected_fields: [] },
+    { ...basePolicy, protected_fields: ["custom_story_fact"] },
+  ];
+
+  for (const policy of policyVariants) {
+    policy.term_mappings = [
+      {
+        canonical: "new desire",
+        aliases: ["old desire"],
+        forced_dimension: "character_desire",
+      },
+    ];
+    const result = applyBeatGateRules({
+      policy,
+      candidate_text: "She still follows the old desire.\n",
+    });
+    assert.equal(result.patches.length, 0);
+    assert.ok(result.reject_items.some((item) => item.code === "protected_contract_overlap"));
+  }
+});
+
+test("policy protected fields extend the immutable core set", () => {
+  const policy = readFixture("normal.json").policy;
+  policy.protected_fields = ["custom_story_fact"];
+  policy.term_mappings = [
+    {
+      canonical: "new fact",
+      aliases: ["old fact"],
+      forced_dimension: "custom_story_fact",
+    },
+  ];
+  const result = applyBeatGateRules({
+    policy,
+    candidate_text: "The old fact remains.\n",
+  });
   assert.equal(result.patches.length, 0);
   assert.ok(result.reject_items.some((item) => item.code === "protected_contract_overlap"));
 });

@@ -32,6 +32,7 @@ function completeStageOne(filePath) {
   stageOne.status = "COMPLETE";
   stageOne.reviewer = {
     id: "test-writer",
+    operator_type: "human",
     started_at: "2026-06-12T12:55:00Z",
     completed_at: "2026-06-12T13:00:00Z",
   };
@@ -57,6 +58,7 @@ function completeStageTwo(filePath) {
   stageTwo.status = "COMPLETE";
   stageTwo.reviewer = {
     id: "test-writer",
+    operator_type: "human",
     started_at: "2026-06-12T13:05:00Z",
     completed_at: "2026-06-12T13:10:00Z",
   };
@@ -97,6 +99,8 @@ test("create produces a deterministic balanced blind package without role leakag
 
     assert.deepEqual(first, second);
     assert.equal(first.status, "AWAITING_BLIND_REVIEW");
+    assert.equal(first.decision_recorded, false);
+    assert.equal(first.evidence_origin, "unknown");
     assert.equal(first.human_evidence_recorded, false);
     assert.equal(
       fs.readFileSync(path.join(firstDir, "blind-package.md"), "utf8"),
@@ -236,6 +240,12 @@ test("two-stage flow separates blind preference from finding disposition", () =>
     );
 
     const metadata = readJson(metadataPath);
+    assert.equal(metadata.decision_recorded, true);
+    assert.equal(metadata.evidence_origin, "human");
+    assert.deepEqual(metadata.stage_evidence_origins, {
+      stage_1: "human",
+      stage_2: "human",
+    });
     assert.equal(metadata.human_evidence_recorded, true);
     assert.equal(fs.existsSync(path.join(outputDir, "adjudication-report.md")), true);
   } finally {

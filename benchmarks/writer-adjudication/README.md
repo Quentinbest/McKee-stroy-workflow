@@ -99,6 +99,11 @@ The reviewer was an AI operator and the prose is synthetic. This run validates
 workflow usability and fail-closed behavior only; it is not human evidence of
 critic accuracy or story quality.
 
+The original run files remain immutable. `provenance-correction.json` records
+the known AI origin and explains why the legacy
+`human_evidence_recorded: true` field must be read as completion only. New
+decision files set `reviewer.operator_type` to `human`, `ai`, or `unknown`.
+
 For a real prospective pilot, write output under the story project's private
 `drafts/{slug}/audit/adjudication/` directory. Give the writer only
 `blind-package.md` and `stage-1-decisions.json` until Stage 1 is complete.

@@ -120,6 +120,10 @@ Protected fields include:
 
 If a candidate patch touches one of those fields, the Beat Gate must refuse local application and name the upstream artifact to reopen.
 
+This core set is immutable. `beat-gate-policy.json.protected_fields` extends
+it; a missing field, empty array, or partial legacy list never removes core
+protection. / 核心保护集合不可被项目策略缩减；策略只能追加保护字段。
+
 ## Stage 4 — Delta recheck
 
 After any `AUTO` patch:

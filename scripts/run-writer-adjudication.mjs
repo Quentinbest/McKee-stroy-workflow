@@ -23,6 +23,7 @@ const REPETITION_VALUES = new Set([
   "increased",
   "uncertain",
 ]);
+const OPERATOR_TYPES = new Set(["human", "ai", "unknown"]);
 const CALIBRATION_CONTROL_VALUES = new Set([
   "none",
   "weak_challenger",
@@ -121,6 +122,32 @@ function durationMinutes(reviewer, label) {
     throw new Error(`${label}.completed_at must not precede started_at`);
   }
   return Number(((completedAt - startedAt) / 60000).toFixed(1));
+}
+
+function reviewerOrigin(reviewer) {
+  return OPERATOR_TYPES.has(reviewer?.operator_type)
+    ? reviewer.operator_type
+    : "unknown";
+}
+
+function validateReviewerOrigin(reviewer, label) {
+  if (
+    Object.prototype.hasOwnProperty.call(reviewer ?? {}, "operator_type") &&
+    !OPERATOR_TYPES.has(reviewer.operator_type)
+  ) {
+    throw new Error(`${label}.operator_type must be human, ai, or unknown`);
+  }
+}
+
+function evidenceProvenance(stages) {
+  const stageEvidenceOrigins = Object.fromEntries(
+    Object.entries(stages).map(([stage, reviewer]) => [stage, reviewerOrigin(reviewer)]),
+  );
+  const origins = new Set(Object.values(stageEvidenceOrigins));
+  return {
+    evidence_origin: origins.size === 1 ? [...origins][0] : "mixed",
+    stage_evidence_origins: stageEvidenceOrigins,
+  };
 }
 
 function normalizeEvidenceText(value) {
@@ -537,6 +564,7 @@ function stageOneTemplate(input, assignments, packageHash) {
     package_sha256: packageHash,
     reviewer: {
       id: null,
+      operator_type: null,
       started_at: null,
       completed_at: null,
     },
@@ -567,6 +595,7 @@ function validateStageOne(stageOne, manifest) {
     throw new Error("Stage 1 package hash does not match the sealed manifest");
   }
   assertNonEmptyString(stageOne.reviewer?.id, "reviewer.id");
+  validateReviewerOrigin(stageOne.reviewer, "reviewer");
   durationMinutes(stageOne.reviewer, "reviewer");
 
   const expectedIds = manifest.comparisons.map(
@@ -675,6 +704,7 @@ function legacyStageTwoTemplate(manifest, stageOneHash) {
     stage_1_sha256: stageOneHash,
     reviewer: {
       id: null,
+      operator_type: null,
       started_at: null,
       completed_at: null,
     },
@@ -703,6 +733,7 @@ function validateLegacyStageTwo(stageTwo, manifest, stageOneHash) {
     throw new Error("Stage 2 is not bound to the supplied Stage 1 decisions");
   }
   assertNonEmptyString(stageTwo.reviewer?.id, "reviewer.id");
+  validateReviewerOrigin(stageTwo.reviewer, "reviewer");
   durationMinutes(stageTwo.reviewer, "reviewer");
   if (
     !REPETITION_VALUES.has(
@@ -813,6 +844,7 @@ function stageTwoATemplate(
     finding_package_sha256: findingPackageHash,
     reviewer: {
       id: null,
+      operator_type: null,
       started_at: null,
       completed_at: null,
     },
@@ -842,6 +874,7 @@ function validateStageTwoA(stageTwoA, manifest, stageOne, stageOneHash) {
     "stage_2a.finding_package_sha256",
   );
   assertNonEmptyString(stageTwoA.reviewer?.id, "stage_2a.reviewer.id");
+  validateReviewerOrigin(stageTwoA.reviewer, "stage_2a.reviewer");
   durationMinutes(stageTwoA.reviewer, "stage_2a.reviewer");
 
   const expectedIds = manifest.comparisons.map(
@@ -986,6 +1019,7 @@ function stageTwoBTemplate(
     role_reveal_package_sha256: roleRevealPackageHash,
     reviewer: {
       id: null,
+      operator_type: null,
       started_at: null,
       completed_at: null,
     },
@@ -1025,6 +1059,7 @@ function validateStageTwoB(
     "stage_2b.role_reveal_package_sha256",
   );
   assertNonEmptyString(stageTwoB.reviewer?.id, "stage_2b.reviewer.id");
+  validateReviewerOrigin(stageTwoB.reviewer, "stage_2b.reviewer");
   durationMinutes(stageTwoB.reviewer, "stage_2b.reviewer");
   if (
     !REPETITION_VALUES.has(
@@ -1547,6 +1582,9 @@ export function createAdjudicationRun({ inputPath, outputDir, seed }) {
       notes: "",
     },
     calibration,
+    decision_recorded: false,
+    evidence_origin: "unknown",
+    stage_evidence_origins: {},
     human_evidence_recorded: false,
   };
 
@@ -2045,6 +2083,12 @@ function scoreProtocolV2({
     manifest.calibration,
   );
 
+  Object.assign(report, evidenceProvenance({
+    stage_1: stageOne.reviewer,
+    stage_2a: stageTwoA.reviewer,
+    stage_2b: stageTwoB.reviewer,
+  }));
+
   writeJson(path.join(outputDir, "adjudication-report.json"), report);
   writeText(
     path.join(outputDir, "adjudication-report.md"),
@@ -2055,7 +2099,10 @@ function scoreProtocolV2({
   writeJson(metadataPath, {
     ...metadata,
     status: "COMPLETE",
-    human_evidence_recorded: true,
+    decision_recorded: true,
+    evidence_origin: report.evidence_origin,
+    stage_evidence_origins: report.stage_evidence_origins,
+    human_evidence_recorded: report.evidence_origin === "human",
     stage_1_sha256: report.stage_1_sha256,
     stage_2a_sha256: report.stage_2a_sha256,
     stage_2b_sha256: report.stage_2b_sha256,
@@ -2209,13 +2256,21 @@ export function scoreAdjudicationRun({
     manifest.calibration,
   );
 
+  Object.assign(report, evidenceProvenance({
+    stage_1: stageOne.reviewer,
+    stage_2: stageTwo.reviewer,
+  }));
+
   writeJson(path.join(outputDir, "adjudication-report.json"), report);
   writeText(path.join(outputDir, "adjudication-report.md"), renderReport(report));
   const metadata = readJson(path.join(outputDir, "run-metadata.json"));
   writeJson(path.join(outputDir, "run-metadata.json"), {
     ...metadata,
     status: "COMPLETE",
-    human_evidence_recorded: true,
+    decision_recorded: true,
+    evidence_origin: report.evidence_origin,
+    stage_evidence_origins: report.stage_evidence_origins,
+    human_evidence_recorded: report.evidence_origin === "human",
     stage_1_sha256: report.stage_1_sha256,
     stage_2_sha256: report.stage_2_sha256,
   });
@@ -2442,6 +2497,9 @@ export function applyAdjudicationRun({
   inputPath,
   rootDir,
   write = false,
+  failAfter = null,
+  beforeCommit = null,
+  afterWrite = null,
 }) {
   const { input, report } = completedRunArtifacts(outputDir, inputPath);
   const inputById = new Map(
@@ -2542,41 +2600,15 @@ export function applyAdjudicationRun({
     );
   }
 
-  if (write) {
-    const plannedFiles = new Map();
-    for (const operation of internalOperations.filter(
-      (candidate) => candidate.status === "READY",
-    )) {
-      const content =
-        plannedFiles.get(operation.target_path) ??
-        fs.readFileSync(operation.target_path, "utf8");
-      if (countOccurrences(content, operation.baseline_text) !== 1) {
-        throw new Error(
-          `Approved baseline must occur exactly once after planned replacements: ${operation.source_id}`,
-        );
-      }
-      plannedFiles.set(
-        operation.target_path,
-        content.replace(
-          operation.baseline_text,
-          operation.challenger_text,
-        ),
-      );
-    }
-    for (const [targetPath, content] of plannedFiles) {
-      fs.writeFileSync(targetPath, content);
-    }
-    for (const operation of internalOperations) {
-      if (operation.status === "READY") {
-        operation.status = "APPLIED";
-      }
-    }
-  }
+  let applicationStatus = write ? "APPLIED" : "DRY_RUN";
+  let applicationJournal = null;
+  let applicationJournalPath = null;
+  let applicationStagePath = null;
 
-  const plan = {
+  const buildPlan = () => ({
     version: report.protocol_version ?? PROTOCOL_V1,
     run_id: report.run_id,
-    status: write ? "APPLIED" : "DRY_RUN",
+    status: applicationStatus,
     operations: internalOperations.map((operation) => ({
       comparison_id: operation.comparison_id,
       source_id: operation.source_id,
@@ -2590,7 +2622,203 @@ export function applyAdjudicationRun({
         ? sha256(operation.challenger_text)
         : null,
     })),
-  };
+  });
+
+  if (write) {
+    const plannedFiles = new Map();
+    const originalFiles = new Map();
+    const readyOperations = internalOperations.filter(
+      (candidate) => candidate.status === "READY",
+    );
+
+    // Build every final file in memory before touching the filesystem. This
+    // preserves the existing exact-match preflight for batches that target the
+    // same file more than once.
+    for (const operation of readyOperations) {
+      if (!plannedFiles.has(operation.target_path)) {
+        const original = fs.readFileSync(operation.target_path, "utf8");
+        originalFiles.set(operation.target_path, original);
+        plannedFiles.set(operation.target_path, original);
+      }
+      const content = plannedFiles.get(operation.target_path);
+      if (countOccurrences(content, operation.baseline_text) !== 1) {
+        throw new Error(
+          `Approved baseline must occur exactly once after planned replacements: ${operation.source_id}`,
+        );
+      }
+      plannedFiles.set(
+        operation.target_path,
+        content.replace(
+          operation.baseline_text,
+          () => operation.challenger_text,
+        ),
+      );
+    }
+
+    const stamp = `${Date.now()}-${process.pid}-${crypto.randomBytes(4).toString("hex")}`;
+    applicationStagePath = path.join(
+      outputDir,
+      `.writer-adjudication-application-${stamp}`,
+    );
+    applicationJournalPath = path.join(outputDir, "application-journal.json");
+    const journalOperations = [];
+
+    try {
+      fs.mkdirSync(applicationStagePath, { recursive: true });
+      let index = 0;
+      for (const [targetPath, content] of plannedFiles) {
+        const backupPath = path.join(applicationStagePath, `original-${index}.txt`);
+        const stagedPath = path.join(applicationStagePath, `replacement-${index}.txt`);
+        const original = originalFiles.get(targetPath);
+        fs.writeFileSync(backupPath, original);
+        fs.writeFileSync(stagedPath, content);
+        journalOperations.push({
+          target_path: targetPath,
+          original_sha256: sha256(original),
+          replacement_sha256: sha256(content),
+          backup_path: backupPath,
+          staged_path: stagedPath,
+          status: "STAGED",
+        });
+        index += 1;
+      }
+
+      applicationJournal = {
+        version: "1.0.0",
+        run_id: report.run_id,
+        status: "STAGED",
+        created_at: new Date().toISOString(),
+        operations: journalOperations,
+      };
+      writeJson(applicationJournalPath, applicationJournal);
+
+      let committedCount = 0;
+      for (const journalOperation of journalOperations) {
+        if (failAfter !== null && committedCount >= failAfter) {
+          throw new Error(`Injected commit failure after ${failAfter} file(s)`);
+        }
+        if (beforeCommit) {
+          beforeCommit({
+            committedCount,
+            targetPath: journalOperation.target_path,
+          });
+        }
+        const current = fs.readFileSync(journalOperation.target_path);
+        if (sha256(current) !== journalOperation.original_sha256) {
+          throw new Error(
+            `Target changed during application: ${journalOperation.target_path}`,
+          );
+        }
+        journalOperation.status = "WRITING";
+        applicationJournal.operations = journalOperations;
+        writeJson(applicationJournalPath, applicationJournal);
+        fs.writeFileSync(
+          journalOperation.target_path,
+          fs.readFileSync(journalOperation.staged_path),
+        );
+        if (afterWrite) {
+          afterWrite({
+            committedCount,
+            targetPath: journalOperation.target_path,
+          });
+        }
+        journalOperation.status = "COMMITTED";
+        applicationJournal.operations = journalOperations;
+        writeJson(applicationJournalPath, applicationJournal);
+        committedCount += 1;
+      }
+
+      for (const operation of internalOperations) {
+        if (operation.status === "READY") {
+          operation.status = "APPLIED";
+        }
+      }
+      applicationJournal.status = "APPLIED";
+      applicationJournal.applied_at = new Date().toISOString();
+      applicationJournal.operations = journalOperations;
+      writeJson(applicationJournalPath, applicationJournal);
+      applicationStatus = "APPLIED";
+      fs.rmSync(applicationStagePath, { recursive: true, force: true });
+    } catch (error) {
+      const rollbackErrors = [];
+      const rollbackConflicts = [];
+      for (const journalOperation of [...journalOperations].reverse()) {
+        if (journalOperation.status === "STAGED") {
+          journalOperation.status = "NOT_MODIFIED";
+          continue;
+        }
+        try {
+          const current = fs.readFileSync(journalOperation.target_path);
+          const currentSha256 = sha256(current);
+          if (currentSha256 === journalOperation.original_sha256) {
+            journalOperation.status = "NOT_MODIFIED";
+            continue;
+          }
+          if (currentSha256 !== journalOperation.replacement_sha256) {
+            rollbackConflicts.push({
+              target_path: journalOperation.target_path,
+              expected_replacement_sha256: journalOperation.replacement_sha256,
+              observed_sha256: currentSha256,
+              backup_path: journalOperation.backup_path,
+              staged_path: journalOperation.staged_path,
+              message: "Target changed externally after this operation began; current content was preserved.",
+            });
+            journalOperation.status = "ROLLBACK_CONFLICT";
+            continue;
+          }
+          fs.writeFileSync(
+            journalOperation.target_path,
+            fs.readFileSync(journalOperation.backup_path),
+          );
+          journalOperation.status = "ROLLED_BACK";
+        } catch (rollbackError) {
+          rollbackErrors.push({
+            target_path: journalOperation.target_path,
+            message: rollbackError.message,
+          });
+          journalOperation.status = "ROLLBACK_FAILED";
+        }
+      }
+      applicationStatus =
+        rollbackErrors.length > 0 || rollbackConflicts.length > 0
+          ? "RECOVERY_REQUIRED"
+          : "ROLLED_BACK";
+      applicationJournal = {
+        ...(applicationJournal ?? {
+          version: "1.0.0",
+          run_id: report.run_id,
+          created_at: new Date().toISOString(),
+        }),
+        status: applicationStatus,
+        error: error.message,
+        rollback_errors: rollbackErrors,
+        rollback_conflicts: rollbackConflicts,
+        rolled_back_at: new Date().toISOString(),
+        operations: journalOperations,
+      };
+      if (applicationJournalPath) {
+        writeJson(applicationJournalPath, applicationJournal);
+      }
+      for (const operation of internalOperations) {
+        if (operation.status === "READY") {
+          const journalOperation = journalOperations.find(
+            (candidate) => candidate.target_path === operation.target_path,
+          );
+          operation.status = journalOperation?.status ?? "NOT_MODIFIED";
+        }
+      }
+      const rollbackPlan = buildPlan();
+      writeJson(path.join(outputDir, "application-plan.json"), rollbackPlan);
+      const recoveryTargets = [...rollbackErrors, ...rollbackConflicts]
+        .map((item) => item.target_path);
+      const suffix = recoveryTargets.length > 0
+        ? ` Recovery required for: ${recoveryTargets.join(", ")}. Current content and staged backups were preserved.`
+        : " All targets changed by this operation were restored; untouched staged targets were preserved.";
+      throw new Error(`${error.message}.${suffix}`);
+    }
+  }
+
+  const plan = buildPlan();
   writeJson(path.join(outputDir, "application-plan.json"), plan);
   return plan;
 }
@@ -2610,6 +2838,22 @@ function findReports(rootDir) {
     }
   }
   return reports.sort();
+}
+
+function reportEvidenceOrigin(reportPath, report) {
+  const correctionPath = path.join(path.dirname(reportPath), "provenance-correction.json");
+  if (fs.existsSync(correctionPath)) {
+    const correction = readJson(correctionPath);
+    if (correction.run_id !== report.run_id) {
+      throw new Error(`Provenance correction run_id mismatch: ${correctionPath}`);
+    }
+    if (["human", "ai", "unknown", "mixed"].includes(correction.evidence_origin)) {
+      return correction.evidence_origin;
+    }
+  }
+  return ["human", "ai", "unknown", "mixed"].includes(report.evidence_origin)
+    ? report.evidence_origin
+    : "unknown";
 }
 
 function renderAggregateReport(aggregate) {
@@ -2642,9 +2886,17 @@ function renderAggregateReport(aggregate) {
 | Unsupported finding controls | ${aggregate.calibration.unsupported_finding_control_count} |
 | Unsupported findings accepted | ${aggregate.calibration.unsupported_findings_accepted} |
 
+## Evidence provenance
+
+Overall metrics above include every completed run and are not, by themselves, human-effect evidence.
+
+| Origin | Runs | Comparisons | Review minutes |
+|---|---:|---:|---:|
+${Object.entries(aggregate.by_evidence_origin).map(([origin, metrics]) => `| ${origin} | ${metrics.completed_runs} | ${metrics.comparisons} | ${metrics.writer_review_minutes} |`).join("\n")}
+
 ## Runs
 
-${aggregate.runs.map((run) => `- ${run.run_id}: ${run.comparisons} comparisons`).join("\n")}
+${aggregate.runs.map((run) => `- ${run.run_id}: ${run.comparisons} comparisons; evidence origin: ${run.evidence_origin}`).join("\n")}
 `;
 }
 
@@ -2668,7 +2920,11 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
       reportPath,
       report: readJson(reportPath),
     }))
-    .filter(({ report }) => report.status === "COMPLETE");
+    .filter(({ report }) => report.status === "COMPLETE")
+    .map((entry) => ({
+      ...entry,
+      evidenceOrigin: reportEvidenceOrigin(entry.reportPath, entry.report),
+    }));
   if (reports.length === 0) {
     throw new Error("No completed adjudication reports found");
   }
@@ -2709,6 +2965,23 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
         .toFixed(1),
     );
   }
+  const byEvidenceOrigin = Object.fromEntries(
+    ["human", "ai", "unknown", "mixed"].map((origin) => {
+      const originReports = reports.filter(
+        ({ evidenceOrigin }) => evidenceOrigin === origin,
+      );
+      const originMetrics = { completed_runs: originReports.length };
+      for (const key of metricKeys) {
+        originMetrics[key] = Number(
+          originReports.reduce(
+            (total, { report }) => total + aggregateMetric(report, "metrics", key),
+            0,
+          ).toFixed(1),
+        );
+      }
+      return [origin, originMetrics];
+    }),
+  );
 
   const controlCount = reports.reduce(
     (total, { report }) =>
@@ -2745,6 +3018,7 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
     version: PROTOCOL_V2,
     status: "COMPLETE",
     metrics,
+    by_evidence_origin: byEvidenceOrigin,
     calibration: {
       control_count: controlCount,
       control_baseline_preferred: controlBaselinePreferred,
@@ -2825,9 +3099,10 @@ export function aggregateAdjudicationRuns({ runsDir, outputDir = null }) {
       ),
       status_counts: calibrationStatusCounts,
     },
-    runs: reports.map(({ reportPath, report }) => ({
+    runs: reports.map(({ reportPath, report, evidenceOrigin }) => ({
       run_id: report.run_id,
       comparisons: report.metrics.comparisons,
+      evidence_origin: evidenceOrigin,
       report_path: path.relative(path.resolve(runsDir), reportPath),
     })),
   };

@@ -27,7 +27,6 @@ triggers:
   - foreshadowing
   - Grep
   - Agent
-triggers:
   - mck surprise plant
   - inevitable surprise
   - plant the foreshadowing

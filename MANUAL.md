@@ -110,6 +110,10 @@ cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
 cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 ```
 
+These manual copies are for a first install. For upgrades, use `install.sh` so
+managed skill directories are replaced cleanly and existing draft state is
+preserved.
+
 Or simply start a Claude Code session in your story directory and run:
 
 ```
@@ -127,6 +131,18 @@ In any Claude Code session:
 ```
 
 If the skill loads and reports (even "no project found"), installation succeeded.
+
+Repository maintainers who run the contract verifier or test suite must use
+Node.js 18+ and install the pinned development dependency first:
+
+```bash
+npm ci
+npm run verify
+npm test
+```
+
+This dependency is for repository verification only; `install.sh` does not
+install Node packages into story projects.
 
 ---
 

@@ -109,6 +109,9 @@ cp McKee-stroy-workflow/templates/lifecycle.json drafts/my-story/lifecycle.json
 cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 ```
 
+以上手动复制适用于首次安装。升级时请使用 `install.sh`，以便干净替换受管
+技能目录并保留已有草稿状态。
+
 或者，直接在 Claude Code 会话中运行：
 
 ```
@@ -126,6 +129,17 @@ cp McKee-stroy-workflow/templates/state.json drafts/my-story/state.json
 ```
 
 如果技能加载成功并返回报告（即便显示"未找到项目"），则安装成功。
+
+仓库维护者运行契约验证或测试套件时，需要 Node.js 18+，并先安装锁定的
+开发依赖：
+
+```bash
+npm ci
+npm run verify
+npm test
+```
+
+该依赖仅用于仓库验证；`install.sh` 不会把 Node 包安装到故事项目中。
 
 ---
 

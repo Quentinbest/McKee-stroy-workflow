@@ -27,11 +27,14 @@ scripts/              Verification and benchmark runner scripts
 ## Verify / test
 
 ```bash
+# Maintainer prerequisite (once per checkout)
+npm ci
+
 # Verify Beat Gate contracts and fixtures
-node scripts/verify-beat-gate.mjs
+npm run verify
 
 # Run the full test suite
-node --test tests/*.test.mjs
+npm test
 
 # Run Beat Gate dogfood benchmark (synthetic Chinese story)
 node scripts/run-beat-gate-dogfood.mjs
@@ -53,4 +56,5 @@ No build step — this is a docs + skills + agents repo. Verification means: fro
 
 - **Claude Code** — primary host; skills and agents are authored for it
 - **Node.js** (≥18) — for test/benchmark/verification scripts only; not required to use the skills
+- **npm** — maintainer prerequisite: run `npm ci` to install the pinned dev-only `yaml` parser before verification
 - **LLM-Wiki-Story** (https://github.com/Quentinbest/LLM-Wiki-Story) — McKee wiki that agents deep-load for authority pages
